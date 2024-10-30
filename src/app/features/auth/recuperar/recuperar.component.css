@@ -1,0 +1,194 @@
+/* Contenedor de centrado vertical y horizontal */
+.centered-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #f4f6f9;
+  padding: 0 1rem; /* Espacio lateral para pantallas pequeñas */
+}
+
+/* Contenedor del formulario */
+.login-container {
+  width: 100%;
+  max-width: 450px; /* Aumentado el ancho máximo del formulario */
+  padding: 2rem;
+  border-radius: 8px;
+  background-color: #ffffff;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  box-sizing: border-box; /* Incluye padding y border en el ancho total */
+}
+
+/* Imagen de encabezado */
+.login-image {
+  width: 50%; /* Cambia esto a un tamaño específico si lo prefieres */
+  height: auto; /* Mantiene la proporción del logo */
+  margin-bottom: 1rem;
+}
+
+/* Estilos del contenedor de carga */
+.loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(255, 255, 255, 0.8); /* Fondo semi-transparente */
+  z-index: 1000; /* Asegura que esté en la parte superior */
+}
+
+/* Estilos del título */
+h2 {
+  color: #333;
+  margin-bottom: 1rem;
+}
+
+/* Estilos de etiquetas y entradas */
+.form-group {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1.5rem;
+  position: relative;
+}
+
+.icon {
+  position: absolute;
+  left: 10px;
+  color: #888;
+}
+
+input {
+  width: 100%;
+  padding: 0.75rem 0.75rem 0.75rem 2.5rem;
+  font-size: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+input:focus {
+  border-color: #007bff;
+}
+
+/* Estilos del checkbox y enlace */
+.options {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+  color: #555;
+  margin-top: -1rem;
+  margin-bottom: 1rem;
+}
+
+.options label {
+  display: flex;
+  align-items: center;
+  flex-grow: 1; /* Permite que el label ocupe el espacio disponible */
+  margin-right: 10px; /* Espacio entre el checkbox y el texto */
+}
+
+.options input[type="checkbox"] {
+  margin-right: 0.5rem; /* Espacio entre el checkbox y la etiqueta */
+}
+
+.options a {
+  color: #007bff;
+  text-decoration: none;
+}
+
+.options a:hover {
+  text-decoration: underline;
+}
+
+/* Estilos del botón */
+.btn-submit {
+  width: 100%;
+  padding: 0.75rem;
+  font-size: 1rem;
+  color: #fff;
+  background-color: #007bff;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-submit:hover {
+  background-color: #0056b3;
+}
+
+
+/* Estilo del contenedor de carga */
+.loading {
+  opacity: 0; /* Comienza invisible */
+  animation: fadeIn 0.5s forwards; /* Animación de desvanecimiento */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.7); /* Fondo negro semitransparente */
+  z-index: 1000; /* Asegura que esté en la parte superior */
+}
+
+@keyframes fadeIn {
+  to {
+    opacity: 1; /* Finaliza completamente visible */
+  }
+}
+
+/* Estilo del radar */
+.radar {
+  position: relative;
+  width: 250px; /* Aumentado el ancho del radar */
+  height: 250px; /* Aumentado el alto del radar */
+  border-radius: 50%; /* Forma circular */
+  border: 10px solid rgba(255, 255, 255, 0.5); /* Borde blanco semitransparente */
+  overflow: hidden; /* Para recortar la imagen */
+  animation: pulse 1.5s infinite; /* Animación del efecto de radar */
+}
+
+/* Imagen del cargador */
+.loading-image {
+  width: 100%; /* Ajustar el tamaño al 100% del contenedor */
+  height: 100%; /* Asegurarse de que ocupe todo el contenedor */
+  object-fit: contain; /* Ajustar la imagen manteniendo la proporción */
+  border-radius: 50%; /* Hacer la imagen redonda */
+  position: absolute; /* Posicionar la imagen */
+  top: 50%; /* Centrar verticalmente */
+  left: 50%; /* Centrar horizontalmente */
+  transform: translate(-50%, -50%); /* Ajustar el centro de la imagen */
+}
+
+/* Estilo de la descripción */
+.loading p {
+  color: #fff; /* Color del texto */
+  text-align: center; /* Centrar el texto */
+  margin-top: 10px; /* Margen superior */
+  font-size: 1.2rem; /* Tamaño del texto */
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.7); /* Sombra para mejorar la legibilidad */
+  font-weight: bold; /* Negrita para mayor énfasis */
+}
+
+/* Animación del efecto de pulso */
+@keyframes pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.1);
+  }
+  100% {
+    transform: scale(1);
+  }
+}

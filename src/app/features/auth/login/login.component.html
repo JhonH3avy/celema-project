@@ -1,0 +1,42 @@
+<div class="centered-container">
+  <div class="login-container">
+    <img src="./assets/img/logo.png" alt="Imagen de usuario" class="login-image" />
+    <form>
+      <div class="form-group">
+        <i class="fas fa-envelope icon"></i>
+        <input id="username" type="text" placeholder="Escriba su usuario" required />
+      </div>
+
+      <div class="form-group">
+        <i class="fas fa-key icon"></i>
+        <input id="password" type="password" placeholder="Escriba su contraseña" required />
+      </div>
+
+      <div class="options">
+        <table style="width: 100%;">
+          <tr>
+            <td>
+              <input type="checkbox" />
+            </td>
+            <td>
+              <span>Recordar mi contraseña</span>
+            </td>
+            <td>
+              <a (click)="navigateToRecover()" class="link-recuperar">Recuperar contraseña</a>
+            </td>
+          </tr>
+        </table>
+      </div>
+
+      <button (click)="onSubmit()" type="button" class="btn-submit">Ingresar</button>
+    </form>
+  </div>
+</div>
+
+<div *ngIf="loading" class="loading">
+  <div class="radar">
+    <img src="./assets/img/logo.png" alt="Cargando..." class="loading-image" />
+  </div>
+  <br>
+  <p>Espere por favor...</p>
+</div>

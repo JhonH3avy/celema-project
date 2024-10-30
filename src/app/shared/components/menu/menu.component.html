@@ -1,0 +1,24 @@
+<nav class="navbar">
+  <div class="navbar-logo">
+    <img src="./assets/img/logo.png" alt="Logo" class="logo" />
+  </div>
+  <div class="navbar-links">
+    <a href="#">Inicio</a>
+    <a href="#">Tablero de Control</a>
+    <a href="#">Consultas</a>
+    <a href="#">Plan de Producción</a>
+  </div>
+  <div class="navbar-avatar">
+    <div style="text-align: center;" class="avatar" (click)="toggleDropdown()">
+      <i class="far fa-user-circle icon"></i>
+      <p>Miguel Ospina</p>
+    </div>
+    <div class="dropdown" *ngIf="showDropdown">
+      <ul>
+        <li><a href="#">Perfil</a></li>
+        <li><a href="#">Configuración</a></li>
+        <li><a href="#">Cerrar sesión</a></li>
+      </ul>
+    </div>
+  </div>
+</nav>

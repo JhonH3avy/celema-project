@@ -1,0 +1,10 @@
+/* You can add global styles to this file, and also import other style files */
+/* Estilo global */
+body {
+  font-family: 'Roboto', sans-serif;
+}
+
+/* Otros estilos... */
+.loading p {
+  font-family: 'Roboto', sans-serif; /* Aplicar fuente específica */
+}
