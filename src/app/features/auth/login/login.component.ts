@@ -22,7 +22,7 @@ export class LoginComponent implements OnInit {
     setTimeout(() => {
       this.loading = false; // Regresa el estado a no cargando
       this.router.navigate(['/home']);
-    }, 5000);
+    }, 3000);
   }
 
   navigateToRecover() {
