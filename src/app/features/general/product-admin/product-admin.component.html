@@ -1,6 +1,6 @@
 <div class="container">
-  <h2>Administración de Roles</h2>
-  <p class="text-secondary">Administración de roles en la plataforma y sus accessos</p>
+  <h2>Administración de SKU <span class="text-secondary">{{ productCount }}</span></h2>
+  <p class="text-secondary">Administre los SKU de la empresa</p>
   <div class="d-flex justify-content-end mb-3">
     <div class="d-flex align-items-center">
       <div class="input-group me-2">
@@ -13,13 +13,9 @@
         <i class="bi bi-filter me-1"></i>
         Filtrar
       </button>
-      <button type="button" class="btn btn-primary d-flex align-items-center me-2">
+      <button type="button" class="btn btn-primary d-flex align-items-center">
         <i class="bi bi-upload me-1"></i>
         Exportar
-      </button>
-      <button type="button" class="btn btn-primary d-flex align-items-center">
-        <i class="bi bi-plus me-1"></i>
-        Crear
       </button>
     </div>
   </div>
@@ -31,37 +27,31 @@
             <input class="form-check-input" type="checkbox" value="">
           </div>
         </th>
-        <th scope="col" class="text-secondary">Rol</th>
+        <th scope="col" class="text-secondary">Código</th>
         <th scope="col" class="text-secondary">Descripción</th>
         <th scope="col" class="text-secondary">Estado</th>
         <th scope="col" class="text-secondary">Fecha de creación</th>
-        <th scope="col"></th>
+        <th scope="col" class="text-secondary">Volumen</th>
+        <th scope="col" class="text-secondary">Presentación</th>
+        <th scope="col" class="text-secondary">Familia</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let role of roles">
+      <tr *ngFor="let product of products">
         <th scope="row">
           <div class="form-check">
             <input class="form-check-input" type="checkbox" value="">
           </div>
         </th>
-        <td class="text-secondary">{{ role.name }}</td>
-        <td class="text-secondary">{{ role.description }}</td>
+        <td class="text-secondary">{{ product.code }}</td>
+        <td class="text-secondary">{{ product.description }}</td>
         <td>
-          <span [ngClass]="getStatusStyle(role.status)" class="badge border">{{ role.status }}</span>
+          <span [ngClass]="getStatusStyle(product.status)" class="badge border">{{ product.status }}</span>
         </td>
-        <td class="text-secondary">{{ role.creationDate | date:'dd/MM/yyyy' }}</td>
-        <td>
-          <div class="dropdown">
-            <button type="button" class="btn btn-outline-secondary" data-bs-toggle="dropdown" aria-expanded="false">
-              <i class="bi bi-three-dots-vertical"></i>
-            </button>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#"><i class="bi bi-pencil"></i> Modificar rol</a></li>
-              <li><a class="dropdown-item" href="#"><i class="bi bi-power"></i> Inactivar rol</a></li>
-            </ul>
-          </div>
-        </td>
+        <td class="text-secondary">{{ product.creationDate | date:'dd/MM/yyyy' }}</td>
+        <td class="text-secondary">{{ product.volume }}</td>
+        <td class="text-secondary">{{ product.presentation }}</td>
+        <td class="text-secondary">{{ product.family }}</td>
       </tr>
     </tbody>
   </table>
@@ -72,4 +62,3 @@
     </button>
   </div>
 </div>
-
