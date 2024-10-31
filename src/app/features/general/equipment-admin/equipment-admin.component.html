@@ -1,0 +1,68 @@
+<div class="container">
+  <h2>Administración de SKU <span class="text-secondary">{{ equimentCount }}</span></h2>
+  <p class="text-secondary">Administre los SKU de la empresa</p>
+  <div class="d-flex justify-content-end mb-3">
+    <div class="d-flex align-items-center">
+      <div class="input-group me-2">
+        <button class="btn btn-outline-secondary" type="button">
+          <i class="bi bi-search"></i>
+        </button>
+        <input type="text" class="form-control" placeholder="Buscar">
+      </div>
+      <button type="button" class="btn btn-outline-secondary d-flex align-items-center me-2">
+        <i class="bi bi-filter me-1"></i>
+        Filtrar
+      </button>
+      <button type="button" class="btn btn-primary d-flex align-items-center">
+        <i class="bi bi-upload me-1"></i>
+        Exportar
+      </button>
+    </div>
+  </div>
+  <table class="table">
+    <thead>
+      <tr class="table-secondary">
+        <th scope="col">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="">
+          </div>
+        </th>
+        <th scope="col" class="text-secondary">Código</th>
+        <th scope="col" class="text-secondary">Tipo</th>
+        <th scope="col" class="text-secondary">Estado</th>
+        <th scope="col" class="text-secondary">Fecha de creación</th>
+        <th scope="col" class="text-secondary">Drecripción</th>
+        <th scope="col" class="text-secondary">Zona Ubicación</th>
+        <th scope="col" class="text-secondary">Restricción Equipo</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let equipment of equipments">
+        <th scope="row">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="">
+          </div>
+        </th>
+        <td class="text-secondary">{{ equipment.code }}</td>
+        <td class="text-secondary">{{ equipment.type }}</td>
+        <td>
+          <span [ngClass]="getStatusStyle(equipment.status)" class="badge border">{{ equipment.status }}</span>
+        </td>
+        <td class="text-secondary">{{ equipment.creationDate | date:'dd/MM/yyyy' }}</td>
+        <td class="text-secondary">{{ equipment.description }}</td>
+        <td class="text-secondary">{{ equipment.location }}</td>
+        <td class="d-flex justify-content-center">
+          <button class="btn btn-light">
+            <i class="bi bi-pencil"></i>
+          </button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="d-flex justify-content-center align-items-center">
+    <button class="btn btn-light me-2 text-secondary" [ngClass]="{'active': currentPage === (i + 1)}" *ngFor="let page of pages; let i = index" (click)="changePage(i + 1)">
+      {{ i + 1 }}
+    </button>
+  </div>
+</div>
