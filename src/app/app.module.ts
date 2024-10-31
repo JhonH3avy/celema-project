@@ -12,6 +12,7 @@ import { FooterComponent } from './shared/components/footer/footer.component';
 import { ProductAdminComponent } from './features/general/product-admin/product-admin.component';
 import { ProductFamilyAdminComponent } from './features/general/product-family-admin/product-family-admin.component';
 import { EquipmentAdminComponent } from './features/general/equipment-admin/equipment-admin.component';
+import { DemandPlanificationComponent } from './features/general/demand-planification/demand-planification.component';
 
 @NgModule({
   declarations: [
@@ -24,6 +25,7 @@ import { EquipmentAdminComponent } from './features/general/equipment-admin/equi
     ProductAdminComponent,
     ProductFamilyAdminComponent,
     EquipmentAdminComponent,
+    DemandPlanificationComponent,
   ],
   imports: [
     BrowserModule,
