@@ -62,6 +62,29 @@ export class ProfileAdminComponent implements OnInit {
       lastAccessDate: new Date('2023-12-08'),
       ingressDate: new Date('2023-07-06'),
     }
+  ];
+
+  roles = [
+    {
+      id: 1,
+      name: 'Administrador',
+    },
+    {
+      id: 2,
+      name: 'Lector',
+    },
+    {
+      id: 3,
+      name: 'Editor de plan',
+    },
+    {
+      id: 4,
+      name: 'Creador',
+    },
+    {
+      id: 5,
+      name: 'Temporal',
+    },
   ]
 
   constructor() { }
