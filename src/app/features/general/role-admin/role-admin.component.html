@@ -1,10 +1,8 @@
 <div class="container">
-  <div class="d-flex justify-content-between mb-3">
-    <h3>Todos los usuarios <span class="text-secondary">{{ userCount }}</span></h3>
+  <h2>Administración de Roles</h2>
+  <p class="text-secondary">Administración de roles en la plataforma y sus accessos</p>
+  <div class="d-flex justify-content-end mb-3">
     <div class="d-flex align-items-center">
-      <button type="button" class="btn btn-outline-primary me-2">
-        <i class="bi bi-arrow-repeat"></i>
-      </button>
       <div class="input-group me-2">
         <button class="btn btn-outline-secondary" type="button">
           <i class="bi bi-search"></i>
@@ -15,9 +13,13 @@
         <i class="bi bi-filter me-1"></i>
         Filtrar
       </button>
-      <button type="button" class="btn btn-primary d-flex align-items-center">
+      <button type="button" class="btn btn-primary d-flex align-items-center me-2">
         <i class="bi bi-upload me-1"></i>
         Exportar
+      </button>
+      <button type="button" class="btn btn-primary d-flex align-items-center">
+        <i class="bi bi-plus me-1"></i>
+        Crear
       </button>
     </div>
   </div>
@@ -29,43 +31,34 @@
             <input class="form-check-input" type="checkbox" value="">
           </div>
         </th>
-        <th scope="col" class="text-secondary">Usuario</th>
-        <th scope="col" class="text-secondary">Acceso</th>
-        <th scope="col" class="text-secondary">Último acceso</th>
-        <th scope="col" class="text-secondary">Fecha de ingreso</th>
+        <th scope="col" class="text-secondary">Rol</th>
+        <th scope="col" class="text-secondary">Descripción</th>
+        <th scope="col" class="text-secondary">Estado</th>
+        <th scope="col" class="text-secondary">Fecha de creación</th>
         <th scope="col"></th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let profile of profiles">
+      <tr *ngFor="let role of roles">
         <th scope="row">
           <div class="form-check">
             <input class="form-check-input" type="checkbox" value="">
           </div>
         </th>
+        <td>{{ role.name }}</td>
+        <td>{{ role.description }}</td>
         <td>
-          <div class="d-flex">
-            <img [src]="profile.profileImageSource" class="rounded profile-image me-2" />
-            <div>
-              <div class="text-secondary">{{ profile.username }}</div>
-              <div class="text-secondary">{{ profile.email }}</div>
-            </div>
-          </div>
+          <span [ngClass]="getStatusStyle(role.status)" class="badge border">{{ role.status }}</span>
         </td>
-        <td>
-          <span *ngFor="let access of profile.access" [ngClass]="getProfileAccessStyle(access)" class="badge border me-1">{{ access }}</span>
-        </td>
-        <td class="text-secondary">{{ profile.lastAccessDate | date:'dd/MM/yyyy' }}</td>
-        <td class="text-secondary">{{ profile.ingressDate | date:'dd/MM/yyyy' }}</td>
+        <td class="text-secondary">{{ role.creationDate | date:'dd/MM/yyyy' }}</td>
         <td>
           <div class="dropdown">
             <button type="button" class="btn btn-outline-secondary" data-bs-toggle="dropdown" aria-expanded="false">
               <i class="bi bi-three-dots-vertical"></i>
             </button>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#"><i class="bi bi-key"></i> Modificar permisos</a></li>
-              <li><a class="dropdown-item" href="#"><i class="bi bi-file-earmark-break"></i> Exportar</a></li>
-              <li><a class="dropdown-item" href="#"><i class="bi bi-trash"></i> Eliminar usuario</a></li>
+              <li><a class="dropdown-item" href="#"><i class="bi bi-pencil"></i> Modificar rol</a></li>
+              <li><a class="dropdown-item" href="#"><i class="bi bi-power"></i> Inactivar rol</a></li>
             </ul>
           </div>
         </td>

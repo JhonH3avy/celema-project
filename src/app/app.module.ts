@@ -7,13 +7,17 @@ import { AuthModule } from './features/auth/auth.module';
 import { HomeComponent } from './features/general/home/home.component';
 import { MenuComponent } from './shared/components/menu/menu.component';
 import { ProfileAdminComponent } from './features/general/profile-admin/profile-admin.component';
+import { RoleAdminComponent } from './features/general/role-admin/role-admin.component';
+import { FooterComponent } from './shared/components/footer/footer.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     MenuComponent,
-    ProfileAdminComponent
+    ProfileAdminComponent,
+    RoleAdminComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,
