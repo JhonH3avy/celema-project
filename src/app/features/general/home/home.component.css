@@ -1,0 +1,12 @@
+.header {
+  display: flex;
+  flex-direction: column; /* Coloca los elementos en columna */
+  align-items: center;    /* Centra ambos elementos horizontalmente */
+  justify-content: center; /* Centra ambos elementos verticalmente si es necesario */
+  text-align: center;
+}
+
+.logo {
+  width: 1900px; /* Ajusta el tamaño según tus preferencias */
+  height: auto; /* Mantiene la proporción de la imagen */
+}

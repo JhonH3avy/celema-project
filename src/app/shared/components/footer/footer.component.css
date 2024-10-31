@@ -1,0 +1,24 @@
+/* Elimina márgenes y padding predeterminados */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+.footer {
+  background-color:  #043ca3 ;
+  color: #fff;
+  padding: 10px;
+  text-align: center;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100vw; /* Ocupa todo el ancho de la pantalla */
+}
+
+.footer-content {
+  display: flex;
+  justify-content: center; /* Centra horizontalmente */
+  align-items: center; /* Centra verticalmente */
+  height: 100%; /* Asegura que el contenido esté centrado verticalmente */
+}
