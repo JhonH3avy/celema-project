@@ -31,10 +31,10 @@
             <input class="form-check-input" type="checkbox" value="">
           </div>
         </th>
-        <th scope="col" class="text-secondary">Rol</th>
-        <th scope="col" class="text-secondary">Descripción</th>
-        <th scope="col" class="text-secondary">Estado</th>
-        <th scope="col" class="text-secondary">Fecha de creación</th>
+        <th scope="col" class="text-secondary text-center">Rol</th>
+        <th scope="col" class="text-secondary text-center">Descripción</th>
+        <th scope="col" class="text-secondary text-center">Estado</th>
+        <th scope="col" class="text-secondary text-center">Fecha de creación</th>
         <th scope="col"></th>
       </tr>
     </thead>
@@ -46,11 +46,11 @@
           </div>
         </th>
         <td class="text-secondary">{{ role.name }}</td>
-        <td class="text-secondary">{{ role.description }}</td>
+        <td class="text-secondary text-center">{{ role.description }}</td>
         <td>
           <span [ngClass]="getStatusStyle(role.status)" class="badge border">{{ role.status }}</span>
         </td>
-        <td class="text-secondary">{{ role.creationDate | date:'dd/MM/yyyy' }}</td>
+        <td class="text-secondary text-center">{{ role.creationDate | date:'dd/MM/yyyy' }}</td>
         <td>
           <div class="dropdown">
             <button type="button" class="btn btn-outline-secondary" data-bs-toggle="dropdown" aria-expanded="false">

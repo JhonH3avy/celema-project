@@ -27,13 +27,13 @@
             <input class="form-check-input" type="checkbox" value="">
           </div>
         </th>
-        <th scope="col" class="text-secondary">Código</th>
-        <th scope="col" class="text-secondary">Descripción</th>
-        <th scope="col" class="text-secondary">Estado</th>
-        <th scope="col" class="text-secondary">Fecha de creación</th>
-        <th scope="col" class="text-secondary">Volumen</th>
-        <th scope="col" class="text-secondary">Presentación</th>
-        <th scope="col" class="text-secondary">Familia</th>
+        <th scope="col" class="text-secondary text-center">Código</th>
+        <th scope="col" class="text-secondary text-center">Descripción</th>
+        <th scope="col" class="text-secondary text-center">Estado</th>
+        <th scope="col" class="text-secondary text-center">Fecha de creación</th>
+        <th scope="col" class="text-secondary text-center">Volumen</th>
+        <th scope="col" class="text-secondary text-center">Presentación</th>
+        <th scope="col" class="text-secondary text-center">Familia</th>
       </tr>
     </thead>
     <tbody>
@@ -43,15 +43,15 @@
             <input class="form-check-input" type="checkbox" value="">
           </div>
         </th>
-        <td class="text-secondary">{{ product.code }}</td>
-        <td class="text-secondary">{{ product.description }}</td>
+        <td class="text-secondary text-center">{{ product.code }}</td>
+        <td class="text-secondary text-center">{{ product.description }}</td>
         <td>
           <span [ngClass]="getStatusStyle(product.status)" class="badge border">{{ product.status }}</span>
         </td>
-        <td class="text-secondary">{{ product.creationDate | date:'dd/MM/yyyy' }}</td>
-        <td class="text-secondary">{{ product.volume }}</td>
-        <td class="text-secondary">{{ product.presentation }}</td>
-        <td class="text-secondary">{{ product.family }}</td>
+        <td class="text-secondary text-center">{{ product.creationDate | date:'dd/MM/yyyy' }}</td>
+        <td class="text-secondary text-center">{{ product.volume }}</td>
+        <td class="text-secondary text-center">{{ product.presentation }}</td>
+        <td class="text-secondary text-center">{{ product.family }}</td>
       </tr>
     </tbody>
   </table>
