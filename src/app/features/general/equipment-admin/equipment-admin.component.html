@@ -27,13 +27,13 @@
             <input class="form-check-input" type="checkbox" value="">
           </div>
         </th>
-        <th scope="col" class="text-secondary">Código</th>
-        <th scope="col" class="text-secondary">Tipo</th>
-        <th scope="col" class="text-secondary">Estado</th>
-        <th scope="col" class="text-secondary">Fecha de creación</th>
-        <th scope="col" class="text-secondary">Drecripción</th>
-        <th scope="col" class="text-secondary">Zona Ubicación</th>
-        <th scope="col" class="text-secondary">Restricción Equipo</th>
+        <th scope="col" class="text-secondary text-center">Código</th>
+        <th scope="col" class="text-secondary text-center">Tipo</th>
+        <th scope="col" class="text-secondary text-center">Estado</th>
+        <th scope="col" class="text-secondary text-center">Fecha de creación</th>
+        <th scope="col" class="text-secondary text-center">Drecripción</th>
+        <th scope="col" class="text-secondary text-center">Zona Ubicación</th>
+        <th scope="col" class="text-secondary text-center">Restricción Equipo</th>
       </tr>
     </thead>
     <tbody>
@@ -43,14 +43,14 @@
             <input class="form-check-input" type="checkbox" value="">
           </div>
         </th>
-        <td class="text-secondary">{{ equipment.code }}</td>
-        <td class="text-secondary">{{ equipment.type }}</td>
+        <td class="text-secondary text-center">{{ equipment.code }}</td>
+        <td class="text-secondary text-center">{{ equipment.type }}</td>
         <td>
           <span [ngClass]="getStatusStyle(equipment.status)" class="badge border">{{ equipment.status }}</span>
         </td>
-        <td class="text-secondary">{{ equipment.creationDate | date:'dd/MM/yyyy' }}</td>
-        <td class="text-secondary">{{ equipment.description }}</td>
-        <td class="text-secondary">{{ equipment.location }}</td>
+        <td class="text-secondary text-center">{{ equipment.creationDate | date:'dd/MM/yyyy' }}</td>
+        <td class="text-secondary text-center">{{ equipment.description }}</td>
+        <td class="text-secondary text-center">{{ equipment.location }}</td>
         <td class="d-flex justify-content-center">
           <button class="btn btn-light">
             <i class="bi bi-pencil"></i>

@@ -59,14 +59,6 @@ export class DemandPlanificationComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  getStatusStyle(status: string): string[] {
-    switch (status) {
-      case 'Activo': return ['border-success', 'text-success', 'bg-success-subtle'];
-      case 'Inactivo': return ['border-danger', ' text-danger', 'bg-danger-subtle'];
-      default: return [];
-    }
-  }
-
   changePage(pageToLoad: number): void {
     this.currentPage = pageToLoad;
   }
