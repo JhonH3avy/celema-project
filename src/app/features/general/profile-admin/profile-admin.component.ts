@@ -72,9 +72,9 @@ export class ProfileAdminComponent implements OnInit {
 
   getProfileAccessStyle(access: string): string[] {
     switch (access) {
-      case 'Admin': return ['border-primary', 'text-primary'];
-      case 'Editor de plan': return ['border-danger', ' text-danger'];
-      case 'Lector': return ['border-success', 'text-success'];
+      case 'Admin': return ['border-primary', 'text-primary', 'bg-primary-subtle'];
+      case 'Editor de plan': return ['border-danger', ' text-danger', 'bg-danger-subtle'];
+      case 'Lector': return ['border-success', 'text-success', 'bg-success-subtle'];
       default: return [];
     }
   }
