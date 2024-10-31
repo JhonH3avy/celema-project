@@ -14,6 +14,7 @@ import { ProductFamilyAdminComponent } from './features/general/product-family-a
 import { EquipmentAdminComponent } from './features/general/equipment-admin/equipment-admin.component';
 import { DemandPlanificationComponent } from './features/general/demand-planification/demand-planification.component';
 import { EquipmentRestrictionComponent } from './features/general/equipment-restriction/equipment-restriction.component';
+import { WashRestrictionComponent } from './features/general/wash-restriction/wash-restriction.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { EquipmentRestrictionComponent } from './features/general/equipment-rest
     EquipmentAdminComponent,
     DemandPlanificationComponent,
     EquipmentRestrictionComponent,
+    WashRestrictionComponent,
   ],
   imports: [
     BrowserModule,
