@@ -1,0 +1,81 @@
+<div class="container">
+  <div class="d-flex justify-content-between mb-3">
+    <h3>Todos los usuarios <span class="text-secondary">{{ userCount }}</span></h3>
+    <div class="d-flex align-items-center">
+      <button type="button" class="btn btn-outline-primary me-2">
+        <i class="bi bi-arrow-repeat"></i>
+      </button>
+      <div class="input-group me-2">
+        <button class="btn btn-outline-secondary" type="button">
+          <i class="bi bi-search"></i>
+        </button>
+        <input type="text" class="form-control" placeholder="Buscar">
+      </div>
+      <button type="button" class="btn btn-outline-secondary d-flex align-items-center me-2">
+        <i class="bi bi-filter me-1"></i>
+        Filtrar
+      </button>
+      <button type="button" class="btn btn-primary d-flex align-items-center">
+        <i class="bi bi-upload me-1"></i>
+        Exportar
+      </button>
+    </div>
+  </div>
+  <table class="table">
+    <thead>
+      <tr class="table-secondary">
+        <th scope="col">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="">
+          </div>
+        </th>
+        <th scope="col" class="text-secondary">Usuario</th>
+        <th scope="col" class="text-secondary">Acceso</th>
+        <th scope="col" class="text-secondary">Último acceso</th>
+        <th scope="col" class="text-secondary">Fecha de ingreso</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let profile of profiles">
+        <th scope="row">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="">
+          </div>
+        </th>
+        <td>
+          <div class="d-flex">
+            <img [src]="profile.profileImageSource" class="rounded profile-image me-2" />
+            <div>
+              <div class="text-secondary">{{ profile.username }}</div>
+              <div class="text-secondary">{{ profile.email }}</div>
+            </div>
+          </div>
+        </td>
+        <td>
+          <span *ngFor="let access of profile.access" [ngClass]="getProfileAccessStyle(access)" class="badge border me-1">{{ access }}</span>
+        </td>
+        <td class="text-secondary">{{ profile.lastAccessDate | date:'dd/MM/yyyy' }}</td>
+        <td class="text-secondary">{{ profile.ingressDate | date:'dd/MM/yyyy' }}</td>
+        <td>
+          <div class="dropdown">
+            <button type="button" class="btn btn-outline-secondary" data-bs-toggle="dropdown" aria-expanded="false">
+              <i class="bi bi-three-dots-vertical"></i>
+            </button>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" href="#"><i class="bi bi-key"></i> Modificar permisos</a></li>
+              <li><a class="dropdown-item" href="#"><i class="bi bi-file-earmark-break"></i> Exportar</a></li>
+              <li><a class="dropdown-item" href="#"><i class="bi bi-trash"></i> Eliminar usuario</a></li>
+            </ul>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="d-flex justify-content-center align-items-center">
+    <button class="btn btn-light me-2 text-secondary" [ngClass]="{'active': currentPage === (i + 1)}" *ngFor="let page of pages; let i = index" (click)="changePage(i + 1)">
+      {{ i + 1 }}
+    </button>
+  </div>
+</div>
+
