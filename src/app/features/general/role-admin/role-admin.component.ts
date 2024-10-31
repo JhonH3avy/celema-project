@@ -7,8 +7,6 @@ import { Component, OnInit } from '@angular/core';
 })
 export class RoleAdminComponent implements OnInit {
 
-  userCount = 0;
-
   currentPage = 1;
   totalPages = 5;
   pages = Array(this.totalPages).fill(0);
@@ -43,7 +41,7 @@ export class RoleAdminComponent implements OnInit {
       creationDate: new Date('2023-07-06'),
     },
     {
-      id: 1,
+      id: 5,
       name: 'Temporal',
       description: 'Esta es la descripción del rol',
       status: 'Inactivo',
@@ -54,7 +52,6 @@ export class RoleAdminComponent implements OnInit {
   constructor() { }
 
   ngOnInit(): void {
-    this.userCount = this.roles.length;
   }
 
   getStatusStyle(status: string): string[] {

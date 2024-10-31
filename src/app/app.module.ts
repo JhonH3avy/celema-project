@@ -9,6 +9,7 @@ import { MenuComponent } from './shared/components/menu/menu.component';
 import { ProfileAdminComponent } from './features/general/profile-admin/profile-admin.component';
 import { RoleAdminComponent } from './features/general/role-admin/role-admin.component';
 import { FooterComponent } from './shared/components/footer/footer.component';
+import { ProductAdminComponent } from './features/general/product-admin/product-admin.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { FooterComponent } from './shared/components/footer/footer.component';
     ProfileAdminComponent,
     RoleAdminComponent,
     FooterComponent,
+    ProductAdminComponent,
   ],
   imports: [
     BrowserModule,
