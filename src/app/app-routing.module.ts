@@ -6,6 +6,7 @@ import { ProductAdminComponent } from './features/general/product-admin/product-
 import { ProductFamilyAdminComponent } from './features/general/product-family-admin/product-family-admin.component';
 import { EquipmentAdminComponent } from './features/general/equipment-admin/equipment-admin.component';
 import { DemandPlanificationComponent } from './features/general/demand-planification/demand-planification.component';
+import { EquipmentRestrictionComponent } from './features/general/equipment-restriction/equipment-restriction.component';
 
 const routes: Routes = [
   { path: 'administracion-perfiles', component: ProfileAdminComponent },
@@ -14,6 +15,7 @@ const routes: Routes = [
   { path: 'administracion-familia-productos', component: ProductFamilyAdminComponent },
   { path: 'administracion-equipos', component: EquipmentAdminComponent },
   { path: 'planificacion-demanda', component: DemandPlanificationComponent },
+  { path: 'restriccion-equipos', component: EquipmentRestrictionComponent },
 ];
 
 @NgModule({

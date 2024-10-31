@@ -13,6 +13,7 @@ import { ProductAdminComponent } from './features/general/product-admin/product-
 import { ProductFamilyAdminComponent } from './features/general/product-family-admin/product-family-admin.component';
 import { EquipmentAdminComponent } from './features/general/equipment-admin/equipment-admin.component';
 import { DemandPlanificationComponent } from './features/general/demand-planification/demand-planification.component';
+import { EquipmentRestrictionComponent } from './features/general/equipment-restriction/equipment-restriction.component';
 
 @NgModule({
   declarations: [
@@ -26,6 +27,7 @@ import { DemandPlanificationComponent } from './features/general/demand-planific
     ProductFamilyAdminComponent,
     EquipmentAdminComponent,
     DemandPlanificationComponent,
+    EquipmentRestrictionComponent,
   ],
   imports: [
     BrowserModule,
