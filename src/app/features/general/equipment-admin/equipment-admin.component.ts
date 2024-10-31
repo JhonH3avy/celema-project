@@ -59,7 +59,35 @@ export class EquipmentAdminComponent implements OnInit {
       creationDate: new Date('2023-07-06'),
       location: 'ZN2',
     },
-  ]
+  ];
+
+  equipmentRestrictions = [
+    {
+      id: 1,
+      restriction: 'Restricción 1',
+      type: 'Tipo 1'
+    },
+    {
+      id: 2,
+      restriction: 'Restricción 2',
+      type: 'Tipo 2'
+    },
+    {
+      id: 3,
+      restriction: 'Restricción 3',
+      type: 'Tipo 3'
+    },
+    {
+      id: 4,
+      restriction: 'Restricción 4',
+      type: 'Tipo 4'
+    },
+    {
+      id: 5,
+      restriction: 'Restricción 5',
+      type: 'Tipo 5'
+    },
+  ];
 
   constructor() { }
 
