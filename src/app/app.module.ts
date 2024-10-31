@@ -10,6 +10,7 @@ import { ProfileAdminComponent } from './features/general/profile-admin/profile-
 import { RoleAdminComponent } from './features/general/role-admin/role-admin.component';
 import { FooterComponent } from './shared/components/footer/footer.component';
 import { ProductAdminComponent } from './features/general/product-admin/product-admin.component';
+import { ProductFamilyAdminComponent } from './features/general/product-family-admin/product-family-admin.component';
 
 @NgModule({
   declarations: [
@@ -20,6 +21,7 @@ import { ProductAdminComponent } from './features/general/product-admin/product-
     RoleAdminComponent,
     FooterComponent,
     ProductAdminComponent,
+    ProductFamilyAdminComponent,
   ],
   imports: [
     BrowserModule,
