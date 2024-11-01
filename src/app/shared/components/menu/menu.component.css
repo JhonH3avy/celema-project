@@ -4,6 +4,7 @@
   align-items: center;
   background-color: rgba(255, 255, 255, 0.8);
   padding: 10px 20px;
+  position: relative;
 }
 
 .navbar-logo .logo {
@@ -14,6 +15,7 @@
 .navbar-avatar .icon {
   font-size: 40px;
   color: #333;
+  cursor: pointer;
 }
 
 .navbar-links a {
@@ -25,12 +27,13 @@
 
 .dropdown {
   position: absolute;
-  top: 50px;
+  top: 60px;
   right: 20px;
   background-color: white;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
-  display: none;
+  width: 150px;
+  z-index: 1;
 }
 
 .dropdown ul {
@@ -46,4 +49,74 @@
 .dropdown li a {
   text-decoration: none;
   color: #333;
+  display: block;
+}
+
+.dropdown li:hover {
+  background-color: #f1f1f1;
+}
+
+
+.dropdown ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.dropdown li {
+  padding: 10px;
+}
+
+.dropdown li a {
+  text-decoration: none;
+  color: #333;
+  display: flex; /* Utiliza flex para alinear los iconos y el texto */
+  align-items: center; /* Alinea el texto y el icono verticalmente */
+}
+
+.dropdown li a i {
+  margin-right: 10px; /* Espacio entre el icono y el texto */
+  font-size: 16px; /* Tamaño del icono */
+}
+
+
+.dropdown ul {
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+.dropdown li {
+  position: relative; /* Para posicionar el submenú relativo a este elemento */
+  padding: 10px;
+}
+
+.dropdown li a {
+  text-decoration: none;
+  color: #333;
+  display: flex; /* Utiliza flex para alinear los iconos y el texto */
+  align-items: center; /* Alinea el texto y el icono verticalmente */
+}
+
+.dropdown li a i {
+  margin-right: 10px; /* Espacio entre el icono y el texto */
+  font-size: 16px; /* Tamaño del icono */
+}
+
+.sub-menu {
+  display: none; /* Ocultar el submenú por defecto */
+  position: absolute; /* Posicionar el submenú debajo del elemento padre */
+  left: 0; /* Alinear el submenú a la izquierda */
+  top: 100%; /* Colocar el submenú justo debajo del elemento padre */
+  background-color: white; /* Color de fondo del submenú */
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra para el submenú */
+  z-index: 1; /* Asegurarse de que el submenú esté por encima de otros elementos */
+}
+
+.dropdown li:hover .sub-menu {
+  display: block; /* Mostrar el submenú al pasar el mouse sobre el elemento padre */
+}
+
+.sub-menu li {
+  padding: 10px; /* Espaciado para los elementos del submenú */
 }
