@@ -57,7 +57,7 @@
               <i class="bi bi-three-dots-vertical"></i>
             </button>
             <ul class="dropdown-menu">
-              <li><a class="dropdown-item" href="#"><i class="bi bi-pencil"></i> Modificar rol</a></li>
+              <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#roleUpdateModal"><i class="bi bi-pencil"></i> Modificar rol</a></li>
               <li><a class="dropdown-item" href="#"><i class="bi bi-power"></i> Inactivar rol</a></li>
             </ul>
           </div>
@@ -70,6 +70,99 @@
     <button class="btn btn-light me-2 text-secondary" [ngClass]="{'active': currentPage === (i + 1)}" *ngFor="let page of pages; let i = index" (click)="changePage(i + 1)">
       {{ i + 1 }}
     </button>
+  </div>
+
+  <!-- Modal -->
+  <div class="modal fade" id="roleUpdateModal" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header vstack gap-3">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <h1 class="modal-title fs-5" id="modalTitle">Edición de Rol</h1>
+        </div>
+        <div class="modal-body">
+          <form>
+            <div class="container text-center">
+              <div class="row mb-2">
+                <div class="col text-start">
+                  <label for="roleInput" class="col-form-label">Rol</label>
+                </div>
+                <div class="col-8">
+                  <input type="text" id="roleInput" class="form-control">
+                </div>
+              </div>
+              <div class="row mb-2">
+                <div class="col text-start">
+                  <label for="descriptionInput" class="col-form-label">Descripción</label>
+                </div>
+                <div class="col-8">
+                  <input type="area" id="descriptionInput" class="form-control">
+                </div>
+              </div>
+              <div class="row mb-2">
+                <div class="col text-start">
+                  <label for="statusInput" class="col-form-label">Estado</label>
+                </div>
+                <div class="col-8">
+                  <div class="form-check form-switch">
+                    <input class="form-check-input" type="checkbox" role="switch" id="statusInput">
+                  </div>
+                </div>
+              </div>
+              <div class="row mb-1">
+                <div class="col text-start">
+                  <label class="col-form-label">Permisos</label>
+                </div>
+              </div>
+            </div>
+          </form>
+          <table class="table">
+            <thead>
+              <tr class="table-secondary">
+                <th scope="col">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="">
+                  </div>
+                </th>
+                <th scope="col" class="text-secondary text-center">Módulo</th>
+                <th scope="col" class="text-secondary text-center">Lector</th>
+                <th scope="col" class="text-secondary text-center">Creador</th>
+                <th scope="col" class="text-secondary text-center">Admin</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let permissionByModule of permissionByModules">
+                <th scope="row">
+                  <div class="form-check">
+                    <input class="form-check-input" type="checkbox" value="">
+                  </div>
+                </th>
+                <td class="text-secondary">{{ permissionByModule.module }}</td>
+                <td scope="row">
+                  <div class="form-check d-flex justify-content-center">
+                    <input class="form-check-input" type="checkbox" value="">
+                  </div>
+                </td>
+                <td scope="row">
+                  <div class="form-check d-flex justify-content-center">
+                    <input class="form-check-input" type="checkbox" value="">
+                  </div>
+                </td>
+                <td scope="row">
+                  <div class="form-check d-flex justify-content-center">
+                    <input class="form-check-input" type="checkbox" value="">
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary">Asignar</button>
+        </div>
+      </div>
+    </div>
   </div>
 </div>
 

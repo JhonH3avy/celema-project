@@ -47,7 +47,22 @@ export class RoleAdminComponent implements OnInit {
       status: 'Inactivo',
       creationDate: new Date('2023-07-06'),
     },
-  ]
+  ];
+
+  permissionByModules = [
+    {
+      id: 1,
+      module: 'Consultas',
+    },
+    {
+      id: 2,
+      module: 'Plan de producción',
+    },
+    {
+      id: 3,
+      module: 'Administración de usuarios',
+    },
+  ];
 
   constructor() { }
 
