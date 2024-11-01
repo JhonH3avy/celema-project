@@ -16,6 +16,7 @@ import { DemandPlanificationComponent } from './features/general/demand-planific
 import { EquipmentRestrictionComponent } from './features/general/equipment-restriction/equipment-restriction.component';
 import { WashRestrictionComponent } from './features/general/wash-restriction/wash-restriction.component';
 import { RoutePlanificationComponent } from './features/general/route-planification/route-planification.component';
+import { ProfileComponent } from './features/general/profile/profile.component';
 
 @NgModule({
   declarations: [
@@ -32,6 +33,7 @@ import { RoutePlanificationComponent } from './features/general/route-planificat
     EquipmentRestrictionComponent,
     WashRestrictionComponent,
     RoutePlanificationComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,

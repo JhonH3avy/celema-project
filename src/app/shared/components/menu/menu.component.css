@@ -25,7 +25,7 @@
   font-weight: 500;
 }
 
-.dropdown {
+.dropdownAux {
   position: absolute;
   top: 60px;
   right: 20px;
@@ -36,69 +36,69 @@
   z-index: 1;
 }
 
-.dropdown ul {
+.dropdownAux ul {
   list-style-type: none;
   padding: 0;
   margin: 0;
 }
 
-.dropdown li {
+.dropdownAux li {
   padding: 10px;
 }
 
-.dropdown li a {
+.dropdownAux li a {
   text-decoration: none;
   color: #333;
   display: block;
 }
 
-.dropdown li:hover {
+.dropdownAux li:hover {
   background-color: #f1f1f1;
 }
 
 
-.dropdown ul {
+.dropdownAux ul {
   list-style-type: none;
   padding: 0;
   margin: 0;
 }
 
-.dropdown li {
+.dropdownAux li {
   padding: 10px;
 }
 
-.dropdown li a {
+.dropdownAux li a {
   text-decoration: none;
   color: #333;
   display: flex; /* Utiliza flex para alinear los iconos y el texto */
   align-items: center; /* Alinea el texto y el icono verticalmente */
 }
 
-.dropdown li a i {
+.dropdownAux li a i {
   margin-right: 10px; /* Espacio entre el icono y el texto */
   font-size: 16px; /* Tamaño del icono */
 }
 
 
-.dropdown ul {
+.dropdownAux ul {
   list-style-type: none;
   padding: 0;
   margin: 0;
 }
 
-.dropdown li {
+.dropdownAux li {
   position: relative; /* Para posicionar el submenú relativo a este elemento */
   padding: 10px;
 }
 
-.dropdown li a {
+.dropdownAux li a {
   text-decoration: none;
   color: #333;
   display: flex; /* Utiliza flex para alinear los iconos y el texto */
   align-items: center; /* Alinea el texto y el icono verticalmente */
 }
 
-.dropdown li a i {
+.dropdownAux li a i {
   margin-right: 10px; /* Espacio entre el icono y el texto */
   font-size: 16px; /* Tamaño del icono */
 }
@@ -113,7 +113,7 @@
   z-index: 1; /* Asegurarse de que el submenú esté por encima de otros elementos */
 }
 
-.dropdown li:hover .sub-menu {
+.dropdownAux li:hover .sub-menu {
   display: block; /* Mostrar el submenú al pasar el mouse sobre el elemento padre */
 }
 

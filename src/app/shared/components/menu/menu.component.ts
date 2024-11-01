@@ -13,9 +13,14 @@ export class MenuComponent implements OnInit {
   }
 
   showDropdown = false;
+  showDropdownAux = false;
 
   toggleDropdown() {
     this.showDropdown = !this.showDropdown;
+  }
+
+  toggleDropdownAux() {
+    this.showDropdownAux = !this.showDropdownAux;
   }
 
 }
