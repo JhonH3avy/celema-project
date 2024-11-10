@@ -18,7 +18,7 @@ import { WashRestrictionComponent } from './features/general/wash-restriction/wa
 import { RoutePlanificationComponent } from './features/general/route-planification/route-planification.component';
 import { ProfileComponent } from './features/general/profile/profile.component';
 import { CoreModule } from './core/services/core.module';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -42,7 +42,8 @@ import { FormsModule } from '@angular/forms';
     AppRoutingModule,
     AuthModule,
     CoreModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule,
   ],
   providers: [],
   bootstrap: [AppComponent]

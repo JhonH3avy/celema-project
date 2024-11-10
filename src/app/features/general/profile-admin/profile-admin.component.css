@@ -19,3 +19,29 @@
 .form-select {
   width: auto;
 }
+
+
+.image-upload {
+  position: relative;
+  display: inline-block;
+  font-size: 2rem;
+  color: #555;
+  cursor: pointer;
+}
+
+.image-upload .fa-camera {
+  font-size: 3rem;
+  color: #666;
+}
+
+.image-upload .add-icon {
+  position: absolute;
+  top: 0;
+  right: -8px;
+  background-color: #007bff;
+  color: white;
+  font-weight: bold;
+  border-radius: 50%;
+  font-size: 1rem;
+  padding: 2px 6px;
+}

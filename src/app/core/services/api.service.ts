@@ -18,12 +18,11 @@ export class ApiService {
       'Authorization': `Bearer ${token}`
     });
 
-    // Realiza la solicitud GET con los encabezados configurados
     return this.http.get<T>(`${this.apiUrl}/${endpoint}`, { headers });
   }
 
   post<T>(endpoint: string, data: any): Observable<T> {
-    const headers = new HttpHeaders().set('Content-Type', 'application/json'); // Asegúrate de que el contenido sea JSON
+    const headers = new HttpHeaders().set('Content-Type', 'application/json');
 
     return this.http.post<T>(`${this.apiUrl}/${endpoint}`, data, { headers });
   }
@@ -36,6 +35,4 @@ export class ApiService {
 
     return this.http.post<T>(`${this.apiUrl}/${endpoint}`, data, { headers });
   }
-
-  // Otros métodos como PUT, DELETE, etc., se pueden agregar aquí si es necesario
 }

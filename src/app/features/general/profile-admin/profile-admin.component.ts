@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { ApiService } from 'src/app/core/services/api.service';
 import Swal from 'sweetalert2';
 import * as XLSX from 'xlsx';
@@ -29,10 +30,44 @@ export class ProfileAdminComponent implements OnInit {
     { id: 5, name: 'Temporal' },
   ];
 
-  constructor(private apiService: ApiService) { }
+  Form: FormGroup;
+
+  constructor(private apiService: ApiService, private fb: FormBuilder,) {
+    this.Form = this.fb.group({
+      cedula: ['', [Validators.required]],
+      nombres: ['', [Validators.required]],
+      apellidos: ['', [Validators.required]],
+      cargo: ['', [Validators.required]],
+      correo: ['', [Validators.required, Validators.email]],
+    });
+  }
 
   ngOnInit(): void {
     this.getData();
+  }
+
+  onSubmit(): void {
+
+    const formData = {
+      cedula: this.Form.value.cedula,
+      nombre: this.Form.value.nombres,
+      apellido: this.Form.value.apellidos,
+      cargo: this.Form.value.cargo,
+      correoElectronico: this.Form.value.correo,
+      clave: this.Form.value.cedula,
+      activo: true,
+    };
+
+    alert();
+    this.apiService.postBearer('Usuarios/crearusuario', formData).subscribe({
+      next: (response) => {
+        this.onResetForm();
+        Swal.fire('Perfil creado', 'El usuario se ha creado exitosamente.', 'success');
+      },
+      error: (error) => {
+        Swal.fire('Error', 'Hubo un error al crear el perfil.', 'error');
+      }
+      });
   }
 
   getProfileAccessStyle(access: string): string[] {
@@ -42,6 +77,10 @@ export class ProfileAdminComponent implements OnInit {
       case 'Lector': return ['border-success', 'text-success', 'bg-success-subtle'];
       default: return [];
     }
+  }
+
+  onResetForm() {
+    this.Form.reset();  // Esto restablecerá todos los campos a su valor inicial
   }
 
   clearData(){
@@ -121,6 +160,39 @@ export class ProfileAdminComponent implements OnInit {
     XLSX.utils.book_append_sheet(wb, ws, 'Perfiles');
 
     XLSX.writeFile(wb, 'perfiles.xlsx');
+  }
+
+  previewImage(event:any) {
+    const photoPreview = document.getElementById('photoPreview') as HTMLImageElement;
+    const file = event.target.files[0];
+
+    if (photoPreview && file) {  // Verifica que photoPreview exista y que file no sea null
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        photoPreview.src = e.target?.result as string;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  get cedula() {
+    return this.Form.get('cedula');
+  }
+
+  get nombres() {
+    return this.Form.get('nombres');
+  }
+
+  get apellidos() {
+    return this.Form.get('apellidos');
+  }
+
+  get cargo() {
+    return this.Form.get('cargo');
+  }
+
+  get correo() {
+    return this.Form.get('correo');
   }
 }
 
