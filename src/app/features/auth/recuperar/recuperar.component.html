@@ -1,18 +1,27 @@
 <div class="centered-container">
   <div class="login-container">
     <img src="./assets/img/logo.png" alt="Imagen de usuario" class="login-image" />
-
     <h2>Olvidó su contraseña?</h2>
-
-    <form>
+    <form [formGroup]="resetPasswordForm" (ngSubmit)="onSubmit()">
       <div class="form-group">
         <i class="fas fa-envelope icon"></i>
-        <input id="username" type="text" placeholder="Escriba su usuario" required />
+        <input
+          id="username"
+          formControlName="username"
+          type="text"
+          placeholder="Escriba su usuario"
+          required
+        />
+        <div *ngIf="username?.touched && username?.invalid" class="error-message">
+          <small *ngIf="username?.hasError('required')">El usuario es obligatorio.</small>
+          <small *ngIf="username?.hasError('email')">Debe ser un correo válido.</small>
+        </div>
       </div>
 
-      <button (click)="onSubmit()" type="button" class="btn-submit">Restablecer la contraseña</button>
+      <button style="margin-top: 10px;" type="submit" [disabled]="resetPasswordForm.invalid" class="btn-submit">
+        Restablecer la contraseña
+      </button>
       <br><br>
-
       <a routerLink="/login" style="color: grey;">Volver</a>
     </form>
   </div>

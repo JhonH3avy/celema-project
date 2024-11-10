@@ -17,6 +17,8 @@ import { EquipmentRestrictionComponent } from './features/general/equipment-rest
 import { WashRestrictionComponent } from './features/general/wash-restriction/wash-restriction.component';
 import { RoutePlanificationComponent } from './features/general/route-planification/route-planification.component';
 import { ProfileComponent } from './features/general/profile/profile.component';
+import { CoreModule } from './core/services/core.module';
+import { FormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
@@ -38,7 +40,9 @@ import { ProfileComponent } from './features/general/profile/profile.component';
   imports: [
     BrowserModule,
     AppRoutingModule,
-    AuthModule
+    AuthModule,
+    CoreModule,
+    FormsModule
   ],
   providers: [],
   bootstrap: [AppComponent]

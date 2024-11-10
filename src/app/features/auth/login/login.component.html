@@ -1,22 +1,49 @@
 <div class="centered-container">
   <div class="login-container">
     <img src="./assets/img/logo.png" alt="Imagen de usuario" class="login-image" />
-    <form>
+    <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+
+      <!-- Campo de usuario -->
       <div class="form-group">
-        <i class="fas fa-envelope icon"></i>
-        <input id="username" type="text" placeholder="Escriba su usuario" required />
+        <div class="input-container">
+          <i class="fas fa-envelope icon"></i>
+          <input
+            id="username"
+            type="text"
+            placeholder="Escriba su usuario"
+            formControlName="username"
+            [ngClass]="{'is-invalid': username?.touched && username?.invalid}" />
+        </div>
+        <!-- Mensajes de error para el campo de usuario -->
+        <div *ngIf="username?.touched && username?.invalid" class="invalid-feedback">
+          <div *ngIf="username?.errors?.['required']">El usuario es obligatorio.</div>
+          <div *ngIf="username?.errors?.['email']">El formato del email no es válido.</div>
+        </div>
       </div>
 
+      <!-- Campo de contraseña -->
       <div class="form-group">
-        <i class="fas fa-key icon"></i>
-        <input id="password" type="password" placeholder="Escriba su contraseña" required />
+        <div class="input-container">
+          <i class="fas fa-key icon"></i>
+          <input
+            id="password"
+            type="password"
+            placeholder="Escriba su contraseña"
+            formControlName="password"
+            [ngClass]="{'is-invalid': password?.touched && password?.invalid}" />
+        </div>
+        <!-- Mensajes de error para el campo de contraseña -->
+        <div *ngIf="password?.touched && password?.invalid" class="invalid-feedback">
+          <div *ngIf="password?.errors?.['required']">La contraseña es obligatoria.</div>
+          <div *ngIf="password?.errors?.['minlength']">La contraseña debe tener al menos 6 caracteres.</div>
+        </div>
       </div>
 
       <div class="options">
-        <table style="width: 100%;">
+        <table style="width: 100%;margin-bottom: 10px;">
           <tr>
             <td>
-              <input type="checkbox" />
+              <input type="checkbox" formControlName="rememberMe" />
             </td>
             <td>
               <span>Recordar mi contraseña</span>
@@ -28,7 +55,7 @@
         </table>
       </div>
 
-      <button (click)="onSubmit()" type="button" class="btn-submit">Ingresar</button>
+      <button [disabled]="loginForm.invalid || loading" type="submit" class="btn-submit">Ingresar</button>
     </form>
   </div>
 </div>

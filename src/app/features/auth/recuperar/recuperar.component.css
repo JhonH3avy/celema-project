@@ -1,70 +1,57 @@
-/* Contenedor de centrado vertical y horizontal */
+/* Contenedor centrado para el formulario */
 .centered-container {
   display: flex;
   align-items: center;
   justify-content: center;
   height: 100vh;
   background-color: #f4f6f9;
-  padding: 0 1rem; /* Espacio lateral para pantallas pequeñas */
+  padding: 0 1rem;
 }
 
-/* Contenedor del formulario */
+/* Contenedor principal del formulario */
 .login-container {
   width: 100%;
-  max-width: 450px; /* Aumentado el ancho máximo del formulario */
+  max-width: 450px;
   padding: 2rem;
   border-radius: 8px;
   background-color: #ffffff;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
   text-align: center;
-  box-sizing: border-box; /* Incluye padding y border en el ancho total */
+  box-sizing: border-box;
 }
 
-/* Imagen de encabezado */
+/* Estilo de la imagen del logo */
 .login-image {
-  width: 50%; /* Cambia esto a un tamaño específico si lo prefieres */
-  height: auto; /* Mantiene la proporción del logo */
+  width: 50%;
+  height: auto;
   margin-bottom: 1rem;
 }
 
-/* Estilos del contenedor de carga */
-.loading {
+/* Contenedor de cada campo de entrada */
+.form-group {
+  position: relative;
+  margin-bottom: 1.5rem;
+  width: 100%;
   display: flex;
   flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 0;
-  background-color: rgba(255, 255, 255, 0.8); /* Fondo semi-transparente */
-  z-index: 1000; /* Asegura que esté en la parte superior */
+  align-items: flex-start;
 }
 
-/* Estilos del título */
-h2 {
-  color: #333;
-  margin-bottom: 1rem;
-}
-
-/* Estilos de etiquetas y entradas */
-.form-group {
-  display: flex;
-  align-items: center;
-  margin-bottom: 1.5rem;
-  position: relative;
-}
-
+/* Estilo del icono dentro del campo de entrada */
 .icon {
   position: absolute;
+  top: 50%;
   left: 10px;
+  transform: translateY(-50%);
+  font-size: 1.2rem;
   color: #888;
+  pointer-events: none;
 }
 
+/* Estilo para los inputs */
 input {
   width: 100%;
-  padding: 0.75rem 0.75rem 0.75rem 2.5rem;
+  padding: 0.75rem 0.75rem 0.75rem 2.5rem; /* Padding izquierdo para icono */
   font-size: 1rem;
   border: 1px solid #ddd;
   border-radius: 4px;
@@ -72,42 +59,24 @@ input {
   transition: border-color 0.3s ease;
 }
 
+/* Estilo al enfocar el input */
 input:focus {
   border-color: #007bff;
 }
 
-/* Estilos del checkbox y enlace */
-.options {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 0.9rem;
-  color: #555;
-  margin-top: -1rem;
-  margin-bottom: 1rem;
+/* Estilo para los mensajes de error */
+.error-message {
+  color: red;
+  font-size: 0.875rem;
+  margin-top: 0px;
+  width: 100%;
+  text-align: left;
+  position: absolute; /* Posiciona el mensaje fuera del flujo de los inputs */
+  top: 100%; /* Se asegura que el mensaje de error esté debajo del input */
+  left: 0;
 }
 
-.options label {
-  display: flex;
-  align-items: center;
-  flex-grow: 1; /* Permite que el label ocupe el espacio disponible */
-  margin-right: 10px; /* Espacio entre el checkbox y el texto */
-}
-
-.options input[type="checkbox"] {
-  margin-right: 0.5rem; /* Espacio entre el checkbox y la etiqueta */
-}
-
-.options a {
-  color: #007bff;
-  text-decoration: none;
-}
-
-.options a:hover {
-  text-decoration: underline;
-}
-
-/* Estilos del botón */
+/* Estilos para el botón */
 .btn-submit {
   width: 100%;
   padding: 0.75rem;
@@ -120,16 +89,15 @@ input:focus {
   transition: background-color 0.3s ease;
 }
 
+/* Cambio de color en el hover del botón */
 .btn-submit:hover {
   background-color: #0056b3;
 }
 
-
-/* Estilo del contenedor de carga */
+/* Estilos de la carga */
 .loading {
-  opacity: 0; /* Comienza invisible */
-  animation: fadeIn 0.5s forwards; /* Animación de desvanecimiento */
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
   position: fixed;
@@ -137,50 +105,41 @@ input:focus {
   left: 0;
   right: 0;
   bottom: 0;
-  background-color: rgba(0, 0, 0, 0.7); /* Fondo negro semitransparente */
-  z-index: 1000; /* Asegura que esté en la parte superior */
+  background-color: rgba(255, 255, 255, 0.8);
+  z-index: 1000;
 }
 
-@keyframes fadeIn {
-  to {
-    opacity: 1; /* Finaliza completamente visible */
-  }
-}
-
-/* Estilo del radar */
 .radar {
   position: relative;
-  width: 250px; /* Aumentado el ancho del radar */
-  height: 250px; /* Aumentado el alto del radar */
-  border-radius: 50%; /* Forma circular */
-  border: 10px solid rgba(255, 255, 255, 0.5); /* Borde blanco semitransparente */
-  overflow: hidden; /* Para recortar la imagen */
-  animation: pulse 1.5s infinite; /* Animación del efecto de radar */
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  border: 10px solid rgba(255, 255, 255, 0.5);
+  overflow: hidden;
+  animation: pulse 1.5s infinite;
 }
 
-/* Imagen del cargador */
 .loading-image {
-  width: 100%; /* Ajustar el tamaño al 100% del contenedor */
-  height: 100%; /* Asegurarse de que ocupe todo el contenedor */
-  object-fit: contain; /* Ajustar la imagen manteniendo la proporción */
-  border-radius: 50%; /* Hacer la imagen redonda */
-  position: absolute; /* Posicionar la imagen */
-  top: 50%; /* Centrar verticalmente */
-  left: 50%; /* Centrar horizontalmente */
-  transform: translate(-50%, -50%); /* Ajustar el centro de la imagen */
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
-/* Estilo de la descripción */
 .loading p {
-  color: #fff; /* Color del texto */
-  text-align: center; /* Centrar el texto */
-  margin-top: 10px; /* Margen superior */
-  font-size: 1.2rem; /* Tamaño del texto */
-  text-shadow: 0 0 5px rgba(0, 0, 0, 0.7); /* Sombra para mejorar la legibilidad */
-  font-weight: bold; /* Negrita para mayor énfasis */
+  color: #fff;
+  text-align: center;
+  margin-top: 10px;
+  font-size: 1.2rem;
+  text-shadow: 0 0 5px rgba(0, 0, 0, 0.7);
+  font-weight: bold;
 }
 
-/* Animación del efecto de pulso */
+/* Animación de pulso */
 @keyframes pulse {
   0% {
     transform: scale(1);

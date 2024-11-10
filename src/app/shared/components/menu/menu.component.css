@@ -1,3 +1,4 @@
+/* Barra de navegación */
 .navbar {
   display: flex;
   justify-content: space-between;
@@ -5,19 +6,45 @@
   background-color: rgba(255, 255, 255, 0.8);
   padding: 10px 20px;
   position: relative;
+  width: 100%;
 }
 
+/* Estilo de la imagen del proceso de la planta */
+.plant-image img {
+  width: 100%;
+  height: auto;
+  max-height: 400px; /* Ajusta la altura de la imagen */
+  object-fit: cover; /* Mantiene la calidad de la imagen */
+}
+
+/* Logo de la empresa */
 .navbar-logo .logo {
   width: 150px;
   height: auto;
 }
 
-.navbar-avatar .icon {
-  font-size: 40px;
-  color: #333;
-  cursor: pointer;
+/* Estilo del avatar del usuario */
+.navbar-avatar {
+  position: relative; /* Asegura que el menú se posicione en relación con este contenedor */
 }
 
+.navbar-avatar .avatar-img {
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  margin-right: 10px;
+  margin-left: 5px;
+  border: 1px solid #333; /* Ajusta el color y grosor del borde */
+}
+
+/* Información del usuario */
+.user-info p {
+  margin: 0;
+  font-weight: bold;
+  font-size: 14px;
+}
+
+/* Estilo del menú horizontal */
 .navbar-links a {
   margin: 0 15px;
   text-decoration: none;
@@ -25,98 +52,75 @@
   font-weight: 500;
 }
 
-.dropdownAux {
+/* Menú desplegable */
+.dropdown-menu {
   position: absolute;
-  top: 60px;
-  right: 20px;
+  top: 55px;  /* Coloca el menú justo debajo del avatar */
+  left: 100px;    /* Alinea el menú con el borde izquierdo del avatar */
+  width: auto; /* Ajusta el ancho automáticamente */
   background-color: white;
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
-  width: 150px;
-  z-index: 1;
+  z-index: 1000; /* Asegura que el menú esté encima de otros elementos */
 }
 
-.dropdownAux ul {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
-}
-
-.dropdownAux li {
+/* Estilos de los elementos del menú */
+.dropdown-menu li {
   padding: 10px;
 }
 
-.dropdownAux li a {
+.dropdown-menu li a {
   text-decoration: none;
   color: #333;
-  display: block;
+  display: flex;
+  align-items: center;
 }
 
-.dropdownAux li:hover {
+.dropdown-menu li a i {
+  margin-right: 10px;
+  font-size: 16px;
+}
+
+/* Hover de los elementos del menú */
+.dropdown-menu li:hover {
   background-color: #f1f1f1;
 }
 
-
-.dropdownAux ul {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
+/* Menú desplegable en el avatar */
+.navbar-avatar .dropdown-menu {
+  left: -150px !important;  /* Asegura que el menú se posicione a la izquierda del avatar */
+  right: auto !important; /* Desactiva cualquier alineación hacia la derecha */
 }
 
-.dropdownAux li {
-  padding: 10px;
-}
+/* Para dispositivos móviles */
+@media (max-width: 768px) {
+  .navbar-links {
+    display: none;
+  }
 
-.dropdownAux li a {
-  text-decoration: none;
-  color: #333;
-  display: flex; /* Utiliza flex para alinear los iconos y el texto */
-  align-items: center; /* Alinea el texto y el icono verticalmente */
-}
-
-.dropdownAux li a i {
-  margin-right: 10px; /* Espacio entre el icono y el texto */
-  font-size: 16px; /* Tamaño del icono */
+  .navbar-avatar {
+    display: none;
+  }
 }
 
 
-.dropdownAux ul {
-  list-style-type: none;
-  padding: 0;
-  margin: 0;
+.large-arrow::after {
+  font-size: 1.3em; /* Ajusta el tamaño según sea necesario */
 }
 
-.dropdownAux li {
-  position: relative; /* Para posicionar el submenú relativo a este elemento */
-  padding: 10px;
+
+/* Posicionamiento del submenú */
+.dropdown-submenu {
+  position: relative;
 }
 
-.dropdownAux li a {
-  text-decoration: none;
-  color: #333;
-  display: flex; /* Utiliza flex para alinear los iconos y el texto */
-  align-items: center; /* Alinea el texto y el icono verticalmente */
+.dropdown-submenu .dropdown-menu {
+  top: 0;
+  left: -100px;
+  margin-top: -6px;
+  display: none; /* Ocultar el submenú inicialmente */
 }
 
-.dropdownAux li a i {
-  margin-right: 10px; /* Espacio entre el icono y el texto */
-  font-size: 16px; /* Tamaño del icono */
-}
-
-.sub-menu {
-  display: none; /* Ocultar el submenú por defecto */
-  position: absolute; /* Posicionar el submenú debajo del elemento padre */
-  left: 0; /* Alinear el submenú a la izquierda */
-  top: 100%; /* Colocar el submenú justo debajo del elemento padre */
-  background-color: white; /* Color de fondo del submenú */
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1); /* Sombra para el submenú */
-  z-index: 1; /* Asegurarse de que el submenú esté por encima de otros elementos */
-}
-
-.dropdownAux li:hover .sub-menu {
-  display: block; /* Mostrar el submenú al pasar el mouse sobre el elemento padre */
-}
-
-.sub-menu li {
-  padding: 10px; /* Espaciado para los elementos del submenú */
+.dropdown-submenu:hover .dropdown-menu {
+  display: block; /* Mostrar el submenú al pasar el mouse */
 }

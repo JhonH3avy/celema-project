@@ -11,3 +11,11 @@
   border-radius: 50%;
   object-fit: cover;
 }
+
+.pagination {
+  margin-bottom: 0;
+}
+
+.form-select {
+  width: auto;
+}

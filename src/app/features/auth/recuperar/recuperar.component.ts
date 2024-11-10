@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-recuperar',
@@ -6,22 +8,35 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./recuperar.component.css']
 })
 export class RecuperarComponent implements OnInit {
-
-  constructor() { }
-
   loading = false;
+  resetPasswordForm: FormGroup;
 
-  ngOnInit(): void {
+  constructor(private fb: FormBuilder) {
+    // Inicializa el formulario con validación
+    this.resetPasswordForm = this.fb.group({
+      username: ['', [Validators.required, Validators.email]]
+    });
   }
 
+  ngOnInit(): void {}
+
   onSubmit() {
-    this.loading = true; // Cambia el estado a cargando
+    if (this.resetPasswordForm.invalid) {
+      // Marca todos los campos como tocados si el formulario es inválido
+      this.resetPasswordForm.markAllAsTouched();
+      return;
+    }
+
+    this.loading = true;
 
     // Simula una llamada a la API
     setTimeout(() => {
-      this.loading = false; // Regresa el estado a no cargando
-      // Aquí puedes manejar la respuesta de la API
+      this.loading = false;
+      Swal.fire('Éxito', 'Se ha enviado el enlace para restablecer la contraseña.', 'success');
     }, 5000);
   }
 
+  get username() {
+    return this.resetPasswordForm.get('username');
+  }
 }

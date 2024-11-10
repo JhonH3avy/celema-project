@@ -1,24 +1,28 @@
 <app-menu></app-menu>
 <div class="container">
+  <h3>Administración de perfiles</h3>
+  <p style="color: grey;">Administre los miembros de su equipo y sus permisos de cuenta aquí</p>
   <div class="d-flex justify-content-between mb-3">
-    <h3>Todos los usuarios <span class="text-secondary">{{ userCount }}</span></h3>
+    <h5>Todos los usuarios <span class="text-secondary">{{ userCount }}</span></h5>
     <div class="d-flex align-items-center">
       <button type="button" class="btn btn-outline-primary me-2">
-        <i class="bi bi-arrow-repeat"></i>
+        <i (click)="clearData()" class="bi bi-arrow-repeat"></i>
       </button>
       <div class="input-group me-2">
         <button class="btn btn-outline-secondary" type="button">
           <i class="bi bi-search"></i>
         </button>
-        <input type="text" class="form-control" placeholder="Buscar">
+        <input type="text" class="form-control" placeholder="Buscar" [(ngModel)]="searchQuery" (input)="filterData()" />
       </div>
-      <button type="button" class="btn btn-outline-secondary d-flex align-items-center me-2">
-        <i class="bi bi-filter me-1"></i>
-        Filtrar
+      <!-- <button type="button" class="btn btn-outline-secondary d-flex align-items-center me-2">
+        <i class="bi bi-filter me-1"></i> Filtrar
+      </button> -->
+      <button type="button" class="btn btn-primary d-flex align-items-center me-2" (click)="exportToExcel()">
+        <i class="bi bi-upload me-1"></i> Exportar
       </button>
-      <button type="button" class="btn btn-primary d-flex align-items-center">
-        <i class="bi bi-upload me-1"></i>
-        Exportar
+      <button type="button" class="btn btn-primary d-flex align-items-center me-2" style="min-width: 150px;" data-bs-toggle="modal" data-bs-target="#createProfileModal">
+        <i class="bi bi-person me-1"></i>
+        <span class="text-nowrap ms-1">Crear Usuario</span>
       </button>
     </div>
   </div>
@@ -32,13 +36,14 @@
         </th>
         <th scope="col" class="text-secondary text-center">Usuario</th>
         <th scope="col" class="text-secondary text-center">Acceso</th>
+        <th scope="col" class="text-secondary text-center">Estado</th>
         <th scope="col" class="text-secondary text-center">Último acceso</th>
         <th scope="col" class="text-secondary text-center">Fecha de ingreso</th>
         <th scope="col"></th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let profile of profiles">
+      <tr *ngFor="let profile of paginatedData">
         <th scope="row">
           <div class="form-check">
             <input class="form-check-input" type="checkbox" value="">
@@ -46,18 +51,22 @@
         </th>
         <td>
           <div class="d-flex">
-            <img [src]="profile.profileImageSource" class="rounded profile-image me-2" />
+            <img [src]="profile.profileImageSource == null ? './assets/img/profile_image_placeholder.jpg' : profile.profileImageSource" class="rounded profile-image me-2" />
             <div>
-              <div class="text-secondary">{{ profile.username }}</div>
-              <div class="text-secondary">{{ profile.email }}</div>
+              <div class="text-secondary">{{ profile.nombre }} {{ profile.apellido }}</div>
+              <div class="text-secondary">{{ profile.correoElectronico }}</div>
             </div>
           </div>
         </td>
         <td>
-          <span *ngFor="let access of profile.access" [ngClass]="getProfileAccessStyle(access)" class="badge border me-1">{{ access }}</span>
+          <span *ngFor="let access of profile.tblModulosUsuarios" [ngClass]="getProfileAccessStyle(access)" class="badge border me-1">{{ access }}</span>
         </td>
-        <td class="text-secondary text-center">{{ profile.lastAccessDate | date:'dd/MM/yyyy' }}</td>
-        <td class="text-secondary text-center">{{ profile.ingressDate | date:'dd/MM/yyyy' }}</td>
+        <td>
+          <span *ngIf="profile.activo == true" class="badge border me-1 border-success text-success bg-success-subtle">Activo</span>
+          <span *ngIf="profile.activo != true" class="badge border me-1 border-danger text-danger bg-danger-subtle">Inactivo</span>
+        </td>
+        <td class="text-secondary text-center">{{ profile.ultimoAcceso | date:'dd/MM/yyyy' }}</td>
+        <td class="text-secondary text-center">{{ profile.fechaIngreso | date:'dd/MM/yyyy' }}</td>
         <td>
           <div class="dropdown">
             <button type="button" class="btn btn-outline-secondary" data-bs-toggle="dropdown" aria-expanded="false">
@@ -74,13 +83,85 @@
     </tbody>
   </table>
 
-  <div class="d-flex justify-content-center align-items-center">
-    <button class="btn btn-light me-2 text-secondary" [ngClass]="{'active': currentPage === (i + 1)}" *ngFor="let page of pages; let i = index" (click)="changePage(i + 1)">
-      {{ i + 1 }}
-    </button>
+  <!-- Paginación -->
+  <div class="d-flex justify-content-between align-items-center">
+    <!-- Paginación -->
+    <ul class="pagination mb-0">
+      <li class="page-item" [class.disabled]="currentPage === 1">
+        <a class="page-link"(click)="changePage(currentPage - 1)">Anterior</a>
+      </li>
+      <li *ngFor="let page of pages" class="page-item" [class.active]="page === currentPage">
+        <a class="page-link" (click)="changePage(page)">{{ page }}</a>
+      </li>
+      <li class="page-item" [class.disabled]="currentPage === totalPages">
+        <a class="page-link" (click)="changePage(currentPage + 1)">Siguiente</a>
+      </li>
+    </ul>
+
+    <!-- Selector de cantidad por página -->
+    <div class="d-flex align-items-center ms-3">
+      <label for="itemsPerPage" class="form-label mb-0">Mostrar</label>
+      <select id="itemsPerPage" class="form-select w-auto ms-2" [(ngModel)]="itemsPerPage" (change)="changeItemsPerPage()">
+        <option value="10">10</option>
+        <option value="15">15</option>
+      </select>
+      <span class="ms-2">por página</span>
+    </div>
   </div>
 
+  <!-- Modal nuevo usuario -->
+  <div class="modal fade" id="createProfileModal" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header vstack gap-3">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <img class="big-profile-image" src="./assets/img/profile_image_placeholder.jpg" alt="profile picture">
+        </div>
+        <div class="modal-body">
+          <form id="createProfileForm">
+            <div class="mb-5 row">
+              <label for="cedula" class="col-sm-3 col-form-label">Cédula</label>
+              <div class="col-sm-7">
+                <input type="text" class="form-control bg-light" id="cedula" required>
+              </div>
+            </div>
 
+            <div class="mb-5 row">
+              <label for="nombres" class="col-sm-3 col-form-label">Nombres</label>
+              <div class="col-sm-7">
+                <input type="text" class="form-control bg-light" id="nombres" required>
+              </div>
+            </div>
+
+            <div class="mb-3 row">
+              <label for="apellidos" class="col-sm-3 col-form-label">Apellidos</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control bg-light" id="apellidos" required>
+              </div>
+            </div>
+
+            <div class="mb-3 row">
+              <label for="cargo" class="col-sm-3 col-form-label">Cargo</label>
+              <div class="col-sm-9">
+                <input type="text" class="form-control bg-light" id="cargo" required>
+              </div>
+            </div>
+
+            <div class="mb-3 row">
+              <label for="correo" class="col-sm-3 col-form-label">Correo</label>
+              <div class="col-sm-9">
+                <input type="email" class="form-control bg-light" id="correo" required>
+              </div>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="button" class="btn btn-primary" data-bs-target="#changeSuccessfulModal" data-bs-toggle="modal">Aplicar</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Modal -->
   <div class="modal fade" id="updateProfileModal" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
