@@ -62,6 +62,7 @@ export class ProfileAdminComponent implements OnInit {
     this.apiService.postBearer('Usuarios/crearusuario', formData).subscribe({
       next: (response) => {
         this.onResetForm();
+        this.getData();
         Swal.fire('Perfil creado', 'El usuario se ha creado exitosamente.', 'success');
       },
       error: (error) => {
