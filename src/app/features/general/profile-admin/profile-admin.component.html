@@ -74,8 +74,8 @@
             </button>
             <ul class="dropdown-menu">
               <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#updateProfileModal"><i class="bi bi-key"></i> Modificar permisos</a></li>
-              <li><a class="dropdown-item" href="#"><i class="bi bi-file-earmark-break"></i> Exportar</a></li>
-              <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#deleteProfileModal"><i class="bi bi-trash"></i> Eliminar usuario</a></li>
+              <li><a class="dropdown-item" (click)="exportUser(profile)"><i class="bi bi-file-earmark-break"></i> Exportar</a></li>
+              <li><a class="dropdown-item" (click)="desacticarUsuario(profile.id)"><i class="bi bi-slash-circle"></i> Desactivar usuario</a></li>
             </ul>
           </div>
         </td>
@@ -110,7 +110,7 @@
   </div>
 
   <!-- Modal nuevo usuario -->
-  <div class="modal fade" id="createProfileModal" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
+  <div class="modal fade" id="createProfileModal" tabindex="-1" aria-labelledby="createProfileModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header vstack gap-3">

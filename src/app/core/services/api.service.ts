@@ -35,4 +35,14 @@ export class ApiService {
 
     return this.http.post<T>(`${this.apiUrl}/${endpoint}`, data, { headers });
   }
+
+  put<T>(endpoint: string, data: any): Observable<T> {
+    const token = localStorage.getItem('authToken');
+    const headers = new HttpHeaders({
+      'Authorization': `Bearer ${token}`,
+      'Content-Type': 'application/json'
+    });
+
+    return this.http.put<T>(`${this.apiUrl}/${endpoint}`, data, { headers });
+  }
 }

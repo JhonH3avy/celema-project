@@ -108,6 +108,10 @@ export class LoginComponent implements OnInit {
     };
     this.apiService.postBearer('Usuarios/consultarusuario', formData).subscribe({
       next: (response: any) => {
+        localStorage.removeItem('nombres');
+        localStorage.removeItem('apellidos');
+        localStorage.removeItem('cargo');
+
         localStorage.setItem('nombres', response.datos.nombre);
         localStorage.setItem('apellidos', response.datos.apellido);
         localStorage.setItem('cargo', response.datos.cargo);
