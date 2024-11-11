@@ -19,6 +19,9 @@ import { RoutePlanificationComponent } from './features/general/route-planificat
 import { ProfileComponent } from './features/general/profile/profile.component';
 import { CoreModule } from './core/services/core.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ApiModule } from './core/services';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
@@ -45,9 +48,16 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     CoreModule,
     FormsModule,
     ReactiveFormsModule,
+    ApiModule,
+  ],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    },
     NgbModule
   ],
-  providers: [],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

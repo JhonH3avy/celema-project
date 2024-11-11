@@ -52,40 +52,6 @@
   font-weight: 500;
 }
 
-/* Menú desplegable */
-.dropdown-menu {
-  position: absolute;
-  top: 55px;  /* Coloca el menú justo debajo del avatar */
-  left: 100px;    /* Alinea el menú con el borde izquierdo del avatar */
-  width: auto; /* Ajusta el ancho automáticamente */
-  background-color: white;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  border-radius: 5px;
-  z-index: 1000; /* Asegura que el menú esté encima de otros elementos */
-}
-
-/* Estilos de los elementos del menú */
-.dropdown-menu li {
-  padding: 10px;
-}
-
-.dropdown-menu li a {
-  text-decoration: none;
-  color: #333;
-  display: flex;
-  align-items: center;
-}
-
-.dropdown-menu li a i {
-  margin-right: 10px;
-  font-size: 16px;
-}
-
-/* Hover de los elementos del menú */
-.dropdown-menu li:hover {
-  background-color: #f1f1f1;
-}
-
 /* Menú desplegable en el avatar */
 .navbar-avatar .dropdown-menu {
   left: -150px !important;  /* Asegura que el menú se posicione a la izquierda del avatar */
@@ -123,4 +89,38 @@
 
 .dropdown-submenu:hover .dropdown-menu {
   display: block; /* Mostrar el submenú al pasar el mouse */
+}
+
+/* Menú desplegable */
+.dropdown-menu {
+  position: absolute;
+  top: 55px;  /* Coloca el menú justo debajo del avatar */
+  left: 100px;    /* Alinea el menú con el borde izquierdo del avatar */
+  width: auto; /* Ajusta el ancho automáticamente */
+  background-color: white;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  z-index: 1000; /* Asegura que el menú esté encima de otros elementos */
+}
+
+/* Estilos de los elementos del menú */
+.dropdown-menu li {
+  padding: 10px;
+}
+
+.dropdown-menu li a {
+  text-decoration: none;
+  color: #333;
+  display: flex;
+  align-items: center;
+}
+
+.dropdown-menu li a i {
+  margin-right: 10px;
+  font-size: 16px;
+}
+
+/* Hover de los elementos del menú */
+.dropdown-menu li:hover {
+  background-color: #f1f1f1;
 }
