@@ -55,7 +55,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
       provide: HTTP_INTERCEPTORS,
       useClass: AuthInterceptor,
       multi: true
-    }
+    },
     NgbModule
   ],
   bootstrap: [AppComponent]

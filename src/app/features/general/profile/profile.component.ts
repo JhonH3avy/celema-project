@@ -1,5 +1,5 @@
 import { ConsultaDeUsuario } from './../../../core/services/model/consultaDeUsuario';
-import { Component, ElementRef, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { UsuariosDto, UsuariosService } from 'src/app/core/services';
 import { jwtDecode } from 'jwt-decode';

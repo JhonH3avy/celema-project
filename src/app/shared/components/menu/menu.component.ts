@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { IdleService } from './idle.service';
+import * as bootstrap from 'bootstrap';
 
 @Component({
   selector: 'app-menu',
@@ -45,5 +46,10 @@ export class MenuComponent implements OnInit {
       return false;
     }
     return true;
+  }
+
+  openMenuDropdown(dropdownMenuElement: HTMLElement): void {
+    const drowpDown = new bootstrap.Dropdown(dropdownMenuElement);
+    drowpDown.show();
   }
 }
