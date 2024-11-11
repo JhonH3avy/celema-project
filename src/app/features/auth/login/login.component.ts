@@ -66,7 +66,7 @@ export class LoginComponent implements OnInit {
       clave: this.loginForm.value.password
     };
 
-    this.apiService.post('Login/loginusuario', formData).subscribe({
+    this.apiService.post('api/Login/loginusuario', formData).subscribe({
       next: (response: any) => {
         const token = response.token;
         localStorage.setItem('authToken', token);
@@ -106,7 +106,7 @@ export class LoginComponent implements OnInit {
       correoElectronico: usuario,
       clave: clave
     };
-    this.apiService.postBearer('Usuarios/consultarusuario', formData).subscribe({
+    this.apiService.postBearer('api/Usuarios/consultarusuario', formData).subscribe({
       next: (response: any) => {
         localStorage.setItem('nombres', response.datos.nombre);
         localStorage.setItem('apellidos', response.datos.apellido);

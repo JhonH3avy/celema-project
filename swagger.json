@@ -1,0 +1,2619 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Mi API",
+    "version": "v1"
+  },
+  "paths": {
+    "/api/Equipos/consultarequipos": {
+      "get": {
+        "tags": [
+          "Equipos"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TblEquipo"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TblEquipo"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TblEquipo"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Equipos/consultarequipocodigo": {
+      "get": {
+        "tags": [
+          "Equipos"
+        ],
+        "parameters": [
+          {
+            "name": "codigo",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "zonaubicacion",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TblEquipo"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TblEquipo"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TblEquipo"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Equipos/crearequipo": {
+      "post": {
+        "tags": [
+          "Equipos"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CrearEquipoDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CrearEquipoDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CrearEquipoDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Equipos/actualizarequipo": {
+      "put": {
+        "tags": [
+          "Equipos"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActualizarEquipoDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActualizarEquipoDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActualizarEquipoDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Equipos/eliminarequipo/{idequipo}": {
+      "patch": {
+        "tags": [
+          "Equipos"
+        ],
+        "parameters": [
+          {
+            "name": "idequipo",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/FamiliaProductos/listadodefamilia": {
+      "get": {
+        "tags": [
+          "FamiliaProductos"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TblSkufamilia"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TblSkufamilia"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TblSkufamilia"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/FamiliaProductos/formatoscsvproductos": {
+      "get": {
+        "tags": [
+          "FamiliaProductos"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/FamiliaProductos/consultarfamilia": {
+      "get": {
+        "tags": [
+          "FamiliaProductos"
+        ],
+        "parameters": [
+          {
+            "name": "idfamilia",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "nombrefamilia",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TblSkufamilia"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TblSkufamilia"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TblSkufamilia"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Login/loginusuario": {
+      "post": {
+        "tags": [
+          "Login"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SolicitudInicioDeSesiónUsuario"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SolicitudInicioDeSesiónUsuario"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/SolicitudInicioDeSesiónUsuario"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Login/olvidemicontraseña": {
+      "post": {
+        "tags": [
+          "Login"
+        ],
+        "parameters": [
+          {
+            "name": "correoElectronico",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/MaestraFamilia/consultarmaestraporidfamilia": {
+      "get": {
+        "tags": [
+          "MaestraFamilia"
+        ],
+        "parameters": [
+          {
+            "name": "idsku",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "presentacion",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TblSkumaestra"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TblSkumaestra"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TblSkumaestra"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/MaestraFamilia/consultarmaestrafamilia": {
+      "get": {
+        "tags": [
+          "MaestraFamilia"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TblSkumaestra"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TblSkumaestra"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TblSkumaestra"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/MaestraFamilia/formatoscsvmaestrafamilia": {
+      "get": {
+        "tags": [
+          "MaestraFamilia"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/RestriccionDeLavado/listarestriccionlavado": {
+      "get": {
+        "tags": [
+          "RestriccionDeLavado"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TblRestriccionLavados"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TblRestriccionLavados"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TblRestriccionLavados"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/RestriccionDeLavado/actualizarrestriccionlavado": {
+      "put": {
+        "tags": [
+          "RestriccionDeLavado"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActualizarRestriccionLavadoDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActualizarRestriccionLavadoDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActualizarRestriccionLavadoDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/RestriccionDeLavado/crearrestriccionlavado": {
+      "post": {
+        "tags": [
+          "RestriccionDeLavado"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CrearRestriccionLavadoDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CrearRestriccionLavadoDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CrearRestriccionLavadoDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/RestriccionDeLavado/buscarrestriccionlavado": {
+      "get": {
+        "tags": [
+          "RestriccionDeLavado"
+        ],
+        "parameters": [
+          {
+            "name": "IdRestriccionLavados",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TblRestriccionLavados"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TblRestriccionLavados"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TblRestriccionLavados"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/RestriccionDeLavado/eliminarequipo/{id}": {
+      "patch": {
+        "tags": [
+          "RestriccionDeLavado"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/RestriccionEquipos/listarestriccionequipos": {
+      "get": {
+        "tags": [
+          "RestriccionEquipos"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TblRestriccionEquipo"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TblRestriccionEquipo"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TblRestriccionEquipo"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/RestriccionEquipos/formatoscsvrestriccionequipos": {
+      "get": {
+        "tags": [
+          "RestriccionEquipos"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/RestriccionEquipos/consultarrestriccionequipo": {
+      "get": {
+        "tags": [
+          "RestriccionEquipos"
+        ],
+        "parameters": [
+          {
+            "name": "codigo",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TblRestriccionEquipo"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TblRestriccionEquipo"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TblRestriccionEquipo"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/RestriccionEquipos/actualizarrestriccionequipos": {
+      "put": {
+        "tags": [
+          "RestriccionEquipos"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActualizarRestriccionEquiposDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActualizarRestriccionEquiposDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActualizarRestriccionEquiposDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/RestriccionEquipos/crearrestriccionequipos": {
+      "post": {
+        "tags": [
+          "RestriccionEquipos"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CrearRestriccionEquiposDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CrearRestriccionEquiposDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CrearRestriccionEquiposDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/RestriccionEquipos/eliminarrestriccionequipo/{id}": {
+      "patch": {
+        "tags": [
+          "RestriccionEquipos"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Roles/listaroles": {
+      "get": {
+        "tags": [
+          "Roles"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TblRoles"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TblRoles"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TblRoles"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Roles/consultarroleporid": {
+      "get": {
+        "tags": [
+          "Roles"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "nombre",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TblRoles"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TblRoles"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TblRoles"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Roles/crearrole": {
+      "post": {
+        "tags": [
+          "Roles"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CrearRoleDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CrearRoleDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CrearRoleDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Roles/actualizarrole": {
+      "put": {
+        "tags": [
+          "Roles"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActualizarRoleDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActualizarRoleDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActualizarRoleDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Roles/eliminarrole/{id}": {
+      "patch": {
+        "tags": [
+          "Roles"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Rutas/listarutas": {
+      "get": {
+        "tags": [
+          "Rutas"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TblRutum"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TblRutum"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TblRutum"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Rutas/consultarrutaporid": {
+      "get": {
+        "tags": [
+          "Rutas"
+        ],
+        "parameters": [
+          {
+            "name": "idruta",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "listadoequipo",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TblRutum"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TblRutum"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TblRutum"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Rutas/crearruta": {
+      "post": {
+        "tags": [
+          "Rutas"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CrearRutaDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CrearRutaDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CrearRutaDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Rutas/actualizarruta": {
+      "put": {
+        "tags": [
+          "Rutas"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActualizarRutaDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActualizarRutaDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActualizarRutaDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/SolicitudesProduccion/listadosolicitudproduccion": {
+      "get": {
+        "tags": [
+          "SolicitudesProduccion"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TblSolicitudesProduccion"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TblSolicitudesProduccion"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TblSolicitudesProduccion"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/SolicitudesProduccion/formatoscsvsolicitudproduccions": {
+      "get": {
+        "tags": [
+          "SolicitudesProduccion"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/SolicitudesProduccion/consultasolicitudproduccionid": {
+      "get": {
+        "tags": [
+          "SolicitudesProduccion"
+        ],
+        "parameters": [
+          {
+            "name": "idsolicitudes",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          },
+          {
+            "name": "idSKU",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TblSolicitudesProduccion"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TblSolicitudesProduccion"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TblSolicitudesProduccion"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/SolicitudesProduccion/crearsolicitudproduccion": {
+      "post": {
+        "tags": [
+          "SolicitudesProduccion"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SolicitudProduccionDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SolicitudProduccionDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/SolicitudProduccionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/SolicitudesProduccion/actualizarsolicituproduccion": {
+      "put": {
+        "tags": [
+          "SolicitudesProduccion"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateSolicitudDeProduccionDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateSolicitudDeProduccionDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UpdateSolicitudDeProduccionDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/SolicitudesProduccion/eliminarsolicitudproduccion/{idsolicitudes}": {
+      "patch": {
+        "tags": [
+          "SolicitudesProduccion"
+        ],
+        "parameters": [
+          {
+            "name": "idsolicitudes",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int64"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Usuarios/listausuarios": {
+      "get": {
+        "tags": [
+          "Usuarios"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TblUsuario"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TblUsuario"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TblUsuario"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Usuarios/consultarusuario": {
+      "post": {
+        "tags": [
+          "Usuarios"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConsultaDeUsuario"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConsultaDeUsuario"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConsultaDeUsuario"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Usuarios/crearusuario": {
+      "post": {
+        "tags": [
+          "Usuarios"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CrearUsuarioDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CrearUsuarioDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CrearUsuarioDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Usuarios/permisosusuarios": {
+      "get": {
+        "tags": [
+          "Usuarios"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConsultaDeUsuario"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConsultaDeUsuario"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ConsultaDeUsuario"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Usuarios/actualizarusuarios": {
+      "put": {
+        "tags": [
+          "Usuarios"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UsuariosDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UsuariosDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/UsuariosDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Usuarios/eliminarusuarios/{id}": {
+      "patch": {
+        "tags": [
+          "Usuarios"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "ActualizarEquipoDto": {
+        "type": "object",
+        "properties": {
+          "idEquipo": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "tipo": {
+            "type": "string",
+            "nullable": true
+          },
+          "estado": {
+            "type": "boolean"
+          },
+          "descripcion": {
+            "type": "string",
+            "nullable": true
+          },
+          "zonaUbicacion": {
+            "type": "string",
+            "nullable": true
+          },
+          "restriccionEquipos": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ActualizarRestriccionEquiposDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "descripcion": {
+            "type": "string",
+            "nullable": true
+          },
+          "estado": {
+            "type": "boolean"
+          },
+          "idEquipo": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "tipoRestriccion": {
+            "type": "string",
+            "nullable": true
+          },
+          "idUnidadMedida": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "valor": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "prioridad": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idRestriccionLavados": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ActualizarRestriccionLavadoDto": {
+        "type": "object",
+        "properties": {
+          "idRestriccionLavados": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "descripción": {
+            "type": "string",
+            "nullable": true
+          },
+          "estado": {
+            "type": "boolean"
+          },
+          "idFamilia": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "tipoLavado": {
+            "type": "string",
+            "nullable": true
+          },
+          "frecuenciaLavado": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "tiempoLavado": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "prioridad": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ActualizarRoleDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nombre": {
+            "type": "string",
+            "nullable": true
+          },
+          "estado": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ActualizarRutaDto": {
+        "type": "object",
+        "properties": {
+          "idRuta": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "descripcion": {
+            "type": "string",
+            "nullable": true
+          },
+          "rutaElegida": {
+            "type": "string",
+            "nullable": true
+          },
+          "idSKU": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idListadoEquipos": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "tipoRuta": {
+            "type": "string",
+            "nullable": true
+          },
+          "idRestriccionRuta": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ConsultaDeUsuario": {
+        "type": "object",
+        "properties": {
+          "correoElectronico": {
+            "type": "string",
+            "nullable": true
+          },
+          "cedula": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CrearEquipoDto": {
+        "type": "object",
+        "properties": {
+          "tipo": {
+            "type": "string",
+            "nullable": true
+          },
+          "estado": {
+            "type": "boolean"
+          },
+          "descripcion": {
+            "type": "string",
+            "nullable": true
+          },
+          "zonaUbicacion": {
+            "type": "string",
+            "nullable": true
+          },
+          "restriccionEquipos": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CrearRestriccionEquiposDto": {
+        "type": "object",
+        "properties": {
+          "descripcion": {
+            "type": "string",
+            "nullable": true
+          },
+          "estado": {
+            "type": "boolean"
+          },
+          "idEquipo": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "tipoRestriccion": {
+            "type": "string",
+            "nullable": true
+          },
+          "idUnidadMedida": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "valor": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "prioridad": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idRestriccionLavado": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CrearRestriccionLavadoDto": {
+        "type": "object",
+        "properties": {
+          "descripción": {
+            "type": "string",
+            "nullable": true
+          },
+          "idFamilia": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "estado": {
+            "type": "boolean"
+          },
+          "prioridad": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "tipoLavado": {
+            "type": "string",
+            "nullable": true
+          },
+          "frecuenciaLavado": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "tiempoLavado": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CrearRoleDto": {
+        "type": "object",
+        "properties": {
+          "nombre": {
+            "type": "string",
+            "nullable": true
+          },
+          "estado": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CrearRutaDto": {
+        "type": "object",
+        "properties": {
+          "descripcion": {
+            "type": "string",
+            "nullable": true
+          },
+          "rutaElegida": {
+            "type": "string",
+            "nullable": true
+          },
+          "idSku": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "idListadoEquipos": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "tipoRuta": {
+            "type": "string",
+            "nullable": true
+          },
+          "idRestriccionRuta": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CrearUsuarioDto": {
+        "type": "object",
+        "properties": {
+          "correoElectronico": {
+            "type": "string",
+            "nullable": true
+          },
+          "cedula": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "nombre": {
+            "type": "string",
+            "nullable": true
+          },
+          "apellido": {
+            "type": "string",
+            "nullable": true
+          },
+          "cargo": {
+            "type": "string",
+            "nullable": true
+          },
+          "clave": {
+            "type": "string",
+            "nullable": true
+          },
+          "activo": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "DateOnly": {
+        "type": "object",
+        "properties": {
+          "year": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "month": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "day": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "dayOfWeek": {
+            "$ref": "#/components/schemas/DayOfWeek"
+          },
+          "dayOfYear": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "dayNumber": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "DayOfWeek": {
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "SolicitudInicioDeSesiónUsuario": {
+        "type": "object",
+        "properties": {
+          "correoElectronico": {
+            "type": "string",
+            "nullable": true
+          },
+          "clave": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "SolicitudProduccionDto": {
+        "type": "object",
+        "properties": {
+          "descripcion": {
+            "type": "string",
+            "nullable": true
+          },
+          "idSKU": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "semana": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "unidadesProducir": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "estado": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "TblEquipo": {
+        "type": "object",
+        "properties": {
+          "idEquipo": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "Tipo": {
+            "type": "string",
+            "nullable": true
+          },
+          "Estado": {
+            "type": "boolean"
+          },
+          "FechaCreacion": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "Descripcion": {
+            "type": "string",
+            "nullable": true
+          },
+          "ZonaUbicacion": {
+            "type": "string",
+            "nullable": true
+          },
+          "RestriccionEquipos": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "TblHistoriaProduccion": {
+        "type": "object",
+        "properties": {
+          "idHistorial": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "idRuta": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "cantidad": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "fecha": {
+            "$ref": "#/components/schemas/DateOnly"
+          },
+          "idRutaNavigation": {
+            "$ref": "#/components/schemas/TblRutum"
+          }
+        },
+        "additionalProperties": false
+      },
+      "TblListadoEquiposRutum": {
+        "type": "object",
+        "properties": {
+          "idListadoEquipos": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idEquipo": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "tblRuta": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TblRutum"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TblModulosUsuario": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idRol": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idUsuario": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idRolNavigation": {
+            "$ref": "#/components/schemas/TblRoles"
+          },
+          "idUsuarioNavigation": {
+            "$ref": "#/components/schemas/TblUsuario"
+          }
+        },
+        "additionalProperties": false
+      },
+      "TblPermiso": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nombre": {
+            "type": "string",
+            "nullable": true
+          },
+          "tblRolesPermisos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TblRolesPermiso"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TblRestriccionEquipo": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "descripcion": {
+            "type": "string",
+            "nullable": true
+          },
+          "estado": {
+            "type": "boolean"
+          },
+          "fechaCreacion": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "idEquipo": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "tipoRestriccion": {
+            "type": "string",
+            "nullable": true
+          },
+          "idUnidadMedida": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "valor": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "prioridad": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "idRestriccionLavados": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "idEquipoNavigation": {
+            "$ref": "#/components/schemas/TblEquipo"
+          },
+          "idRestriccionLavadosNavigation": {
+            "$ref": "#/components/schemas/TblRestriccionLavados"
+          },
+          "idUnidadMedidaNavigation": {
+            "$ref": "#/components/schemas/TblUnidadMedidum"
+          }
+        },
+        "additionalProperties": false
+      },
+      "TblRestriccionLavados": {
+        "type": "object",
+        "properties": {
+          "idRestriccionLavados": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "descripción": {
+            "type": "string",
+            "nullable": true
+          },
+          "estado": {
+            "type": "boolean"
+          },
+          "fechaCreacion": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "idFamilia": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "tipoLavado": {
+            "type": "string",
+            "nullable": true
+          },
+          "frecuenciaLavado": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "tiempoLavado": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "prioridad": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idFamiliaNavigation": {
+            "$ref": "#/components/schemas/TblSkufamilia"
+          },
+          "tblRestriccionEquipos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TblRestriccionEquipo"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TblRestriccionRutum": {
+        "type": "object",
+        "properties": {
+          "idRestriccionRuta": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "descripcion": {
+            "type": "string",
+            "nullable": true
+          },
+          "idEquipo": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "tipoRestriccion": {
+            "type": "string",
+            "nullable": true
+          },
+          "idUnidadMedida": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "valor": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "prioridad": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "idEquipoNavigation": {
+            "$ref": "#/components/schemas/TblEquipo"
+          },
+          "idUnidadMedidaNavigation": {
+            "$ref": "#/components/schemas/TblUnidadMedidum"
+          },
+          "tblRuta": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TblRutum"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TblRoles": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nombre": {
+            "type": "string",
+            "nullable": true
+          },
+          "estado": {
+            "type": "boolean"
+          },
+          "fechaCreacion": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "tblModulosUsuarios": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TblModulosUsuario"
+            },
+            "nullable": true
+          },
+          "tblRolesPermisos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TblRolesPermiso"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TblRolesPermiso": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idRol": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "idPermiso": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "idPermisoNavigation": {
+            "$ref": "#/components/schemas/TblPermiso"
+          },
+          "idRolNavigation": {
+            "$ref": "#/components/schemas/TblRoles"
+          }
+        },
+        "additionalProperties": false
+      },
+      "TblRutum": {
+        "type": "object",
+        "properties": {
+          "idRuta": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "descripcion": {
+            "type": "string",
+            "nullable": true
+          },
+          "rutaElegida": {
+            "type": "string",
+            "nullable": true
+          },
+          "fechaSolicitud": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "idSku": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "idListadoEquipos": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "tipoRuta": {
+            "type": "string",
+            "nullable": true
+          },
+          "idRestriccionRuta": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "idListadoEquiposNavigation": {
+            "$ref": "#/components/schemas/TblListadoEquiposRutum"
+          },
+          "idRestriccionRutaNavigation": {
+            "$ref": "#/components/schemas/TblRestriccionRutum"
+          },
+          "tblHistoriaProduccions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TblHistoriaProduccion"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TblSkufamilia": {
+        "type": "object",
+        "properties": {
+          "idFamilia": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nombreFamilia": {
+            "type": "string",
+            "nullable": true
+          },
+          "estado": {
+            "type": "boolean"
+          },
+          "fechaCreacion": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "tblRestriccionLavados": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TblRestriccionLavados"
+            },
+            "nullable": true
+          },
+          "tblSkumaestras": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TblSkumaestra"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TblSkumaestra": {
+        "type": "object",
+        "properties": {
+          "idSku": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "idFamilia": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "referencia": {
+            "type": "string",
+            "nullable": true
+          },
+          "estado": {
+            "type": "boolean"
+          },
+          "fechaCreacion": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "presentacion": {
+            "type": "string",
+            "nullable": true
+          },
+          "volumen": {
+            "type": "string",
+            "nullable": true
+          },
+          "idFamiliaNavigation": {
+            "$ref": "#/components/schemas/TblSkufamilia"
+          },
+          "tblSolicitudesProduccions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TblSolicitudesProduccion"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TblSolicitudesProduccion": {
+        "type": "object",
+        "properties": {
+          "idSolicitudes": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "descripcion": {
+            "type": "string",
+            "nullable": true
+          },
+          "idSku": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "semana": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "unidadesProducir": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "estado": {
+            "type": "boolean"
+          },
+          "fecha": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "idSkuNavigation": {
+            "$ref": "#/components/schemas/TblSkumaestra"
+          }
+        },
+        "additionalProperties": false
+      },
+      "TblUnidadMedidum": {
+        "type": "object",
+        "properties": {
+          "idUnidadMedida": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nombre": {
+            "type": "string",
+            "nullable": true
+          },
+          "tblRestriccionEquipos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TblRestriccionEquipo"
+            },
+            "nullable": true
+          },
+          "tblRestriccionRuta": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TblRestriccionRutum"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TblUsuario": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "correoElectronico": {
+            "type": "string",
+            "nullable": true
+          },
+          "cedula": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "nombre": {
+            "type": "string",
+            "nullable": true
+          },
+          "apellido": {
+            "type": "string",
+            "nullable": true
+          },
+          "cargo": {
+            "type": "string",
+            "nullable": true
+          },
+          "fechaIngreso": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "ultimoAcceso": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "clave": {
+            "type": "string",
+            "nullable": true
+          },
+          "activo": {
+            "type": "boolean"
+          },
+          "tblModulosUsuarios": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TblModulosUsuario"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UpdateSolicitudDeProduccionDto": {
+        "type": "object",
+        "properties": {
+          "idSolicitudes": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "descripcion": {
+            "type": "string",
+            "nullable": true
+          },
+          "idSKU": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "semana": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "unidadesProducir": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "estado": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UsuariosDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "cedula": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "nombre": {
+            "type": "string",
+            "nullable": true
+          },
+          "apellido": {
+            "type": "string",
+            "nullable": true
+          },
+          "cargo": {
+            "type": "string",
+            "nullable": true
+          },
+          "clave": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "apiKey",
+        "description": "Por favor, ingresa 'Bearer' [espacio] y tu token en el campo de texto a continuación. Ejemplo: \"Bearer 12345abcdef\"",
+        "name": "Authorization",
+        "in": "header"
+      }
+    }
+  },
+  "security": [
+    {
+      "Bearer": [ ]
+    }
+  ]
+}

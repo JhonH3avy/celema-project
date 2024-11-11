@@ -18,7 +18,10 @@ import { WashRestrictionComponent } from './features/general/wash-restriction/wa
 import { RoutePlanificationComponent } from './features/general/route-planification/route-planification.component';
 import { ProfileComponent } from './features/general/profile/profile.component';
 import { CoreModule } from './core/services/core.module';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ApiModule } from './core/services';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 
 @NgModule({
   declarations: [
@@ -42,9 +45,17 @@ import { FormsModule } from '@angular/forms';
     AppRoutingModule,
     AuthModule,
     CoreModule,
-    FormsModule
+    FormsModule,
+    ReactiveFormsModule,
+    ApiModule,
   ],
-  providers: [],
+  providers: [
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: AuthInterceptor,
+      multi: true
+    }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
