@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://62.146.180.148:81/api' // URL de la API para el entorno de desarrollo
+  apiUrl: 'http://62.146.180.148:81' // URL de la API para el entorno de desarrollo
 };
 
 /*
