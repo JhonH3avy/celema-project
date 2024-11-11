@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApiService } from 'src/app/core/services/api.service';
 import Swal from 'sweetalert2';
 import * as XLSX from 'xlsx';
+
+declare var bootstrap: any;
 
 @Component({
   selector: 'app-profile-admin',
@@ -29,10 +33,80 @@ export class ProfileAdminComponent implements OnInit {
     { id: 5, name: 'Temporal' },
   ];
 
-  constructor(private apiService: ApiService) { }
+  Form: FormGroup;
+  modalRef: any;
+
+  constructor(private apiService: ApiService, private fb: FormBuilder, private modalService: NgbModal) {
+    this.Form = this.fb.group({
+      cedula: ['', [Validators.required]],
+      nombres: ['', [Validators.required]],
+      apellidos: ['', [Validators.required]],
+      cargo: ['', [Validators.required]],
+      correo: ['', [Validators.required, Validators.email]],
+    });
+  }
 
   ngOnInit(): void {
     this.getData();
+  }
+
+  onSubmit(): void {
+
+    const formData = {
+      cedula: this.Form.value.cedula,
+      nombre: this.Form.value.nombres,
+      apellido: this.Form.value.apellidos,
+      cargo: this.Form.value.cargo,
+      correoElectronico: this.Form.value.correo,
+      clave: this.Form.value.cedula,
+      activo: true,
+    };
+    this.apiService.postBearer('Usuarios/crearusuario', formData).subscribe({
+      next: (response) => {
+        this.onResetForm();
+        this.closeModal();
+        this.getData();
+        Swal.fire('Perfil creado', 'El usuario se ha creado exitosamente.', 'success');
+      },
+      error: (error) => {
+        Swal.fire('Error', 'Hubo un error al crear el perfil.', 'error');
+      }
+      });
+  }
+
+  desacticarUsuario(id: any){
+
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: 'Desactivar el usuario',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, desactivar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+
+        const formData = {
+          id: id,
+          activo: false,
+        };
+        this.apiService.put('Usuarios/actualizarusuarios', formData).subscribe({
+          next: (response) => {
+            this.getData();
+            Swal.fire(
+              'Desactivado!',
+              'El usuario se desactivo con exito.',
+              'success'
+            );
+          },
+          error: (error) => {
+            Swal.fire('Error', 'Hubo un error al desactivar el perfil.', 'error');
+          }
+          });
+      }
+    });
   }
 
   getProfileAccessStyle(access: string): string[] {
@@ -43,6 +117,18 @@ export class ProfileAdminComponent implements OnInit {
       default: return [];
     }
   }
+
+  closeModal(): void {
+    const closeButton = document.querySelector('[data-bs-dismiss="modal"]') as HTMLButtonElement;
+    if (closeButton) {
+      closeButton.click();  // 'click' ahora está disponible
+    }
+  }
+
+  onResetForm() {
+    this.Form.reset();
+  }
+
 
   clearData(){
     this.currentPage = 1;
@@ -121,6 +207,60 @@ export class ProfileAdminComponent implements OnInit {
     XLSX.utils.book_append_sheet(wb, ws, 'Perfiles');
 
     XLSX.writeFile(wb, 'perfiles.xlsx');
+  }
+
+  previewImage(event:any) {
+    const photoPreview = document.getElementById('photoPreview') as HTMLImageElement;
+    const file = event.target.files[0];
+
+    if (photoPreview && file) {  // Verifica que photoPreview exista y que file no sea null
+      const reader = new FileReader();
+      reader.onload = function(e) {
+        photoPreview.src = e.target?.result as string;
+      };
+      reader.readAsDataURL(file);
+    }
+  }
+
+  get cedula() {
+    return this.Form.get('cedula');
+  }
+
+  get nombres() {
+    return this.Form.get('nombres');
+  }
+
+  get apellidos() {
+    return this.Form.get('apellidos');
+  }
+
+  get cargo() {
+    return this.Form.get('cargo');
+  }
+
+  get correo() {
+    return this.Form.get('correo');
+  }
+
+  exportUser(user: any): void {
+    const userData = [
+      {
+        'Nombre': user.nombre,
+        'Apellido': user.apellido,
+        'Correo Electrónico': user.correoElectronico,
+        'Fecha de Ingreso': user.fechaIngreso,
+        'Último Acceso': user.ultimoAcceso
+      }
+    ];
+
+    console.log("Datos",userData);
+
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(userData);
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Perfil de Usuario');
+
+    XLSX.writeFile(wb, `${user.nombre}_${user.apellido}_perfil.xlsx`)
+
   }
 }
 

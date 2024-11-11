@@ -10,31 +10,27 @@ export class IdleService {
   private idleTimeout: any;
   private warningTimeout: any;
   private idleTime = 0;
-  public isIdle = new BehaviorSubject<boolean>(false);  // Si el usuario está inactivo
+  public isIdle = new BehaviorSubject<boolean>(false);
 
   constructor(private router: Router) {
     this.resetIdleTimer();
   }
 
-  // Método para resetear el temporizador de inactividad
   resetIdleTimer() {
     this.idleTime = 0;
     this.isIdle.next(false);
     clearTimeout(this.idleTimeout);
     clearTimeout(this.warningTimeout);
 
-    // Resetear después de 5 minutos de inactividad
     this.idleTimeout = setTimeout(() => {
-      this.isIdle.next(true);  // Indicamos que el usuario está inactivo
-    }, 300000);  // 5 minutos (300000ms)
+      this.isIdle.next(true);
+    }, 300000);
 
-    // Mostrar modal de advertencia después de 2 minutos
     this.warningTimeout = setTimeout(() => {
       this.showInactivityModal();
-    }, 120000);  // 2 minutos (120000ms)
+    }, 120000);
   }
 
-  // Mostrar el modal para confirmar si el usuario sigue activo
   private showInactivityModal() {
     Swal.fire({
       title: '¿Sigues ahí?',
@@ -45,19 +41,16 @@ export class IdleService {
       cancelButtonText: 'No, cerrar sesión'
     }).then((result) => {
       if (result.isConfirmed) {
-        // Si el usuario acepta, resetear la inactividad
         this.resetIdleTimer();
       } else {
-        // Si el usuario decide cerrar sesión, cerrar sesión automáticamente
         this.logout();
       }
     });
   }
 
-  // Método para cerrar sesión automáticamente
   logout() {
     clearTimeout(this.idleTimeout);
     clearTimeout(this.warningTimeout);
-    this.router.navigate(['/login']);  // Redirigir a la página de login
+    this.router.navigate(['/login']);
   }
 }

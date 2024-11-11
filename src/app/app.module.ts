@@ -22,6 +22,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ApiModule } from './core/services';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import { AuthInterceptor } from './core/interceptors/auth.interceptor';
       useClass: AuthInterceptor,
       multi: true
     }
+    NgbModule
   ],
   bootstrap: [AppComponent]
 })

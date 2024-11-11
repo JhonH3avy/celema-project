@@ -74,8 +74,8 @@
             </button>
             <ul class="dropdown-menu">
               <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#updateProfileModal"><i class="bi bi-key"></i> Modificar permisos</a></li>
-              <li><a class="dropdown-item" href="#"><i class="bi bi-file-earmark-break"></i> Exportar</a></li>
-              <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#deleteProfileModal"><i class="bi bi-trash"></i> Eliminar usuario</a></li>
+              <li><a class="dropdown-item" (click)="exportUser(profile)"><i class="bi bi-file-earmark-break"></i> Exportar</a></li>
+              <li><a class="dropdown-item" (click)="desacticarUsuario(profile.id)"><i class="bi bi-slash-circle"></i> Desactivar usuario</a></li>
             </ul>
           </div>
         </td>
@@ -110,54 +110,73 @@
   </div>
 
   <!-- Modal nuevo usuario -->
-  <div class="modal fade" id="createProfileModal" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
+  <div class="modal fade" id="createProfileModal" tabindex="-1" aria-labelledby="createProfileModalLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header vstack gap-3">
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          <img class="big-profile-image" src="./assets/img/profile_image_placeholder.jpg" alt="profile picture">
+          <div class="d-flex flex-column align-items-center">
+            <img id="photoPreview" class="big-profile-image mt-2" src="./assets/img/profile_image_placeholder.jpg" alt="profile picture" style="width: 100px; height: 100px; object-fit: cover; border-radius: 50%;">
+            <label for="uploadPhoto" class="upload-icon" style="cursor: pointer;">
+              <span class="add-icon">+</span>
+              <i class="bi bi-camera" style="font-size: 1.5rem;"></i>
+              <input type="file" id="uploadPhoto" accept="image/*" (change)="previewImage($event)" style="display: none;">
+            </label>
+          </div>
         </div>
         <div class="modal-body">
-          <form id="createProfileForm">
-            <div class="mb-5 row">
-              <label for="cedula" class="col-sm-3 col-form-label">Cédula</label>
-              <div class="col-sm-7">
-                <input type="text" class="form-control bg-light" id="cedula" required>
+          <form [formGroup]="Form" (ngSubmit)="onSubmit()">
+            <!-- Cédula -->
+            <div class="mb-3">
+              <label for="cedula" class="form-label">Cédula</label>
+              <input type="text" class="form-control" id="cedula" formControlName="cedula" [ngClass]="{'is-invalid': cedula?.touched && cedula?.invalid}" name="cedula" required>
+              <div *ngIf="cedula?.invalid && cedula?.touched" class="text-danger">
+                La cédula es requerida.
               </div>
             </div>
 
-            <div class="mb-5 row">
-              <label for="nombres" class="col-sm-3 col-form-label">Nombres</label>
-              <div class="col-sm-7">
-                <input type="text" class="form-control bg-light" id="nombres" required>
+            <!-- Nombres -->
+            <div class="mb-3">
+              <label for="nombres" class="form-label">Nombres</label>
+              <input type="text" class="form-control" id="nombres" formControlName="nombres" [ngClass]="{'is-invalid': cedula?.touched && cedula?.invalid}" required>
+              <div *ngIf="nombres?.invalid && nombres?.touched" class="text-danger">
+                El nombre es requerido.
               </div>
             </div>
 
-            <div class="mb-3 row">
-              <label for="apellidos" class="col-sm-3 col-form-label">Apellidos</label>
-              <div class="col-sm-9">
-                <input type="text" class="form-control bg-light" id="apellidos" required>
+            <!-- Apellidos -->
+            <div class="mb-3">
+              <label for="apellidos" class="form-label">Apellidos</label>
+              <input type="text" class="form-control" id="apellidos" formControlName="apellidos" [ngClass]="{'is-invalid': cedula?.touched && cedula?.invalid}" required>
+              <div *ngIf="apellidos?.invalid && apellidos?.touched" class="text-danger">
+                Los apellidos son requeridos.
               </div>
             </div>
 
-            <div class="mb-3 row">
-              <label for="cargo" class="col-sm-3 col-form-label">Cargo</label>
-              <div class="col-sm-9">
-                <input type="text" class="form-control bg-light" id="cargo" required>
+            <!-- Cargo -->
+            <div class="mb-3">
+              <label for="cargo" class="form-label">Cargo</label>
+              <input type="text" class="form-control" id="cargo" formControlName="cargo" [ngClass]="{'is-invalid': cedula?.touched && cedula?.invalid}" required>
+              <div *ngIf="cargo?.invalid && cargo?.touched" class="text-danger">
+                El cargo es requerido.
               </div>
             </div>
 
-            <div class="mb-3 row">
-              <label for="correo" class="col-sm-3 col-form-label">Correo</label>
-              <div class="col-sm-9">
-                <input type="email" class="form-control bg-light" id="correo" required>
+            <!-- Correo Electrónico -->
+            <div class="mb-3">
+              <label for="correo" class="form-label">Correo Electrónico</label>
+              <input type="email" class="form-control" id="correo" formControlName="correo" [ngClass]="{'is-invalid': cedula?.touched && cedula?.invalid}" required email>
+              <div *ngIf="correo?.invalid && correo?.touched" class="text-danger">
+                <div *ngIf="correo?.errors?.['required']">El correo electrónico es requerido.</div>
+                <div *ngIf="correo?.errors?.['email']">Por favor ingrese un correo electrónico válido.</div>
               </div>
+            </div>
+
+            <div class="modal-footer d-flex justify-content-center">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+              <button type="submit" class="btn btn-primary" [disabled]="Form.invalid">Crear</button>
             </div>
           </form>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-          <button type="button" class="btn btn-primary" data-bs-target="#changeSuccessfulModal" data-bs-toggle="modal">Aplicar</button>
         </div>
       </div>
     </div>
