@@ -50,6 +50,6 @@ export class MenuComponent implements OnInit {
 
   openMenuDropdown(dropdownMenuElement: HTMLElement): void {
     const drowpDown = new bootstrap.Dropdown(dropdownMenuElement);
-    drowpDown.show();
+    drowpDown.toggle();
   }
 }

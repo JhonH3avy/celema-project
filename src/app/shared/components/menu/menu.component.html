@@ -13,10 +13,10 @@
       <a routerLink="/home">Tablero de Control</a>
 
       <div class="dropdown" *ngIf="userHasAccess('consultas')">
-        <a class="dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <a class="dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" (click)="openMenuDropdown(consultasDropdown)">
           Consultas
         </a>
-        <ul class="dropdown-menu">
+        <ul class="dropdown-menu" #consultasDropdown>
           <li><a class="dropdown-item" routerLink="/administracion-familia-productos">Familia Productos</a></li>
           <li><a class="dropdown-item" routerLink="/administracion-productos">Administración de Productos</a></li>
           <li><a class="dropdown-item" routerLink="/administracion-equipos">Maquinarias y Equipos</a></li>
@@ -27,10 +27,10 @@
       </div>
 
       <div class="dropdown" *ngIf="userHasAccess('produccion')">
-        <a class="dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false">
+        <a class="dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" (click)="openMenuDropdown(produccionDropdown)">
           Plan de Producción
         </a>
-        <ul class="dropdown-menu">
+        <ul class="dropdown-menu" #produccionDropdown>
           <li><a class="dropdown-item" routerLink="/restriccion-lavados">Restricciones de lavado</a></li>
           <li><a class="dropdown-item" routerLink="/restriccion-equipos">Restricciones de equipos</a></li>
           <li><a class="dropdown-item" routerLink="/planificacion-rutas">Equipos por rutas</a></li>
@@ -64,6 +64,7 @@
             </a>
             <ul class="dropdown-menu">
               <li><a routerLink="/administracion-perfiles">Administración de perfiles</a></li>
+              <li><a routerLink="/administracion-roles">Administración de roles</a></li>
             </ul>
           </li>
 
