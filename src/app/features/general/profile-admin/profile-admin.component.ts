@@ -4,8 +4,7 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { ApiService } from 'src/app/core/services/api.service';
 import Swal from 'sweetalert2';
 import * as XLSX from 'xlsx';
-
-declare var bootstrap: any;
+import * as bootstrap from 'bootstrap';
 
 @Component({
   selector: 'app-profile-admin',
@@ -61,7 +60,7 @@ export class ProfileAdminComponent implements OnInit {
       clave: this.Form.value.cedula,
       activo: true,
     };
-    this.apiService.postBearer('Usuarios/crearusuario', formData).subscribe({
+    this.apiService.postBearer('api/Usuarios/crearusuario', formData).subscribe({
       next: (response) => {
         this.onResetForm();
         this.closeModal();
@@ -92,7 +91,7 @@ export class ProfileAdminComponent implements OnInit {
           id: id,
           activo: false,
         };
-        this.apiService.put('Usuarios/actualizarusuarios', formData).subscribe({
+        this.apiService.put('api/Usuarios/actualizarusuarios', formData).subscribe({
           next: (response) => {
             this.getData();
             Swal.fire(
@@ -137,7 +136,7 @@ export class ProfileAdminComponent implements OnInit {
   }
 
   getData() {
-    this.apiService.get('Usuarios/listausuarios').subscribe({
+    this.apiService.get('api/Usuarios/listausuarios').subscribe({
       next: (response: any) => {
         this.data = response.datos;
         this.filteredData = this.data;  // Inicializa la data filtrada con todos los datos
@@ -261,6 +260,11 @@ export class ProfileAdminComponent implements OnInit {
 
     XLSX.writeFile(wb, `${user.nombre}_${user.apellido}_perfil.xlsx`)
 
+  }
+
+  openDropdown(element: HTMLElement): void {
+    const dropdown = new bootstrap.Dropdown(element);
+    dropdown.show();
   }
 }
 
