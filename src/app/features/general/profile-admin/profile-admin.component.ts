@@ -264,7 +264,7 @@ export class ProfileAdminComponent implements OnInit {
 
   openDropdown(element: HTMLElement): void {
     const dropdown = new bootstrap.Dropdown(element);
-    dropdown.show();
+    dropdown.toggle();
   }
 }
 
