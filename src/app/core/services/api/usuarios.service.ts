@@ -98,14 +98,18 @@ export class UsuariosService {
     }
 
     /**
+     * @param id
      * @param usuariosDto
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public apiUsuariosActualizarusuariosPut(usuariosDto?: UsuariosDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
-    public apiUsuariosActualizarusuariosPut(usuariosDto?: UsuariosDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
-    public apiUsuariosActualizarusuariosPut(usuariosDto?: UsuariosDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
-    public apiUsuariosActualizarusuariosPut(usuariosDto?: UsuariosDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public apiUsuariosActualizarUsuarioIdPut(id: number, usuariosDto?: UsuariosDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
+    public apiUsuariosActualizarUsuarioIdPut(id: number, usuariosDto?: UsuariosDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
+    public apiUsuariosActualizarUsuarioIdPut(id: number, usuariosDto?: UsuariosDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
+    public apiUsuariosActualizarUsuarioIdPut(id: number, usuariosDto?: UsuariosDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
+        if (id === null || id === undefined) {
+            throw new Error('Required parameter id was null or undefined when calling apiUsuariosActualizarUsuarioIdPut.');
+        }
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -160,7 +164,7 @@ export class UsuariosService {
             }
         }
 
-        let localVarPath = `/api/Usuarios/actualizarusuarios`;
+        let localVarPath = `/api/Usuarios/ActualizarUsuario/${this.configuration.encodeParam({name: "id", value: id, in: "path", style: "simple", explode: false, dataType: "number", dataFormat: "int32"})}`;
         return this.httpClient.request<any>('put', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,

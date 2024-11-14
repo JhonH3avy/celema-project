@@ -40,7 +40,8 @@
             ],
             "allowedCommonJsDependencies": [
               "sweetalert2"
-            ]
+            ],
+            "sourceMap": true
           },
           "configurations": {
             "production": {

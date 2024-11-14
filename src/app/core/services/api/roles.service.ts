@@ -456,7 +456,7 @@ export class RolesService {
         }
 
         let localVarPath = `/api/Roles/listaroles`;
-        return this.httpClient.request<any>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<Array<TblRoles>>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,

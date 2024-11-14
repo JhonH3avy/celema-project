@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { UsuariosDto, UsuariosService } from 'src/app/core/services';
 import { jwtDecode } from 'jwt-decode';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { matchValidator } from 'src/app/core/validators/match.validator';
 import * as bootstrap from 'bootstrap';
 
@@ -55,37 +55,48 @@ export class ProfileComponent implements OnInit {
     private usuariosService: UsuariosService,
     private fb: FormBuilder,
     private router: Router,
+    private activatedRoute: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
-    const token = localStorage.getItem('authToken') ?? '';
-    let decodedToken: any;
-    try {
-      decodedToken = jwtDecode(token);
-    } catch (error) {
-      console.error('Token invalido:', error);
-      return;
-    }
-    const consultaUsuario = {
-      correoElectronico: decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/userdata'],
-    } as ConsultaDeUsuario;
-    this.usuariosService.apiUsuariosConsultarusuarioPost(consultaUsuario)
-      .subscribe(
-        response => this.handleGetUserResponse(response.datos),
-        error => console.error(error)
-      );
+    this.activatedRoute.queryParams.subscribe(params => {
+      const paramEmail = params['email'];
+      const paramToken = params['token'];
+      if (paramToken) {
+        localStorage.removeItem('authToken');
+        localStorage.setItem('tempToken', paramToken);
+      }
+      const token = !paramToken ? localStorage.getItem('authToken') : paramToken;
+      let decodedToken: any;
+      try {
+        decodedToken = jwtDecode(token);
+      } catch (error) {
+        console.error('Token invalido:', error);
+        return;
+      }
+      const decodedEmail = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/userdata'];
+      const userEmail = !decodedEmail ? paramEmail : decodedEmail;
+      const consultaUsuario = {
+        correoElectronico: userEmail,
+      } as ConsultaDeUsuario;
+      this.usuariosService.apiUsuariosConsultarusuarioPost(consultaUsuario)
+        .subscribe(
+          response => this.handleGetUserResponse(response.datos),
+          error => console.error(error)
+        );
+    });
 
-      this.newPassword.valueChanges
-        .subscribe(newPassword => {
-          if (newPassword && !this.newPassword.hasValidator(Validators.minLength(6)) && !this.newPassword.hasValidator(Validators.pattern("[^a-zA-Z0-9]"))) {
-            this.newPassword.addValidators([Validators.minLength(6), Validators.pattern("[^a-zA-Z0-9]")]);
-            this.newPassword.updateValueAndValidity({emitEvent: false});
-            this.profileControlGroup.addValidators(matchValidator('confirmPassword', 'newPassword'));
-          } else if (!newPassword) {
-            this.newPassword.clearValidators();
-            this.profileControlGroup.removeValidators(matchValidator('confirmPassword', 'newPassword'));
-          }
-        });
+    this.newPassword.valueChanges
+      .subscribe(newPassword => {
+        if (newPassword && !this.newPassword.hasValidator(Validators.minLength(6)) && !this.newPassword.hasValidator(Validators.pattern("[^a-zA-Z0-9]"))) {
+          this.newPassword.addValidators([Validators.minLength(6), Validators.pattern("[^a-zA-Z0-9]")]);
+          this.newPassword.updateValueAndValidity({emitEvent: false});
+          this.profileControlGroup.addValidators(matchValidator('confirmPassword', 'newPassword'));
+        } else if (!newPassword) {
+          this.newPassword.clearValidators();
+          this.profileControlGroup.removeValidators(matchValidator('confirmPassword', 'newPassword'));
+        }
+      });
   }
 
   async goBackToHome(): Promise<void> {
@@ -98,7 +109,7 @@ export class ProfileComponent implements OnInit {
   saveChanges(successModalElement: HTMLElement, failureModalElement: HTMLElement): void {
     const successModal = new bootstrap.Modal(successModalElement);
     const failureModal = new bootstrap.Modal(failureModalElement);
-    this.usuariosService.apiUsuariosActualizarusuariosPut(this.usuarioDto)
+    this.usuariosService.apiUsuariosActualizarUsuarioIdPut(this.currentUserId!, this.usuarioDto)
       .subscribe(
         response => {
           if (response.datos) {

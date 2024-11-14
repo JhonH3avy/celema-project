@@ -10,11 +10,12 @@
 
 
 export interface UsuariosDto { 
-    id?: number;
     cedula?: number | null;
     nombre?: string | null;
     apellido?: string | null;
     cargo?: string | null;
     clave?: string | null;
+    activo?: boolean;
+    roles?: Array<number> | null;
 }
 

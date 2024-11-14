@@ -7,6 +7,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { TblUsuarioRol } from './tblUsuarioRol';
 import { TblModulosUsuario } from './tblModulosUsuario';
 
 
@@ -22,5 +23,6 @@ export interface TblUsuario {
     clave?: string | null;
     activo?: boolean;
     tblModulosUsuarios?: Array<TblModulosUsuario> | null;
+    tblUsuarioRoles?: Array<TblUsuarioRol> | null;
 }
 

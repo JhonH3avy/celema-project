@@ -8,6 +8,7 @@
  * Do not edit the class manually.
  */
 import { TblRolesPermiso } from './tblRolesPermiso';
+import { TblUsuarioRol } from './tblUsuarioRol';
 import { TblModulosUsuario } from './tblModulosUsuario';
 
 
@@ -18,5 +19,6 @@ export interface TblRoles {
     fechaCreacion?: string;
     tblModulosUsuarios?: Array<TblModulosUsuario> | null;
     tblRolesPermisos?: Array<TblRolesPermiso> | null;
+    tblUsuarioRoles?: Array<TblUsuarioRol> | null;
 }
 

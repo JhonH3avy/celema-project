@@ -12,7 +12,6 @@ export class AuthInterceptor implements HttpInterceptor {
   intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
     // Get the token from the auth service
     const token = localStorage.getItem('authToken');
-
     // Clone the request and set the Authorization header if the token exists
     let authReq = req;
     if (token) {
@@ -21,6 +20,15 @@ export class AuthInterceptor implements HttpInterceptor {
           Authorization: `Bearer ${token}`
         }
       });
+    } else if (req.url.match(/\/ActualizarUsuario\/[\d]+/i) !== null && req.method === 'PUT') {
+      const temporalToken = localStorage.getItem('tempToken');
+      if (temporalToken) {
+        authReq = req.clone({
+          setHeaders: {
+            Authorization: `Bearer ${token}`
+          }
+        });
+      }
     }
 
     // Pass the cloned request instead of the original request to the next handler

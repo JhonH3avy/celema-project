@@ -9,14 +9,7 @@
  */
 
 
-export interface CrearUsuarioDto { 
+export interface RestablecerClaveDto { 
     correoElectronico?: string | null;
-    cedula?: number | null;
-    nombre?: string | null;
-    apellido?: string | null;
-    cargo?: string | null;
-    clave?: string | null;
-    activo?: boolean;
-    roles?: Array<number> | null;
 }
 

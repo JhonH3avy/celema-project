@@ -1,5 +1,4 @@
 .gitignore
-.openapi-generator-ignore
 README.md
 api.module.ts
 api/api.ts
@@ -32,6 +31,7 @@ model/crearUsuarioDto.ts
 model/dateOnly.ts
 model/dayOfWeek.ts
 model/models.ts
+model/restablecerClaveDto.ts
 model/solicitudInicioDeSesinUsuario.ts
 model/solicitudProduccionDto.ts
 model/tblEquipo.ts
@@ -50,6 +50,7 @@ model/tblSkumaestra.ts
 model/tblSolicitudesProduccion.ts
 model/tblUnidadMedidum.ts
 model/tblUsuario.ts
+model/tblUsuarioRol.ts
 model/updateSolicitudDeProduccionDto.ts
 model/usuariosDto.ts
 param.ts

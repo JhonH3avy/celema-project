@@ -4,6 +4,7 @@ import * as bootstrap from 'bootstrap';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as XLSX from 'xlsx';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-role-admin',
@@ -136,7 +137,7 @@ export class RoleAdminComponent implements OnInit {
     this.modalService.open(modalContent, { ariaLabelledBy: 'modalTitle' });
   }
 
-  saveRoleChanges(successModalContent: any): void {
+  saveRoleChanges(): void {
     const updateRole = {
       id: this.currentRoleId,
       nombre: this.nombre.value,
@@ -150,7 +151,11 @@ export class RoleAdminComponent implements OnInit {
             this.roles = [createdRole, ...this.roles];
             this.filterData('');
             this.modalService.dismissAll();
-            this.modalService.open(successModalContent);
+            Swal.fire(
+              `¡Creación exitosa!`,
+              `El usuario se creó con éxito.`,
+              'success'
+            );
             this.rolesCount = this.filteredData.length;
             this.totalPages = Math.ceil(this.rolesCount / this.itemsPerPage);
             this.updatePagination();
@@ -164,7 +169,11 @@ export class RoleAdminComponent implements OnInit {
             this.roles = [updateRole, ...this.roles.filter(x => x.id !== this.currentRoleId)];
             this.filterData('');
             this.modalService.dismissAll();
-            this.modalService.open(successModalContent);
+            Swal.fire(
+              `¡Actualización exitosa!`,
+              `El usuario se actualizó con éxito.`,
+              'success'
+            );
             this.rolesCount = this.filteredData.length;
             this.totalPages = Math.ceil(this.rolesCount / this.itemsPerPage);
             this.updatePagination();
@@ -177,7 +186,7 @@ export class RoleAdminComponent implements OnInit {
     }
   }
 
-  toggleRoleStatus(id: number, status: boolean, modalContent: any): void {
+  toggleRoleStatus(id: number, status: boolean): void {
     const role = this.roles.find(x => x.id === id);
     const updateRole = {
       id: role?.id,
@@ -190,7 +199,12 @@ export class RoleAdminComponent implements OnInit {
           const roleUpdated = this.roles.find(x => x.id === role!.id);
           roleUpdated!.estado = status;
           this.filterData('');
-          this.modalService.open(modalContent);
+          const newStatus = status ? 'Activado' : 'Desactivado';
+          Swal.fire(
+            `${newStatus}!`,
+            `El usuario fue ${newStatus.toLocaleLowerCase()} con éxito.`,
+            'success'
+          );
         },
         error => {
           console.error(error);
@@ -222,7 +236,6 @@ export class RoleAdminComponent implements OnInit {
     const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.paginatedData);
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Roles');
-
     XLSX.writeFile(wb, 'roles.xlsx');
   }
 
