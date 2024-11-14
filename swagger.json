@@ -324,15 +324,25 @@
         "tags": [
           "Login"
         ],
-        "parameters": [
-          {
-            "name": "correoElectronico",
-            "in": "query",
-            "schema": {
-              "type": "string"
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RestablecerClaveDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/RestablecerClaveDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/RestablecerClaveDto"
+              }
             }
           }
-        ],
+        },
         "responses": {
           "200": {
             "description": "Success"
@@ -1455,10 +1465,21 @@
         }
       }
     },
-    "/api/Usuarios/actualizarusuarios": {
+    "/api/Usuarios/ActualizarUsuario/{id}": {
       "put": {
         "tags": [
           "Usuarios"
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
         ],
         "requestBody": {
           "content": {
@@ -1856,6 +1877,14 @@
           },
           "activo": {
             "type": "boolean"
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -1903,6 +1932,16 @@
         ],
         "type": "integer",
         "format": "int32"
+      },
+      "RestablecerClaveDto": {
+        "type": "object",
+        "properties": {
+          "correoElectronico": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
       },
       "SolicitudInicioDeSesiónUsuario": {
         "type": "object",
@@ -2262,6 +2301,13 @@
               "$ref": "#/components/schemas/TblRolesPermiso"
             },
             "nullable": true
+          },
+          "tblUsuarioRoles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TblUsuarioRol"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -2537,6 +2583,33 @@
               "$ref": "#/components/schemas/TblModulosUsuario"
             },
             "nullable": true
+          },
+          "tblUsuarioRoles": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TblUsuarioRol"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TblUsuarioRol": {
+        "type": "object",
+        "properties": {
+          "usuariosId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "usuario": {
+            "$ref": "#/components/schemas/TblUsuario"
+          },
+          "rolesId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "role": {
+            "$ref": "#/components/schemas/TblRoles"
           }
         },
         "additionalProperties": false
@@ -2573,10 +2646,6 @@
       "UsuariosDto": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
           "cedula": {
             "type": "integer",
             "format": "int32",
@@ -2596,6 +2665,17 @@
           },
           "clave": {
             "type": "string",
+            "nullable": true
+          },
+          "activo": {
+            "type": "boolean"
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            },
             "nullable": true
           }
         },
