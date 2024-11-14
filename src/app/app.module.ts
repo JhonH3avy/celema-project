@@ -22,6 +22,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { ApiModule } from './core/services';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
+import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
 @NgModule({
@@ -39,7 +41,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     EquipmentRestrictionComponent,
     WashRestrictionComponent,
     RoutePlanificationComponent,
-    ProfileComponent
+    ProfileComponent,
   ],
   imports: [
     BrowserModule,
@@ -49,6 +51,9 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     FormsModule,
     ReactiveFormsModule,
     ApiModule,
+    SweetAlert2Module.forRoot(),
+    BrowserAnimationsModule,
+    NgbModule,
   ],
   providers: [
     {
@@ -56,7 +61,6 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
       useClass: AuthInterceptor,
       multi: true
     },
-    NgbModule
   ],
   bootstrap: [AppComponent]
 })
