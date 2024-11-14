@@ -53,14 +53,14 @@
         </td>
         <td class="text-secondary text-center">{{ role.fechaCreacion | date:'dd/MM/yyyy' }}</td>
         <td>
-          <div class="dropdown">
-            <button type="button" class="btn btn-outline-secondary" aria-expanded="false" (click)="toggleDropdown(dropdownMenu)">
+          <div ngbDropdown>
+            <button type="button" ngbDropdownToggle class="btn btn-outline-secondary">
               <i class="bi bi-three-dots-vertical"></i>
             </button>
-            <ul class="dropdown-menu" #dropdownMenu>
+            <ul class="dropdown-menu" ngbDropdownMenu>
               <li><a class="dropdown-item" type="button" (click)="openUpdateRoleModal(role.id!, roleUpdateModal)"><i class="bi bi-pencil"></i> Modificar rol</a></li>
-              <li *ngIf="role.estado"><a class="dropdown-item" type="button" (click)="toggleRoleStatus(role.id!, false, changeSuccessfulModal)"><i class="bi bi-power"></i> Inactivar rol</a></li>
-              <li *ngIf="!role.estado"><a class="dropdown-item" type="button" (click)="toggleRoleStatus(role.id!, true, changeSuccessfulModal)"><i class="bi bi-power"></i> Activar rol</a></li>
+              <li *ngIf="role.estado"><a class="dropdown-item" type="button" (click)="toggleRoleStatus(role.id!, false)"><i class="bi bi-power"></i> Inactivar rol</a></li>
+              <li *ngIf="!role.estado"><a class="dropdown-item" type="button" (click)="toggleRoleStatus(role.id!, true)"><i class="bi bi-power"></i> Activar rol</a></li>
             </ul>
           </div>
         </td>
@@ -180,21 +180,7 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" (click)="roleUpdateModal.dismiss('Close click')">Cancelar</button>
-        <button type="button" class="btn btn-primary" (click)="saveRoleChanges(changeSuccessfulModal)">Asignar</button>
-      </div>
-    </div>
-  </ng-template>
-
-  <ng-template #content let-changeSuccessfulModal #changeSuccessfulModal tabindex="-1">
-    <div class="modal-content">
-      <div class="modal-header vstack gap-3">
-        <button type="button" class="btn-close" aria-label="Close" (click)="changeSuccessfulModal.dismiss('Close click')"></button>
-        <i class="bi bi-check-circle fs-1 text-success"></i>
-      </div>
-      <div class="modal-body">
-        <div class="text-center">
-          Cambios realizados.
-        </div>
+        <button type="button" class="btn btn-primary" (click)="saveRoleChanges()">Asignar</button>
       </div>
     </div>
   </ng-template>
