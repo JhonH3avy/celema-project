@@ -26,7 +26,7 @@ export class AuthInterceptor implements HttpInterceptor {
       if (temporalToken) {
         authReq = req.clone({
           setHeaders: {
-            Authorization: `Bearer ${token}`
+            Authorization: `Bearer ${temporalToken}`
           }
         });
       }
