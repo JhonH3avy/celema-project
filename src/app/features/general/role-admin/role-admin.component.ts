@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActualizarRoleDto, RolesService, TblRoles } from 'src/app/core/services';
+import { ActualizarRoleDto, ModulosRolesPermisosService, RolesService, TblModulos, TblPermiso, TblRoles } from 'src/app/core/services';
 import * as bootstrap from 'bootstrap';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
@@ -20,7 +20,6 @@ export class RoleAdminComponent implements OnInit {
   roles: TblRoles[] = [];
 
   roleFormGroup: FormGroup;
-  currentRoleId = 0;
   itemsPerPage = 10;
   rolesCount = 0;
 
@@ -29,20 +28,11 @@ export class RoleAdminComponent implements OnInit {
 
   searchQuery = new FormControl();
 
-  permissionByModules = [
-    {
-      id: 1,
-      module: 'Consultas',
-    },
-    {
-      id: 2,
-      module: 'Plan de producción',
-    },
-    {
-      id: 3,
-      module: 'Administración de usuarios',
-    },
-  ];
+  moduleList: TblModulos[] = [];
+  permissionList: TblPermiso[] = [];
+
+  currentRoleId = 0;
+  currentRoleModulePermissions: {id: number, idModule: number, idPermission: number}[] = [];
 
   get nombre(): FormControl {
     return this.roleFormGroup.controls['nombre'] as FormControl;
@@ -55,7 +45,8 @@ export class RoleAdminComponent implements OnInit {
   constructor(
     private rolesService: RolesService,
     private fb: FormBuilder,
-    private modalService: NgbModal
+    private modalService: NgbModal,
+    private modulosRolesPermisosService: ModulosRolesPermisosService,
   ) {
     this.roleFormGroup = this.fb.group({
       nombre: ['', Validators.required],
@@ -64,6 +55,11 @@ export class RoleAdminComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.modulosRolesPermisosService.apiModulosRolesPermisosObtenermodulosypermisosGet()
+      .subscribe(response => {
+        this.moduleList = response.modulos ?? [];
+        this.permissionList = response.permisos ?? [];
+      });
     this.rolesService.apiRolesListarolesGet()
       .subscribe(
         response => {
@@ -132,6 +128,7 @@ export class RoleAdminComponent implements OnInit {
 
   openCreateRoleModal(modalContent: any): void {
     this.currentRoleId = 0;
+    this.currentRoleModulePermissions = [];
     this.nombre.setValue('');
     this.estado.setValue(false);
     this.modalService.open(modalContent, { ariaLabelledBy: 'modalTitle' });
@@ -237,6 +234,18 @@ export class RoleAdminComponent implements OnInit {
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Roles');
     XLSX.writeFile(wb, 'roles.xlsx');
+  }
+
+  updatePermission(idModule: number, idPermission: number, event: any): void {
+    const checked = event.target.checked as boolean;
+    if (checked) {
+      this.currentRoleModulePermissions.push({id: 0, idModule, idPermission});
+    } else {
+      const modulePermission = this.currentRoleModulePermissions.find(x => x.idModule === idModule && x.idPermission === idPermission);
+      if (modulePermission) {
+        this.currentRoleModulePermissions = this.currentRoleModulePermissions.filter(x => x.idModule === idModule && x.idPermission === idPermission);
+      }
+    }
   }
 
 }

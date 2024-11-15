@@ -146,32 +146,20 @@
                 </div>
               </th>
               <th scope="col" class="text-secondary text-center">Módulo</th>
-              <th scope="col" class="text-secondary text-center">Lector</th>
-              <th scope="col" class="text-secondary text-center">Creador</th>
-              <th scope="col" class="text-secondary text-center">Admin</th>
+              <th scope="col" class="text-secondary text-center" *ngFor="let permission of permissionList">{{ permission.nombre }}</th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let permissionByModule of permissionByModules">
+            <tr *ngFor="let module of moduleList">
               <th scope="row">
                 <div class="form-check">
                   <input class="form-check-input" type="checkbox" value="">
                 </div>
               </th>
-              <td class="text-secondary">{{ permissionByModule.module }}</td>
-              <td scope="row">
+              <td class="text-secondary">{{ module.nombreModulo }}</td>
+              <td scope="row" *ngFor="let permission of permissionList">
                 <div class="form-check d-flex justify-content-center">
-                  <input class="form-check-input" type="checkbox" value="">
-                </div>
-              </td>
-              <td scope="row">
-                <div class="form-check d-flex justify-content-center">
-                  <input class="form-check-input" type="checkbox" value="">
-                </div>
-              </td>
-              <td scope="row">
-                <div class="form-check d-flex justify-content-center">
-                  <input class="form-check-input" type="checkbox" value="">
+                  <input class="form-check-input" type="checkbox" value="" (change)="updatePermission(module.idModulo!, permission.id!, $event)">
                 </div>
               </td>
             </tr>
