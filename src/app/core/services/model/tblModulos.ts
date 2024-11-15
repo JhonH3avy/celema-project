@@ -9,10 +9,9 @@
  */
 
 
-export interface CrearEquipoDto { 
-    tipo?: string | null;
-    descripcion?: string | null;
-    zonaUbicacion?: string | null;
-    restriccionEquipos?: number;
+export interface TblModulos { 
+    idModulo?: number;
+    nombreModulo?: string | null;
+    fechaCreacion?: string;
 }
 
