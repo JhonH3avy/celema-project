@@ -18,11 +18,16 @@
         </a>
         <ul class="dropdown-menu" #consultasDropdown>
           <li><a class="dropdown-item" routerLink="/administracion-familia-productos">Familia Productos</a></li>
-          <li><a class="dropdown-item" routerLink="/administracion-productos">Administración de Productos</a></li>
-          <li><a class="dropdown-item" routerLink="/administracion-equipos">Maquinarias y Equipos</a></li>
-          <li><a class="dropdown-item" routerLink="/planificacion-demanda">Planificación de Demanda</a></li>
-          <li><a class="dropdown-item" routerLink="/restriccion-equipos">Zonas</a></li>
-          <li><a class="dropdown-item" routerLink="/restriccion-equipos">Líneas</a></li>
+          <li><a class="dropdown-item" routerLink="/administracion-productos">Productos SKU's</a></li>
+          <li class="dropdown-submenu">
+            <a class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+              Administración de equipos
+            </a>
+            <ul class="dropdown-menu">
+              <li><a class="dropdown-item" routerLink="/restriccion-equipos">Restricciones de equipos</a></li>
+              <li><a class="dropdown-item" routerLink="/restriccion-lavados">Restricciones de lavado</a></li>
+            </ul>
+          </li>
         </ul>
       </div>
 

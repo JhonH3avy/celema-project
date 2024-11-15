@@ -37,6 +37,22 @@
   align-items: flex-start;
 }
 
+/* Estilo para el contenedor del radio button */
+.radio-group {
+  display: flex;
+  align-items: center;
+  gap: 12px; /* Espacio entre el radio button y el texto */
+  margin-bottom: 1rem;
+  width: 100%;
+}
+
+/* Estilo del texto de radio */
+.radio-group label {
+  font-size: 1rem;
+  font-weight: 500;
+  color: #333;
+}
+
 /* Estilo del icono dentro del campo de entrada */
 .icon {
   position: absolute;
@@ -49,7 +65,7 @@
 }
 
 /* Estilo para los inputs */
-input {
+input[type="text"] {
   width: 100%;
   padding: 0.75rem 0.75rem 0.75rem 2.5rem; /* Padding izquierdo para icono */
   font-size: 1rem;
@@ -60,7 +76,7 @@ input {
 }
 
 /* Estilo al enfocar el input */
-input:focus {
+input[type="text"]:focus {
   border-color: #007bff;
 }
 
@@ -71,7 +87,7 @@ input:focus {
   margin-top: 0px;
   width: 100%;
   text-align: left;
-  position: absolute; /* Posiciona el mensaje fuera del flujo de los inputs */
+  position: absolute;
   top: 100%; /* Se asegura que el mensaje de error esté debajo del input */
   left: 0;
 }

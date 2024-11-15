@@ -3,18 +3,22 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  background-color: rgba(255, 255, 255, 0.8);
-  padding: 10px 20px;
-  position: relative;
+  background-color: rgba(255, 255, 255, 0.9); /* Fondo más sólido */
+  padding: 15px 30px;
+  position: sticky;
+  top: 0; /* Hace que la barra de navegación se quede fija en la parte superior */
   width: 100%;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Agrega sombra sutil */
+  z-index: 100;
+  margin-bottom: 50px;
 }
 
 /* Estilo de la imagen del proceso de la planta */
 .plant-image img {
   width: 100%;
   height: auto;
-  max-height: 400px; /* Ajusta la altura de la imagen */
-  object-fit: cover; /* Mantiene la calidad de la imagen */
+  max-height: 400px;
+  object-fit: cover;
 }
 
 /* Logo de la empresa */
@@ -25,16 +29,17 @@
 
 /* Estilo del avatar del usuario */
 .navbar-avatar {
-  position: relative; /* Asegura que el menú se posicione en relación con este contenedor */
+  display: flex;
+  align-items: center;
+  position: relative;
 }
 
 .navbar-avatar .avatar-img {
-  width: 80px;
-  height: 80px;
+  width: 50px;
+  height: 50px;
   border-radius: 50%;
-  margin-right: 10px;
-  margin-left: 5px;
-  border: 1px solid #333; /* Ajusta el color y grosor del borde */
+  margin-left: 10px;
+  border: 2px solid #333; /* Borde más grueso */
 }
 
 /* Información del usuario */
@@ -42,20 +47,75 @@
   margin: 0;
   font-weight: bold;
   font-size: 14px;
+  color: #333;
 }
 
 /* Estilo del menú horizontal */
 .navbar-links a {
-  margin: 0 15px;
+  margin: 0 20px;
   text-decoration: none;
   color: #333;
   font-weight: 500;
+  transition: color 0.3s ease;
+}
+
+.navbar-links a:hover {
+  color: #007BFF; /* Color al pasar el ratón */
+}
+
+/* Menú desplegable */
+.dropdown-menu {
+  position: absolute;
+  top: 55px;
+  left: 0;
+  width: auto;
+  background-color: white;
+  box-shadow: 0 4px 15px rgba(0, 0, 0, 0.15);
+  border-radius: 5px;
+  z-index: 1000;
+  min-width: 200px; /* Ancho mínimo para las opciones */
+  margin-left: -50px;
+}
+
+/* Estilos de los elementos del menú */
+.dropdown-menu li {
+  padding: 12px 20px;
+}
+
+.dropdown-menu li a {
+  text-decoration: none;
+  color: #333;
+  display: flex;
+  align-items: center;
+  padding: 8px 0;
+  transition: background-color 0.3s ease;
+}
+
+.dropdown-menu li a i {
+  margin-right: 10px;
+  font-size: 18px;
+}
+
+/* Hover de los elementos del menú */
+.dropdown-menu li:hover {
+  background-color: #f1f1f1;
 }
 
 /* Menú desplegable en el avatar */
 .navbar-avatar .dropdown-menu {
-  left: -150px !important;  /* Asegura que el menú se posicione a la izquierda del avatar */
-  right: auto !important; /* Desactiva cualquier alineación hacia la derecha */
+  left: -120px !important;
+}
+
+/* Submenú */
+.dropdown-submenu .dropdown-menu {
+  left: 100%; /* Mueve el submenú hacia la derecha del elemento padre */
+  top: 0;
+  margin-top: -6px;
+  display: none;
+}
+
+.dropdown-submenu:hover .dropdown-menu {
+  display: block; /* Muestra el submenú al pasar el ratón */
 }
 
 /* Para dispositivos móviles */
@@ -67,28 +127,26 @@
   .navbar-avatar {
     display: none;
   }
-}
 
+  .navbar {
+    padding: 10px;
+  }
+
+  .navbar-logo .logo {
+    width: 120px; /* Logo más pequeño en móvil */
+  }
+}
 
 .large-arrow::after {
-  font-size: 1.3em; /* Ajusta el tamaño según sea necesario */
+  font-size: 1.3em;
 }
 
-
-/* Posicionamiento del submenú */
-.dropdown-submenu {
-  position: relative;
-}
-
-.dropdown-submenu .dropdown-menu {
-  top: 0;
-  left: -100px;
-  margin-top: -6px;
-  display: none; /* Ocultar el submenú inicialmente */
-}
-
-.dropdown-submenu:hover .dropdown-menu {
-  display: block; /* Mostrar el submenú al pasar el mouse */
+/* Estilo para el ícono del menú (si lo usas) */
+.navbar-links .dropdown-toggle {
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-size: 16px;
 }
 
 /* Menú desplegable */

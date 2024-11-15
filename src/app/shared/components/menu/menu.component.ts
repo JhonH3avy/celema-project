@@ -34,7 +34,7 @@ export class MenuComponent implements OnInit {
       this.nombres = localStorage.getItem('nombres');
       this.apellidos = localStorage.getItem('apellidos');
       this.cargo = localStorage.getItem('cargo');
-    }, 1000);
+    }, 500);
   }
 
   logout() {
