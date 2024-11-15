@@ -13,6 +13,7 @@ export class MenuComponent implements OnInit {
   nombres: any = '';
   apellidos: any = '';
   cargo: any = '';
+  foto: any = '';
 
   constructor(private router: Router, private idleService: IdleService) {
     this.idleService.isIdle.subscribe(isIdle => {
@@ -34,6 +35,8 @@ export class MenuComponent implements OnInit {
       this.nombres = localStorage.getItem('nombres');
       this.apellidos = localStorage.getItem('apellidos');
       this.cargo = localStorage.getItem('cargo');
+      this.foto = sessionStorage.getItem('foto-perfil');
+      console.log("base64...", this.foto);
     }, 500);
   }
 

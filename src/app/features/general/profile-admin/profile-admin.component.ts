@@ -14,10 +14,12 @@ import * as bootstrap from 'bootstrap';
 export class ProfileAdminComponent implements OnInit {
 
   data: any[] = [];
+  dataRoles: any[] = [];
   filteredData: any[] = [];
   paginatedData: any[] = [];
   userCount = 0;
   searchQuery: string = '';
+  selectedRoleId: number | null = null;
 
   currentPage = 1;
   itemsPerPage = 10;
@@ -27,15 +29,6 @@ export class ProfileAdminComponent implements OnInit {
   // para sección editar roles
   nombreUsuarioTitle = "";
   cargoTitle = "";
-
-  roles = [
-    { id: 1, name: 'Administrador' },
-    { id: 2, name: 'Lector' },
-    { id: 3, name: 'Editor de plan' },
-    { id: 4, name: 'Creador' },
-    { id: 5, name: 'Temporal' },
-  ];
-
   Form: FormGroup;
   modalRef: any;
   imageBase64: string | null = null;
@@ -53,6 +46,7 @@ export class ProfileAdminComponent implements OnInit {
 
   ngOnInit(): void {
     this.getData();
+    this.getRoles();
   }
 
   onSubmit(): void {
@@ -65,7 +59,7 @@ export class ProfileAdminComponent implements OnInit {
       correoElectronico: this.Form.value.correo,
       clave: this.Form.value.cedula,
       activo: true,
-      foto: ""//this.imageBase64,
+      foto: this.imageBase64,
     };
     this.apiService.postBearer('api/Usuarios/crearusuario', formData).subscribe({
       next: (response) => {
@@ -80,16 +74,19 @@ export class ProfileAdminComponent implements OnInit {
       });
   }
 
-  desacticarUsuario(id: any){
+  desactivarUsuario(id: any, activo:any){
+
+    let mensaje = activo == false ?'Activar' : 'Desactivar';
+    let mensajeAux = activo == false ?'activo' : 'desactivo';
 
     Swal.fire({
       title: '¿Estás seguro?',
-      text: 'Desactivar el usuario',
+      text: mensaje + ' el usuario',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Sí, desactivar',
+      confirmButtonText: 'Sí, ' + mensaje,
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
@@ -97,8 +94,8 @@ export class ProfileAdminComponent implements OnInit {
           next: (response) => {
             this.getData();
             Swal.fire(
-              'Desactivado!',
-              'El usuario se desactivo con exito.',
+              activo == false ? 'Activado' : 'Desactivado!',
+              'El usuario se '+ mensajeAux +' con exito.',
               'success'
             );
           },
@@ -218,11 +215,14 @@ export class ProfileAdminComponent implements OnInit {
       const reader = new FileReader();
 
       reader.onload = () => {
-        this.imageBase64 = reader.result as string; // Convierte la imagen a Base64
-        this.imagePreview = reader.result as string; // Actualiza la previsualización
+        const base64Data = reader.result as string;
+
+        this.imageBase64 = base64Data.split(',')[1];
+
+        this.imagePreview = base64Data;
       };
 
-      reader.readAsDataURL(file); // Lee el archivo como una URL de datos (Base64)
+      reader.readAsDataURL(file);
     }
   }
 
@@ -275,10 +275,74 @@ export class ProfileAdminComponent implements OnInit {
   datosUsuario(nombre:any, cargo:any){
     this.nombreUsuarioTitle = nombre;
     this.cargoTitle = cargo;
+    this.selectedRole(1);
   }
 
   getRoles(){
+    this.apiService.get('api/Roles/listarolesactivos').subscribe({
+      next: (response: any) => {
+        this.dataRoles = response.datos;
+        console.log("Roles...", this.dataRoles);
 
+        if (
+          this.selectedRoleId &&
+          !this.dataRoles.some((role) => role.id === this.selectedRoleId)
+        ) {
+          this.selectedRoleId = null; // Si no existe, deselecciona
+        }
+
+      },
+      error: (error) => {
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: 'Error al consultar el servicio.',
+          confirmButtonText: 'Aceptar'
+        });
+      }
+    });
+  }
+
+  selectedRole(idRole:any){
+    this.selectedRoleId = idRole;
+  }
+
+  onRoleSelect(roleId: number, event: any) {
+    if (event.target.checked) {
+      this.selectedRoleId = roleId;
+    } else {
+      this.selectedRoleId = null;
+    }
+
+    this.dataRoles.forEach((role) => {
+      if (role.id !== roleId) {
+        (document.querySelector(`input[value="${role.id}"]`) as HTMLInputElement).checked = false;
+      }
+    });
+  }
+
+  applyChanges() {
+    if (this.selectedRoleId) {
+      console.log('Rol seleccionado:', this.selectedRoleId);
+      this.apiService.put('api/Usuarios/crearusuario', null).subscribe({
+        next: (response) => {
+          this.onResetForm();
+          this.closeModal();
+          this.getData();
+          Swal.fire('Permiso actualizado', 'El permiso se ha actualizado exitosamente.', 'success');
+        },
+        error: (error) => {
+          Swal.fire('Error', 'Hubo un error al crear el perfil.', 'error');
+        }
+        });
+    } else {
+      Swal.fire({
+        icon: 'warning',
+        title: 'Atención',
+        text: 'Debe seleccionar un rol antes de aplicar los cambios.',
+        confirmButtonText: 'Aceptar',
+      });
+    }
   }
 }
 

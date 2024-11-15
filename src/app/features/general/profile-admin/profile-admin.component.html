@@ -75,7 +75,8 @@
             <ul class="dropdown-menu" ngbDropdownMenu>
               <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#updateProfileModal" (click)="datosUsuario(profile.nombre + profile.apellido, profile.cargo)"><i class="bi bi-key"></i> Modificar permisos</a></li>
               <li><a class="dropdown-item" (click)="exportUser(profile)"><i class="bi bi-file-earmark-break"></i> Exportar</a></li>
-              <li><a class="dropdown-item" (click)="desacticarUsuario(profile.id)"><i class="bi bi-slash-circle"></i> Desactivar usuario</a></li>
+              <li><a *ngIf="profile.activo == true" class="dropdown-item" (click)="desactivarUsuario(profile.id, profile.activo)"><i class="bi bi-slash-circle"></i> Desactivar usuario</a></li>
+              <li><a *ngIf="profile.activo !== true" class="dropdown-item" (click)="desactivarUsuario(profile.id, profile.activo)"><i class="bi bi-slash-circle"></i> Activar usuario</a></li>
             </ul>
           </div>
         </td>
@@ -204,18 +205,20 @@
               <tr class="table-secondary">
                 <th scope="col" class="text-secondary text-center">Roles</th>
                 <th scope="col">
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="">
-                  </div>
                 </th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let role of roles">
-                <td class="text-secondary">{{ role.name }}</td>
+              <tr *ngFor="let role of dataRoles">
+                <td class="text-secondary">{{ role.nombre }}</td>
                 <th scope="row">
                   <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      [checked]="role.id === selectedRoleId"
+                      (change)="onRoleSelect(role.id, $event)"
+                    />
                   </div>
                 </th>
               </tr>
@@ -224,7 +227,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-          <button type="button" class="btn btn-primary" data-bs-target="#changeSuccessfulModal" data-bs-toggle="modal">Aplicar</button>
+          <button type="button" class="btn btn-primary" (click)="applyChanges()">Aplicar</button>
         </div>
       </div>
     </div>
