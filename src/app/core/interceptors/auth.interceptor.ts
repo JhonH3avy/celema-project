@@ -20,7 +20,8 @@ export class AuthInterceptor implements HttpInterceptor {
           Authorization: `Bearer ${token}`
         }
       });
-    } else if (req.url.match(/\/ActualizarUsuario\/[\d]+/i) !== null && req.method === 'PUT') {
+    } else if (req.url.match(/\/ActualizarUsuario\/[\d]+/i) !== null && req.method === 'PUT' ||
+        req.url.match(/\/ConsultarUsuario/i) !== null && req.method === 'POST') {
       const temporalToken = localStorage.getItem('tempToken');
       if (temporalToken) {
         authReq = req.clone({
