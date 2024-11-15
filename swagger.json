@@ -319,7 +319,7 @@
         }
       }
     },
-    "/api/Login/olvidemicontraseña": {
+    "/api/Login/olvidemicontrasena": {
       "post": {
         "tags": [
           "Login"
@@ -451,6 +451,35 @@
         "responses": {
           "200": {
             "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/ModulosRolesPermisos/obtenermodulosypermisos": {
+      "get": {
+        "tags": [
+          "ModulosRolesPermisos"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModulosRolesPermisosDto"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModulosRolesPermisosDto"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ModulosRolesPermisosDto"
+                }
+              }
+            }
           }
         }
       }
@@ -805,6 +834,44 @@
         "responses": {
           "200": {
             "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Roles/listarolesactivos": {
+      "get": {
+        "tags": [
+          "Roles"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TblRoles"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TblRoles"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TblRoles"
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -1434,37 +1501,6 @@
         }
       }
     },
-    "/api/Usuarios/permisosusuarios": {
-      "get": {
-        "tags": [
-          "Usuarios"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ConsultaDeUsuario"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ConsultaDeUsuario"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/ConsultaDeUsuario"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
     "/api/Usuarios/ActualizarUsuario/{id}": {
       "put": {
         "tags": [
@@ -1713,9 +1749,6 @@
             "type": "string",
             "nullable": true
           },
-          "estado": {
-            "type": "boolean"
-          },
           "descripcion": {
             "type": "string",
             "nullable": true
@@ -1878,6 +1911,10 @@
           "activo": {
             "type": "boolean"
           },
+          "foto": {
+            "type": "string",
+            "nullable": true
+          },
           "roles": {
             "type": "array",
             "items": {
@@ -1932,6 +1969,30 @@
         ],
         "type": "integer",
         "format": "int32"
+      },
+      "ModulosRolesPermisosDto": {
+        "type": "object",
+        "properties": {
+          "modulos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TblModulos"
+            },
+            "nullable": true
+          },
+          "permisos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TblPermiso"
+            },
+            "nullable": true
+          },
+          "mensaje": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
       },
       "RestablecerClaveDto": {
         "type": "object",
@@ -2059,6 +2120,24 @@
               "$ref": "#/components/schemas/TblRutum"
             },
             "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TblModulos": {
+        "type": "object",
+        "properties": {
+          "idModulo": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nombreModulo": {
+            "type": "string",
+            "nullable": true
+          },
+          "fechaCreacion": {
+            "type": "string",
+            "format": "date-time"
           }
         },
         "additionalProperties": false
@@ -2329,11 +2408,18 @@
             "format": "int32",
             "nullable": true
           },
+          "idModulo": {
+            "type": "integer",
+            "format": "int32"
+          },
           "idPermisoNavigation": {
             "$ref": "#/components/schemas/TblPermiso"
           },
           "idRolNavigation": {
             "$ref": "#/components/schemas/TblRoles"
+          },
+          "idModuloNavigation": {
+            "$ref": "#/components/schemas/TblModulos"
           }
         },
         "additionalProperties": false
@@ -2577,6 +2663,11 @@
           "activo": {
             "type": "boolean"
           },
+          "foto": {
+            "type": "string",
+            "format": "byte",
+            "nullable": true
+          },
           "tblModulosUsuarios": {
             "type": "array",
             "items": {
@@ -2665,17 +2756,6 @@
           },
           "clave": {
             "type": "string",
-            "nullable": true
-          },
-          "activo": {
-            "type": "boolean"
-          },
-          "roles": {
-            "type": "array",
-            "items": {
-              "type": "integer",
-              "format": "int32"
-            },
             "nullable": true
           }
         },

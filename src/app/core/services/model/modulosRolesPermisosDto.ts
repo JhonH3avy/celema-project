@@ -9,16 +9,11 @@
  */
 import { TblModulos } from './tblModulos';
 import { TblPermiso } from './tblPermiso';
-import { TblRoles } from './tblRoles';
 
 
-export interface TblRolesPermiso { 
-    id?: number;
-    idRol?: number | null;
-    idPermiso?: number | null;
-    idModulo?: number;
-    idPermisoNavigation?: TblPermiso;
-    idRolNavigation?: TblRoles;
-    idModuloNavigation?: TblModulos;
+export interface ModulosRolesPermisosDto { 
+    modulos?: Array<TblModulos> | null;
+    permisos?: Array<TblPermiso> | null;
+    mensaje?: string | null;
 }
 

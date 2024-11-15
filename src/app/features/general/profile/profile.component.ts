@@ -60,22 +60,33 @@ export class ProfileComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe(params => {
-      const paramEmail = params['email'];
       const paramToken = params['token'];
+      let paramEmail;
+      let useParamToken = false;
       if (paramToken) {
+        useParamToken = true;
         localStorage.removeItem('authToken');
         localStorage.setItem('tempToken', paramToken);
+        let decodedParamToken: any;
+        try {
+          decodedParamToken = jwtDecode(paramToken);
+        } catch (error) {
+          console.error('Token invalido:', error);
+          return;
+        }
+        paramEmail = decodedParamToken.email;
       }
-      const token = !paramToken ? localStorage.getItem('authToken') : paramToken;
+      const token = useParamToken ? paramToken : localStorage.getItem('authToken');
       let decodedToken: any;
-      try {
-        decodedToken = jwtDecode(token);
-      } catch (error) {
-        console.error('Token invalido:', error);
-        return;
+      if (!useParamToken) {
+        try {
+          decodedToken = jwtDecode(token);
+        } catch (error) {
+          console.error('Token invalido:', error);
+          return;
+        }
       }
-      const decodedEmail = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/userdata'];
-      const userEmail = !decodedEmail ? paramEmail : decodedEmail;
+      const userEmail = useParamToken ? paramEmail : decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/userdata'];
       const consultaUsuario = {
         correoElectronico: userEmail,
       } as ConsultaDeUsuario;

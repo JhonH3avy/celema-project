@@ -22,6 +22,7 @@ export interface TblUsuario {
     ultimoAcceso?: string;
     clave?: string | null;
     activo?: boolean;
+    foto?: string | null;
     tblModulosUsuarios?: Array<TblModulosUsuario> | null;
     tblUsuarioRoles?: Array<TblUsuarioRol> | null;
 }

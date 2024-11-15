@@ -17,6 +17,7 @@ export interface CrearUsuarioDto {
     cargo?: string | null;
     clave?: string | null;
     activo?: boolean;
+    foto?: string | null;
     roles?: Array<number> | null;
 }
 
