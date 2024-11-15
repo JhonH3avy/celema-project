@@ -32,8 +32,11 @@ export class RecuperarComponent implements OnInit {
       correoElectronico: this.resetPasswordForm.value.username,
     };
 
-    this.apiService.post('Login/olvidemicontraseña', formData).subscribe({
+    this.loading = true;
+
+    this.apiService.post('api/Login/olvidemicontrasena', formData).subscribe({
       next: (response: any) => {
+        this.loading = false;
         Swal.fire('Éxito', 'Le hemos enviado un correo, para restablecer la contraseña siga las instrucciones.', 'success');
       },
       error: (error) => {

@@ -10,7 +10,6 @@
   width: 100%;
   box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1); /* Agrega sombra sutil */
   z-index: 100;
-  margin-bottom: 50px;
 }
 
 /* Estilo de la imagen del proceso de la planta */
@@ -46,7 +45,7 @@
 .user-info p {
   margin: 0;
   font-weight: bold;
-  font-size: 14px;
+  font-size: 16px;
   color: #333;
 }
 
@@ -147,38 +146,4 @@
   display: flex;
   align-items: center;
   font-size: 16px;
-}
-
-/* Menú desplegable */
-.dropdown-menu {
-  position: absolute;
-  top: 55px;  /* Coloca el menú justo debajo del avatar */
-  left: 100px;    /* Alinea el menú con el borde izquierdo del avatar */
-  width: auto; /* Ajusta el ancho automáticamente */
-  background-color: white;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
-  border-radius: 5px;
-  z-index: 1000; /* Asegura que el menú esté encima de otros elementos */
-}
-
-/* Estilos de los elementos del menú */
-.dropdown-menu li {
-  padding: 10px;
-}
-
-.dropdown-menu li a {
-  text-decoration: none;
-  color: #333;
-  display: flex;
-  align-items: center;
-}
-
-.dropdown-menu li a i {
-  margin-right: 10px;
-  font-size: 16px;
-}
-
-/* Hover de los elementos del menú */
-.dropdown-menu li:hover {
-  background-color: #f1f1f1;
 }

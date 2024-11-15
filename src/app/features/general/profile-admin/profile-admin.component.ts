@@ -24,6 +24,10 @@ export class ProfileAdminComponent implements OnInit {
   totalPages = 0;
   pages: number[] = [];
 
+  // para sección editar roles
+  nombreUsuarioTitle = "";
+  cargoTitle = "";
+
   roles = [
     { id: 1, name: 'Administrador' },
     { id: 2, name: 'Lector' },
@@ -34,6 +38,8 @@ export class ProfileAdminComponent implements OnInit {
 
   Form: FormGroup;
   modalRef: any;
+  imageBase64: string | null = null;
+  imagePreview: string | null = null;
 
   constructor(private apiService: ApiService, private fb: FormBuilder, private modalService: NgbModal) {
     this.Form = this.fb.group({
@@ -59,6 +65,7 @@ export class ProfileAdminComponent implements OnInit {
       correoElectronico: this.Form.value.correo,
       clave: this.Form.value.cedula,
       activo: true,
+      foto: ""//this.imageBase64,
     };
     this.apiService.postBearer('api/Usuarios/crearusuario', formData).subscribe({
       next: (response) => {
@@ -86,12 +93,7 @@ export class ProfileAdminComponent implements OnInit {
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
-
-        const formData = {
-          id: id,
-          activo: false,
-        };
-        this.apiService.put('api/Usuarios/actualizarusuarios', formData).subscribe({
+        this.apiService.patch('api/Usuarios/eliminarusuarios/' + id).subscribe({
           next: (response) => {
             this.getData();
             Swal.fire(
@@ -139,7 +141,7 @@ export class ProfileAdminComponent implements OnInit {
     this.apiService.get('api/Usuarios/listausuarios').subscribe({
       next: (response: any) => {
         this.data = response.datos;
-        this.filteredData = this.data;  // Inicializa la data filtrada con todos los datos
+        this.filteredData = this.data;
         this.userCount = this.filteredData.length;
         this.totalPages = Math.ceil(this.userCount / this.itemsPerPage);
         this.updatePagination();
@@ -208,16 +210,19 @@ export class ProfileAdminComponent implements OnInit {
     XLSX.writeFile(wb, 'perfiles.xlsx');
   }
 
-  previewImage(event:any) {
-    const photoPreview = document.getElementById('photoPreview') as HTMLImageElement;
-    const file = event.target.files[0];
+  previewImage(event: Event): void {
+    const input = event.target as HTMLInputElement;
 
-    if (photoPreview && file) {  // Verifica que photoPreview exista y que file no sea null
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
       const reader = new FileReader();
-      reader.onload = function(e) {
-        photoPreview.src = e.target?.result as string;
+
+      reader.onload = () => {
+        this.imageBase64 = reader.result as string; // Convierte la imagen a Base64
+        this.imagePreview = reader.result as string; // Actualiza la previsualización
       };
-      reader.readAsDataURL(file);
+
+      reader.readAsDataURL(file); // Lee el archivo como una URL de datos (Base64)
     }
   }
 
@@ -265,6 +270,15 @@ export class ProfileAdminComponent implements OnInit {
   openDropdown(element: HTMLElement): void {
     const dropdown = new bootstrap.Dropdown(element);
     dropdown.toggle();
+  }
+
+  datosUsuario(nombre:any, cargo:any){
+    this.nombreUsuarioTitle = nombre;
+    this.cargoTitle = cargo;
+  }
+
+  getRoles(){
+
   }
 }
 

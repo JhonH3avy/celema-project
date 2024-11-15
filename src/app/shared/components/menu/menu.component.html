@@ -1,4 +1,4 @@
-<nav class="navbar">
+<nav class="navbar" style="margin-bottom: 20px;">
 
   <!-- Contenedor de la barra de navegación -->
   <div class="navbar-content d-flex justify-content-between align-items-center w-100">
@@ -36,10 +36,7 @@
           Plan de Producción
         </a>
         <ul class="dropdown-menu" #produccionDropdown>
-          <li><a class="dropdown-item" routerLink="/restriccion-lavados">Restricciones de lavado</a></li>
-          <li><a class="dropdown-item" routerLink="/restriccion-equipos">Restricciones de equipos</a></li>
-          <li><a class="dropdown-item" routerLink="/planificacion-rutas">Equipos por rutas</a></li>
-          <li><a class="dropdown-item" routerLink="#">Roles</a></li>
+          <li><a class="dropdown-item" routerLink="/planificacion-rutas">Planeación de rutas</a></li>
         </ul>
       </div>
     </div>
@@ -56,7 +53,7 @@
       <img src="https://png.pngtree.com/png-clipart/20231019/original/pngtree-user-profile-avatar-png-image_13369988.png" alt="Foto de Perfil" class="avatar-img" />
 
       <!-- Menú desplegable con flecha hacia abajo -->
-      <div class="dropdown">
+      <div class="dropdown" style="margin-left: 10px;">
         <a class="dropdown-toggle large-arrow" type="button" data-bs-toggle="dropdown" aria-expanded="false" (click)="openMenuDropdown(dropdownMenu)">
         </a>
         <ul class="dropdown-menu" #dropdownMenu>

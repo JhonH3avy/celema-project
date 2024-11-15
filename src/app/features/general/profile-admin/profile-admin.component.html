@@ -68,12 +68,12 @@
         <td class="text-secondary text-center">{{ profile.ultimoAcceso | date:'dd/MM/yyyy' }}</td>
         <td class="text-secondary text-center">{{ profile.fechaIngreso | date:'dd/MM/yyyy' }}</td>
         <td>
-          <div class="dropdown">
-            <button type="button" class="btn btn-outline-secondary" aria-expanded="false" (click)="openDropdown(userOptionsDropdown)">
-              <i class="bi bi-three-dots-vertical"></i>
+          <div ngbDropdown>
+            <button type="button" ngbDropdownToggle class="btn btn-outline-secondary">
+              <!-- <i class="bi bi-three-dots-vertical"></i> -->
             </button>
-            <ul class="dropdown-menu" [id]="'userOptionsDropdown' + profile.id" #userOptionsDropdown >
-              <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#updateProfileModal"><i class="bi bi-key"></i> Modificar permisos</a></li>
+            <ul class="dropdown-menu" ngbDropdownMenu>
+              <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#updateProfileModal" (click)="datosUsuario(profile.nombre + profile.apellido, profile.cargo)"><i class="bi bi-key"></i> Modificar permisos</a></li>
               <li><a class="dropdown-item" (click)="exportUser(profile)"><i class="bi bi-file-earmark-break"></i> Exportar</a></li>
               <li><a class="dropdown-item" (click)="desacticarUsuario(profile.id)"><i class="bi bi-slash-circle"></i> Desactivar usuario</a></li>
             </ul>
@@ -116,7 +116,13 @@
         <div class="modal-header vstack gap-3">
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           <div class="d-flex flex-column align-items-center">
-            <img id="photoPreview" class="big-profile-image mt-2" src="./assets/img/profile_image_placeholder.jpg" alt="profile picture" style="width: 100px; height: 100px; object-fit: cover; border-radius: 50%;">
+            <img
+              id="photoPreview"
+              class="big-profile-image mt-2"
+              [src]="imagePreview || './assets/img/profile_image_placeholder.jpg'"
+              alt="profile picture"
+              style="width: 100px; height: 100px; object-fit: cover; border-radius: 50%;"
+            />
             <label for="uploadPhoto" class="upload-icon" style="cursor: pointer;">
               <span class="add-icon">+</span>
               <i class="bi bi-camera" style="font-size: 1.5rem;"></i>
@@ -189,8 +195,8 @@
         <div class="modal-header vstack gap-3">
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           <img class="big-profile-image" src="./assets/img/profile_image_placeholder.jpg" alt="profile picture">
-          <h1 class="modal-title fs-5" id="modalTitle">Cristina Gomez</h1>
-          <h1 class="modal-title fs-5" id="modalTitle">Gerente</h1>
+          <h1 class="modal-title fs-5" id="modalTitle">{{nombreUsuarioTitle}}</h1>
+          <h1 class="modal-title fs-5" id="modalTitle">{{cargoTitle}}</h1>
         </div>
         <div class="modal-body">
           <table class="table">
