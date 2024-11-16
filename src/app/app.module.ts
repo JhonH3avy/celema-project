@@ -19,12 +19,13 @@ import { RoutePlanificationComponent } from './features/general/route-planificat
 import { ProfileComponent } from './features/general/profile/profile.component';
 import { CoreModule } from './core/services/core.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ApiModule } from './core/services';
+import { ApiModule, Configuration } from './core/services';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [
@@ -50,7 +51,11 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
     CoreModule,
     FormsModule,
     ReactiveFormsModule,
-    ApiModule,
+    ApiModule.forRoot(() => {
+      return new Configuration({
+        basePath: environment.apiUrl
+      })
+    }),
     SweetAlert2Module.forRoot(),
     BrowserAnimationsModule,
     NgbModule,
