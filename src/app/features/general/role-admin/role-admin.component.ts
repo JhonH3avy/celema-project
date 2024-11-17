@@ -238,10 +238,12 @@ export class RoleAdminComponent implements OnInit {
 
   updatePermission(idModule: number, idPermission: number, event: any): void {
     const checked = event.target.checked as boolean;
+    const modulePermission = this.currentRoleModulePermissions.find(x => x.idModule === idModule && x.idPermission === idPermission);
     if (checked) {
-      this.currentRoleModulePermissions.push({id: 0, idModule, idPermission});
+      if (!modulePermission) {
+        this.currentRoleModulePermissions.push({id: 0, idModule, idPermission});
+      }
     } else {
-      const modulePermission = this.currentRoleModulePermissions.find(x => x.idModule === idModule && x.idPermission === idPermission);
       if (modulePermission) {
         this.currentRoleModulePermissions = this.currentRoleModulePermissions.filter(x => x.idModule === idModule && x.idPermission === idPermission);
       }
