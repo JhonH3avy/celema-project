@@ -41,29 +41,29 @@
             <input class="form-check-input" type="checkbox" value="">
           </div>
         </th>
+        <th scope="col" class="text-secondary text-center">Producto</th>
         <th scope="col" class="text-secondary text-center">Equipos Usados</th>
         <th scope="col" class="text-secondary text-center">Restricciones Ruta</th>
         <th scope="col" class="text-secondary text-center">Tiempo</th>
         <th scope="col" class="text-secondary text-center">Precisión</th>
         <th scope="col" class="text-secondary text-center">Familia</th>
-        <th scope="col" class="text-secondary text-center">Producto</th>
         <th scope="col" class="text-secondary text-center">AI</th>
         <th scope="col" class="text-secondary text-center">Selección</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let washRestriction of washRestrictions">
+      <tr *ngFor="let washRestriction of washRestrictions; let i = index">
         <th scope="row">
           <div class="form-check">
             <input class="form-check-input" type="checkbox" value="">
           </div>
         </th>
+        <td class="text-secondary text-center">PRD # {{i+1}}</td>
         <td class="text-secondary text-center">{{ washRestriction.equipmentList.join(', ') }}</td>
         <td class="text-secondary text-center">Restricciones</td>
         <td class="text-secondary text-center">10 min</td>
         <td class="text-secondary text-center">{{ washRestriction.requestDate | date:'dd/MM/yyyy' }}</td>
         <td class="text-secondary text-center">Familia</td>
-        <td class="text-secondary text-center">{{ washRestriction.equipmentList.join(', ') }}</td>
         <td class="text-secondary text-center">
           <input type="radio" name="ai">
         </td>
@@ -110,8 +110,6 @@
                 </div>
               </th>
               <th scope="col" class="text-secondary text-center">Periodo</th>
-              <th scope="col" class="text-secondary text-center">Familia</th>
-              <th scope="col" class="text-secondary text-center">Producto</th>
               <th scope="col" class="text-secondary text-center">Editar</th>
             </tr>
           </thead>
@@ -123,8 +121,6 @@
                 </div>
               </th>
               <td class="text-secondary text-center">202410</td>
-              <td class="text-secondary text-center">Familia</td>
-              <td class="text-secondary text-center">{{ washRestriction.equipmentList.join(', ') }}</td>
               <td class="text-secondary text-center">
                 <button class="btn btn-light" (click)="history.dismiss('Cross click')">
                   <i class="bi bi-pencil"></i>
