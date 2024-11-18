@@ -5,6 +5,7 @@
     <!-- Logo de la empresa -->
     <div class="navbar-logo">
       <img src="./assets/img/logo.png" alt="Logo" class="logo" />
+      <img src="./assets/img/logo_2.png" alt="Imagen de usuario" class="login-image" class="logo" />
     </div>
 
     <!-- Menú horizontal -->
@@ -17,17 +18,19 @@
           Consultas
         </a>
         <ul class="dropdown-menu" #consultasDropdown>
-          <li><a class="dropdown-item" routerLink="/administracion-familia-productos">Familia Productos</a></li>
-          <li><a class="dropdown-item" routerLink="/administracion-productos">Productos SKU's</a></li>
           <li class="dropdown-submenu">
             <a class="dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
               Administración de equipos
             </a>
             <ul class="dropdown-menu">
+              <li><a class="dropdown-item" routerLink="/administracion-equipos">Administración de equipos</a></li>
               <li><a class="dropdown-item" routerLink="/restriccion-equipos">Restricciones de equipos</a></li>
               <li><a class="dropdown-item" routerLink="/restriccion-lavados">Restricciones de lavado</a></li>
             </ul>
           </li>
+          <li><a class="dropdown-item" routerLink="/planificacion-product">Planeación de la producción</a></li>
+          <li><a class="dropdown-item" routerLink="/administracion-familia-productos">Familia Productos</a></li>
+          <li><a class="dropdown-item" routerLink="/administracion-productos">Productos SKU's</a></li>
         </ul>
       </div>
 

@@ -9,6 +9,9 @@ import { DemandPlanificationComponent } from './features/general/demand-planific
 import { EquipmentRestrictionComponent } from './features/general/equipment-restriction/equipment-restriction.component';
 import { WashRestrictionComponent } from './features/general/wash-restriction/wash-restriction.component';
 import { RoutePlanificationComponent } from './features/general/route-planification/route-planification.component';
+import { ProductionPlanificationComponent } from './features/general/production-planification/production-planification.component';
+import { RoutePlanificationDetailComponent } from './features/general/route-planification-detail/route-planification-detail.component';
+import { RoutePlanificationPriorizationComponent } from './features/general/route-planification-priorization/route-planification-priorization.component';
 
 const routes: Routes = [
   { path: 'administracion-perfiles', component: ProfileAdminComponent },
@@ -20,6 +23,9 @@ const routes: Routes = [
   { path: 'restriccion-equipos', component: EquipmentRestrictionComponent },
   { path: 'restriccion-lavados', component: WashRestrictionComponent },
   { path: 'planificacion-rutas', component: RoutePlanificationComponent },
+  { path: 'planificacion-product', component: ProductionPlanificationComponent },
+  { path: 'planificacion-rutas-detalle', component: RoutePlanificationDetailComponent },
+  { path: 'planificacion-rutas-priorizacion', component: RoutePlanificationPriorizationComponent },
 ];
 
 @NgModule({
