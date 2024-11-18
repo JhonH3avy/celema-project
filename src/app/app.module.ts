@@ -25,6 +25,9 @@ import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
+import { RoutePlanificationDetailComponent } from './features/general/route-planification-detail/route-planification-detail.component';
+import { RoutePlanificationPriorizationComponent } from './features/general/route-planification-priorization/route-planification-priorization.component';
+import { ProductionPlanificationComponent } from './features/general/production-planification/production-planification.component';
 import { environment } from 'src/environments/environment';
 
 @NgModule({
@@ -43,6 +46,9 @@ import { environment } from 'src/environments/environment';
     WashRestrictionComponent,
     RoutePlanificationComponent,
     ProfileComponent,
+    ProductionPlanificationComponent,
+    RoutePlanificationDetailComponent,
+    RoutePlanificationPriorizationComponent
   ],
   imports: [
     BrowserModule,

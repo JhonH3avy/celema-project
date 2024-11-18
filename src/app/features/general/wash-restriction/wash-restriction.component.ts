@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-wash-restriction',
@@ -6,6 +8,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./wash-restriction.component.css']
 })
 export class WashRestrictionComponent implements OnInit {
+
+  FormGroup: FormGroup;
 
   currentPage = 1;
   totalPages = 5;
@@ -69,7 +73,11 @@ export class WashRestrictionComponent implements OnInit {
     },
   ]
 
-  constructor() { }
+  constructor(private modalService: NgbModal, private fb: FormBuilder) {
+    this.FormGroup = this.fb.group({
+
+    });
+  }
 
   ngOnInit(): void {
   }
@@ -84,5 +92,9 @@ export class WashRestrictionComponent implements OnInit {
 
   changePage(pageToLoad: number): void {
     this.currentPage = pageToLoad;
+  }
+
+  openModal(modalContent: any): void {
+    this.modalService.open(modalContent, { size: 'lg', backdrop: 'static', centered: true });
   }
 }

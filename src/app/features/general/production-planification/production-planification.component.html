@@ -1,0 +1,295 @@
+<app-menu></app-menu>
+<div class="container">
+  <h2>Planeación de la producción</h2>
+  <p class="text-secondary">Gestión de la demanda</p>
+  <div class="d-flex justify-content-end mb-3">
+    <div class="d-flex align-items-center">
+      <button type="button" class="btn btn-primary d-flex align-items-center" (click)="openModal(uploadPlan)">
+        <i class="bi bi-download me-1"></i>
+        <span class="text-nowrap ms-1">Importar plan</span>
+      </button>
+      <div class="input-group me-2" style="margin-left: 10px;">
+        <button class="btn btn-outline-secondary" type="button">
+          <i class="bi bi-search"></i>
+        </button>
+        <input type="text" class="form-control" placeholder="Buscar">
+      </div>
+      <button type="button" class="btn btn-outline-secondary d-flex align-items-center me-2">
+        <i class="bi bi-filter me-1"></i>
+        Filtrar
+      </button>
+      <button type="button" class="btn btn-primary d-flex align-items-center">
+        <i class="bi bi-upload me-1"></i>
+        Exportar
+      </button>
+      <button type="button" class="btn btn-primary d-flex align-items-center me-2" style="min-width: 170px;margin-left: 10px;" (click)="openModal(newPlan)">
+        <i class="bi bi-plus-circle me-1"></i>
+        <span class="text-nowrap ms-1">Ingresar nuevo</span>
+      </button>
+    </div>
+  </div>
+  <table class="table">
+    <thead>
+      <tr class="table-secondary">
+        <th scope="col">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="">
+          </div>
+        </th>
+        <th scope="col" class="text-secondary text-center">Código</th>
+        <th scope="col" class="text-secondary text-center">Descripción</th>
+        <th scope="col" class="text-secondary text-center">Unidades a producir</th>
+        <th scope="col" class="text-secondary text-center">Semana</th>
+        <th scope="col" class="text-secondary text-center">Fecha Solicitud</th>
+        <th scope="col" class="text-secondary text-center">Operaciones</th>
+        <th scope="col" class="text-secondary text-center">Familia</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let product of products">
+        <th scope="row">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="">
+          </div>
+        </th>
+        <td class="text-secondary text-center">{{ product.code }}</td>
+        <td class="text-secondary text-center">{{ product.description }}</td>
+        <td class="text-secondary text-center">{{ product.unidades }}</td>
+        <td class="text-secondary text-center">{{ product.semana }}</td>
+        <td class="text-secondary text-center">{{ product.creationDate | date:'dd/MM/yyyy' }}</td>
+        <td>
+          <button type="button" class="btn rounded-pill border border-danger text-danger bg-danger-subtle me-2">Eliminar</button>
+          <button type="button" class="btn rounded-pill border border-success text-success bg-success-subtle me-2">Actu</button>
+        </td>
+        <td class="text-secondary text-center">{{ product.familia }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="d-flex justify-content-center align-items-center">
+    <button class="btn btn-light me-2 text-secondary" [ngClass]="{'active': currentPage === (i + 1)}" *ngFor="let page of pages; let i = index" (click)="changePage(i + 1)">
+      {{ i + 1 }}
+    </button>
+  </div>
+
+  <!-- Modal importar plan -->
+  <ng-template #content let-uploadPlan #uploadPlan>
+    <div class="modal-content">
+      <div class="modal-header vstack gap-3">
+        <button type="button" class="btn-close" aria-label="Close" (click)="uploadPlan.dismiss('Cross click')"></button>
+      </div>
+      <div class="modal-body">
+        <div>
+          <!-- Stepper -->
+          <div class="stepper d-flex justify-content-between mb-4">
+            <div [ngClass]="{'active-step': currentStep === 1, 'completed-step': currentStep > 1}" class="step">
+              <div class="step-item">
+                <span class="step-circle">1</span>
+                <span>Importación</span>
+              </div>
+            </div>
+            <div [ngClass]="{'active-step': currentStep === 2, 'completed-step': currentStep > 2}" class="step">
+              <div class="step-item">
+                <span class="step-circle">2</span>
+                <span>Verificación</span>
+              </div>
+            </div>
+            <div [ngClass]="{'active-step': currentStep === 3}" class="step">
+              <div class="step-item">
+                <span class="step-circle">3</span>
+                <span>Cargue</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Contenido de cada paso -->
+          <div *ngIf="currentStep === 1">
+            <span class="title-stepp">Cargue aquí el CSV de planeación</span>
+            <div class="body-upload">
+              <table>
+                <tr>
+                  <td>
+                    <label for="file-upload" class="custom-file-upload">
+                      <div
+                        id="drag-drop-area"
+                        class="drag-drop-area"
+                        (dragover)="onDragOver($event)"
+                        (drop)="onDrop($event)"
+                        (dragleave)="onDragLeave($event)"
+                      >
+                        <img src="../../../../assets/img/upload.png" width="200" alt="Upload" style="cursor: pointer;" (click)="triggerFileUpload()">
+                        <!-- Mostrar solo el nombre del archivo -->
+                        <div *ngIf="fileName" class="title-stepp">
+                          <p>{{ fileName }}</p>
+                        </div>
+                        <br>
+                        <input id="file-upload" type="file" id="upload-file" style="display: none;" (change)="onFileSelected($event)">
+                        <span class="title-stepp">Arrastre y suelte o cargue un archivo aquí</span>
+                      </div>
+                    </label>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+          <div *ngIf="currentStep === 2">
+            <span class="title-stepp">El archivo presenta los siguientes errorres</span>
+            <br>
+            <div valign="top" class="body-upload-stepp2">
+              <table>
+                <tr>
+                  <td>
+                    <div class="chip" style="background-color: red;">El archivo no cuenta con el formato requerido para subir #1</div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="chip" style="background-color: red;">El archivo no cuenta con el formato requerido para subir #2</div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="chip" style="background-color: red;">El archivo no cuenta con el formato requerido para subir #3</div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="chip" style="background-color: red;">El archivo no cuenta con el formato requerido para subir #4</div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="chip" style="background-color: red;">El archivo no cuenta con el formato requerido para subir #5</div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="chip" style="background-color: red;">El archivo no cuenta con el formato requerido para subir #6</div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="chip" style="background-color: red;">El archivo no cuenta con el formato requerido para subir #7</div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="chip" style="background-color: red;">El archivo no cuenta con el formato requerido para subir #8</div>
+                  </td>
+                </tr>
+                <tr>
+                  <td>
+                    <div class="chip" style="background-color: red;">El archivo no cuenta con el formato requerido para subir #9</div>
+                  </td>
+                </tr>
+              </table>
+            </div>
+          </div>
+          <div *ngIf="currentStep === 3">
+            <span class="title-stepp">Su archivo está listo para ser cargado</span>
+            <br>
+            <div valign="top" class="body-upload-stepp3">
+              <div class="file-upload-container">
+                <!-- Botón de carga de archivo -->
+                <label for="file-upload" class="custom-file-upload">
+                  <button type="button" class="btn btn-primary" (click)="startUpload($event)">
+                  <i class="bi bi-download me-1"></i>
+                  <span class="text-nowrap ms-1">Cargar archivo</span>
+                  </button>
+                </label>
+
+                <!-- Simulador de carga (barra de progreso) -->
+                <div class="progress-container" *ngIf="isUploading">
+                  <div class="progress-bar" [style.width]="uploadProgress + '%'"></div>
+                  <span class="progress-text">{{ uploadProgress }}%</span>
+                </div>
+
+                <!-- Nombre del archivo cargado -->
+                <div *ngIf="selectedFileName">
+                  <p>Archivo seleccionado: {{ selectedFileName }}</p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Navegación entre pasos -->
+          <div class="d-flex justify-content-between mt-4">
+            <button class="btn btn-secondary" (click)="prevStep()" [disabled]="currentStep === 1">Anterior</button>
+            <button class="btn btn-primary" (click)="nextStep()" [disabled]="currentStep === 3">Siguiente</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+
+   <!-- Modal nuevo plan -->
+   <ng-template #content let-newPlan #newPlan>
+    <div class="modal-content">
+      <div class="modal-header vstack gap-3">
+        <button type="button" class="btn-close" aria-label="Close" (click)="newPlan.dismiss('Cross click')"></button>
+        <h1 class="modal-title fs-5" id="modalTitle">Gestión Plan</h1>
+      </div>
+      <div class="modal-body">
+        <div>
+          <form [formGroup]="FormGroup">
+            <div class="container text-center">
+              <div class="row mb-2">
+                <div class="col text-start">
+                  <label for="roleInput" class="col-form-label">Código</label>
+                </div>
+                <div class="col-8">
+                  <input type="text" id="codigoInput" class="form-control" formControlName="codigo">
+                </div>
+              </div>
+              <div class="row mb-2">
+                <div class="col text-start">
+                  <label for="roleInput" class="col-form-label">Descripción</label>
+                </div>
+                <div class="col-8">
+                  <input type="text" id="descripcionInput" class="form-control" formControlName="descripcion">
+                </div>
+              </div>
+              <div class="row mb-2">
+                <div class="col text-start">
+                  <label for="roleInput" class="col-form-label">Familia</label>
+                </div>
+                <div class="col-8">
+                  <input type="text" id="familiaInput" class="form-control" formControlName="familia">
+                </div>
+              </div>
+              <div class="row mb-2">
+                <div class="col text-start">
+                  <label for="roleInput" class="col-form-label">Unidadades por producir</label>
+                </div>
+                <div class="col-8">
+                  <input type="text" id="unidadesInput" class="form-control" formControlName="unidades">
+                </div>
+              </div>
+              <div class="row mb-2">
+                <div class="col text-start">
+                  <label for="roleInput" class="col-form-label">Producto</label>
+                </div>
+                <div class="col-8">
+                  <input type="text" id="productoInput" class="form-control" formControlName="producto">
+                </div>
+              </div>
+              <div class="row mb-2">
+                <div class="col text-start">
+                  <label for="roleInput" class="col-form-label">Semana</label>
+                </div>
+                <div class="col-8">
+                  <input type="text" id="semanaInput" class="form-control" formControlName="semana">
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" >Ingresar</button>
+        <button type="button" class="btn btn-secondary" (click)="newPlan.dismiss('Close click')">Cancelar</button>
+      </div>
+    </div>
+  </ng-template>
+</div>

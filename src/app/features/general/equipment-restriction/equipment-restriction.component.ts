@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-equipment-restriction',
@@ -6,6 +8,8 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./equipment-restriction.component.css']
 })
 export class EquipmentRestrictionComponent implements OnInit {
+
+  FormGroup: FormGroup;
 
   currentPage = 1;
   totalPages = 5;
@@ -22,6 +26,8 @@ export class EquipmentRestrictionComponent implements OnInit {
       meassurementUnit: 'Lts',
       value: '3',
       priority: 'Alta',
+      familia: 'Familia',
+      equipo: 'Equipo E2#1',
     },
     {
       id: 2,
@@ -33,6 +39,8 @@ export class EquipmentRestrictionComponent implements OnInit {
       meassurementUnit: 'Lts',
       value: '3',
       priority: 'Media',
+      familia: 'Familia',
+      equipo: 'Equipo E2#1',
     },
     {
       id: 3,
@@ -44,6 +52,8 @@ export class EquipmentRestrictionComponent implements OnInit {
       meassurementUnit: 'Lts',
       value: '3',
       priority: 'Baja',
+      familia: 'Familia',
+      equipo: 'Equipo E2#1',
     },
     {
       id: 4,
@@ -55,6 +65,8 @@ export class EquipmentRestrictionComponent implements OnInit {
       meassurementUnit: 'Lts',
       value: '3',
       priority: 'Media',
+      familia: 'Familia',
+      equipo: 'Equipo E2#1',
     },
     {
       id: 5,
@@ -66,6 +78,8 @@ export class EquipmentRestrictionComponent implements OnInit {
       meassurementUnit: 'Lts',
       value: '3',
       priority: 'Alta',
+      familia: 'Familia',
+      equipo: 'Equipo E2#1',
     },
   ];
 
@@ -97,7 +111,11 @@ export class EquipmentRestrictionComponent implements OnInit {
     },
   ];
 
-  constructor() { }
+  constructor(private modalService: NgbModal, private fb: FormBuilder) {
+    this.FormGroup = this.fb.group({
+
+    });
+  }
 
   ngOnInit(): void {
   }
@@ -112,6 +130,10 @@ export class EquipmentRestrictionComponent implements OnInit {
 
   changePage(pageToLoad: number): void {
     this.currentPage = pageToLoad;
+  }
+
+  openModal(modalContent: any): void {
+    this.modalService.open(modalContent, { size: 'lg', backdrop: 'static', centered: true });
   }
 
 }
