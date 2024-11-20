@@ -19,15 +19,16 @@ import { RoutePlanificationComponent } from './features/general/route-planificat
 import { ProfileComponent } from './features/general/profile/profile.component';
 import { CoreModule } from './core/services/core.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ApiModule } from './core/services';
+import { ApiModule, Configuration } from './core/services';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
-import { ProductionPlanificationComponent } from './features/general/production-planification/production-planification.component';
 import { RoutePlanificationDetailComponent } from './features/general/route-planification-detail/route-planification-detail.component';
 import { RoutePlanificationPriorizationComponent } from './features/general/route-planification-priorization/route-planification-priorization.component';
+import { ProductionPlanificationComponent } from './features/general/production-planification/production-planification.component';
+import { environment } from 'src/environments/environment';
 
 @NgModule({
   declarations: [
@@ -56,7 +57,11 @@ import { RoutePlanificationPriorizationComponent } from './features/general/rout
     CoreModule,
     FormsModule,
     ReactiveFormsModule,
-    ApiModule,
+    ApiModule.forRoot(() => {
+      return new Configuration({
+        basePath: environment.apiUrl
+      })
+    }),
     SweetAlert2Module.forRoot(),
     BrowserAnimationsModule,
     NgbModule,

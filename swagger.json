@@ -5,184 +5,6 @@
     "version": "v1"
   },
   "paths": {
-    "/api/Equipos/consultarequipos": {
-      "get": {
-        "tags": [
-          "Equipos"
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblEquipo"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblEquipo"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblEquipo"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/Equipos/consultarequipocodigo": {
-      "get": {
-        "tags": [
-          "Equipos"
-        ],
-        "parameters": [
-          {
-            "name": "codigo",
-            "in": "query",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "zonaubicacion",
-            "in": "query",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblEquipo"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblEquipo"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblEquipo"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/api/Equipos/crearequipo": {
-      "post": {
-        "tags": [
-          "Equipos"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CrearEquipoDto"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/CrearEquipoDto"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/CrearEquipoDto"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/api/Equipos/actualizarequipo": {
-      "put": {
-        "tags": [
-          "Equipos"
-        ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ActualizarEquipoDto"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ActualizarEquipoDto"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/ActualizarEquipoDto"
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/api/Equipos/eliminarequipo/{idequipo}": {
-      "patch": {
-        "tags": [
-          "Equipos"
-        ],
-        "parameters": [
-          {
-            "name": "idequipo",
-            "in": "path",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
     "/api/FamiliaProductos/listadodefamilia": {
       "get": {
         "tags": [
@@ -196,7 +18,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/TblSkufamilia"
+                    "$ref": "#/components/schemas/TblFamiliaProductos"
                   }
                 }
               },
@@ -204,7 +26,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/TblSkufamilia"
+                    "$ref": "#/components/schemas/TblFamiliaProductos"
                   }
                 }
               },
@@ -212,7 +34,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/TblSkufamilia"
+                    "$ref": "#/components/schemas/TblFamiliaProductos"
                   }
                 }
               }
@@ -263,7 +85,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/TblSkufamilia"
+                    "$ref": "#/components/schemas/TblFamiliaProductos"
                   }
                 }
               },
@@ -271,7 +93,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/TblSkufamilia"
+                    "$ref": "#/components/schemas/TblFamiliaProductos"
                   }
                 }
               },
@@ -279,7 +101,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/TblSkufamilia"
+                    "$ref": "#/components/schemas/TblFamiliaProductos"
                   }
                 }
               }
@@ -447,6 +269,182 @@
       "get": {
         "tags": [
           "MaestraFamilia"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Maquinas/consultamaquinas": {
+      "get": {
+        "tags": [
+          "Maquinas"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TblMaquinas"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TblMaquinas"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TblMaquinas"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Maquinas/consultarmaquinacodigo": {
+      "get": {
+        "tags": [
+          "Maquinas"
+        ],
+        "parameters": [
+          {
+            "name": "codigo",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "nombre",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TblMaquinas"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TblMaquinas"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/TblMaquinas"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Maquinas/crearmaquina": {
+      "post": {
+        "tags": [
+          "Maquinas"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CrearMaquinaDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CrearMaquinaDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/CrearMaquinaDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Maquinas/actualizarmaquina": {
+      "put": {
+        "tags": [
+          "Maquinas"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActualizarMaquinaDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActualizarMaquinaDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActualizarMaquinaDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/api/Maquinas/eliminarmaquina/{idmaquina}": {
+      "patch": {
+        "tags": [
+          "Maquinas"
+        ],
+        "parameters": [
+          {
+            "name": "idmaquina",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
         ],
         "responses": {
           "200": {
@@ -655,10 +653,10 @@
         }
       }
     },
-    "/api/RestriccionEquipos/listarestriccionequipos": {
+    "/api/RestriccionMaquinas/listaRestriccionMaquinas": {
       "get": {
         "tags": [
-          "RestriccionEquipos"
+          "RestriccionMaquinas"
         ],
         "responses": {
           "200": {
@@ -666,26 +664,57 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblRestriccionEquipo"
-                  }
+                  "$ref": "#/components/schemas/RestriccionMaquinaDtoIEnumerableDataResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblRestriccionEquipo"
-                  }
+                  "$ref": "#/components/schemas/RestriccionMaquinaDtoIEnumerableDataResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblRestriccionEquipo"
-                  }
+                  "$ref": "#/components/schemas/RestriccionMaquinaDtoIEnumerableDataResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
                 }
               }
             }
@@ -693,10 +722,10 @@
         }
       }
     },
-    "/api/RestriccionEquipos/formatoscsvrestriccionequipos": {
+    "/api/RestriccionMaquinas/FormatosCSVRestriccionMaquinas": {
       "get": {
         "tags": [
-          "RestriccionEquipos"
+          "RestriccionMaquinas"
         ],
         "responses": {
           "200": {
@@ -705,10 +734,10 @@
         }
       }
     },
-    "/api/RestriccionEquipos/consultarrestriccionequipo": {
+    "/api/RestriccionMaquinas/ConsultarRestriccionEquipo": {
       "get": {
         "tags": [
-          "RestriccionEquipos"
+          "RestriccionMaquinas"
         ],
         "parameters": [
           {
@@ -726,26 +755,57 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblRestriccionEquipo"
-                  }
+                  "$ref": "#/components/schemas/RestriccionMaquinaDtoDataResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblRestriccionEquipo"
-                  }
+                  "$ref": "#/components/schemas/RestriccionMaquinaDtoDataResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblRestriccionEquipo"
-                  }
+                  "$ref": "#/components/schemas/RestriccionMaquinaDtoDataResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
                 }
               }
             }
@@ -753,72 +813,166 @@
         }
       }
     },
-    "/api/RestriccionEquipos/actualizarrestriccionequipos": {
+    "/api/RestriccionMaquinas/ActualizarRestriccionMaquinas": {
       "put": {
         "tags": [
-          "RestriccionEquipos"
+          "RestriccionMaquinas"
         ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/ActualizarRestriccionEquiposDto"
+                "$ref": "#/components/schemas/ActualizarRestriccionMaquinaDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/ActualizarRestriccionEquiposDto"
+                "$ref": "#/components/schemas/ActualizarRestriccionMaquinaDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/ActualizarRestriccionEquiposDto"
+                "$ref": "#/components/schemas/ActualizarRestriccionMaquinaDto"
               }
             }
           }
         },
         "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
           "200": {
-            "description": "Success"
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanDataResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanDataResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanDataResponse"
+                }
+              }
+            }
           }
         }
       }
     },
-    "/api/RestriccionEquipos/crearrestriccionequipos": {
+    "/api/RestriccionMaquinas/CrearRestriccionMaquinas": {
       "post": {
         "tags": [
-          "RestriccionEquipos"
+          "RestriccionMaquinas"
         ],
         "requestBody": {
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/CrearRestriccionEquiposDto"
+                "$ref": "#/components/schemas/CrearRestriccionMaquinaDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/CrearRestriccionEquiposDto"
+                "$ref": "#/components/schemas/CrearRestriccionMaquinaDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/CrearRestriccionEquiposDto"
+                "$ref": "#/components/schemas/CrearRestriccionMaquinaDto"
               }
             }
           }
         },
         "responses": {
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
           "200": {
-            "description": "Success"
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RestriccionMaquinaDtoDataResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RestriccionMaquinaDtoDataResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RestriccionMaquinaDtoDataResponse"
+                }
+              }
+            }
           }
         }
       }
     },
-    "/api/RestriccionEquipos/eliminarrestriccionequipo/{id}": {
+    "/api/RestriccionMaquinas/EliminarRestriccionMaquina/{id}": {
       "patch": {
         "tags": [
-          "RestriccionEquipos"
+          "RestriccionMaquinas"
         ],
         "parameters": [
           {
@@ -832,8 +986,65 @@
           }
         ],
         "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
           "200": {
-            "description": "Success"
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanDataResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanDataResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanDataResponse"
+                }
+              }
+            }
           }
         }
       }
@@ -849,26 +1060,57 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblRoles"
-                  }
+                  "$ref": "#/components/schemas/RoleDtoIEnumerableDataResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblRoles"
-                  }
+                  "$ref": "#/components/schemas/RoleDtoIEnumerableDataResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblRoles"
-                  }
+                  "$ref": "#/components/schemas/RoleDtoIEnumerableDataResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
                 }
               }
             }
@@ -887,26 +1129,57 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblRoles"
-                  }
+                  "$ref": "#/components/schemas/RoleDtoIEnumerableDataResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblRoles"
-                  }
+                  "$ref": "#/components/schemas/RoleDtoIEnumerableDataResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblRoles"
-                  }
+                  "$ref": "#/components/schemas/RoleDtoIEnumerableDataResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
                 }
               }
             }
@@ -942,26 +1215,57 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblRoles"
-                  }
+                  "$ref": "#/components/schemas/RoleDtoDataResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblRoles"
-                  }
+                  "$ref": "#/components/schemas/RoleDtoDataResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblRoles"
-                  }
+                  "$ref": "#/components/schemas/RoleDtoDataResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
                 }
               }
             }
@@ -994,8 +1298,45 @@
           }
         },
         "responses": {
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
           "200": {
-            "description": "Success"
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoleDtoDataResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoleDtoDataResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/RoleDtoDataResponse"
+                }
+              }
+            }
           }
         }
       }
@@ -1025,8 +1366,65 @@
           }
         },
         "responses": {
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
           "200": {
-            "description": "Success"
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanDataResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanDataResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanDataResponse"
+                }
+              }
+            }
           }
         }
       }
@@ -1049,7 +1447,64 @@
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanDataResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanDataResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanDataResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
           }
         }
       }
@@ -1067,7 +1522,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/TblRutum"
+                    "$ref": "#/components/schemas/TblRuta"
                   }
                 }
               },
@@ -1075,7 +1530,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/TblRutum"
+                    "$ref": "#/components/schemas/TblRuta"
                   }
                 }
               },
@@ -1083,7 +1538,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/TblRutum"
+                    "$ref": "#/components/schemas/TblRuta"
                   }
                 }
               }
@@ -1123,7 +1578,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/TblRutum"
+                    "$ref": "#/components/schemas/TblRuta"
                   }
                 }
               },
@@ -1131,7 +1586,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/TblRutum"
+                    "$ref": "#/components/schemas/TblRuta"
                   }
                 }
               },
@@ -1139,7 +1594,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/TblRutum"
+                    "$ref": "#/components/schemas/TblRuta"
                   }
                 }
               }
@@ -1223,7 +1678,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/TblSolicitudesProduccion"
+                    "$ref": "#/components/schemas/TblUnidadesProduccion"
                   }
                 }
               },
@@ -1231,7 +1686,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/TblSolicitudesProduccion"
+                    "$ref": "#/components/schemas/TblUnidadesProduccion"
                   }
                 }
               },
@@ -1239,7 +1694,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/TblSolicitudesProduccion"
+                    "$ref": "#/components/schemas/TblUnidadesProduccion"
                   }
                 }
               }
@@ -1270,16 +1725,15 @@
             "name": "idsolicitudes",
             "in": "query",
             "schema": {
-              "type": "integer",
-              "format": "int64"
+              "type": "string"
             }
           },
           {
-            "name": "idSKU",
+            "name": "idfamilia",
             "in": "query",
             "schema": {
               "type": "integer",
-              "format": "int64"
+              "format": "int32"
             }
           }
         ],
@@ -1291,7 +1745,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/TblSolicitudesProduccion"
+                    "$ref": "#/components/schemas/TblUnidadesProduccion"
                   }
                 }
               },
@@ -1299,7 +1753,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/TblSolicitudesProduccion"
+                    "$ref": "#/components/schemas/TblUnidadesProduccion"
                   }
                 }
               },
@@ -1307,7 +1761,7 @@
                 "schema": {
                   "type": "array",
                   "items": {
-                    "$ref": "#/components/schemas/TblSolicitudesProduccion"
+                    "$ref": "#/components/schemas/TblUnidadesProduccion"
                   }
                 }
               }
@@ -1356,17 +1810,17 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateSolicitudDeProduccionDto"
+                "$ref": "#/components/schemas/UpdateUnidadDeProduccionDto"
               }
             },
             "text/json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateSolicitudDeProduccionDto"
+                "$ref": "#/components/schemas/UpdateUnidadDeProduccionDto"
               }
             },
             "application/*+json": {
               "schema": {
-                "$ref": "#/components/schemas/UpdateSolicitudDeProduccionDto"
+                "$ref": "#/components/schemas/UpdateUnidadDeProduccionDto"
               }
             }
           }
@@ -1412,26 +1866,57 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblUsuario"
-                  }
+                  "$ref": "#/components/schemas/UsuariosDtoIEnumerableDataResponse"
                 }
               },
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblUsuario"
-                  }
+                  "$ref": "#/components/schemas/UsuariosDtoIEnumerableDataResponse"
                 }
               },
               "text/json": {
                 "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblUsuario"
-                  }
+                  "$ref": "#/components/schemas/UsuariosDtoIEnumerableDataResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
                 }
               }
             }
@@ -1440,32 +1925,87 @@
       }
     },
     "/api/Usuarios/consultarusuario": {
-      "post": {
+      "get": {
         "tags": [
           "Usuarios"
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ConsultaDeUsuario"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ConsultaDeUsuario"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/ConsultaDeUsuario"
-              }
+        "parameters": [
+          {
+            "name": "correoelectronico",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "cedula",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
             }
           }
-        },
+        ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsuariosDtoDataResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsuariosDtoDataResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsuariosDtoDataResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
           }
         }
       }
@@ -1495,8 +2035,45 @@
           }
         },
         "responses": {
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
           "200": {
-            "description": "Success"
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsuariosDtoDataResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsuariosDtoDataResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UsuariosDtoDataResponse"
+                }
+              }
+            }
           }
         }
       }
@@ -1543,6 +2120,37 @@
         }
       }
     },
+    "/api/Usuarios/actualizarrolusuario": {
+      "put": {
+        "tags": [
+          "Usuarios"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActualizarRolUsuarioDto"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActualizarRolUsuarioDto"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/ActualizarRolUsuarioDto"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
     "/api/Usuarios/eliminarusuarios/{id}": {
       "patch": {
         "tags": [
@@ -1569,72 +2177,36 @@
   },
   "components": {
     "schemas": {
-      "ActualizarEquipoDto": {
+      "ActualizarMaquinaDto": {
         "type": "object",
         "properties": {
-          "idEquipo": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "tipo": {
+          "idMaquina": {
             "type": "string",
             "nullable": true
           },
-          "estado": {
-            "type": "boolean"
+          "idTipo": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
           },
-          "descripcion": {
+          "idZona": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "nombre": {
             "type": "string",
             "nullable": true
           },
-          "zonaUbicacion": {
-            "type": "string",
+          "personalRequeridoMaquina": {
+            "type": "integer",
+            "format": "int32",
             "nullable": true
           },
-          "restriccionEquipos": {
+          "personalRequeridoEmbalaje": {
             "type": "integer",
-            "format": "int32"
-          }
-        },
-        "additionalProperties": false
-      },
-      "ActualizarRestriccionEquiposDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "descripcion": {
-            "type": "string",
+            "format": "int32",
             "nullable": true
-          },
-          "estado": {
-            "type": "boolean"
-          },
-          "idEquipo": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "tipoRestriccion": {
-            "type": "string",
-            "nullable": true
-          },
-          "idUnidadMedida": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "valor": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "prioridad": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "idRestriccionLavados": {
-            "type": "integer",
-            "format": "int32"
           }
         },
         "additionalProperties": false
@@ -1676,6 +2248,54 @@
         },
         "additionalProperties": false
       },
+      "ActualizarRestriccionMaquinaDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "descripcion": {
+            "type": "string",
+            "nullable": true
+          },
+          "idMaquina": {
+            "type": "string",
+            "nullable": true
+          },
+          "tipoRestriccion": {
+            "type": "string",
+            "nullable": true
+          },
+          "unidadMedida": {
+            "type": "string",
+            "nullable": true
+          },
+          "valor": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "prioridad": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ActualizarRolUsuarioDto": {
+        "type": "object",
+        "properties": {
+          "idRol": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idUsuario": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
       "ActualizarRoleDto": {
         "type": "object",
         "properties": {
@@ -1689,6 +2309,31 @@
           },
           "estado": {
             "type": "boolean"
+          },
+          "permisos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ActualizarRoleModuloPermisoDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ActualizarRoleModuloPermisoDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "permisoId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "moduloId": {
+            "type": "integer",
+            "format": "int32"
           }
         },
         "additionalProperties": false
@@ -1698,9 +2343,23 @@
         "properties": {
           "idRuta": {
             "type": "integer",
-            "format": "int32"
+            "format": "int64"
           },
-          "descripcion": {
+          "nombre": {
+            "type": "string",
+            "nullable": true
+          },
+          "idFamilia": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "idLinea": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "idMaquinas": {
             "type": "string",
             "nullable": true
           },
@@ -1727,76 +2386,49 @@
         },
         "additionalProperties": false
       },
-      "ConsultaDeUsuario": {
+      "BooleanDataResponse": {
         "type": "object",
         "properties": {
-          "correoElectronico": {
+          "exito": {
             "type": "string",
             "nullable": true
           },
-          "cedula": {
+          "datos": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "CrearMaquinaDto": {
+        "type": "object",
+        "properties": {
+          "idMaquina": {
+            "type": "string",
+            "nullable": true
+          },
+          "idTipo": {
             "type": "integer",
             "format": "int32",
             "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "CrearEquipoDto": {
-        "type": "object",
-        "properties": {
-          "tipo": {
+          },
+          "idZona": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "nombre": {
             "type": "string",
             "nullable": true
           },
-          "descripcion": {
-            "type": "string",
+          "personalRequeridoMaquina": {
+            "type": "integer",
+            "format": "int32",
             "nullable": true
           },
-          "zonaUbicacion": {
-            "type": "string",
+          "personalRequeridoEmbalaje": {
+            "type": "integer",
+            "format": "int32",
             "nullable": true
-          },
-          "restriccionEquipos": {
-            "type": "integer",
-            "format": "int32"
-          }
-        },
-        "additionalProperties": false
-      },
-      "CrearRestriccionEquiposDto": {
-        "type": "object",
-        "properties": {
-          "descripcion": {
-            "type": "string",
-            "nullable": true
-          },
-          "estado": {
-            "type": "boolean"
-          },
-          "idEquipo": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "tipoRestriccion": {
-            "type": "string",
-            "nullable": true
-          },
-          "idUnidadMedida": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "valor": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "prioridad": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "idRestriccionLavado": {
-            "type": "integer",
-            "format": "int32"
           }
         },
         "additionalProperties": false
@@ -1834,6 +2466,41 @@
         },
         "additionalProperties": false
       },
+      "CrearRestriccionMaquinaDto": {
+        "type": "object",
+        "properties": {
+          "idMaquina": {
+            "type": "string",
+            "nullable": true
+          },
+          "idFamilia": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "descripcion": {
+            "type": "string",
+            "nullable": true
+          },
+          "tipoRestriccion": {
+            "type": "string",
+            "nullable": true
+          },
+          "unidadMedida": {
+            "type": "string",
+            "nullable": true
+          },
+          "valor": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "prioridad": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
       "CrearRoleDto": {
         "type": "object",
         "properties": {
@@ -1843,6 +2510,27 @@
           },
           "estado": {
             "type": "boolean"
+          },
+          "permisos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/CrearRoleModuloPermisoDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CrearRoleModuloPermisoDto": {
+        "type": "object",
+        "properties": {
+          "permisoId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "moduloId": {
+            "type": "integer",
+            "format": "int32"
           }
         },
         "additionalProperties": false
@@ -1850,22 +2538,22 @@
       "CrearRutaDto": {
         "type": "object",
         "properties": {
-          "descripcion": {
+          "nombre": {
             "type": "string",
             "nullable": true
           },
-          "rutaElegida": {
-            "type": "string",
-            "nullable": true
-          },
-          "idSku": {
-            "type": "integer",
-            "format": "int64",
-            "nullable": true
-          },
-          "idListadoEquipos": {
+          "idFamilia": {
             "type": "integer",
             "format": "int32",
+            "nullable": true
+          },
+          "idLinea": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "idMaquinas": {
+            "type": "string",
             "nullable": true
           },
           "tipoRuta": {
@@ -1876,6 +2564,24 @@
             "type": "integer",
             "format": "int32",
             "nullable": true
+          },
+          "rutaSugeridaEmpresa": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "rutaSugeridaModelo": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "fechaCreacion": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "rutaElegida": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -1883,14 +2589,13 @@
       "CrearUsuarioDto": {
         "type": "object",
         "properties": {
-          "correoElectronico": {
+          "correo_Electronico": {
             "type": "string",
             "nullable": true
           },
           "cedula": {
             "type": "integer",
-            "format": "int32",
-            "nullable": true
+            "format": "int32"
           },
           "nombre": {
             "type": "string",
@@ -1905,13 +2610,6 @@
             "nullable": true
           },
           "clave": {
-            "type": "string",
-            "nullable": true
-          },
-          "activo": {
-            "type": "boolean"
-          },
-          "foto": {
             "type": "string",
             "nullable": true
           },
@@ -2004,6 +2702,185 @@
         },
         "additionalProperties": false
       },
+      "RestriccionMaquinaDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idMaquina": {
+            "type": "string",
+            "nullable": true
+          },
+          "idFamilia": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "descripcion": {
+            "type": "string",
+            "nullable": true
+          },
+          "tipoRestriccion": {
+            "type": "string",
+            "nullable": true
+          },
+          "unidadMedida": {
+            "type": "string",
+            "nullable": true
+          },
+          "valor": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "prioridad": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "estado": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "fechaCreacion": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "permisosRestriccionMaquina": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RestriccionMaquinaModuloDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "RestriccionMaquinaDtoDataResponse": {
+        "type": "object",
+        "properties": {
+          "exito": {
+            "type": "string",
+            "nullable": true
+          },
+          "datos": {
+            "$ref": "#/components/schemas/RestriccionMaquinaDto"
+          }
+        },
+        "additionalProperties": false
+      },
+      "RestriccionMaquinaDtoIEnumerableDataResponse": {
+        "type": "object",
+        "properties": {
+          "exito": {
+            "type": "string",
+            "nullable": true
+          },
+          "datos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RestriccionMaquinaDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "RestriccionMaquinaModuloDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idMaquina": {
+            "type": "string",
+            "nullable": true
+          },
+          "idFamilia": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "RoleDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nombre": {
+            "type": "string",
+            "nullable": true
+          },
+          "estado": {
+            "type": "boolean"
+          },
+          "fechaCreacion": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "permisos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RoleModuloPermisoDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "RoleDtoDataResponse": {
+        "type": "object",
+        "properties": {
+          "exito": {
+            "type": "string",
+            "nullable": true
+          },
+          "datos": {
+            "$ref": "#/components/schemas/RoleDto"
+          }
+        },
+        "additionalProperties": false
+      },
+      "RoleDtoIEnumerableDataResponse": {
+        "type": "object",
+        "properties": {
+          "exito": {
+            "type": "string",
+            "nullable": true
+          },
+          "datos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RoleDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "RoleModuloPermisoDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "permisoId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "moduloId": {
+            "type": "integer",
+            "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
       "SolicitudInicioDeSesiónUsuario": {
         "type": "object",
         "properties": {
@@ -2021,24 +2898,56 @@
       "SolicitudProduccionDto": {
         "type": "object",
         "properties": {
-          "descripcion": {
+          "idProducto": {
             "type": "string",
             "nullable": true
           },
-          "idSKU": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "semana": {
+          "idFamilia": {
             "type": "integer",
             "format": "int32"
           },
-          "unidadesProducir": {
+          "semana": {
+            "type": "string",
+            "nullable": true
+          },
+          "cantidadesProducir": {
             "type": "integer",
             "format": "int32"
           },
           "estado": {
-            "type": "boolean"
+            "type": "boolean",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TblCambiosCiclosIntermedios": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idFamiliaProceso": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "idFamiliaCambio": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "tiempoCambioHoras": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "familiaProcesoNavigation": {
+            "$ref": "#/components/schemas/TblFamiliaProductos"
+          },
+          "familiaCambioNavigation": {
+            "$ref": "#/components/schemas/TblFamiliaProductos"
           }
         },
         "additionalProperties": false
@@ -2069,9 +2978,51 @@
             "type": "string",
             "nullable": true
           },
-          "RestriccionEquipos": {
+          "RestriccionMaquina": {
             "type": "integer",
             "format": "int32"
+          }
+        },
+        "additionalProperties": false
+      },
+      "TblFamiliaProductos": {
+        "type": "object",
+        "properties": {
+          "idFamilia": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nombre": {
+            "type": "string",
+            "nullable": true
+          },
+          "estado": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "tiempoFormulacion": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "fechaCreacion": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "cambiosCiclosIntermediosFamiliaProceso": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TblCambiosCiclosIntermedios"
+            },
+            "nullable": true
+          },
+          "cambiosCiclosIntermediosFamiliaCambio": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TblCambiosCiclosIntermedios"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -2102,6 +3053,77 @@
         },
         "additionalProperties": false
       },
+      "TblIntentosDeLogin": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idUsuario": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "intentosFallidos": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "fechaUltimoIntento": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "cuentaBloqueada": {
+            "type": "boolean"
+          },
+          "fechaFinBloqueo": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "usuarios": {
+            "$ref": "#/components/schemas/TblUsuarios"
+          }
+        },
+        "additionalProperties": false
+      },
+      "TblLineasProduccion": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nombre": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TblListadoEquiposRuta": {
+        "type": "object",
+        "properties": {
+          "idMaquina": {
+            "type": "string",
+            "nullable": true
+          },
+          "idRuta": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "orden": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "maquinas": {
+            "$ref": "#/components/schemas/TblMaquinas"
+          },
+          "rutas": {
+            "$ref": "#/components/schemas/TblRuta"
+          }
+        },
+        "additionalProperties": false
+      },
       "TblListadoEquiposRutum": {
         "type": "object",
         "properties": {
@@ -2124,10 +3146,66 @@
         },
         "additionalProperties": false
       },
+      "TblMaquinas": {
+        "type": "object",
+        "properties": {
+          "idMaquina": {
+            "type": "string",
+            "nullable": true
+          },
+          "idTipo": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "idZona": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "nombre": {
+            "type": "string",
+            "nullable": true
+          },
+          "personalRequeridoMaquina": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "personalRequeridoEmbalaje": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "estado": {
+            "type": "string",
+            "nullable": true
+          },
+          "fechaCreacion": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "equipoRuta": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TblListadoEquiposRuta"
+            },
+            "nullable": true
+          },
+          "zona": {
+            "$ref": "#/components/schemas/TblZona"
+          },
+          "tipoMaquina": {
+            "$ref": "#/components/schemas/TblTipoMaquinas"
+          }
+        },
+        "additionalProperties": false
+      },
       "TblModulos": {
         "type": "object",
         "properties": {
-          "idModulo": {
+          "id": {
             "type": "integer",
             "format": "int32"
           },
@@ -2149,7 +3227,7 @@
             "type": "integer",
             "format": "int32"
           },
-          "idRol": {
+          "idRole": {
             "type": "integer",
             "format": "int32"
           },
@@ -2161,7 +3239,7 @@
             "$ref": "#/components/schemas/TblRoles"
           },
           "idUsuarioNavigation": {
-            "$ref": "#/components/schemas/TblUsuario"
+            "$ref": "#/components/schemas/TblUsuarios"
           }
         },
         "additionalProperties": false
@@ -2299,6 +3377,57 @@
         },
         "additionalProperties": false
       },
+      "TblRestriccionRuta": {
+        "type": "object",
+        "properties": {
+          "idRestriccionRuta": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "descripcion": {
+            "type": "string",
+            "nullable": true
+          },
+          "idMaquina": {
+            "type": "string",
+            "nullable": true
+          },
+          "idFamilia": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "tipoRestriccion": {
+            "type": "string",
+            "nullable": true
+          },
+          "unidadMedida": {
+            "type": "string",
+            "nullable": true
+          },
+          "valor": {
+            "type": "string",
+            "nullable": true
+          },
+          "prioridad": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "fechaCreacion": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "maquina": {
+            "$ref": "#/components/schemas/TblMaquinas"
+          },
+          "familia": {
+            "$ref": "#/components/schemas/TblFamiliaProductos"
+          }
+        },
+        "additionalProperties": false
+      },
       "TblRestriccionRutum": {
         "type": "object",
         "properties": {
@@ -2361,7 +3490,8 @@
             "nullable": true
           },
           "estado": {
-            "type": "boolean"
+            "type": "boolean",
+            "nullable": true
           },
           "fechaCreacion": {
             "type": "string",
@@ -2371,20 +3501,6 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/TblModulosUsuario"
-            },
-            "nullable": true
-          },
-          "tblRolesPermisos": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TblRolesPermiso"
-            },
-            "nullable": true
-          },
-          "tblUsuarioRoles": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TblUsuarioRol"
             },
             "nullable": true
           }
@@ -2408,18 +3524,93 @@
             "format": "int32",
             "nullable": true
           },
-          "idModulo": {
-            "type": "integer",
-            "format": "int32"
-          },
           "idPermisoNavigation": {
             "$ref": "#/components/schemas/TblPermiso"
           },
-          "idRolNavigation": {
+          "rol": {
             "$ref": "#/components/schemas/TblRoles"
           },
-          "idModuloNavigation": {
-            "$ref": "#/components/schemas/TblModulos"
+          "permiso": {
+            "$ref": "#/components/schemas/TblPermiso"
+          }
+        },
+        "additionalProperties": false
+      },
+      "TblRuta": {
+        "type": "object",
+        "properties": {
+          "idRuta": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "nombre": {
+            "type": "string",
+            "nullable": true
+          },
+          "idFamilia": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "idLinea": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "idMaquinas": {
+            "type": "string",
+            "nullable": true
+          },
+          "tipoRuta": {
+            "type": "string",
+            "nullable": true
+          },
+          "idRestriccionRuta": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "rutaSugeridaEmpresa": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "rutaSugeridaModelo": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "fechaCreacion": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "rutaElegida": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "idListadoEquipos": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "equipoRuta": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TblListadoEquiposRuta"
+            },
+            "nullable": true
+          },
+          "familia": {
+            "$ref": "#/components/schemas/TblFamiliaProductos"
+          },
+          "linea": {
+            "$ref": "#/components/schemas/TblLineasProduccion"
+          },
+          "maquinas": {
+            "$ref": "#/components/schemas/TblMaquinas"
+          },
+          "restriccionRuta": {
+            "$ref": "#/components/schemas/TblRestriccionRuta"
           }
         },
         "additionalProperties": false
@@ -2592,6 +3783,20 @@
         },
         "additionalProperties": false
       },
+      "TblTipoMaquinas": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nombre": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "TblUnidadMedidum": {
         "type": "object",
         "properties": {
@@ -2620,7 +3825,33 @@
         },
         "additionalProperties": false
       },
-      "TblUsuario": {
+      "TblUnidadesProduccion": {
+        "type": "object",
+        "properties": {
+          "idProducto": {
+            "type": "string",
+            "nullable": true
+          },
+          "idFamilia": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "semana": {
+            "type": "string",
+            "nullable": true
+          },
+          "cantidadesProducir": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "estado": {
+            "type": "boolean",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TblUsuarios": {
         "type": "object",
         "properties": {
           "id": {
@@ -2633,8 +3864,7 @@
           },
           "cedula": {
             "type": "integer",
-            "format": "int32",
-            "nullable": true
+            "format": "int32"
           },
           "nombre": {
             "type": "string",
@@ -2675,61 +3905,52 @@
             },
             "nullable": true
           },
-          "tblUsuarioRoles": {
+          "intentosDeLogin": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/TblUsuarioRol"
+              "$ref": "#/components/schemas/TblIntentosDeLogin"
             },
             "nullable": true
           }
         },
         "additionalProperties": false
       },
-      "TblUsuarioRol": {
+      "TblZona": {
         "type": "object",
         "properties": {
-          "usuariosId": {
+          "id": {
             "type": "integer",
             "format": "int32"
           },
-          "usuario": {
-            "$ref": "#/components/schemas/TblUsuario"
-          },
-          "rolesId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "role": {
-            "$ref": "#/components/schemas/TblRoles"
+          "nombre": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
       },
-      "UpdateSolicitudDeProduccionDto": {
+      "UpdateUnidadDeProduccionDto": {
         "type": "object",
         "properties": {
-          "idSolicitudes": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "descripcion": {
+          "idProducto": {
             "type": "string",
             "nullable": true
           },
-          "idSKU": {
+          "idFamilia": {
             "type": "integer",
             "format": "int32"
           },
           "semana": {
-            "type": "integer",
-            "format": "int32"
+            "type": "string",
+            "nullable": true
           },
-          "unidadesProducir": {
+          "cantidadesProducir": {
             "type": "integer",
             "format": "int32"
           },
           "estado": {
-            "type": "boolean"
+            "type": "boolean",
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -2737,10 +3958,17 @@
       "UsuariosDto": {
         "type": "object",
         "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "correoElectronico": {
+            "type": "string",
+            "nullable": true
+          },
           "cedula": {
             "type": "integer",
-            "format": "int32",
-            "nullable": true
+            "format": "int32"
           },
           "nombre": {
             "type": "string",
@@ -2757,6 +3985,54 @@
           "clave": {
             "type": "string",
             "nullable": true
+          },
+          "activo": {
+            "type": "boolean"
+          },
+          "roles": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "nullable": true
+          },
+          "usuarioPermiso": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/RestriccionMaquinaModuloDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "UsuariosDtoDataResponse": {
+        "type": "object",
+        "properties": {
+          "exito": {
+            "type": "string",
+            "nullable": true
+          },
+          "datos": {
+            "$ref": "#/components/schemas/UsuariosDto"
+          }
+        },
+        "additionalProperties": false
+      },
+      "UsuariosDtoIEnumerableDataResponse": {
+        "type": "object",
+        "properties": {
+          "exito": {
+            "type": "string",
+            "nullable": true
+          },
+          "datos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UsuariosDto"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -2765,7 +4041,7 @@
     "securitySchemes": {
       "Bearer": {
         "type": "apiKey",
-        "description": "Por favor, ingresa 'Bearer' [espacio] y tu token en el campo de texto a continuación. Ejemplo: \"Bearer 12345abcdef\"",
+        "description": "Por favor, ingresa 'Bearer' [espacio] y tu token en el campo de texto a continuaci�n. Ejemplo: \"Bearer 12345abcdef\"",
         "name": "Authorization",
         "in": "header"
       }

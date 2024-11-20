@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { ActualizarRoleDto, ModulosRolesPermisosService, RolesService, TblModulos, TblPermiso, TblRoles } from 'src/app/core/services';
+import { ActualizarRoleDto, ModulosRolesPermisosService, RoleDto, RolesService, TblPermiso, TblRoles } from 'src/app/core/services';
 import * as bootstrap from 'bootstrap';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import * as XLSX from 'xlsx';
 import Swal from 'sweetalert2';
+import { TblModulos } from 'src/app/core/services/model/tblModulos';
 
 @Component({
   selector: 'app-role-admin',
@@ -17,14 +18,14 @@ export class RoleAdminComponent implements OnInit {
   totalPages = 5;
   pages: number[] = [];
 
-  roles: TblRoles[] = [];
+  roles: RoleDto[] = [];
 
   roleFormGroup: FormGroup;
   itemsPerPage = 10;
   rolesCount = 0;
 
-  filteredData: TblRoles[] = [];
-  paginatedData: TblRoles[] = [];
+  filteredData: RoleDto[] = [];
+  paginatedData: RoleDto[] = [];
 
   searchQuery = new FormControl();
 
@@ -63,7 +64,7 @@ export class RoleAdminComponent implements OnInit {
     this.rolesService.apiRolesListarolesGet()
       .subscribe(
         response => {
-          this.roles = response.datos;
+          this.roles = response.datos ?? [];
           this.filteredData = this.roles;
           this.rolesCount = this.filteredData.length;
           this.totalPages = Math.ceil(this.rolesCount / this.itemsPerPage);
@@ -144,7 +145,7 @@ export class RoleAdminComponent implements OnInit {
       this.rolesService.apiRolesCrearrolePost(updateRole)
         .subscribe(
           response => {
-            const createdRole = response.datos;
+            const createdRole = response.datos ?? {};
             this.roles = [createdRole, ...this.roles];
             this.filterData('');
             this.modalService.dismissAll();
@@ -163,7 +164,14 @@ export class RoleAdminComponent implements OnInit {
       this.rolesService.apiRolesActualizarrolePut(updateRole)
         .subscribe(
           _ => {
-            this.roles = [updateRole, ...this.roles.filter(x => x.id !== this.currentRoleId)];
+            const roleToUpdate = this.roles.find(x => x.id === this.currentRoleId);
+            const updatedRole = {
+              id: roleToUpdate?.id,
+              nombre: this.nombre.value,
+              estado: this.estado.value,
+              fechaCreacion: roleToUpdate?.fechaCreacion,
+            } as RoleDto;
+            this.roles = [updatedRole, ...this.roles.filter(x => x.id !== this.currentRoleId)];
             this.filterData('');
             this.modalService.dismissAll();
             Swal.fire(
@@ -238,10 +246,12 @@ export class RoleAdminComponent implements OnInit {
 
   updatePermission(idModule: number, idPermission: number, event: any): void {
     const checked = event.target.checked as boolean;
+    const modulePermission = this.currentRoleModulePermissions.find(x => x.idModule === idModule && x.idPermission === idPermission);
     if (checked) {
-      this.currentRoleModulePermissions.push({id: 0, idModule, idPermission});
+      if (!modulePermission) {
+        this.currentRoleModulePermissions.push({id: 0, idModule, idPermission});
+      }
     } else {
-      const modulePermission = this.currentRoleModulePermissions.find(x => x.idModule === idModule && x.idPermission === idPermission);
       if (modulePermission) {
         this.currentRoleModulePermissions = this.currentRoleModulePermissions.filter(x => x.idModule === idModule && x.idPermission === idPermission);
       }

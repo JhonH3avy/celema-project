@@ -10,10 +10,10 @@
 
 
 export interface SolicitudProduccionDto { 
-    descripcion?: string | null;
-    idSKU?: number;
-    semana?: number;
-    unidadesProducir?: number;
-    estado?: boolean;
+    idProducto?: string | null;
+    idFamilia?: number;
+    semana?: string | null;
+    cantidadesProducir?: number;
+    estado?: boolean | null;
 }
 

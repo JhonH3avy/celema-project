@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { UsuariosService } from 'src/app/core/services';
 import { ApiService } from 'src/app/core/services/api.service';
 import Swal from 'sweetalert2';
 
@@ -18,7 +19,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     private router: Router,
-    private apiService: ApiService
+    private apiService: ApiService,
+    private usuariosService: UsuariosService,
   ) {
     // Inicializamos el formulario con un nuevo campo rememberMe
     this.loginForm = this.fb.group({
@@ -101,22 +103,17 @@ export class LoginComponent implements OnInit {
     });
   }
 
-  infoUsuario(usuario: any, clave: any){
-    const formData = {
-      correoElectronico: usuario,
-      clave: clave
-    };
-    this.apiService.postBearer('api/Usuarios/consultarusuario', formData).subscribe({
-      next: (response: any) => {
+  infoUsuario(usuario: any, _: any){
+    this.usuariosService.apiUsuariosConsultarusuarioGet(usuario)
+      .subscribe(response => {
         localStorage.removeItem('nombres');
         localStorage.removeItem('apellidos');
         localStorage.removeItem('cargo');
 
-        localStorage.setItem('nombres', response.datos.nombre);
-        localStorage.setItem('apellidos', response.datos.apellido);
-        localStorage.setItem('cargo', response.datos.cargo);
-      },
-      error: (error) => {
+        localStorage.setItem('nombres', response.datos?.nombre!);
+        localStorage.setItem('apellidos', response.datos?.apellido!);
+        localStorage.setItem('cargo', response.datos?.cargo!);
+      }, error => {
         this.loading = false;
         this.errorMessage = 'Hubo un error. Intenta nuevamente.';
 
@@ -126,8 +123,7 @@ export class LoginComponent implements OnInit {
           text: 'Error al consultar el servicio.',
           confirmButtonText: 'Aceptar'
         });
-      }
-    });
+      });
   }
 
   navigateToRecover() {

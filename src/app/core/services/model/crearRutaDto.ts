@@ -10,11 +10,15 @@
 
 
 export interface CrearRutaDto { 
-    descripcion?: string | null;
-    rutaElegida?: string | null;
-    idSku?: number | null;
-    idListadoEquipos?: number | null;
+    nombre?: string | null;
+    idFamilia?: number | null;
+    idLinea?: number | null;
+    idMaquinas?: string | null;
     tipoRuta?: string | null;
     idRestriccionRuta?: number | null;
+    rutaSugeridaEmpresa?: boolean | null;
+    rutaSugeridaModelo?: boolean | null;
+    fechaCreacion?: string | null;
+    rutaElegida?: number | null;
 }
 

@@ -7,18 +7,14 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { TblRolesPermiso } from './tblRolesPermiso';
-import { TblUsuarioRol } from './tblUsuarioRol';
 import { TblModulosUsuario } from './tblModulosUsuario';
 
 
 export interface TblRoles { 
     id?: number;
     nombre?: string | null;
-    estado?: boolean;
+    estado?: boolean | null;
     fechaCreacion?: string;
     tblModulosUsuarios?: Array<TblModulosUsuario> | null;
-    tblRolesPermisos?: Array<TblRolesPermiso> | null;
-    tblUsuarioRoles?: Array<TblUsuarioRol> | null;
 }
 

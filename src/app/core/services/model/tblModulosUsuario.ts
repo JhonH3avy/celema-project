@@ -8,14 +8,14 @@
  * Do not edit the class manually.
  */
 import { TblRoles } from './tblRoles';
-import { TblUsuario } from './tblUsuario';
+import { TblUsuarios } from './tblUsuarios';
 
 
 export interface TblModulosUsuario { 
     id?: number;
-    idRol?: number;
+    idRole?: number;
     idUsuario?: number;
     idRolNavigation?: TblRoles;
-    idUsuarioNavigation?: TblUsuario;
+    idUsuarioNavigation?: TblUsuarios;
 }
 

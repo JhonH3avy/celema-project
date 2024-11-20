@@ -16,6 +16,6 @@ export interface TblEquipo {
     FechaCreacion?: string;
     Descripcion?: string | null;
     ZonaUbicacion?: string | null;
-    RestriccionEquipos?: number;
+    RestriccionMaquina?: number;
 }
 

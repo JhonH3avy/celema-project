@@ -21,7 +21,7 @@ import { ActualizarRutaDto } from '../model/actualizarRutaDto';
 // @ts-ignore
 import { CrearRutaDto } from '../model/crearRutaDto';
 // @ts-ignore
-import { TblRutum } from '../model/tblRutum';
+import { TblRuta } from '../model/tblRuta';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -178,9 +178,9 @@ export class RutasService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public apiRutasConsultarrutaporidGet(idruta?: number, listadoequipo?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<TblRutum>>;
-    public apiRutasConsultarrutaporidGet(idruta?: number, listadoequipo?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<TblRutum>>>;
-    public apiRutasConsultarrutaporidGet(idruta?: number, listadoequipo?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<TblRutum>>>;
+    public apiRutasConsultarrutaporidGet(idruta?: number, listadoequipo?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<TblRuta>>;
+    public apiRutasConsultarrutaporidGet(idruta?: number, listadoequipo?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<TblRuta>>>;
+    public apiRutasConsultarrutaporidGet(idruta?: number, listadoequipo?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<TblRuta>>>;
     public apiRutasConsultarrutaporidGet(idruta?: number, listadoequipo?: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
@@ -239,7 +239,7 @@ export class RutasService {
         }
 
         let localVarPath = `/api/Rutas/consultarrutaporid`;
-        return this.httpClient.request<Array<TblRutum>>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<Array<TblRuta>>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,
@@ -335,9 +335,9 @@ export class RutasService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public apiRutasListarutasGet(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<TblRutum>>;
-    public apiRutasListarutasGet(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<TblRutum>>>;
-    public apiRutasListarutasGet(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<TblRutum>>>;
+    public apiRutasListarutasGet(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<TblRuta>>;
+    public apiRutasListarutasGet(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<TblRuta>>>;
+    public apiRutasListarutasGet(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<TblRuta>>>;
     public apiRutasListarutasGet(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
 
         let localVarHeaders = this.defaultHeaders;
@@ -386,7 +386,7 @@ export class RutasService {
         }
 
         let localVarPath = `/api/Rutas/listarutas`;
-        return this.httpClient.request<Array<TblRutum>>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<Array<TblRuta>>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
