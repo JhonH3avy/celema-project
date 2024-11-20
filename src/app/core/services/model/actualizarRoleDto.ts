@@ -7,11 +7,13 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { ActualizarRoleModuloPermisoDto } from './actualizarRoleModuloPermisoDto';
 
 
 export interface ActualizarRoleDto { 
     id?: number;
     nombre?: string | null;
     estado?: boolean;
+    permisos?: Array<ActualizarRoleModuloPermisoDto> | null;
 }
 

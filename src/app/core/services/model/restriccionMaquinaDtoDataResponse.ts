@@ -7,13 +7,11 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { RestriccionMaquinaDto } from './restriccionMaquinaDto';
 
 
-export interface SolicitudProduccionDto { 
-    idProducto?: string | null;
-    idFamilia?: number;
-    semana?: string | null;
-    cantidadesProducir?: number;
-    estado?: boolean | null;
+export interface RestriccionMaquinaDtoDataResponse { 
+    exito?: string | null;
+    datos?: RestriccionMaquinaDto;
 }
 

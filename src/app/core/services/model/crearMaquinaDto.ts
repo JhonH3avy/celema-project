@@ -7,14 +7,14 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { TblModulosUsuario } from './tblModulosUsuario';
 
 
-export interface TblRoles { 
-    id?: number;
+export interface CrearMaquinaDto { 
+    idMaquina?: string | null;
+    idTipo?: number | null;
+    idZona?: number | null;
     nombre?: string | null;
-    estado?: boolean | null;
-    fechaCreacion?: string;
-    tblModulosUsuarios?: Array<TblModulosUsuario> | null;
+    personalRequeridoMaquina?: number | null;
+    personalRequeridoEmbalaje?: number | null;
 }
 

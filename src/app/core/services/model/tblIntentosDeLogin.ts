@@ -7,15 +7,16 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { TblRoles } from './tblRoles';
 import { TblUsuarios } from './tblUsuarios';
 
 
-export interface TblModulosUsuario { 
+export interface TblIntentosDeLogin { 
     id?: number;
-    idRole?: number;
     idUsuario?: number;
-    idRolNavigation?: TblRoles;
-    idUsuarioNavigation?: TblUsuarios;
+    intentosFallidos?: number;
+    fechaUltimoIntento?: string;
+    cuentaBloqueada?: boolean;
+    fechaFinBloqueo?: string | null;
+    usuarios?: TblUsuarios;
 }
 

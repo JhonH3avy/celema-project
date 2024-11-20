@@ -7,12 +7,12 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { TblModulos } from './tblModulos';
 import { TblPermiso } from './tblPermiso';
+import { TblModulosUsuario } from './tblModulosUsuario';
 
 
 export interface ModulosRolesPermisosDto { 
-    modulos?: Array<TblModulos> | null;
+    modulos?: Array<TblModulosUsuario> | null;
     permisos?: Array<TblPermiso> | null;
     mensaje?: string | null;
 }

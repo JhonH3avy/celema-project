@@ -10,14 +10,12 @@
 
 
 export interface CrearUsuarioDto { 
-    correoElectronico?: string | null;
-    cedula?: number | null;
+    correo_Electronico?: string | null;
+    cedula?: number;
     nombre?: string | null;
     apellido?: string | null;
     cargo?: string | null;
     clave?: string | null;
-    activo?: boolean;
-    foto?: string | null;
     roles?: Array<number> | null;
 }
 

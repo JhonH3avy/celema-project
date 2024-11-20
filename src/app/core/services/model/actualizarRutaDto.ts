@@ -11,7 +11,10 @@
 
 export interface ActualizarRutaDto { 
     idRuta?: number;
-    descripcion?: string | null;
+    nombre?: string | null;
+    idFamilia?: number | null;
+    idLinea?: number | null;
+    idMaquinas?: string | null;
     rutaElegida?: string | null;
     idSKU?: number;
     idListadoEquipos?: number;

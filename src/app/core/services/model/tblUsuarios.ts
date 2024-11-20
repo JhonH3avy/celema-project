@@ -7,18 +7,23 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { RestriccionMaquinaModuloDto } from './restriccionMaquinaModuloDto';
+import { TblIntentosDeLogin } from './tblIntentosDeLogin';
+import { TblModulosUsuario } from './tblModulosUsuario';
 
 
-export interface UsuariosDto { 
+export interface TblUsuarios { 
+    id?: number;
     correoElectronico?: string | null;
     cedula?: number;
     nombre?: string | null;
     apellido?: string | null;
     cargo?: string | null;
+    fechaIngreso?: string;
+    ultimoAcceso?: string;
     clave?: string | null;
     activo?: boolean;
-    roles?: Array<number> | null;
-    usuarioPermiso?: Array<RestriccionMaquinaModuloDto> | null;
+    foto?: string | null;
+    tblModulosUsuarios?: Array<TblModulosUsuario> | null;
+    intentosDeLogin?: Array<TblIntentosDeLogin> | null;
 }
 

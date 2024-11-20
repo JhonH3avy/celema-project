@@ -7,13 +7,11 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { RoleDto } from './roleDto';
 
 
-export interface SolicitudProduccionDto { 
-    idProducto?: string | null;
-    idFamilia?: number;
-    semana?: string | null;
-    cantidadesProducir?: number;
-    estado?: boolean | null;
+export interface RoleDtoIEnumerableDataResponse { 
+    exito?: string | null;
+    datos?: Array<RoleDto> | null;
 }
 

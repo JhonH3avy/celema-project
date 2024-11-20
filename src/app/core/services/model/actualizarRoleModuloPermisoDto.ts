@@ -9,11 +9,9 @@
  */
 
 
-export interface SolicitudProduccionDto { 
-    idProducto?: string | null;
-    idFamilia?: number;
-    semana?: string | null;
-    cantidadesProducir?: number;
-    estado?: boolean | null;
+export interface ActualizarRoleModuloPermisoDto { 
+    id?: number;
+    permisoId?: number;
+    moduloId?: number;
 }
 

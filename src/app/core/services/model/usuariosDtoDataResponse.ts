@@ -7,13 +7,11 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { UsuariosDto } from './usuariosDto';
 
 
-export interface SolicitudProduccionDto { 
-    idProducto?: string | null;
-    idFamilia?: number;
-    semana?: string | null;
-    cantidadesProducir?: number;
-    estado?: boolean | null;
+export interface UsuariosDtoDataResponse { 
+    exito?: string | null;
+    datos?: UsuariosDto;
 }
 
