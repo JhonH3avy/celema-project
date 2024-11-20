@@ -48,7 +48,8 @@ import { environment } from 'src/environments/environment';
     ProfileComponent,
     ProductionPlanificationComponent,
     RoutePlanificationDetailComponent,
-    RoutePlanificationPriorizationComponent
+    RoutePlanificationPriorizationComponent,
+    WashRestrictionComponent,
   ],
   imports: [
     BrowserModule,
