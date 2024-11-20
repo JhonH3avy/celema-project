@@ -14,6 +14,7 @@ export interface RoleDto {
     id?: number;
     nombre?: string | null;
     estado?: boolean;
+    fechaCreacion?: string;
     permisos?: Array<RoleModuloPermisoDto> | null;
 }
 

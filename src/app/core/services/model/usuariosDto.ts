@@ -11,6 +11,7 @@ import { RestriccionMaquinaModuloDto } from './restriccionMaquinaModuloDto';
 
 
 export interface UsuariosDto { 
+    id?: number;
     correoElectronico?: string | null;
     cedula?: number;
     nombre?: string | null;

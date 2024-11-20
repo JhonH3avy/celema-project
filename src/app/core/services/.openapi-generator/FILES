@@ -56,6 +56,7 @@ model/tblLineasProduccion.ts
 model/tblListadoEquiposRuta.ts
 model/tblListadoEquiposRutum.ts
 model/tblMaquinas.ts
+model/tblModulos.ts
 model/tblModulosUsuario.ts
 model/tblPermiso.ts
 model/tblRestriccionEquipo.ts

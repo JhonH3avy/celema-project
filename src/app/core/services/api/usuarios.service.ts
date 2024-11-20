@@ -264,9 +264,9 @@ export class UsuariosService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public apiUsuariosConsultarusuarioGet(correoelectronico?: string, cedula?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<UsuariosDtoIEnumerableDataResponse>;
-    public apiUsuariosConsultarusuarioGet(correoelectronico?: string, cedula?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<UsuariosDtoIEnumerableDataResponse>>;
-    public apiUsuariosConsultarusuarioGet(correoelectronico?: string, cedula?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<UsuariosDtoIEnumerableDataResponse>>;
+    public apiUsuariosConsultarusuarioGet(correoelectronico?: string, cedula?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<UsuariosDtoDataResponse>;
+    public apiUsuariosConsultarusuarioGet(correoelectronico?: string, cedula?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<UsuariosDtoDataResponse>>;
+    public apiUsuariosConsultarusuarioGet(correoelectronico?: string, cedula?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<UsuariosDtoDataResponse>>;
     public apiUsuariosConsultarusuarioGet(correoelectronico?: string, cedula?: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
@@ -325,7 +325,7 @@ export class UsuariosService {
         }
 
         let localVarPath = `/api/Usuarios/consultarusuario`;
-        return this.httpClient.request<UsuariosDtoIEnumerableDataResponse>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<UsuariosDtoDataResponse>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,

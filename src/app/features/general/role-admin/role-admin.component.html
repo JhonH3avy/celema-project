@@ -159,7 +159,7 @@
               <td class="text-secondary">{{ module.nombreModulo }}</td>
               <td scope="row" *ngFor="let permission of permissionList">
                 <div class="form-check d-flex justify-content-center">
-                  <input class="form-check-input" type="checkbox" value="" (change)="updatePermission(module.idModulo!, permission.id!, $event)">
+                  <input class="form-check-input" type="checkbox" value="" (change)="updatePermission(module.id!, permission.id!, $event)">
                 </div>
               </td>
             </tr>

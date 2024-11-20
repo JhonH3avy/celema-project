@@ -36,6 +36,7 @@ export * from './tblLineasProduccion';
 export * from './tblListadoEquiposRuta';
 export * from './tblListadoEquiposRutum';
 export * from './tblMaquinas';
+export * from './tblModulos';
 export * from './tblModulosUsuario';
 export * from './tblPermiso';
 export * from './tblRestriccionEquipo';

@@ -87,10 +87,7 @@ export class ProfileComponent implements OnInit {
         }
       }
       const userEmail = useParamToken ? paramEmail : decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/userdata'];
-      const consultaUsuario = {
-        correoElectronico: userEmail,
-      } as ConsultaDeUsuario;
-      this.usuariosService.apiUsuariosConsultarusuarioPost(consultaUsuario)
+      this.usuariosService.apiUsuariosConsultarusuarioGet(userEmail)
         .subscribe(
           response => this.handleGetUserResponse(response.datos),
           error => console.error(error)

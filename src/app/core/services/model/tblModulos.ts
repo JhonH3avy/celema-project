@@ -10,7 +10,7 @@
 
 
 export interface TblModulos { 
-    idModulo?: number;
+    id?: number;
     nombreModulo?: string | null;
     fechaCreacion?: string;
 }
