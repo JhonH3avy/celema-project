@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActualizarRoleDto, ModulosRolesPermisosService, RoleDto, RolesService, TblPermiso, TblRoles } from 'src/app/core/services';
 import * as bootstrap from 'bootstrap';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import * as XLSX from 'xlsx';
 import Swal from 'sweetalert2';
 import { TblModulos } from 'src/app/core/services/model/tblModulos';
@@ -47,12 +47,14 @@ export class RoleAdminComponent implements OnInit {
     private rolesService: RolesService,
     private fb: FormBuilder,
     private modalService: NgbModal,
+    private config: NgbModalConfig,
     private modulosRolesPermisosService: ModulosRolesPermisosService,
   ) {
     this.roleFormGroup = this.fb.group({
       nombre: ['', Validators.required],
       estado: [false, Validators.required],
     });
+    config.size = 'lg';
   }
 
   ngOnInit(): void {
