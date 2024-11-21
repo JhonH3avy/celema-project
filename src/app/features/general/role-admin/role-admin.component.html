@@ -5,7 +5,7 @@
   <div class="d-flex justify-content-end mb-3">
     <div class="d-flex align-items-center">
       <div class="input-group me-2">
-        <button class="btn btn-outline-secondary" type="button">
+        <button class="btn btn-outline-secondary" type="button" (click)="getData()">
           <i class="bi bi-search"></i>
         </button>
         <input type="text" class="form-control" placeholder="Buscar" [formControl]="searchQuery">
@@ -40,7 +40,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let role of filteredData">
+      <tr *ngFor="let role of paginatedData">
         <th scope="row">
           <div class="form-check">
             <input class="form-check-input" type="checkbox" value="">
