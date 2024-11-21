@@ -1,23 +1,23 @@
 <app-menu></app-menu>
 <div class="container">
-  <h2>Familia de SKU <span class="text-secondary">{{ productCount }}</span></h2>
+  <h2>Familia de SKU <span class="text-secondary">{{ productFamilyCount }}</span></h2>
   <p class="text-secondary">Familia de productos</p>
   <div class="d-flex justify-content-end mb-3">
     <div class="d-flex align-items-center">
       <div class="input-group me-2">
-        <button type="button" class="btn btn-outline-primary me-2">
+        <button type="button" class="btn btn-outline-primary me-2" (click)="getData()">
           <i class="bi bi-arrow-repeat"></i>
         </button>
         <button class="btn btn-outline-secondary" type="button">
           <i class="bi bi-search"></i>
         </button>
-        <input type="text" class="form-control" placeholder="Buscar">
+        <input type="text" class="form-control" placeholder="Buscar" [formControl]="searchQuery">
       </div>
-      <button type="button" class="btn btn-outline-secondary d-flex align-items-center me-2">
+      <!-- <button type="button" class="btn btn-outline-secondary d-flex align-items-center me-2">
         <i class="bi bi-filter me-1"></i>
         Filtrar
-      </button>
-      <button type="button" class="btn btn-primary d-flex align-items-center">
+      </button> -->
+      <button type="button" class="btn btn-primary d-flex align-items-center" (click)="exportToExcel()">
         <i class="bi bi-upload me-1"></i>
         Exportar
       </button>
@@ -32,31 +32,51 @@
           </div>
         </th>
         <th scope="col" class="text-secondary text-center">Código</th>
-        <th scope="col" class="text-secondary text-center">Descripción</th>
+        <!-- <th scope="col" class="text-secondary text-center">Descripción</th> -->
         <th scope="col" class="text-secondary text-center">Estado</th>
         <th scope="col" class="text-secondary text-center">Fecha de creación</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let product of products">
+      <tr *ngFor="let productFamily of paginatedData">
         <th scope="row">
           <div class="form-check">
             <input class="form-check-input" type="checkbox" value="">
           </div>
         </th>
-        <td class="text-secondary text-center">{{ product.code }}</td>
-        <td class="text-secondary text-center">{{ product.description }}</td>
+        <td class="text-secondary text-center">{{ productFamily.nombre }}</td>
+        <!-- <td class="text-secondary text-center">{{ productFamily.descripcion }}</td> -->
         <td>
-          <span [ngClass]="getStatusStyle(product.status)" class="badge border">{{ product.status }}</span>
+          <span [ngClass]="getStatusStyle(productFamily.estado)" class="badge border">{{ productFamily.estado ? 'Activo' : 'Inactivo' }}</span>
         </td>
-        <td class="text-secondary text-center">{{ product.creationDate | date:'dd/MM/yyyy' }}</td>
+        <td class="text-secondary text-center">{{ productFamily.fechaCreacion | date:'dd/MM/yyyy' }}</td>
       </tr>
     </tbody>
   </table>
 
-  <div class="d-flex justify-content-center align-items-center">
-    <button class="btn btn-light me-2 text-secondary" [ngClass]="{'active': currentPage === (i + 1)}" *ngFor="let page of pages; let i = index" (click)="changePage(i + 1)">
-      {{ i + 1 }}
-    </button>
+  <!-- Paginación -->
+  <div class="d-flex justify-content-between align-items-center">
+    <!-- Paginación -->
+    <ul class="pagination mb-0">
+      <li class="page-item" [class.disabled]="currentPage === 1">
+        <a class="page-link"(click)="changePage(currentPage - 1)">Anterior</a>
+      </li>
+      <li *ngFor="let page of pages" class="page-item" [class.active]="page === currentPage">
+        <a class="page-link" (click)="changePage(page)">{{ page }}</a>
+      </li>
+      <li class="page-item" [class.disabled]="currentPage === totalPages">
+        <a class="page-link" (click)="changePage(currentPage + 1)">Siguiente</a>
+      </li>
+    </ul>
+
+    <!-- Selector de cantidad por página -->
+    <div class="d-flex align-items-center ms-3">
+      <label for="itemsPerPage" class="form-label mb-0">Mostrar</label>
+      <select id="itemsPerPage" class="form-select w-auto ms-2" [(ngModel)]="itemsPerPage" (change)="changeItemsPerPage()">
+        <option value="10">10</option>
+        <option value="15">15</option>
+      </select>
+      <span class="ms-2">por página</span>
+    </div>
   </div>
 </div>

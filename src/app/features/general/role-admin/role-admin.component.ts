@@ -61,9 +61,16 @@ export class RoleAdminComponent implements OnInit {
         this.moduleList = response.modulos ?? [];
         this.permissionList = response.permisos ?? [];
       });
+    this.getData();
+    this.searchQuery.valueChanges.subscribe(query => this.filterData(query));
+
+  }
+
+  getData(): void {
     this.rolesService.apiRolesListarolesGet()
       .subscribe(
         response => {
+          this.currentPage = 1;
           this.roles = response.datos ?? [];
           this.filteredData = this.roles;
           this.rolesCount = this.filteredData.length;
@@ -73,8 +80,6 @@ export class RoleAdminComponent implements OnInit {
         },
         error => console.error(error)
       );
-    this.searchQuery.valueChanges.subscribe(query => this.filterData(query));
-
   }
 
   filterData(query: string): void {
@@ -102,6 +107,7 @@ export class RoleAdminComponent implements OnInit {
 
   changePage(pageToLoad: number): void {
     this.currentPage = pageToLoad;
+    this.updatePaginatedData();
   }
 
   openModal(element: HTMLElement): void {
