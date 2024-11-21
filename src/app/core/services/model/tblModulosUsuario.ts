@@ -7,15 +7,15 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { TblRoles } from './tblRoles';
-import { TblUsuarios } from './tblUsuarios';
+import { TblUsuario } from './tblUsuario';
+import { TblRole } from './tblRole';
 
 
 export interface TblModulosUsuario { 
     id?: number;
-    idRole?: number;
+    idRol?: number;
     idUsuario?: number;
-    idRolNavigation?: TblRoles;
-    idUsuarioNavigation?: TblUsuarios;
+    idRolNavigation?: TblRole;
+    idUsuarioNavigation?: TblUsuario;
 }
 

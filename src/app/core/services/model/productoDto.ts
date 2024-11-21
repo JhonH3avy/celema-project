@@ -9,13 +9,13 @@
  */
 
 
-export interface CrearUsuarioDto { 
-    correoElectronico?: string | null;
-    cedula?: number;
+export interface ProductoDto { 
+    idProducto?: string | null;
+    familia?: string | null;
     nombre?: string | null;
-    apellido?: string | null;
-    cargo?: string | null;
-    clave?: string | null;
-    roles?: Array<number> | null;
+    presentacion?: string | null;
+    volumen?: string | null;
+    fechaCreacion?: string | null;
+    estado?: boolean;
 }
 
