@@ -40,6 +40,9 @@ model/familiaProductoDtoIEnumerableDataResponse.ts
 model/models.ts
 model/modulosRolesPermisosDto.ts
 model/restablecerClaveDto.ts
+model/restriccionLavadoDto.ts
+model/restriccionLavadoDtoDataResponse.ts
+model/restriccionLavadoDtoIEnumerableDataResponse.ts
 model/restriccionMaquinaDto.ts
 model/restriccionMaquinaDtoDataResponse.ts
 model/restriccionMaquinaDtoIEnumerableDataResponse.ts
