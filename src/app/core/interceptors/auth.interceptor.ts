@@ -21,7 +21,7 @@ export class AuthInterceptor implements HttpInterceptor {
         }
       });
     } else if (req.url.match(/\/ActualizarUsuario\/[\d]+/i) !== null && req.method === 'PUT' ||
-        req.url.match(/\/ConsultarUsuario/i) !== null && req.method === 'POST') {
+        req.url.match(/\/ConsultarUsuario/i) !== null && req.method === 'GET') {
       const temporalToken = localStorage.getItem('tempToken');
       if (temporalToken) {
         authReq = req.clone({
