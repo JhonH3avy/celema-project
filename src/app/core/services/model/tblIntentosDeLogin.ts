@@ -7,7 +7,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { TblUsuarios } from './tblUsuarios';
+import { TblUsuario } from './tblUsuario';
 
 
 export interface TblIntentosDeLogin { 
@@ -17,6 +17,6 @@ export interface TblIntentosDeLogin {
     fechaUltimoIntento?: string;
     cuentaBloqueada?: boolean;
     fechaFinBloqueo?: string | null;
-    usuarios?: TblUsuarios;
+    idUsuarioNavigation?: TblUsuario;
 }
 

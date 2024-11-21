@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActualizarRoleDto, ModulosRolesPermisosService, RoleDto, RolesService, TblPermiso, TblRoles } from 'src/app/core/services';
+import { ActualizarRoleDto, ModulosRolesPermisosService, RoleDto, RolesService, TblPermiso } from 'src/app/core/services';
 import * as bootstrap from 'bootstrap';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
@@ -246,7 +246,7 @@ export class RoleAdminComponent implements OnInit {
   }
 
   exportToExcel(): void {
-    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.paginatedData);
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.roles);
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Roles');
     XLSX.writeFile(wb, 'roles.xlsx');

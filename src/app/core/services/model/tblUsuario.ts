@@ -7,23 +7,24 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { TblUsuarioRol } from './tblUsuarioRol';
+import { DateOnly } from './dateOnly';
+import { TblIntentosDeLogin } from './tblIntentosDeLogin';
 import { TblModulosUsuario } from './tblModulosUsuario';
 
 
 export interface TblUsuario { 
     id?: number;
     correoElectronico?: string | null;
-    cedula?: number | null;
+    cedula?: number;
     nombre?: string | null;
     apellido?: string | null;
     cargo?: string | null;
-    fechaIngreso?: string;
-    ultimoAcceso?: string;
+    fechaIngreso?: DateOnly;
+    ultimoAcceso?: DateOnly;
     clave?: string | null;
     activo?: boolean;
     foto?: string | null;
+    tblIntentosDeLogins?: Array<TblIntentosDeLogin> | null;
     tblModulosUsuarios?: Array<TblModulosUsuario> | null;
-    tblUsuarioRoles?: Array<TblUsuarioRol> | null;
 }
 

@@ -8,15 +8,14 @@
  * Do not edit the class manually.
  */
 import { TblPermiso } from './tblPermiso';
-import { TblRoles } from './tblRoles';
+import { TblRole } from './tblRole';
 
 
 export interface TblRolesPermiso { 
     id?: number;
-    idRol?: number | null;
-    idPermiso?: number | null;
+    idRol?: number;
+    idPermiso?: number;
     idPermisoNavigation?: TblPermiso;
-    rol?: TblRoles;
-    permiso?: TblPermiso;
+    idRolNavigation?: TblRole;
 }
 

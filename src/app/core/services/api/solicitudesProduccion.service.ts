@@ -19,8 +19,6 @@ import { Observable }                                        from 'rxjs';
 // @ts-ignore
 import { SolicitudProduccionDto } from '../model/solicitudProduccionDto';
 // @ts-ignore
-import { TblUnidadesProduccion } from '../model/tblUnidadesProduccion';
-// @ts-ignore
 import { UpdateUnidadDeProduccionDto } from '../model/updateUnidadDeProduccionDto';
 
 // @ts-ignore
@@ -178,10 +176,10 @@ export class SolicitudesProduccionService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public apiSolicitudesProduccionConsultasolicitudproduccionidGet(idsolicitudes?: string, idfamilia?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<TblUnidadesProduccion>>;
-    public apiSolicitudesProduccionConsultasolicitudproduccionidGet(idsolicitudes?: string, idfamilia?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<TblUnidadesProduccion>>>;
-    public apiSolicitudesProduccionConsultasolicitudproduccionidGet(idsolicitudes?: string, idfamilia?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<TblUnidadesProduccion>>>;
-    public apiSolicitudesProduccionConsultasolicitudproduccionidGet(idsolicitudes?: string, idfamilia?: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public apiSolicitudesProduccionConsultasolicitudproduccionidGet(idsolicitudes?: string, idfamilia?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
+    public apiSolicitudesProduccionConsultasolicitudproduccionidGet(idsolicitudes?: string, idfamilia?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
+    public apiSolicitudesProduccionConsultasolicitudproduccionidGet(idsolicitudes?: string, idfamilia?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
+    public apiSolicitudesProduccionConsultasolicitudproduccionidGet(idsolicitudes?: string, idfamilia?: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
         if (idsolicitudes !== undefined && idsolicitudes !== null) {
@@ -206,9 +204,6 @@ export class SolicitudesProduccionService {
         if (localVarHttpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
             const httpHeaderAccepts: string[] = [
-                'text/plain',
-                'application/json',
-                'text/json'
             ];
             localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         }
@@ -239,7 +234,7 @@ export class SolicitudesProduccionService {
         }
 
         let localVarPath = `/api/SolicitudesProduccion/consultasolicitudproduccionid`;
-        return this.httpClient.request<Array<TblUnidadesProduccion>>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<any>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,
@@ -469,10 +464,10 @@ export class SolicitudesProduccionService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public apiSolicitudesProduccionListadosolicitudproduccionGet(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<TblUnidadesProduccion>>;
-    public apiSolicitudesProduccionListadosolicitudproduccionGet(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<TblUnidadesProduccion>>>;
-    public apiSolicitudesProduccionListadosolicitudproduccionGet(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<TblUnidadesProduccion>>>;
-    public apiSolicitudesProduccionListadosolicitudproduccionGet(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public apiSolicitudesProduccionListadosolicitudproduccionGet(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any>;
+    public apiSolicitudesProduccionListadosolicitudproduccionGet(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<any>>;
+    public apiSolicitudesProduccionListadosolicitudproduccionGet(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<any>>;
+    public apiSolicitudesProduccionListadosolicitudproduccionGet(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: undefined, context?: HttpContext, transferCache?: boolean}): Observable<any> {
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -487,9 +482,6 @@ export class SolicitudesProduccionService {
         if (localVarHttpHeaderAcceptSelected === undefined) {
             // to determine the Accept header
             const httpHeaderAccepts: string[] = [
-                'text/plain',
-                'application/json',
-                'text/json'
             ];
             localVarHttpHeaderAcceptSelected = this.configuration.selectHeaderAccept(httpHeaderAccepts);
         }
@@ -520,7 +512,7 @@ export class SolicitudesProduccionService {
         }
 
         let localVarPath = `/api/SolicitudesProduccion/listadosolicitudproduccion`;
-        return this.httpClient.request<Array<TblUnidadesProduccion>>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<any>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,

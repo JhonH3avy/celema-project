@@ -15,7 +15,7 @@ export class ProductFamilyAdminComponent implements OnInit {
   itemsPerPage = 10;
   currentPage = 1;
   totalPages = 5;
-  pages = Array(this.totalPages).fill(0);
+  pages: number[] = [];
 
   searchQuery = new FormControl();
 
@@ -28,7 +28,6 @@ export class ProductFamilyAdminComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.productFamilyCount = this.productFamilies.length;
     this.getData();
     this.searchQuery.valueChanges.subscribe(query => this.filterData(query));
   }
@@ -95,9 +94,9 @@ export class ProductFamilyAdminComponent implements OnInit {
   }
 
   exportToExcel(): void {
-    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.paginatedData);
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.productFamilies);
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Roles');
-    XLSX.writeFile(wb, 'roles.xlsx');
+    XLSX.writeFile(wb, 'familia_productos.xlsx');
   }
 }

@@ -258,33 +258,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblSkumaestra"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblSkumaestra"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblSkumaestra"
-                  }
-                }
-              }
-            }
+            "description": "Success"
           }
         }
       }
@@ -296,33 +270,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblSkumaestra"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblSkumaestra"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblSkumaestra"
-                  }
-                }
-              }
-            }
+            "description": "Success"
           }
         }
       }
@@ -346,33 +294,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblMaquinas"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblMaquinas"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblMaquinas"
-                  }
-                }
-              }
-            }
+            "description": "Success"
           }
         }
       }
@@ -400,33 +322,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblMaquinas"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblMaquinas"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblMaquinas"
-                  }
-                }
-              }
-            }
+            "description": "Success"
           }
         }
       }
@@ -537,6 +433,113 @@
               "text/json": {
                 "schema": {
                   "$ref": "#/components/schemas/ModulosRolesPermisosDto"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Productos/buscar/todos": {
+      "get": {
+        "tags": [
+          "Productos"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductoDtoIEnumerableDataResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductoDtoIEnumerableDataResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductoDtoIEnumerableDataResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Productos/buscar/por-codigo": {
+      "get": {
+        "tags": [
+          "Productos"
+        ],
+        "parameters": [
+          {
+            "name": "codigo",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductoDtoDataResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductoDtoDataResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ProductoDtoDataResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
                 }
               }
             }
@@ -1851,33 +1854,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblRuta"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblRuta"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblRuta"
-                  }
-                }
-              }
-            }
+            "description": "Success"
           }
         }
       }
@@ -1897,43 +1874,16 @@
             }
           },
           {
-            "name": "listadoequipo",
+            "name": "idMaquina",
             "in": "query",
             "schema": {
-              "type": "integer",
-              "format": "int32"
+              "type": "string"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblRuta"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblRuta"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblRuta"
-                  }
-                }
-              }
-            }
+            "description": "Success"
           }
         }
       }
@@ -2007,33 +1957,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblUnidadesProduccion"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblUnidadesProduccion"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblUnidadesProduccion"
-                  }
-                }
-              }
-            }
+            "description": "Success"
           }
         }
       }
@@ -2074,33 +1998,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblUnidadesProduccion"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblUnidadesProduccion"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblUnidadesProduccion"
-                  }
-                }
-              }
-            }
+            "description": "Success"
           }
         }
       }
@@ -2924,7 +2822,7 @@
       "CrearUsuarioDto": {
         "type": "object",
         "properties": {
-          "correo_Electronico": {
+          "correoElectronico": {
             "type": "string",
             "nullable": true
           },
@@ -3065,7 +2963,7 @@
           "modulos": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/TblModulos"
+              "$ref": "#/components/schemas/TblModulo"
             },
             "nullable": true
           },
@@ -3078,6 +2976,70 @@
           },
           "mensaje": {
             "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProductoDto": {
+        "type": "object",
+        "properties": {
+          "idProducto": {
+            "type": "string",
+            "nullable": true
+          },
+          "familia": {
+            "type": "string",
+            "nullable": true
+          },
+          "nombre": {
+            "type": "string",
+            "nullable": true
+          },
+          "presentacion": {
+            "type": "string",
+            "nullable": true
+          },
+          "volumen": {
+            "type": "string",
+            "nullable": true
+          },
+          "fechaCreacion": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "estado": {
+            "type": "boolean"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProductoDtoDataResponse": {
+        "type": "object",
+        "properties": {
+          "exito": {
+            "type": "string",
+            "nullable": true
+          },
+          "datos": {
+            "$ref": "#/components/schemas/ProductoDto"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ProductoDtoIEnumerableDataResponse": {
+        "type": "object",
+        "properties": {
+          "exito": {
+            "type": "string",
+            "nullable": true
+          },
+          "datos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ProductoDto"
+            },
             "nullable": true
           }
         },
@@ -3386,138 +3348,6 @@
         },
         "additionalProperties": false
       },
-      "TblCambiosCiclosIntermedios": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "idFamiliaProceso": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "idFamiliaCambio": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "tiempoCambioHoras": {
-            "type": "number",
-            "format": "double",
-            "nullable": true
-          },
-          "familiaProcesoNavigation": {
-            "$ref": "#/components/schemas/TblFamiliaProductos"
-          },
-          "familiaCambioNavigation": {
-            "$ref": "#/components/schemas/TblFamiliaProductos"
-          }
-        },
-        "additionalProperties": false
-      },
-      "TblEquipo": {
-        "type": "object",
-        "properties": {
-          "idEquipo": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "Tipo": {
-            "type": "string",
-            "nullable": true
-          },
-          "Estado": {
-            "type": "boolean"
-          },
-          "FechaCreacion": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "Descripcion": {
-            "type": "string",
-            "nullable": true
-          },
-          "ZonaUbicacion": {
-            "type": "string",
-            "nullable": true
-          },
-          "RestriccionMaquina": {
-            "type": "integer",
-            "format": "int32"
-          }
-        },
-        "additionalProperties": false
-      },
-      "TblFamiliaProductos": {
-        "type": "object",
-        "properties": {
-          "idFamilia": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "nombre": {
-            "type": "string",
-            "nullable": true
-          },
-          "estado": {
-            "type": "boolean",
-            "nullable": true
-          },
-          "tiempoFormulacion": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "fechaCreacion": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "cambiosCiclosIntermediosFamiliaProceso": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TblCambiosCiclosIntermedios"
-            },
-            "nullable": true
-          },
-          "cambiosCiclosIntermediosFamiliaCambio": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TblCambiosCiclosIntermedios"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "TblHistoriaProduccion": {
-        "type": "object",
-        "properties": {
-          "idHistorial": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "idRuta": {
-            "type": "integer",
-            "format": "int64",
-            "nullable": true
-          },
-          "cantidad": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "fecha": {
-            "$ref": "#/components/schemas/DateOnly"
-          },
-          "idRutaNavigation": {
-            "$ref": "#/components/schemas/TblRutum"
-          }
-        },
-        "additionalProperties": false
-      },
       "TblIntentosDeLogin": {
         "type": "object",
         "properties": {
@@ -3545,129 +3375,13 @@
             "format": "date-time",
             "nullable": true
           },
-          "usuarios": {
-            "$ref": "#/components/schemas/TblUsuarios"
+          "idUsuarioNavigation": {
+            "$ref": "#/components/schemas/TblUsuario"
           }
         },
         "additionalProperties": false
       },
-      "TblLineasProduccion": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "nombre": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "TblListadoEquiposRuta": {
-        "type": "object",
-        "properties": {
-          "idMaquina": {
-            "type": "string",
-            "nullable": true
-          },
-          "idRuta": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "orden": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "maquinas": {
-            "$ref": "#/components/schemas/TblMaquinas"
-          },
-          "rutas": {
-            "$ref": "#/components/schemas/TblRuta"
-          }
-        },
-        "additionalProperties": false
-      },
-      "TblListadoEquiposRutum": {
-        "type": "object",
-        "properties": {
-          "idListadoEquipos": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "idEquipo": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "tblRuta": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TblRutum"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "TblMaquinas": {
-        "type": "object",
-        "properties": {
-          "idMaquina": {
-            "type": "string",
-            "nullable": true
-          },
-          "idTipo": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "idZona": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "nombre": {
-            "type": "string",
-            "nullable": true
-          },
-          "personalRequeridoMaquina": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "personalRequeridoEmbalaje": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "estado": {
-            "type": "string",
-            "nullable": true
-          },
-          "fechaCreacion": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "equipoRuta": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TblListadoEquiposRuta"
-            },
-            "nullable": true
-          },
-          "zona": {
-            "$ref": "#/components/schemas/TblZona"
-          },
-          "tipoMaquina": {
-            "$ref": "#/components/schemas/TblTipoMaquinas"
-          }
-        },
-        "additionalProperties": false
-      },
-      "TblModulos": {
+      "TblModulo": {
         "type": "object",
         "properties": {
           "id": {
@@ -3692,7 +3406,7 @@
             "type": "integer",
             "format": "int32"
           },
-          "idRole": {
+          "idRol": {
             "type": "integer",
             "format": "int32"
           },
@@ -3701,10 +3415,10 @@
             "format": "int32"
           },
           "idRolNavigation": {
-            "$ref": "#/components/schemas/TblRoles"
+            "$ref": "#/components/schemas/TblRole"
           },
           "idUsuarioNavigation": {
-            "$ref": "#/components/schemas/TblUsuarios"
+            "$ref": "#/components/schemas/TblUsuario"
           }
         },
         "additionalProperties": false
@@ -3730,220 +3444,7 @@
         },
         "additionalProperties": false
       },
-      "TblRestriccionEquipo": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "descripcion": {
-            "type": "string",
-            "nullable": true
-          },
-          "estado": {
-            "type": "boolean"
-          },
-          "fechaCreacion": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "idEquipo": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "tipoRestriccion": {
-            "type": "string",
-            "nullable": true
-          },
-          "idUnidadMedida": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "valor": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "prioridad": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "idRestriccionLavados": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "idEquipoNavigation": {
-            "$ref": "#/components/schemas/TblEquipo"
-          },
-          "idRestriccionLavadosNavigation": {
-            "$ref": "#/components/schemas/TblRestriccionLavados"
-          },
-          "idUnidadMedidaNavigation": {
-            "$ref": "#/components/schemas/TblUnidadMedidum"
-          }
-        },
-        "additionalProperties": false
-      },
-      "TblRestriccionLavados": {
-        "type": "object",
-        "properties": {
-          "idRestriccionLavados": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "descripción": {
-            "type": "string",
-            "nullable": true
-          },
-          "estado": {
-            "type": "boolean"
-          },
-          "fechaCreacion": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "idFamilia": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "tipoLavado": {
-            "type": "string",
-            "nullable": true
-          },
-          "frecuenciaLavado": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "tiempoLavado": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "prioridad": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "idFamiliaNavigation": {
-            "$ref": "#/components/schemas/TblSkufamilia"
-          },
-          "tblRestriccionEquipos": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TblRestriccionEquipo"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "TblRestriccionRuta": {
-        "type": "object",
-        "properties": {
-          "idRestriccionRuta": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "descripcion": {
-            "type": "string",
-            "nullable": true
-          },
-          "idMaquina": {
-            "type": "string",
-            "nullable": true
-          },
-          "idFamilia": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "tipoRestriccion": {
-            "type": "string",
-            "nullable": true
-          },
-          "unidadMedida": {
-            "type": "string",
-            "nullable": true
-          },
-          "valor": {
-            "type": "string",
-            "nullable": true
-          },
-          "prioridad": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "fechaCreacion": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "maquina": {
-            "$ref": "#/components/schemas/TblMaquinas"
-          },
-          "familia": {
-            "$ref": "#/components/schemas/TblFamiliaProductos"
-          }
-        },
-        "additionalProperties": false
-      },
-      "TblRestriccionRutum": {
-        "type": "object",
-        "properties": {
-          "idRestriccionRuta": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "descripcion": {
-            "type": "string",
-            "nullable": true
-          },
-          "idEquipo": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "tipoRestriccion": {
-            "type": "string",
-            "nullable": true
-          },
-          "idUnidadMedida": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "valor": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "prioridad": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "idEquipoNavigation": {
-            "$ref": "#/components/schemas/TblEquipo"
-          },
-          "idUnidadMedidaNavigation": {
-            "$ref": "#/components/schemas/TblUnidadMedidum"
-          },
-          "tblRuta": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TblRutum"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "TblRoles": {
+      "TblRole": {
         "type": "object",
         "properties": {
           "id": {
@@ -3955,17 +3456,22 @@
             "nullable": true
           },
           "estado": {
-            "type": "boolean",
-            "nullable": true
+            "type": "boolean"
           },
           "fechaCreacion": {
-            "type": "string",
-            "format": "date-time"
+            "$ref": "#/components/schemas/DateOnly"
           },
           "tblModulosUsuarios": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/TblModulosUsuario"
+            },
+            "nullable": true
+          },
+          "tblRolesPermisos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TblRolesPermiso"
             },
             "nullable": true
           }
@@ -3981,342 +3487,22 @@
           },
           "idRol": {
             "type": "integer",
-            "format": "int32",
-            "nullable": true
+            "format": "int32"
           },
           "idPermiso": {
             "type": "integer",
-            "format": "int32",
-            "nullable": true
+            "format": "int32"
           },
           "idPermisoNavigation": {
             "$ref": "#/components/schemas/TblPermiso"
           },
-          "rol": {
-            "$ref": "#/components/schemas/TblRoles"
-          },
-          "permiso": {
-            "$ref": "#/components/schemas/TblPermiso"
+          "idRolNavigation": {
+            "$ref": "#/components/schemas/TblRole"
           }
         },
         "additionalProperties": false
       },
-      "TblRuta": {
-        "type": "object",
-        "properties": {
-          "idRuta": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "nombre": {
-            "type": "string",
-            "nullable": true
-          },
-          "idFamilia": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "idLinea": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "idMaquinas": {
-            "type": "string",
-            "nullable": true
-          },
-          "tipoRuta": {
-            "type": "string",
-            "nullable": true
-          },
-          "idRestriccionRuta": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "rutaSugeridaEmpresa": {
-            "type": "boolean",
-            "nullable": true
-          },
-          "rutaSugeridaModelo": {
-            "type": "boolean",
-            "nullable": true
-          },
-          "fechaCreacion": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "rutaElegida": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "idListadoEquipos": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "equipoRuta": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TblListadoEquiposRuta"
-            },
-            "nullable": true
-          },
-          "familia": {
-            "$ref": "#/components/schemas/TblFamiliaProductos"
-          },
-          "linea": {
-            "$ref": "#/components/schemas/TblLineasProduccion"
-          },
-          "maquinas": {
-            "$ref": "#/components/schemas/TblMaquinas"
-          },
-          "restriccionRuta": {
-            "$ref": "#/components/schemas/TblRestriccionRuta"
-          }
-        },
-        "additionalProperties": false
-      },
-      "TblRutum": {
-        "type": "object",
-        "properties": {
-          "idRuta": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "descripcion": {
-            "type": "string",
-            "nullable": true
-          },
-          "rutaElegida": {
-            "type": "string",
-            "nullable": true
-          },
-          "fechaSolicitud": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "idSku": {
-            "type": "integer",
-            "format": "int64",
-            "nullable": true
-          },
-          "idListadoEquipos": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "tipoRuta": {
-            "type": "string",
-            "nullable": true
-          },
-          "idRestriccionRuta": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "idListadoEquiposNavigation": {
-            "$ref": "#/components/schemas/TblListadoEquiposRutum"
-          },
-          "idRestriccionRutaNavigation": {
-            "$ref": "#/components/schemas/TblRestriccionRutum"
-          },
-          "tblHistoriaProduccions": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TblHistoriaProduccion"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "TblSkufamilia": {
-        "type": "object",
-        "properties": {
-          "idFamilia": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "nombreFamilia": {
-            "type": "string",
-            "nullable": true
-          },
-          "estado": {
-            "type": "boolean"
-          },
-          "fechaCreacion": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "tblRestriccionLavados": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TblRestriccionLavados"
-            },
-            "nullable": true
-          },
-          "tblSkumaestras": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TblSkumaestra"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "TblSkumaestra": {
-        "type": "object",
-        "properties": {
-          "idSku": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "idFamilia": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "referencia": {
-            "type": "string",
-            "nullable": true
-          },
-          "estado": {
-            "type": "boolean"
-          },
-          "fechaCreacion": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "presentacion": {
-            "type": "string",
-            "nullable": true
-          },
-          "volumen": {
-            "type": "string",
-            "nullable": true
-          },
-          "idFamiliaNavigation": {
-            "$ref": "#/components/schemas/TblSkufamilia"
-          },
-          "tblSolicitudesProduccions": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TblSolicitudesProduccion"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "TblSolicitudesProduccion": {
-        "type": "object",
-        "properties": {
-          "idSolicitudes": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "descripcion": {
-            "type": "string",
-            "nullable": true
-          },
-          "idSku": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "semana": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "unidadesProducir": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "estado": {
-            "type": "boolean"
-          },
-          "fecha": {
-            "type": "string",
-            "format": "date-time"
-          },
-          "idSkuNavigation": {
-            "$ref": "#/components/schemas/TblSkumaestra"
-          }
-        },
-        "additionalProperties": false
-      },
-      "TblTipoMaquinas": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "nombre": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "TblUnidadMedidum": {
-        "type": "object",
-        "properties": {
-          "idUnidadMedida": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "nombre": {
-            "type": "string",
-            "nullable": true
-          },
-          "tblRestriccionEquipos": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TblRestriccionEquipo"
-            },
-            "nullable": true
-          },
-          "tblRestriccionRuta": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TblRestriccionRutum"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "TblUnidadesProduccion": {
-        "type": "object",
-        "properties": {
-          "idProducto": {
-            "type": "string",
-            "nullable": true
-          },
-          "idFamilia": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "semana": {
-            "type": "string",
-            "nullable": true
-          },
-          "cantidadesProducir": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "estado": {
-            "type": "boolean",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "TblUsuarios": {
+      "TblUsuario": {
         "type": "object",
         "properties": {
           "id": {
@@ -4344,12 +3530,10 @@
             "nullable": true
           },
           "fechaIngreso": {
-            "type": "string",
-            "format": "date-time"
+            "$ref": "#/components/schemas/DateOnly"
           },
           "ultimoAcceso": {
-            "type": "string",
-            "format": "date-time"
+            "$ref": "#/components/schemas/DateOnly"
           },
           "clave": {
             "type": "string",
@@ -4363,32 +3547,18 @@
             "format": "byte",
             "nullable": true
           },
-          "tblModulosUsuarios": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/TblModulosUsuario"
-            },
-            "nullable": true
-          },
-          "intentosDeLogin": {
+          "tblIntentosDeLogins": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/TblIntentosDeLogin"
             },
             "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "TblZona": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
           },
-          "nombre": {
-            "type": "string",
+          "tblModulosUsuarios": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TblModulosUsuario"
+            },
             "nullable": true
           }
         },
