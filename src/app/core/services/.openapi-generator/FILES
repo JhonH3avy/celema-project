@@ -34,6 +34,9 @@ model/crearRutaDto.ts
 model/crearUsuarioDto.ts
 model/dateOnly.ts
 model/dayOfWeek.ts
+model/familiaProductoDto.ts
+model/familiaProductoDtoDataResponse.ts
+model/familiaProductoDtoIEnumerableDataResponse.ts
 model/models.ts
 model/modulosRolesPermisosDto.ts
 model/restablecerClaveDto.ts

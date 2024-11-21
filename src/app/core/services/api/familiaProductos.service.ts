@@ -17,7 +17,9 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
-import { TblFamiliaProductos } from '../model/tblFamiliaProductos';
+import { FamiliaProductoDtoDataResponse } from '../model/familiaProductoDtoDataResponse';
+// @ts-ignore
+import { FamiliaProductoDtoIEnumerableDataResponse } from '../model/familiaProductoDtoIEnumerableDataResponse';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -96,9 +98,9 @@ export class FamiliaProductosService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public apiFamiliaProductosConsultarfamiliaGet(idfamilia?: number, nombrefamilia?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<TblFamiliaProductos>>;
-    public apiFamiliaProductosConsultarfamiliaGet(idfamilia?: number, nombrefamilia?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<TblFamiliaProductos>>>;
-    public apiFamiliaProductosConsultarfamiliaGet(idfamilia?: number, nombrefamilia?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<TblFamiliaProductos>>>;
+    public apiFamiliaProductosConsultarfamiliaGet(idfamilia?: number, nombrefamilia?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<FamiliaProductoDtoDataResponse>;
+    public apiFamiliaProductosConsultarfamiliaGet(idfamilia?: number, nombrefamilia?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<FamiliaProductoDtoDataResponse>>;
+    public apiFamiliaProductosConsultarfamiliaGet(idfamilia?: number, nombrefamilia?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<FamiliaProductoDtoDataResponse>>;
     public apiFamiliaProductosConsultarfamiliaGet(idfamilia?: number, nombrefamilia?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
@@ -157,7 +159,7 @@ export class FamiliaProductosService {
         }
 
         let localVarPath = `/api/FamiliaProductos/consultarfamilia`;
-        return this.httpClient.request<Array<TblFamiliaProductos>>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<FamiliaProductoDtoDataResponse>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,
@@ -240,9 +242,9 @@ export class FamiliaProductosService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public apiFamiliaProductosListadodefamiliaGet(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<Array<TblFamiliaProductos>>;
-    public apiFamiliaProductosListadodefamiliaGet(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<Array<TblFamiliaProductos>>>;
-    public apiFamiliaProductosListadodefamiliaGet(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<Array<TblFamiliaProductos>>>;
+    public apiFamiliaProductosListadodefamiliaGet(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<FamiliaProductoDtoIEnumerableDataResponse>;
+    public apiFamiliaProductosListadodefamiliaGet(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<FamiliaProductoDtoIEnumerableDataResponse>>;
+    public apiFamiliaProductosListadodefamiliaGet(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<FamiliaProductoDtoIEnumerableDataResponse>>;
     public apiFamiliaProductosListadodefamiliaGet(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
 
         let localVarHeaders = this.defaultHeaders;
@@ -291,7 +293,7 @@ export class FamiliaProductosService {
         }
 
         let localVarPath = `/api/FamiliaProductos/listadodefamilia`;
-        return this.httpClient.request<Array<TblFamiliaProductos>>('get', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<FamiliaProductoDtoIEnumerableDataResponse>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
