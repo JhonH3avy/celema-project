@@ -31,9 +31,17 @@
               "src/assets"
             ],
             "styles": [
+              "node_modules/bootstrap/dist/css/bootstrap.min.css",
+              "node_modules/bootstrap-icons/font/bootstrap-icons.min.css",
               "src/styles.css"
             ],
-            "scripts": []
+            "scripts": [
+              "node_modules/bootstrap/dist/js/bootstrap.bundle.min.js"
+            ],
+            "allowedCommonJsDependencies": [
+              "sweetalert2"
+            ],
+            "sourceMap": true
           },
           "configurations": {
             "production": {
@@ -53,8 +61,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kb",
-                  "maximumError": "1mb"
+                  "maximumWarning": "1mb",
+                  "maximumError": "1.5mb"
                 },
                 {
                   "type": "anyComponentStyle",
@@ -68,18 +76,18 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "celema-proyect:build"
+            "buildTarget": "celema-proyect:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "celema-proyect:build:production"
+              "buildTarget": "celema-proyect:build:production"
             }
           }
         },
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "celema-proyect:build"
+            "buildTarget": "celema-proyect:build"
           }
         },
         "test": {
@@ -100,16 +108,13 @@
           }
         },
         "lint": {
-          "builder": "@angular-devkit/build-angular:tslint",
+          "builder": "@angular-eslint/builder:lint",
           "options": {
-            "tsConfig": [
-              "tsconfig.app.json",
-              "tsconfig.spec.json",
-              "e2e/tsconfig.json"
+            "lintFilePatterns": [
+              "src/**/*.ts",
+              "src/**/*.html"
             ],
-            "exclude": [
-              "**/node_modules/**"
-            ]
+            "eslintConfig": "./.eslintrc.js"
           }
         },
         "e2e": {
@@ -126,6 +131,5 @@
         }
       }
     }
-  },
-  "defaultProject": "celema-proyect"
+  }
 }

@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ApiService } from 'src/app/core/services/api.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-recuperar',
@@ -6,22 +9,50 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./recuperar.component.css']
 })
 export class RecuperarComponent implements OnInit {
-
-  constructor() { }
-
   loading = false;
+  resetPasswordForm: FormGroup;
 
-  ngOnInit(): void {
+  constructor(private fb: FormBuilder, private apiService: ApiService) {
+    this.resetPasswordForm = this.fb.group({
+      username: ['', [Validators.required, Validators.email]],
+    });
   }
+
+  errorMessage: string | null = null;
+
+  ngOnInit(): void {}
 
   onSubmit() {
-    this.loading = true; // Cambia el estado a cargando
+    if (this.resetPasswordForm.invalid) {
+      this.resetPasswordForm.markAllAsTouched();
+      return;
+    }
 
-    // Simula una llamada a la API
-    setTimeout(() => {
-      this.loading = false; // Regresa el estado a no cargando
-      // Aquí puedes manejar la respuesta de la API
-    }, 5000);
+    const formData = {
+      correoElectronico: this.resetPasswordForm.value.username,
+    };
+
+    this.loading = true;
+
+    this.apiService.post('api/Login/olvidemicontrasena', formData).subscribe({
+      next: (response: any) => {
+        this.loading = false;
+        Swal.fire('Éxito', 'Le hemos enviado un correo, para restablecer la contraseña siga las instrucciones.', 'success');
+      },
+      error: (error) => {
+        this.loading = false;
+
+        Swal.fire({
+          icon: 'error',
+          title: 'Error',
+          text: error.error.mensaje,
+          confirmButtonText: 'Aceptar'
+        });
+      }
+    });
   }
 
+  get username() {
+    return this.resetPasswordForm.get('username');
+  }
 }

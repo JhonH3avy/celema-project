@@ -1,24 +1,28 @@
 <app-menu></app-menu>
 <div class="container">
+  <h3>Administración de perfiles</h3>
+  <p style="color: grey;">Administre los miembros de su equipo y sus permisos de cuenta aquí</p>
   <div class="d-flex justify-content-between mb-3">
-    <h3>Todos los usuarios <span class="text-secondary">{{ userCount }}</span></h3>
+    <h5>Todos los usuarios <span class="text-secondary">{{ userCount }}</span></h5>
     <div class="d-flex align-items-center">
       <button type="button" class="btn btn-outline-primary me-2">
-        <i class="bi bi-arrow-repeat"></i>
+        <i (click)="clearData()" class="bi bi-arrow-repeat"></i>
       </button>
       <div class="input-group me-2">
         <button class="btn btn-outline-secondary" type="button">
           <i class="bi bi-search"></i>
         </button>
-        <input type="text" class="form-control" placeholder="Buscar">
+        <input type="text" class="form-control" placeholder="Buscar" [(ngModel)]="searchQuery" (input)="filterData()" />
       </div>
-      <button type="button" class="btn btn-outline-secondary d-flex align-items-center me-2">
-        <i class="bi bi-filter me-1"></i>
-        Filtrar
+      <!-- <button type="button" class="btn btn-outline-secondary d-flex align-items-center me-2">
+        <i class="bi bi-filter me-1"></i> Filtrar
+      </button> -->
+      <button type="button" class="btn btn-primary d-flex align-items-center me-2" (click)="exportToExcel()">
+        <i class="bi bi-upload me-1"></i> Exportar
       </button>
-      <button type="button" class="btn btn-primary d-flex align-items-center">
-        <i class="bi bi-upload me-1"></i>
-        Exportar
+      <button type="button" class="btn btn-primary d-flex align-items-center me-2" style="min-width: 150px;" data-bs-toggle="modal" data-bs-target="#createProfileModal">
+        <i class="bi bi-person me-1"></i>
+        <span class="text-nowrap ms-1">Crear Usuario</span>
       </button>
     </div>
   </div>
@@ -32,13 +36,14 @@
         </th>
         <th scope="col" class="text-secondary text-center">Usuario</th>
         <th scope="col" class="text-secondary text-center">Acceso</th>
+        <th scope="col" class="text-secondary text-center">Estado</th>
         <th scope="col" class="text-secondary text-center">Último acceso</th>
         <th scope="col" class="text-secondary text-center">Fecha de ingreso</th>
         <th scope="col"></th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let profile of profiles">
+      <tr *ngFor="let profile of paginatedData">
         <th scope="row">
           <div class="form-check">
             <input class="form-check-input" type="checkbox" value="">
@@ -46,27 +51,32 @@
         </th>
         <td>
           <div class="d-flex">
-            <img [src]="profile.profileImageSource" class="rounded profile-image me-2" />
+            <img [src]="profile.profileImageSource == null ? './assets/img/profile_image_placeholder.jpg' : profile.profileImageSource" class="rounded profile-image me-2" />
             <div>
-              <div class="text-secondary">{{ profile.username }}</div>
-              <div class="text-secondary">{{ profile.email }}</div>
+              <div class="text-secondary">{{ profile.nombre }} {{ profile.apellido }}</div>
+              <div class="text-secondary">{{ profile.correoElectronico }}</div>
             </div>
           </div>
         </td>
         <td>
-          <span *ngFor="let access of profile.access" [ngClass]="getProfileAccessStyle(access)" class="badge border me-1">{{ access }}</span>
+          <span *ngFor="let access of profile.tblModulosUsuarios" [ngClass]="getProfileAccessStyle(access)" class="badge border me-1">{{ access }}</span>
         </td>
-        <td class="text-secondary text-center">{{ profile.lastAccessDate | date:'dd/MM/yyyy' }}</td>
-        <td class="text-secondary text-center">{{ profile.ingressDate | date:'dd/MM/yyyy' }}</td>
         <td>
-          <div class="dropdown">
-            <button type="button" class="btn btn-outline-secondary" data-bs-toggle="dropdown" aria-expanded="false">
-              <i class="bi bi-three-dots-vertical"></i>
+          <span *ngIf="profile.activo == true" class="badge border me-1 border-success text-success bg-success-subtle">Activo</span>
+          <span *ngIf="profile.activo != true" class="badge border me-1 border-danger text-danger bg-danger-subtle">Inactivo</span>
+        </td>
+        <td class="text-secondary text-center">{{ profile.ultimoAcceso | date:'dd/MM/yyyy' }}</td>
+        <td class="text-secondary text-center">{{ profile.fechaIngreso | date:'dd/MM/yyyy' }}</td>
+        <td>
+          <div ngbDropdown>
+            <button type="button" ngbDropdownToggle class="btn btn-outline-secondary">
+              <!-- <i class="bi bi-three-dots-vertical"></i> -->
             </button>
-            <ul class="dropdown-menu">
-              <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#updateProfileModal"><i class="bi bi-key"></i> Modificar permisos</a></li>
-              <li><a class="dropdown-item" href="#"><i class="bi bi-file-earmark-break"></i> Exportar</a></li>
-              <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#deleteProfileModal"><i class="bi bi-trash"></i> Eliminar usuario</a></li>
+            <ul class="dropdown-menu" ngbDropdownMenu>
+              <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#updateProfileModal" (click)="datosUsuario(profile.nombre + profile.apellido, profile.cargo)"><i class="bi bi-key"></i> Modificar permisos</a></li>
+              <li><a class="dropdown-item" (click)="exportUser(profile)"><i class="bi bi-file-earmark-break"></i> Exportar</a></li>
+              <li><a *ngIf="profile.activo == true" class="dropdown-item" (click)="desactivarUsuario(profile.id, profile.activo)"><i class="bi bi-slash-circle"></i> Desactivar usuario</a></li>
+              <li><a *ngIf="profile.activo !== true" class="dropdown-item" (click)="desactivarUsuario(profile.id, profile.activo)"><i class="bi bi-slash-circle"></i> Activar usuario</a></li>
             </ul>
           </div>
         </td>
@@ -74,13 +84,110 @@
     </tbody>
   </table>
 
-  <div class="d-flex justify-content-center align-items-center">
-    <button class="btn btn-light me-2 text-secondary" [ngClass]="{'active': currentPage === (i + 1)}" *ngFor="let page of pages; let i = index" (click)="changePage(i + 1)">
-      {{ i + 1 }}
-    </button>
+  <!-- Paginación -->
+  <div class="d-flex justify-content-between align-items-center" style="margin-bottom: 100px;">
+    <!-- Paginación -->
+    <ul class="pagination mb-0">
+      <li class="page-item" [class.disabled]="currentPage === 1">
+        <a class="page-link"(click)="changePage(currentPage - 1)">Anterior</a>
+      </li>
+      <li *ngFor="let page of pages" class="page-item" [class.active]="page === currentPage">
+        <a class="page-link" (click)="changePage(page)">{{ page }}</a>
+      </li>
+      <li class="page-item" [class.disabled]="currentPage === totalPages">
+        <a class="page-link" (click)="changePage(currentPage + 1)">Siguiente</a>
+      </li>
+    </ul>
+
+    <!-- Selector de cantidad por página -->
+    <div class="d-flex align-items-center ms-3">
+      <label for="itemsPerPage" class="form-label mb-0">Mostrar</label>
+      <select id="itemsPerPage" class="form-select w-auto ms-2" [(ngModel)]="itemsPerPage" (change)="changeItemsPerPage()">
+        <option value="10">10</option>
+        <option value="15">15</option>
+      </select>
+      <span class="ms-2">por página</span>
+    </div>
   </div>
 
+  <!-- Modal nuevo usuario -->
+  <div class="modal fade" id="createProfileModal" tabindex="-1" aria-labelledby="createProfileModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header vstack gap-3">
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+          <div class="d-flex flex-column align-items-center">
+            <img
+              id="photoPreview"
+              class="big-profile-image mt-2"
+              [src]="imagePreview || './assets/img/profile_image_placeholder.jpg'"
+              alt="profile picture"
+              style="width: 100px; height: 100px; object-fit: cover; border-radius: 50%;"
+            />
+            <label for="uploadPhoto" class="upload-icon" style="cursor: pointer;">
+              <span class="add-icon">+</span>
+              <i class="bi bi-camera" style="font-size: 1.5rem;"></i>
+              <input type="file" id="uploadPhoto" accept="image/*" (change)="previewImage($event)" style="display: none;">
+            </label>
+          </div>
+        </div>
+        <div class="modal-body">
+          <form [formGroup]="Form" (ngSubmit)="onSubmit()">
+            <!-- Cédula -->
+            <div class="mb-3">
+              <label for="cedula" class="form-label">Cédula</label>
+              <input type="text" class="form-control" id="cedula" formControlName="cedula" [ngClass]="{'is-invalid': cedula?.touched && cedula?.invalid}" name="cedula" required>
+              <div *ngIf="cedula?.invalid && cedula?.touched" class="text-danger">
+                La cédula es requerida.
+              </div>
+            </div>
 
+            <!-- Nombres -->
+            <div class="mb-3">
+              <label for="nombres" class="form-label">Nombres</label>
+              <input type="text" class="form-control" id="nombres" formControlName="nombres" [ngClass]="{'is-invalid': cedula?.touched && cedula?.invalid}" required>
+              <div *ngIf="nombres?.invalid && nombres?.touched" class="text-danger">
+                El nombre es requerido.
+              </div>
+            </div>
+
+            <!-- Apellidos -->
+            <div class="mb-3">
+              <label for="apellidos" class="form-label">Apellidos</label>
+              <input type="text" class="form-control" id="apellidos" formControlName="apellidos" [ngClass]="{'is-invalid': cedula?.touched && cedula?.invalid}" required>
+              <div *ngIf="apellidos?.invalid && apellidos?.touched" class="text-danger">
+                Los apellidos son requeridos.
+              </div>
+            </div>
+
+            <!-- Cargo -->
+            <div class="mb-3">
+              <label for="cargo" class="form-label">Cargo</label>
+              <input type="text" class="form-control" id="cargo" formControlName="cargo" [ngClass]="{'is-invalid': cedula?.touched && cedula?.invalid}" required>
+              <div *ngIf="cargo?.invalid && cargo?.touched" class="text-danger">
+                El cargo es requerido.
+              </div>
+            </div>
+
+            <!-- Correo Electrónico -->
+            <div class="mb-3">
+              <label for="correo" class="form-label">Correo Electrónico</label>
+              <input type="email" class="form-control" id="correo" formControlName="correo" [ngClass]="{'is-invalid': cedula?.touched && cedula?.invalid}" required email>
+              <div *ngIf="correo?.invalid && correo?.touched" class="text-danger">
+                <div *ngIf="correo?.errors?.['required']">El correo electrónico es requerido.</div>
+                <div *ngIf="correo?.errors?.['email']">Por favor ingrese un correo electrónico válido.</div>
+              </div>
+            </div>
+
+            <div class="modal-footer d-flex justify-content-center">
+              <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
+              <button type="submit" class="btn btn-primary" [disabled]="Form.invalid">Crear</button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <!-- Modal -->
   <div class="modal fade" id="updateProfileModal" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
@@ -89,8 +196,8 @@
         <div class="modal-header vstack gap-3">
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
           <img class="big-profile-image" src="./assets/img/profile_image_placeholder.jpg" alt="profile picture">
-          <h1 class="modal-title fs-5" id="modalTitle">Cristina Gomez</h1>
-          <h1 class="modal-title fs-5" id="modalTitle">Gerente</h1>
+          <h1 class="modal-title fs-5" id="modalTitle">{{nombreUsuarioTitle}}</h1>
+          <h1 class="modal-title fs-5" id="modalTitle">{{cargoTitle}}</h1>
         </div>
         <div class="modal-body">
           <table class="table">
@@ -98,18 +205,20 @@
               <tr class="table-secondary">
                 <th scope="col" class="text-secondary text-center">Roles</th>
                 <th scope="col">
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="">
-                  </div>
                 </th>
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let role of roles">
-                <td class="text-secondary">{{ role.name }}</td>
+              <tr *ngFor="let role of dataRoles">
+                <td class="text-secondary">{{ role.nombre }}</td>
                 <th scope="row">
                   <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="">
+                    <input
+                      class="form-check-input"
+                      type="checkbox"
+                      [checked]="role.id === selectedRoleId"
+                      (change)="onRoleSelect(role.id, $event)"
+                    />
                   </div>
                 </th>
               </tr>
@@ -118,7 +227,7 @@
         </div>
         <div class="modal-footer">
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-          <button type="button" class="btn btn-primary" data-bs-target="#changeSuccessfulModal" data-bs-toggle="modal">Aplicar</button>
+          <button type="button" class="btn btn-primary" (click)="applyChanges()">Aplicar</button>
         </div>
       </div>
     </div>
