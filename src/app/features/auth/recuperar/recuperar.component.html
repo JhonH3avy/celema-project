@@ -1,18 +1,44 @@
 <div class="centered-container">
   <div class="login-container">
     <img src="./assets/img/logo.png" alt="Imagen de usuario" class="login-image" />
-
-    <h2>Olvidó su contraseña?</h2>
-
-    <form>
+    <img src="./assets/img/logo_2.png" alt="Imagen de usuario" class="login-image" />
+    <h2>¿Olvidó su contraseña?</h2>
+    <form [formGroup]="resetPasswordForm" (ngSubmit)="onSubmit()">
       <div class="form-group">
-        <i class="fas fa-envelope icon"></i>
-        <input id="username" type="text" placeholder="Escriba su usuario" required />
+
+        <!-- Opciones de método de recuperación con radio buttons -->
+        <div class="radio-group">
+          <label>
+            <input type="radio" checked formControlName="recoveryMethod" value="email"  style="margin-right: 10px;"/>
+            <span>Correo Electrónico</span>
+          </label>
+        </div>
+
+        <!-- Campo de entrada del usuario -->
+        <div class="input-group">
+          <i class="fas fa-envelope icon"></i>
+          <input
+            id="username"
+            formControlName="username"
+            type="text"
+            placeholder="Escriba su usuario"
+            aria-describedby="usernameHelp"
+            required
+          />
+        </div>
+
+        <!-- Mensajes de error -->
+        <div *ngIf="resetPasswordForm.get('username')?.touched && resetPasswordForm.get('username')?.invalid" class="error-message">
+          <small *ngIf="resetPasswordForm.get('username')?.hasError('required')">El usuario es obligatorio.</small>
+          <small *ngIf="resetPasswordForm.get('username')?.hasError('email')">Ingrese un correo válido.</small>
+        </div>
       </div>
 
-      <button (click)="onSubmit()" type="button" class="btn-submit">Restablecer la contraseña</button>
-      <br><br>
-
+      <!-- Botón de enviar -->
+      <button style="margin-top: 10px;" type="submit" [disabled]="resetPasswordForm.invalid" class="btn-submit">
+        Restablecer la contraseña
+      </button>
+      <br /><br />
       <a routerLink="/login" style="color: grey;">Volver</a>
     </form>
   </div>
@@ -22,6 +48,6 @@
   <div class="radar">
     <img src="./assets/img/logo.png" alt="Cargando..." class="loading-image" />
   </div>
-  <br>
+  <br />
   <p>Espere por favor...</p>
 </div>

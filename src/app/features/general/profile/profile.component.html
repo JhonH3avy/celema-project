@@ -1,0 +1,105 @@
+<app-menu></app-menu>
+<div class="centered-container">
+  <div class="login-container">
+    <table style="width: 100%;">
+      <tr>
+        <td>
+          <h4>{{ fullName }}</h4>
+          <h4>{{ cargo }}</h4>
+        </td>
+      </tr>
+    </table>
+    <br>
+    <p>Detalles del perfil</p>
+    <form [formGroup]="profileControlGroup">
+      <div class="form-group">
+        <i class="far fa-user-circle icon"></i>
+        <input id="name" type="text" placeholder="Escriba su nombre" formControlName="name"/>
+      </div>
+
+      <div class="form-group">
+        <i class="far fa-user-circle icon"></i>
+        <input id="lastname" type="text" placeholder="Escriba su nombre" formControlName="lastname"/>
+      </div>
+
+      <div class="form-group">
+        <i class="fas fa-envelope icon"></i>
+        <input id="username" type="text" placeholder="Escriba su usuario" formControlName="username"/>
+      </div>
+
+      <!-- <div class="form-group">
+        <i class="far fa-user-circle icon"></i>
+        <input id="profile" type="text" placeholder="Perfil" formControlName="profile"/>
+      </div> -->
+
+      <div class="form-group">
+        <i class="fas fa-key icon"></i>
+        <input id="newPassword" type="password" placeholder="Escriba su nueva contraseña" formControlName="newPassword"/>
+      </div>
+      <div *ngIf="newPassword.invalid && newPassword.touched" class="text-danger text-start">
+        <p class="fs-6">La contraseña no cumple con los requisitos mínimos</p>
+      </div>
+
+      <div class="form-group">
+        <i class="fas fa-key icon"></i>
+        <input id="confirmPassword" type="password" placeholder="Confirmar su contraseña" formControlName="confirmPassword"/>
+      </div>
+      <div *ngIf="profileControlGroup.hasError('mustMatch') && confirmPassword.touched" class="text-danger text-start">
+        <p class="fs-6">La confirmación no coincide con la contraseña</p>
+      </div>
+
+      <div class="form-group">
+        <i class="fas fa-file-alt icon"></i>
+        <input id="cedula" type="text" placeholder="Cédula" formControlName="cedula"/>
+      </div>
+
+      <div class="form-group">
+        <i class="far fa-user-circle icon"></i>
+        <input id="cargo" type="text" placeholder="Cargo" formControlName="cargo"/>
+      </div>
+
+      <table style="width: 100%;">
+        <tr>
+          <td>
+            <button type="button" class="btn-submit" (click)="saveChanges(changeSuccessfulModal, changeFailedModal)" [disabled]="profileControlGroup.invalid">Restablecer</button>
+          </td>
+          <td>
+            <button type="button" class="btn-submit" style="background-color: #808080;" (click)="goBackToHome()">Cancelar</button>
+          </td>
+        </tr>
+      </table>
+    </form>
+  </div>
+</div>
+
+<div class="modal fade" id="changeSuccessfulModal" #changeSuccessfulModal tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header vstack gap-3">
+        <button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="modal"></button>
+        <i class="bi bi-check-circle fs-1 text-success"></i>
+      </div>
+      <div class="modal-body">
+        <div class="text-center">
+          Cambios realizados.
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="changeFailedModal" #changeFailedModal tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header vstack gap-3">
+        <button type="button" class="btn-close" aria-label="Close" data-bs-dismiss="modal"></button>
+        <i class="bi bi-x-octagon fs-1 text-danger"></i>
+      </div>
+      <div class="modal-body">
+        <div class="text-center">
+          {{ errorOnUpdate }}
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

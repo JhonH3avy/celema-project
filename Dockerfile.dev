@@ -1,15 +1,7 @@
-FROM node:12
+FROM node:20
 
 WORKDIR /usr/src/app
 
-RUN npm install -g @angular/cli@11
-
-COPY package*.json ./
-
-RUN npm install
-
-COPY . .
-
 EXPOSE 4200
 
-CMD ["npm", "start", "--", "--host", "0.0.0.0", "--poll", "500"]
+CMD ["bash"]

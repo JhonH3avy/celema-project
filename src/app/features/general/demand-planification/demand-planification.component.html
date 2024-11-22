@@ -1,0 +1,70 @@
+<app-menu></app-menu>
+<div class="container">
+  <h2>Planificación de la demanda</h2>
+  <p class="text-secondary">Gestión de la demanda</p>
+  <div class="d-flex justify-content-end mb-3">
+    <div class="d-flex align-items-center">
+      <button type="button" class="btn btn-primary d-flex align-items-center w-auto text-nowrap me-2">
+        <i class="bi bi-file-arrow-up me-1"></i>
+        Importar plan
+      </button>
+      <div class="input-group me-2">
+        <button class="btn btn-outline-secondary" type="button">
+          <i class="bi bi-search"></i>
+        </button>
+        <input type="text" class="form-control" placeholder="Buscar">
+      </div>
+      <button type="button" class="btn btn-outline-secondary d-flex align-items-center me-2">
+        <i class="bi bi-filter me-1"></i>
+        Filtrar
+      </button>
+      <button type="button" class="btn btn-primary d-flex align-items-center me-2">
+        <i class="bi bi-upload me-1"></i>
+        Exportar
+      </button>
+    </div>
+  </div>
+  <table class="table">
+    <thead>
+      <tr class="table-secondary">
+        <th scope="col">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="">
+          </div>
+        </th>
+        <th scope="col" class="text-secondary text-center">Código</th>
+        <th scope="col" class="text-secondary text-center">Descripción</th>
+        <th scope="col" class="text-secondary text-center">Unidades a producir</th>
+        <th scope="col" class="text-secondary text-center">Semana</th>
+        <th scope="col" class="text-secondary text-center">Fecha de solicitud</th>
+        <th scope="col" class="text-secondary text-center">Operaciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let productDemand of productDemands">
+        <th scope="row">
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="">
+          </div>
+        </th>
+        <td class="text-secondary text-center">{{ productDemand.code }}</td>
+        <td class="text-secondary text-center">{{ productDemand.description }}</td>
+        <td class="text-secondary text-center">{{ productDemand.unitsToProduce }}</td>
+        <td class="text-secondary text-center">{{ productDemand.week }}</td>
+        <td class="text-secondary text-center">{{ productDemand.requestDate | date:'dd/MM/yyyy' }}</td>
+        <td>
+          <button type="button" class="btn rounded-pill border border-success text-success bg-success-subtle me-2">Ingresar</button>
+          <button type="button" class="btn rounded-pill border border-danger text-danger bg-danger-subtle me-2">Eliminar</button>
+          <button type="button" class="btn rounded-pill border border-success text-success bg-success-subtle me-2">Actu</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="d-flex justify-content-center align-items-center">
+    <button class="btn btn-light me-2 text-secondary" [ngClass]="{'active': currentPage === (i + 1)}" *ngFor="let page of pages; let i = index" (click)="changePage(i + 1)">
+      {{ i + 1 }}
+    </button>
+  </div>
+</div>
+
