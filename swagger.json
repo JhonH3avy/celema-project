@@ -21,33 +21,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblListadoEquiposRutum"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblListadoEquiposRutum"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblListadoEquiposRutum"
-                  }
-                }
-              }
-            }
+            "description": "Success"
           }
         }
       }
@@ -59,33 +33,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblListadoEquiposRutum"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblListadoEquiposRutum"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblListadoEquiposRutum"
-                  }
-                }
-              }
-            }
+            "description": "Success"
           }
         }
       }
@@ -106,33 +54,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblListadoEquiposRutum"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblListadoEquiposRutum"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblListadoEquiposRutum"
-                  }
-                }
-              }
-            }
+            "description": "Success"
           }
         }
       }
@@ -154,33 +76,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblListadoEquiposRutum"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblListadoEquiposRutum"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblListadoEquiposRutum"
-                  }
-                }
-              }
-            }
+            "description": "Success"
           }
         }
       }
@@ -299,33 +195,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblLineasProduccion"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblLineasProduccion"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblLineasProduccion"
-                  }
-                }
-              }
-            }
+            "description": "Success"
           }
         }
       }
@@ -347,33 +217,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblLineasProduccion"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblLineasProduccion"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblLineasProduccion"
-                  }
-                }
-              }
-            }
+            "description": "Success"
           }
         }
       }
@@ -385,33 +229,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblLineasProduccion"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblLineasProduccion"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblLineasProduccion"
-                  }
-                }
-              }
-            }
+            "description": "Success"
           }
         }
       }
@@ -423,33 +241,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblLineasProduccion"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblLineasProduccion"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblLineasProduccion"
-                  }
-                }
-              }
-            }
+            "description": "Success"
           }
         }
       }
@@ -470,33 +262,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblMaquina"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblMaquina"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblMaquina"
-                  }
-                }
-              }
-            }
+            "description": "Success"
           }
         }
       }
@@ -508,33 +274,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblMaquina"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblMaquina"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblMaquina"
-                  }
-                }
-              }
-            }
+            "description": "Success"
           }
         }
       }
@@ -555,33 +295,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblMaquina"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblMaquina"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblMaquina"
-                  }
-                }
-              }
-            }
+            "description": "Success"
           }
         }
       }
@@ -593,33 +307,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblMaquina"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblMaquina"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblMaquina"
-                  }
-                }
-              }
-            }
+            "description": "Success"
           }
         }
       }
@@ -640,33 +328,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblRestriccionLavado"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblRestriccionLavado"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblRestriccionLavado"
-                  }
-                }
-              }
-            }
+            "description": "Success"
           }
         }
       }
@@ -687,33 +349,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblRestriccionMaquina"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblRestriccionMaquina"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblRestriccionMaquina"
-                  }
-                }
-              }
-            }
+            "description": "Success"
           }
         }
       }
@@ -734,33 +370,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblUnidadesProduccion"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblUnidadesProduccion"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblUnidadesProduccion"
-                  }
-                }
-              }
-            }
+            "description": "Success"
           }
         }
       }
@@ -782,33 +392,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblUnidadesProduccion"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblUnidadesProduccion"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblUnidadesProduccion"
-                  }
-                }
-              }
-            }
+            "description": "Success"
           }
         }
       }
@@ -820,33 +404,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblUnidadesProduccion"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblUnidadesProduccion"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblUnidadesProduccion"
-                  }
-                }
-              }
-            }
+            "description": "Success"
           }
         }
       }
@@ -929,33 +487,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblProducto"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblProducto"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblProducto"
-                  }
-                }
-              }
-            }
+            "description": "Success"
           }
         }
       }
@@ -967,33 +499,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblProducto"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblProducto"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblProducto"
-                  }
-                }
-              }
-            }
+            "description": "Success"
           }
         }
       }
@@ -1014,33 +520,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblProducto"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblProducto"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblProducto"
-                  }
-                }
-              }
-            }
+            "description": "Success"
           }
         }
       }
@@ -1052,33 +532,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblProducto"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblProducto"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblProducto"
-                  }
-                }
-              }
-            }
+            "description": "Success"
           }
         }
       }
@@ -1099,33 +553,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblRestriccionLavado"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblRestriccionLavado"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblRestriccionLavado"
-                  }
-                }
-              }
-            }
+            "description": "Success"
           }
         }
       }
@@ -1147,33 +575,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblRestriccionLavado"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblRestriccionLavado"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblRestriccionLavado"
-                  }
-                }
-              }
-            }
+            "description": "Success"
           }
         }
       }
@@ -1185,33 +587,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblRestriccionLavado"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblRestriccionLavado"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblRestriccionLavado"
-                  }
-                }
-              }
-            }
+            "description": "Success"
           }
         }
       }
@@ -1294,33 +670,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblRestriccionMaquina"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblRestriccionMaquina"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblRestriccionMaquina"
-                  }
-                }
-              }
-            }
+            "description": "Success"
           }
         }
       }
@@ -1342,33 +692,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblRestriccionMaquina"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblRestriccionMaquina"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblRestriccionMaquina"
-                  }
-                }
-              }
-            }
+            "description": "Success"
           }
         }
       }
@@ -1380,33 +704,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblRestriccionMaquina"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblRestriccionMaquina"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblRestriccionMaquina"
-                  }
-                }
-              }
-            }
+            "description": "Success"
           }
         }
       }
@@ -1489,33 +787,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblRestriccionRutum"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblRestriccionRutum"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblRestriccionRutum"
-                  }
-                }
-              }
-            }
+            "description": "Success"
           }
         }
       }
@@ -1537,33 +809,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblRestriccionRutum"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblRestriccionRutum"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblRestriccionRutum"
-                  }
-                }
-              }
-            }
+            "description": "Success"
           }
         }
       }
@@ -1575,33 +821,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblRestriccionRutum"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblRestriccionRutum"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblRestriccionRutum"
-                  }
-                }
-              }
-            }
+            "description": "Success"
           }
         }
       }
@@ -1684,33 +904,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblTipoMaquina"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblTipoMaquina"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblTipoMaquina"
-                  }
-                }
-              }
-            }
+            "description": "Success"
           }
         }
       }
@@ -1722,33 +916,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblTipoMaquina"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblTipoMaquina"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblTipoMaquina"
-                  }
-                }
-              }
-            }
+            "description": "Success"
           }
         }
       }
@@ -1770,33 +938,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblTipoMaquina"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblTipoMaquina"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblTipoMaquina"
-                  }
-                }
-              }
-            }
+            "description": "Success"
           }
         }
       }
@@ -1808,33 +950,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblTipoMaquina"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblTipoMaquina"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblTipoMaquina"
-                  }
-                }
-              }
-            }
+            "description": "Success"
           }
         }
       }
@@ -1855,33 +971,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblZona"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblZona"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblZona"
-                  }
-                }
-              }
-            }
+            "description": "Success"
           }
         }
       }
@@ -1903,33 +993,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblZona"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblZona"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblZona"
-                  }
-                }
-              }
-            }
+            "description": "Success"
           }
         }
       }
@@ -1941,33 +1005,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblZona"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblZona"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblZona"
-                  }
-                }
-              }
-            }
+            "description": "Success"
           }
         }
       }
@@ -1979,33 +1017,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblZona"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblZona"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/TblZona"
-                  }
-                }
-              }
-            }
+            "description": "Success"
           }
         }
       }
@@ -2057,21 +1069,6 @@
         "type": "integer",
         "format": "int32"
       },
-      "TblLineasProduccion": {
-        "type": "object",
-        "properties": {
-          "IdLineasProduccion": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "Nombre": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
       "TblListadoEquiposRutum": {
         "type": "object",
         "properties": {
@@ -2094,93 +1091,6 @@
             "nullable": true
           },
           "nombreEquipo": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "TblMaquina": {
-        "type": "object",
-        "properties": {
-          "IdMaquinas": {
-            "type": "string",
-            "nullable": true
-          },
-          "IdTipo": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "IdZona": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "Nombre": {
-            "type": "string",
-            "nullable": true
-          },
-          "PersonalRequeridoMaquina": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "PersonalRequeridoEmbalaje": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "Estado": {
-            "type": "string",
-            "nullable": true
-          },
-          "FechaCreacion": {
-            "$ref": "#/components/schemas/DateOnly"
-          },
-          "TipoEquipoNombre": {
-            "type": "string",
-            "nullable": true
-          },
-          "ZonaNombre": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "TblProducto": {
-        "type": "object",
-        "properties": {
-          "IdProducto": {
-            "type": "string",
-            "nullable": true
-          },
-          "IdFamilia": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "Nombre": {
-            "type": "string",
-            "nullable": true
-          },
-          "Presentacion": {
-            "type": "string",
-            "nullable": true
-          },
-          "Volumen": {
-            "type": "string",
-            "nullable": true
-          },
-          "FechaCreacion": {
-            "$ref": "#/components/schemas/DateOnly"
-          },
-          "Estado": {
-            "type": "boolean",
-            "nullable": true
-          },
-          "nombreFamilia": {
             "type": "string",
             "nullable": true
           }
@@ -2379,21 +1289,6 @@
         },
         "additionalProperties": false
       },
-      "TblTipoMaquina": {
-        "type": "object",
-        "properties": {
-          "IdTipoMaquina": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "NombreTipo": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
       "TblUnidadesProduccion": {
         "type": "object",
         "properties": {
@@ -2426,21 +1321,6 @@
             "nullable": true
           },
           "nombreProducto": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "TblZona": {
-        "type": "object",
-        "properties": {
-          "IdZona": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "Nombre": {
             "type": "string",
             "nullable": true
           }

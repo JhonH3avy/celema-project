@@ -1,5 +1,4 @@
 .gitignore
-.openapi-generator-ignore
 README.md
 api.module.ts
 api/api.ts
@@ -21,15 +20,10 @@ index.ts
 model/dateOnly.ts
 model/dayOfWeek.ts
 model/models.ts
-model/tblLineasProduccion.ts
 model/tblListadoEquiposRutum.ts
-model/tblMaquina.ts
-model/tblProducto.ts
 model/tblRestriccionLavado.ts
 model/tblRestriccionMaquina.ts
 model/tblRestriccionRutum.ts
-model/tblTipoMaquina.ts
 model/tblUnidadesProduccion.ts
-model/tblZona.ts
 param.ts
 variables.ts

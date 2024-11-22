@@ -19,7 +19,8 @@ import { RoutePlanificationComponent } from './features/general/route-planificat
 import { ProfileComponent } from './features/general/profile/profile.component';
 import { CoreModule } from './core/services/core.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ApiModule, Configuration } from './core/services-v2';
+import { ApiModule as ApiModuleV2, Configuration as ConfigurationV2 } from './core/services-v2';
+import { ApiModule, Configuration } from './core/services';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
@@ -61,7 +62,12 @@ import { environment } from 'src/environments/environment';
     ApiModule.forRoot(() => {
       return new Configuration({
         basePath: environment.apiUrl
-      })
+      });
+    }),
+    ApiModuleV2.forRoot(() => {
+      return new ConfigurationV2({
+        basePath: environment.apiUrlV2
+      });
     }),
     SweetAlert2Module.forRoot(),
     BrowserAnimationsModule,
