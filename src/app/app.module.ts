@@ -19,7 +19,7 @@ import { RoutePlanificationComponent } from './features/general/route-planificat
 import { ProfileComponent } from './features/general/profile/profile.component';
 import { CoreModule } from './core/services/core.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { ApiModule, Configuration } from './core/services';
+import { ApiModule, Configuration } from './core/services-v2';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
