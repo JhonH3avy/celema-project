@@ -7,6 +7,7 @@ api/login.service.ts
 api/maestraFamilia.service.ts
 api/maquinas.service.ts
 api/modulosRolesPermisos.service.ts
+api/planeacionProduccion.service.ts
 api/productos.service.ts
 api/restriccionDeLavado.service.ts
 api/restriccionMaquinas.service.ts
@@ -19,6 +20,7 @@ encoder.ts
 git_push.sh
 index.ts
 model/actualizarMaquinaDto.ts
+model/actualizarPlaneacionProduccionDto.ts
 model/actualizarRestriccionLavadoDto.ts
 model/actualizarRestriccionMaquinaDto.ts
 model/actualizarRolUsuarioDto.ts
@@ -27,6 +29,7 @@ model/actualizarRoleModuloPermisoDto.ts
 model/actualizarRutaDto.ts
 model/booleanDataResponse.ts
 model/crearMaquinaDto.ts
+model/crearPlaneacionProduccionDto.ts
 model/crearRestriccionLavadoDto.ts
 model/crearRestriccionMaquinaDto.ts
 model/crearRoleDto.ts
@@ -40,6 +43,9 @@ model/familiaProductoDtoDataResponse.ts
 model/familiaProductoDtoIEnumerableDataResponse.ts
 model/models.ts
 model/modulosRolesPermisosDto.ts
+model/planeacionProduccionDto.ts
+model/planeacionProduccionDtoDataResponse.ts
+model/planeacionProduccionDtoIEnumerableDataResponse.ts
 model/productoDto.ts
 model/productoDtoDataResponse.ts
 model/productoDtoIEnumerableDataResponse.ts
