@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { PlaneacionProduccionDto, PlaneacionProduccionService } from 'src/app/core/services';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-production-planification',
@@ -9,82 +11,116 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 })
 export class ProductionPlanificationComponent {
   FormGroup: FormGroup;
-  productCount = 0;
+  itemCount = 0;
+  offsetPagesToDisplay = 5;
 
   currentPage = 1;
   totalPages = 5;
-  pages = Array(this.totalPages).fill(0);
+  pages: number[] = [];
   currentStep: number = 1;
   fileName: string = '';
 
-  products = [
-    {
-      id: 1,
-      code: 'PF1',
-      description: 'Esta es la descripción de la familia del producto',
-      unidades: '2000',
-      semana: '32',
-      creationDate: new Date('2023-07-06'),
-      familia: 'Familia 1',
-    },
-    {
-      id: 2,
-      code: 'PF2',
-      description: 'Esta es la descripción de la familia del producto',
-      unidades: '2000',
-      semana: '32',
-      creationDate: new Date('2023-07-06'),
-      familia: 'Familia 1',
-    },
-    {
-      id: 3,
-      code: 'PF3',
-      description: 'Esta es la descripción de la familia del producto',
-      unidades: '2000',
-      semana: '32',
-      creationDate: new Date('2023-07-06'),
-      familia: 'Familia 1',
-    },
-    {
-      id: 4,
-      code: 'PF4',
-      description: 'Esta es la descripción de la familia del producto',
-      unidades: '2000',
-      semana: '32',
-      creationDate: new Date('2023-07-06'),
-      familia: 'Familia 1',
-    },
-    {
-      id: 5,
-      code: 'PF5',
-      description: 'Esta es la descripción de la familia del producto',
-      unidades: '2000',
-      semana: '32',
-      creationDate: new Date('2023-07-06'),
-      familia: 'Familia 1',
-    },
-  ]
+  productionPlanifications: PlaneacionProduccionDto[] = [];
+  filteredData: PlaneacionProduccionDto[] = [];
+  paginatedData: PlaneacionProduccionDto[] = [];
 
-  constructor(private modalService: NgbModal, private fb: FormBuilder) {
+  itemsPerPageControl = new FormControl(10);
+  searchQuery = new FormControl();
+
+  private get itemsPerPage(): number {
+    const itemsPerPageValue = this.itemsPerPageControl.value;
+    if (typeof itemsPerPageValue === 'string') {
+      return Number.parseInt(itemsPerPageValue);
+    } if (typeof itemsPerPageValue === 'number') {
+      return itemsPerPageValue;
+    }
+    return 0;
+  }
+
+  constructor(
+    private modalService: NgbModal,
+    private fb: FormBuilder,
+    private planeacionProduccionService: PlaneacionProduccionService) {
     this.FormGroup = this.fb.group({
 
     });
    }
 
   ngOnInit(): void {
-    this.productCount = this.products.length;
+    this.getData();
+    this.searchQuery.valueChanges.subscribe(query => this.filterData(query));
   }
 
-  getStatusStyle(status: string): string[] {
+  getData(): void {
+    this.planeacionProduccionService.apiPlaneacionProduccionGet()
+      .subscribe(response => {
+        this.currentPage = 1;
+        this.productionPlanifications = response.datos ?? [];
+        this.filteredData = this.productionPlanifications;
+        this.itemCount = this.filteredData.length;
+        this.totalPages = Math.ceil(this.itemCount / this.itemsPerPage);
+        this.updatePagination();
+        this.updatePaginatedData();
+      });
+  }
+
+  filterData(query: string): void {
+    if (query.trim() === '') {
+      this.filteredData = this.productionPlanifications;
+    } else {
+      this.filteredData = this.productionPlanifications.filter(productionPlanification =>
+        productionPlanification.nombreProducto?.toLowerCase().includes(query.toLowerCase()) ||
+        productionPlanification.nombreFamilia?.toLowerCase().includes(query.toLowerCase())
+      );
+      this.currentPage = 1;
+    }
+    this.itemCount = this.filteredData.length;
+    this.totalPages = Math.ceil(this.itemCount / this.itemsPerPage);
+    this.updatePagination();
+    this.updatePaginatedData();
+  }
+
+  getStatusStyle(status: boolean | undefined): string[] {
     switch (status) {
-      case 'Activo': return ['border-success', 'text-success', 'bg-success-subtle'];
-      case 'Inactivo': return ['border-danger', ' text-danger', 'bg-danger-subtle'];
+      case true: return ['border-success', 'text-success', 'bg-success-subtle'];
+      case false: return ['border-danger', ' text-danger', 'bg-danger-subtle'];
       default: return [];
     }
   }
 
   changePage(pageToLoad: number): void {
     this.currentPage = pageToLoad;
+    this.updatePaginatedData();
+  }
+
+  changeItemsPerPage(): void {
+    this.totalPages = Math.ceil(this.itemCount / this.itemsPerPage);
+    this.currentPage = 1;
+    this.updatePaginatedData();
+    this.updatePagination();
+  }
+
+  updatePaginatedData(): void {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    this.paginatedData = this.filteredData.slice(startIndex, endIndex); // Usa filteredData en lugar de data
+  }
+
+  updatePagination(): void {
+    this.pages = [];
+    const initialPage = Math.max(1, this.currentPage - this.offsetPagesToDisplay);
+    const negativeOffset = this.currentPage - this.offsetPagesToDisplay < 0 ? this.currentPage - this.offsetPagesToDisplay : 0;
+    const finalPage = Math.min(this.totalPages, this.currentPage + this.offsetPagesToDisplay - negativeOffset);
+    for (let i = initialPage; i <= finalPage; i++) {
+      this.pages.push(i);
+    }
+  }
+
+  exportToExcel(): void {
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.productionPlanifications);
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Roles');
+    XLSX.writeFile(wb, 'familia_productos.xlsx');
   }
 
   openModal(modalContent: any): void {
