@@ -54,7 +54,7 @@ export class RoleAdminComponent implements OnInit {
       nombre: ['', Validators.required],
       estado: [false, Validators.required],
     });
-    config.size = 'lg';
+    this.config.size = 'lg';
   }
 
   ngOnInit(): void {
