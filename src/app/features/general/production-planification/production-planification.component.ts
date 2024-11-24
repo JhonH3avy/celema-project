@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-import { PlaneacionProduccionDto, PlaneacionProduccionService } from 'src/app/core/services';
+import { CrearPlaneacionProduccionDto, PlaneacionProduccionDto, PlaneacionProduccionService } from 'src/app/core/services';
 import * as XLSX from 'xlsx';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-production-planification',
@@ -10,7 +11,7 @@ import * as XLSX from 'xlsx';
   styleUrl: './production-planification.component.css'
 })
 export class ProductionPlanificationComponent {
-  FormGroup: FormGroup;
+  productionPlanificationGroup: FormGroup;
   itemCount = 0;
   offsetPagesToDisplay = 5;
 
@@ -41,14 +42,28 @@ export class ProductionPlanificationComponent {
     private modalService: NgbModal,
     private fb: FormBuilder,
     private planeacionProduccionService: PlaneacionProduccionService) {
-    this.FormGroup = this.fb.group({
-
+    this.productionPlanificationGroup = this.fb.group({
+      productId: ['', Validators.required],
+      amountToProduce: [0, Validators.required],
+      week: ['', Validators.required]
     });
    }
+
+  get amountToProduce(): FormControl {
+    return this.productionPlanificationGroup.controls['amountToProduce'] as FormControl;
+  }
 
   ngOnInit(): void {
     this.getData();
     this.searchQuery.valueChanges.subscribe(query => this.filterData(query));
+    this.amountToProduce.valueChanges.subscribe(amountToProduct => {
+      if (typeof amountToProduct === 'number') {
+        return;
+      } else if (typeof amountToProduct === 'string') {
+        const numberValue = Number.parseInt(amountToProduct);
+        this.amountToProduce.setValue(numberValue, { emitEvent: false });
+      }
+    })
   }
 
   getData(): void {
@@ -116,6 +131,60 @@ export class ProductionPlanificationComponent {
     }
   }
 
+  createProductionPlanification(): void {
+    const productionPlanificationCreateRequest = {
+      idProducto: this.productionPlanificationGroup.controls['productId'].value,
+      cantidadesProducir: this.amountToProduce.value,
+      semana: this.productionPlanificationGroup.controls['week'].value,
+    } as CrearPlaneacionProduccionDto;
+    this.planeacionProduccionService.apiPlaneacionProduccionPost(productionPlanificationCreateRequest)
+      .subscribe(response => {
+        this.productionPlanifications = [response.datos!, ...this.productionPlanifications];
+        Swal.fire({
+          title: 'Éxito',
+          text: response.exito!,
+          icon: 'success'
+        });
+      }, error => {
+        if (error.status === 400) {
+          Swal.fire({
+            title: 'Error',
+            text: error.error,
+            icon: 'error'
+          });
+        }
+
+      });
+  }
+
+  togglePlaneacionProduccion(planeacionProduccion: PlaneacionProduccionDto): void {
+    Swal.fire({
+      title: `¿Está seguro que desea ${planeacionProduccion.estado ? 'desactivar' : 'activar'} la planeación de producción?`,
+      text:`La planeación de producción con id producto ${planeacionProduccion.idProducto}, familia ${planeacionProduccion.nombreFamilia} y semana ${planeacionProduccion.semana}.`,
+      icon: 'question',
+      showCloseButton: true,
+      showCancelButton: true,
+      focusCancel: true,
+      confirmButtonText: 'Actualizar',
+      cancelButtonText: 'Cancelar',
+    }).then(result => {
+      if (result.isConfirmed) {
+        this.planeacionProduccionService.apiPlaneacionProduccionDelete(planeacionProduccion.idProducto!, planeacionProduccion.idFamilia, planeacionProduccion.semana!)
+        .subscribe(response => {
+          if (response.datos) {
+            Swal.fire("¡Éxito!", "Se han realizado exitosamente los cambios", "success");
+            planeacionProduccion.estado = !planeacionProduccion.estado;
+          } else {
+            Swal.fire("Hubo un error", 'No se pudo realizar la operación', "error");
+          }
+        }, error => {
+          Swal.fire("Hubo un error", error, "error");
+        });
+      }
+    });
+
+  }
+
   exportToExcel(): void {
     const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.productionPlanifications);
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
@@ -123,8 +192,36 @@ export class ProductionPlanificationComponent {
     XLSX.writeFile(wb, 'familia_productos.xlsx');
   }
 
-  openModal(modalContent: any): void {
+  openPlanificationImport(modalContent: any): void {
+    this.modalService.open(modalContent);
+  }
+
+  openProductionPlanificationModal(modalContent: any, productionPlanification: PlaneacionProduccionDto | null): void {
+    const isCreate = productionPlanification === null;
+    if (isCreate) {
+      this.enableReferenceFormInputs();
+      this.loadProductionPlanificationFormValues(null);
+    } else {
+      this.disableReferenceFormInputs();
+      this.loadProductionPlanificationFormValues(productionPlanification);
+    }
     this.modalService.open(modalContent, { size: 'lg', backdrop: 'static', centered: true });
+  }
+
+  private enableReferenceFormInputs(): void {
+    this.productionPlanificationGroup.controls['productId'].enable();
+    this.productionPlanificationGroup.controls['week'].enable();
+  }
+
+  private disableReferenceFormInputs(): void {
+    this.productionPlanificationGroup.controls['productId'].disable();
+    this.productionPlanificationGroup.controls['week'].disable();
+  }
+
+  private loadProductionPlanificationFormValues(productionPlanification: PlaneacionProduccionDto | null): void {
+    this.productionPlanificationGroup.controls['productId'].setValue(productionPlanification?.idProducto ?? '');
+    this.amountToProduce.setValue(productionPlanification?.cantidadesProducir ?? 0);
+    this.productionPlanificationGroup.controls['week'].setValue(productionPlanification?.semana ?? '');
   }
 
   nextStep() {

@@ -2947,10 +2947,6 @@
             "type": "string",
             "nullable": true
           },
-          "idFamilia": {
-            "type": "integer",
-            "format": "int32"
-          },
           "semana": {
             "type": "string",
             "nullable": true
