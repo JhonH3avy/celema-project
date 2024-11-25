@@ -8,13 +8,13 @@
         <button class="btn btn-outline-secondary" type="button">
           <i class="bi bi-search"></i>
         </button>
-        <input type="text" class="form-control" placeholder="Buscar">
+        <input type="text" class="form-control" placeholder="Buscar" [formControl]="searchQuery">
       </div>
       <button type="button" class="btn btn-outline-secondary d-flex align-items-center me-2">
         <i class="bi bi-filter me-1"></i>
         Filtrar
       </button>
-      <button type="button" class="btn btn-primary d-flex align-items-center me-2">
+      <button type="button" class="btn btn-primary d-flex align-items-center me-2" (click)="exportToExcel()">
         <i class="bi bi-upload me-1"></i>
         Exportar
       </button>
@@ -44,32 +44,58 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let washRestriction of washRestrictions">
+      <tr *ngFor="let washRestriction of paginatedData">
         <th scope="row">
           <div class="form-check">
             <input class="form-check-input" type="checkbox" value="">
           </div>
         </th>
-        <td class="text-secondary text-center">{{ washRestriction.code }}</td>
-        <td class="text-secondary text-center">{{ washRestriction.description }}</td>
-        <td><span [ngClass]="getStatusStyle(washRestriction.status)" class="badge border">{{ washRestriction.status }}</span></td>
-        <td class="text-secondary text-center">{{ washRestriction.creationDate | date:'dd/MM/yyyy' }}</td>
-        <td class="text-secondary text-center">{{ washRestriction.type }}</td>
-        <td class="text-secondary text-center">{{ washRestriction.frecuency }}</td>
-        <td class="text-secondary text-center">{{ washRestriction.time }}</td>
-        <td class="text-secondary text-center">{{ washRestriction.priority }}</td>
+        <td class="text-secondary text-center">{{ washRestriction.id }}</td>
+        <td class="text-secondary text-center">{{ washRestriction['descripción'] }}</td>
+        <td><span [ngClass]="getStatusStyle(washRestriction.estado!)" class="badge border">{{ washRestriction.estado == true ? 'Activo' : 'Inactivo' }}</span></td>
+        <td class="text-secondary text-center">{{ washRestriction.fechaCreacion | date:'dd/MM/yyyy' }}</td>
+        <td class="text-secondary text-center">{{ washRestriction.tipoLavado }}</td>
+        <td class="text-secondary text-center">{{ washRestriction.frecuenciaLavado }}</td>
+        <td class="text-secondary text-center">{{ washRestriction.tiempoLavado }}</td>
+        <td class="text-secondary text-center">{{ washRestriction.prioridad }}</td>
         <td class="d-flex">
           <button type="button" class="btn rounded-pill border border-danger text-danger bg-danger-subtle me-2">Eliminar</button>
-          <button type="button" class="btn rounded-pill border border-success text-success bg-success-subtle me-2">Actu</button>
+          <button type="button" class="btn rounded-pill border border-success text-success bg-success-subtle me-2">Actualizar</button>
         </td>
       </tr>
     </tbody>
   </table>
 
-  <div class="d-flex justify-content-center align-items-center">
-    <button class="btn btn-light me-2 text-secondary" [ngClass]="{'active': currentPage === (i + 1)}" *ngFor="let page of pages; let i = index" (click)="changePage(i + 1)">
-      {{ i + 1 }}
-    </button>
+  <!-- Paginación -->
+  <div class="d-flex justify-content-between align-items-center" style="margin-bottom: 100px;">
+    <!-- Paginación -->
+    <ul class="pagination mb-0">
+      <li class="page-item" [class.disabled]="currentPage === 1">
+        <a class="page-link" (click)="changePage(1)">Primero</a>
+      </li>
+      <li class="page-item" [class.disabled]="currentPage === 1">
+        <a class="page-link" (click)="changePage(currentPage - 1)">Anterior</a>
+      </li>
+      <li *ngFor="let page of pages" class="page-item" [class.active]="page === currentPage">
+        <a class="page-link" (click)="changePage(page)">{{ page }}</a>
+      </li>
+      <li class="page-item" [class.disabled]="currentPage === totalPages">
+        <a class="page-link" (click)="changePage(currentPage + 1)">Siguiente</a>
+      </li>
+      <li class="page-item" [class.disabled]="currentPage === totalPages">
+        <a class="page-link" (click)="changePage(totalPages)">Último</a>
+      </li>
+    </ul>
+
+    <!-- Selector de cantidad por página -->
+    <div class="d-flex align-items-center ms-3">
+      <label for="itemsPerPage" class="form-label mb-0">Mostrar</label>
+      <select id="itemsPerPage" class="form-select w-auto ms-2" [(ngModel)]="itemsPerPage" (change)="changeItemsPerPage()">
+        <option value="10">10</option>
+        <option value="15">15</option>
+      </select>
+      <span class="ms-2">por página</span>
+    </div>
   </div>
 
   <!-- Modal nueva restricción -->
@@ -81,38 +107,76 @@
       </div>
       <div class="modal-body">
         <div>
-          <form [formGroup]="FormGroup">
+          <form [formGroup]="formGroup">
             <div class="container text-center">
               <div class="row mb-2">
                 <div class="col text-start">
-                  <label for="roleInput" class="col-form-label">Código</label>
+                  <label for="codigoInput" class="col-form-label">Código</label>
                 </div>
                 <div class="col-8">
-                  <input type="text" id="codigoInput" class="form-control" formControlName="codigo">
+                  <input type="text" id="codigoInput" class="form-control" [ngClass]="{'is-invalid': codigo?.touched && codigo?.invalid}" formControlName="codigo">
+                </div>
+              </div>
+              <div class="row mb-2">
+                <div class="col-12">
+                  <div *ngIf="codigo?.invalid && codigo?.touched" class="text-danger">
+                    El código es requerido.
+                  </div>
                 </div>
               </div>
               <div class="row mb-2">
                 <div class="col text-start">
-                  <label for="roleInput" class="col-form-label">Descripción</label>
+                  <label for="descripcionInput" class="col-form-label">Descripción</label>
                 </div>
                 <div class="col-8">
-                  <input type="text" id="descripcionInput" class="form-control" formControlName="descripcion">
+                  <input type="text" id="descripcionInput" class="form-control" [ngClass]="{'is-invalid': descripcion?.touched && descripcion?.invalid}" formControlName="descripcion">
+                </div>
+              </div>
+              <div class="row mb-2">
+                <div class="col-12">
+                  <div *ngIf="descripcion?.invalid && descripcion?.touched" class="text-danger">
+                    La descripción es requerida.
+                  </div>
                 </div>
               </div>
               <div class="row mb-2">
                 <div class="col text-start">
-                  <label for="roleInput" class="col-form-label">Familia</label>
+                  <label for="familiaInput" class="col-form-label">Familia</label>
                 </div>
                 <div class="col-8">
-                  <input type="text" id="familiaInput" class="form-control" formControlName="familia">
+                  <!-- <input type="text" id="familiaInput" class="form-control"[ngClass]="{'is-invalid': familia?.touched && familia?.invalid}" formControlName="familia"> -->
+                  <select
+                    id="familiaInput"
+                    class="form-control"
+                    [ngClass]="{'is-invalid': familia?.touched && familia?.invalid}"
+                    formControlName="equipo"
+                  >
+                    <option *ngFor="let opcion of lstFamilia" [value]="opcion.idFamilia">
+                      <!-- {{ opcion.nombreFamilia }} -->
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="row mb-2">
+                <div class="col-12">
+                  <div *ngIf="familia?.invalid && familia?.touched" class="text-danger">
+                    La familia es requerida.
+                  </div>
                 </div>
               </div>
               <div class="row mb-2">
                 <div class="col text-start">
-                  <label for="roleInput" class="col-form-label">Tipo lavado</label>
+                  <label for="tipoInput" class="col-form-label">Tipo lavado</label>
                 </div>
                 <div class="col-8">
-                  <input type="text" id="tipoInput" class="form-control" formControlName="tipo">
+                  <input type="text" id="tipoInput" class="form-control" [ngClass]="{'is-invalid': tipo?.touched && tipo?.invalid}" formControlName="tipo">
+                </div>
+              </div>
+              <div class="row mb-2">
+                <div class="col-12">
+                  <div *ngIf="tipo?.invalid && tipo?.touched" class="text-danger">
+                    El tipo es requerido.
+                  </div>
                 </div>
               </div>
               <div class="row mb-2">
@@ -120,23 +184,54 @@
                   <label for="roleInput" class="col-form-label">Frecuencia de lavado</label>
                 </div>
                 <div class="col-8">
-                  <input type="text" id="frecuenciaInput" class="form-control" formControlName="frecuencia">
+                  <input type="text" id="frecuenciaInput" class="form-control" [ngClass]="{'is-invalid': frecuencia?.touched && frecuencia?.invalid}" formControlName="frecuencia">
+                </div>
+              </div>
+              <div class="row mb-2">
+                <div class="col-12">
+                  <div *ngIf="frecuencia?.invalid && frecuencia?.touched" class="text-danger">
+                    La frecuencia es requerida.
+                  </div>
                 </div>
               </div>
               <div class="row mb-2">
                 <div class="col text-start">
-                  <label for="roleInput" class="col-form-label">Tiempo de lavado</label>
+                  <label for="tiempoInput" class="col-form-label">Tiempo de lavado</label>
                 </div>
                 <div class="col-8">
-                  <input type="text" id="tiempoInput" class="form-control" formControlName="tiempo">
+                  <input type="text" id="tiempoInput" class="form-control" [ngClass]="{'is-invalid': tiempo?.touched && tiempo?.invalid}" formControlName="tiempo">
+                </div>
+              </div>
+              <div class="row mb-2">
+                <div class="col-12">
+                  <div *ngIf="tiempo?.invalid && tiempo?.touched" class="text-danger">
+                    El tiempo es requerido.
+                  </div>
                 </div>
               </div>
               <div class="row mb-2">
                 <div class="col text-start">
-                  <label for="roleInput" class="col-form-label">Equipo</label>
+                  <label for="equipoInput" class="col-form-label">Equipo</label>
                 </div>
                 <div class="col-8">
-                  <input type="text" id="equipoInput" class="form-control" formControlName="equipo">
+                  <!-- <input type="text" id="equipoInput" class="form-control" [ngClass]="{'is-invalid': equipo?.touched && equipo?.invalid}" formControlName="equipo"> -->
+                  <select
+                    id="equipoInput"
+                    class="form-control"
+                    [ngClass]="{'is-invalid': equipo?.touched && equipo?.invalid}"
+                    formControlName="equipo"
+                  >
+                    <option *ngFor="let opcion of lstEquipos" [value]="opcion.idMaquina">
+                      {{ opcion.nombre }}
+                    </option>
+                  </select>
+                </div>
+              </div>
+              <div class="row mb-2">
+                <div class="col-12">
+                  <div *ngIf="equipo?.invalid && equipo?.touched" class="text-danger">
+                    El equipo es requerido.
+                  </div>
                 </div>
               </div>
             </div>
@@ -144,7 +239,7 @@
         </div>
       </div>
       <div class="modal-footer">
-        <button type="button" class="btn btn-primary" >Ingresar</button>
+        <button type="submit" class="btn btn-primary" [disabled]="formGroup.invalid">Ingresar / Actualizar</button>
         <button type="button" class="btn btn-secondary" (click)="newPlan.dismiss('Close click')">Cancelar</button>
       </div>
     </div>
