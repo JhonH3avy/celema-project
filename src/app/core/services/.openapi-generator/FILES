@@ -30,6 +30,7 @@ model/actualizarRutaDto.ts
 model/booleanDataResponse.ts
 model/crearMaquinaDto.ts
 model/crearPlaneacionProduccionDto.ts
+model/crearPlaneacionProduccionDtoIEnumerableDataResponse.ts
 model/crearRestriccionLavadoDto.ts
 model/crearRestriccionMaquinaDto.ts
 model/crearRoleDto.ts

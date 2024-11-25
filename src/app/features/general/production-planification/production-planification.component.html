@@ -100,7 +100,7 @@
   <ng-template let-uploadPlan #uploadPlan>
     <div class="modal-content">
       <div class="modal-header vstack gap-3">
-        <button type="button" class="btn-close" aria-label="Close" (click)="uploadPlan.dismiss('Cross click')"></button>
+        <button type="button" class="btn-close" aria-label="Close" (click)="closeProductionPlanificationModal()"></button>
       </div>
       <div class="modal-body">
         <div>
@@ -161,49 +161,9 @@
             <br>
             <div valign="top" class="body-upload-stepp2">
               <table>
-                <tr>
+                <tr *ngFor="let error of validationErrors">
                   <td>
-                    <div class="chip" style="background-color: red;">El archivo no cuenta con el formato requerido para subir #1</div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="chip" style="background-color: red;">El archivo no cuenta con el formato requerido para subir #2</div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="chip" style="background-color: red;">El archivo no cuenta con el formato requerido para subir #3</div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="chip" style="background-color: red;">El archivo no cuenta con el formato requerido para subir #4</div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="chip" style="background-color: red;">El archivo no cuenta con el formato requerido para subir #5</div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="chip" style="background-color: red;">El archivo no cuenta con el formato requerido para subir #6</div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="chip" style="background-color: red;">El archivo no cuenta con el formato requerido para subir #7</div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="chip" style="background-color: red;">El archivo no cuenta con el formato requerido para subir #8</div>
-                  </td>
-                </tr>
-                <tr>
-                  <td>
-                    <div class="chip" style="background-color: red;">El archivo no cuenta con el formato requerido para subir #9</div>
+                    <div class="chip" style="background-color: red;">{{error}}</div>
                   </td>
                 </tr>
               </table>
@@ -216,7 +176,7 @@
               <div class="file-upload-container">
                 <!-- Botón de carga de archivo -->
                 <label for="file-upload" class="custom-file-upload">
-                  <button type="button" class="btn btn-primary" (click)="startUpload($event)">
+                  <button type="button" class="btn btn-primary" (click)="startUpload()">
                   <i class="bi bi-download me-1"></i>
                   <span class="text-nowrap ms-1">Cargar archivo</span>
                   </button>
@@ -238,8 +198,8 @@
 
           <!-- Navegación entre pasos -->
           <div class="d-flex justify-content-between mt-4">
-            <button class="btn btn-secondary" (click)="prevStep()" [disabled]="currentStep === 1">Anterior</button>
-            <button class="btn btn-primary" (click)="nextStep()" [disabled]="currentStep === 3">Siguiente</button>
+            <button class="btn btn-secondary" (click)="prevStep()" [disabled]="isPrevStepDisabled(currentStep)">Anterior</button>
+            <button class="btn btn-primary" (click)="nextStep()" [disabled]="isNextStepDisabled(currentStep)">Siguiente</button>
           </div>
         </div>
       </div>

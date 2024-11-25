@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { CrearPlaneacionProduccionDto, PlaneacionProduccionDto, PlaneacionProduccionService } from 'src/app/core/services';
 import * as XLSX from 'xlsx';
 import Swal from 'sweetalert2';
@@ -27,6 +27,11 @@ export class ProductionPlanificationComponent {
 
   itemsPerPageControl = new FormControl(10);
   searchQuery = new FormControl();
+
+  importFiles: File[] = [];
+  validationErrors: string[] = [];
+
+  planificationImportModalInstance: NgbModalRef | null = null;;
 
   private get itemsPerPage(): number {
     const itemsPerPageValue = this.itemsPerPageControl.value;
@@ -193,7 +198,7 @@ export class ProductionPlanificationComponent {
   }
 
   openPlanificationImport(modalContent: any): void {
-    this.modalService.open(modalContent);
+    this.planificationImportModalInstance = this.modalService.open(modalContent);
   }
 
   openProductionPlanificationModal(modalContent: any, productionPlanification: PlaneacionProduccionDto | null): void {
@@ -224,16 +229,52 @@ export class ProductionPlanificationComponent {
     this.productionPlanificationGroup.controls['week'].setValue(productionPlanification?.semana ?? '');
   }
 
-  nextStep() {
-    if (this.currentStep < 3) {
-      this.currentStep++;
+  nextStep(): void {
+    if (this.currentStep === 1) {
+      this.currentStep = 2;
+      this.validateFiles();
+    } else if (this.currentStep === 2) {
+      this.currentStep = 3;
     }
   }
 
-  prevStep() {
-    if (this.currentStep > 1) {
-      this.currentStep--;
+  prevStep(): void {
+    if (this.currentStep === 3) {
+      this.currentStep = 2;
+      this.validateFiles();
+    } else if (this.currentStep === 2) {
+      this.currentStep = 1;
     }
+  }
+
+  isNextStepDisabled(step: number): boolean {
+    if (step === 2) {
+      return this.validationErrors.length > 0;
+    } else if (step === 3) {
+      return true;
+    }
+    return false;
+  }
+
+  isPrevStepDisabled(step: number): boolean {
+    if (step === 1) {
+      return true;
+    }
+    return false;
+  }
+
+  closeProductionPlanificationModal(): void {
+    this.importFiles = [];
+    this.planificationImportModalInstance?.dismiss();
+  }
+
+  private validateFiles(): void {
+    this.validationErrors = [];
+    this.importFiles.forEach(file => {
+      if (!file.name.endsWith('.csv')) {
+        this.validationErrors.push(`El archivo ${file.name} no tiene el formato requerido '.csv'.`)
+      }
+    });
   }
 
   // Método para hacer clic en el input de archivo
@@ -244,24 +285,38 @@ export class ProductionPlanificationComponent {
     }
   }
 
+  private addFilesFromFileList(fileList: FileList): void {
+    this.importFiles = [];
+    for (let i = 0; i < fileList.length; i++) {
+      const file = fileList[i];
+      this.importFiles.push(file);
+      this.fileName = file.name;
+      this.selectedFileName = file.name;
+    }
+  }
+
   // Método para manejar cuando un archivo es seleccionado
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
-    if (input?.files?.length) {
-      this.fileName = input.files[0].name;
+    if (input.files) {
+      this.addFilesFromFileList(input.files);
     }
   }
 
   // Método para manejar cuando se arrastra un archivo sobre el área
   onDrop(event: DragEvent): void {
     event.preventDefault();
-    const fileInput = document.getElementById('upload-file') as HTMLInputElement;
+    // const fileInput = document.getElementById('upload-file') as HTMLInputElement;
     const files = event.dataTransfer?.files;
 
-    if (files?.length) {
-      fileInput.files = files;
-      this.fileName = files[0].name;
+    if (files) {
+      this.addFilesFromFileList(files);
     }
+
+    // if (files?.length) {
+    //   fileInput.files = files;
+    //   this.fileName = files[0].name;
+    // }
 
     const dragArea = document.getElementById('drag-drop-area');
     if (dragArea) {
@@ -296,19 +351,57 @@ export class ProductionPlanificationComponent {
   uploadProgress = 0;           // Progreso de la carga
   selectedFileName: string | null = null; // Nombre del archivo seleccionado
 
-  startUpload(event: any) {
+  startUpload() {
     this.isUploading = true;  // Comenzamos la carga
-      this.uploadProgress = 0;  // Reiniciamos el progreso
+    this.uploadProgress = 0;  // Reiniciamos el progreso
 
-      // Simulamos una carga con intervalos
-      const interval = setInterval(() => {
-        this.uploadProgress += 10;
-        if (this.uploadProgress >= 100) {
-          clearInterval(interval);  // Detenemos el intervalo cuando llegue al 100%
-          this.isUploading = false;  // Detenemos la simulación de carga
-          this.uploadProgress = 100;
+    this.planeacionProduccionService.apiPlaneacionProduccionImportPlanPost(this.importFiles[0])
+      .subscribe(response => {
+        Swal.fire({
+          title: 'Éxito',
+          text: 'La importación se llevo acabo exitosamente',
+          icon: 'success',
+        });
+      }, error => {
+        if (error.status === 400) {
+          Swal.fire({
+            title: 'Error',
+            text: error.error.exito,
+            icon: 'error',
+          });
+          this.downloadCSV(error.error.datos);
+        } else {
+          Swal.fire({
+            title: 'Error',
+            text: 'Sucedió un error inesperado durante la importación',
+            icon: 'error',
+          });
         }
-      }, 500);  // Incrementamos el progreso cada 500ms
+      });
+  }
+
+  downloadCSV(data: any) {
+    // 1. Convert the data to CSV format
+    const headers = Object.keys(data[0]).join(','); // Extract headers
+    const rows = data.map((obj: any) =>
+      Object.values(obj)
+        .map(value => `"${value}"`) // Quote each value
+        .join(',')
+    );
+    const csvContent = [headers, ...rows].join('\n');
+
+    // 2. Create a Blob from the CSV content
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+
+    // 3. Create a URL for the Blob and trigger the download
+    const url = window.URL.createObjectURL(blob);
+    const anchor = document.createElement('a');
+    anchor.href = url;
+    anchor.download = 'data.csv';
+    anchor.click();
+
+    // 4. Cleanup
+    window.URL.revokeObjectURL(url);
   }
 
 }

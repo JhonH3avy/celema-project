@@ -9,6 +9,7 @@ export * from './actualizarRutaDto';
 export * from './booleanDataResponse';
 export * from './crearMaquinaDto';
 export * from './crearPlaneacionProduccionDto';
+export * from './crearPlaneacionProduccionDtoIEnumerableDataResponse';
 export * from './crearRestriccionLavadoDto';
 export * from './crearRestriccionMaquinaDto';
 export * from './crearRoleDto';
