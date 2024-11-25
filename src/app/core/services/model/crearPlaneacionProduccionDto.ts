@@ -11,7 +11,6 @@
 
 export interface CrearPlaneacionProduccionDto { 
     idProducto?: string | null;
-    idFamilia?: number;
     semana?: string | null;
     cantidadesProducir?: number;
 }
