@@ -213,8 +213,7 @@ export class EquipmentAdminComponent implements OnInit {
         estado: w.estado,
         frecuenciaLavado: w.frecuenciaLavado,
         idFamilia: w.idFamilia,
-        idRestriccionLavados: w.id,
-        prioridad: w.prioridad,
+        idRestriccionLavados: w.idRestriccionLavados,
         tiempoLavado: w.tiempoLavado,
         tipoLavado: w.tipoLavado,
       } as ActualizarRestriccionLavadoDto;

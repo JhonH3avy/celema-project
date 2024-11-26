@@ -11,12 +11,11 @@
 
 export interface ActualizarRestriccionLavadoDto { 
     idRestriccionLavados?: number;
-    'descripción'?: string | null;
+    descripcion?: string | null;
     estado?: boolean;
     idFamilia?: number;
     tipoLavado?: string | null;
     frecuenciaLavado?: number;
     tiempoLavado?: number;
-    prioridad?: number;
 }
 

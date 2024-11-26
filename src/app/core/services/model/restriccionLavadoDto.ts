@@ -11,7 +11,7 @@
 
 export interface RestriccionLavadoDto { 
     idRestriccionLavados?: number;
-    'descripción'?: string | null;
+    descripcion?: string | null;
     idFamilia?: number | null;
     idMaquina?: string | null;
     tipoLavado?: string | null;
