@@ -43,22 +43,22 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let washRestriction of paginatedData">
+      <tr *ngFor="let model of paginatedData">
         <th scope="row">
           <div class="form-check">
             <input class="form-check-input" type="checkbox" value="">
           </div>
         </th>
-        <td class="text-secondary text-center">{{ washRestriction.idRestriccionLavados }}</td>
-        <td class="text-secondary text-center">{{ washRestriction.descripcion }}</td>
-        <td><span [ngClass]="getStatusStyle(washRestriction.estado!)" class="badge border">{{ washRestriction.estado == true ? 'Activo' : 'Inactivo' }}</span></td>
-        <td class="text-secondary text-center">{{ washRestriction.fechaCreacion | date:'dd/MM/yyyy' }}</td>
-        <td class="text-secondary text-center">{{ washRestriction.tipoLavado }}</td>
-        <td class="text-secondary text-center">{{ washRestriction.frecuenciaLavado }}</td>
-        <td class="text-secondary text-center">{{ washRestriction.tiempoLavado }}</td>
+        <td class="text-secondary text-center">{{ model.idRestriccionLavados }}</td>
+        <td class="text-secondary text-center">{{ model.descripcion }}</td>
+        <td><span [ngClass]="getStatusStyle(model.estado!)" class="badge border">{{ model.estado == true ? 'Activo' : 'Inactivo' }}</span></td>
+        <td class="text-secondary text-center">{{ model.fechaCreacion | date:'dd/MM/yyyy' }}</td>
+        <td class="text-secondary text-center">{{ model.tipoLavado }}</td>
+        <td class="text-secondary text-center">{{ model.frecuenciaLavado }}</td>
+        <td class="text-secondary text-center">{{ model.tiempoLavado }}</td>
         <td class="d-flex">
-          <button type="button" class="btn rounded-pill border border-danger text-danger bg-danger-subtle me-2" (click)="eliminarRegistro(washRestriction.idRestriccionLavados)">Eliminar</button>
-          <button type="button" class="btn rounded-pill border border-success text-success bg-success-subtle me-2" (click)="openModal(editPlan);actualizar()">Actualizar</button>
+          <button type="button" class="btn rounded-pill border border-danger text-danger bg-danger-subtle me-2" (click)="eliminarRegistro(model.idRestriccionLavados!, model.estado)">Eliminar</button>
+          <button type="button" class="btn rounded-pill border border-success text-success bg-success-subtle me-2" (click)="openModal(newPlan);actualizar(model)">Actualizar</button>
         </td>
       </tr>
     </tbody>
@@ -105,14 +105,14 @@
       </div>
       <div class="modal-body">
         <div>
-          <form [formGroup]="formGroup">
+          <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
             <div class="container text-center">
               <div class="row mb-2">
                 <div class="col text-start">
                   <label for="codigoInput" class="col-form-label">Código</label>
                 </div>
                 <div class="col-8">
-                  <input type="text" id="codigoInput" class="form-control" [ngClass]="{'is-invalid': codigo?.touched && codigo?.invalid}" formControlName="codigo">
+                  <input *ngIf="this.currentId > 0" type="text" id="codigoInput" class="form-control" [ngClass]="{'is-invalid': codigo?.touched && codigo?.invalid}" formControlName="codigo">
                 </div>
               </div>
               <div class="row mb-2">
@@ -147,10 +147,10 @@
                     id="familiaInput"
                     class="form-control"
                     [ngClass]="{'is-invalid': familia?.touched && familia?.invalid}"
-                    formControlName="equipo"
+                    formControlName="familia"
                   >
-                    <option *ngFor="let opcion of lstFamilia" [value]="opcion.idFamilia">
-                      <!-- {{ opcion.nombreFamilia }} -->
+                    <option *ngFor="let opcion of lstFamilia" [value]="opcion.id">
+                      {{ opcion.nombre }}
                     </option>
                   </select>
                 </div>
@@ -182,7 +182,7 @@
                   <label for="roleInput" class="col-form-label">Frecuencia de lavado</label>
                 </div>
                 <div class="col-8">
-                  <input type="text" id="frecuenciaInput" class="form-control" [ngClass]="{'is-invalid': frecuencia?.touched && frecuencia?.invalid}" formControlName="frecuencia">
+                  <input type="number" id="frecuenciaInput" class="form-control" [ngClass]="{'is-invalid': frecuencia?.touched && frecuencia?.invalid}" formControlName="frecuencia">
                 </div>
               </div>
               <div class="row mb-2">
@@ -197,7 +197,7 @@
                   <label for="tiempoInput" class="col-form-label">Tiempo de lavado</label>
                 </div>
                 <div class="col-8">
-                  <input type="text" id="tiempoInput" class="form-control" [ngClass]="{'is-invalid': tiempo?.touched && tiempo?.invalid}" formControlName="tiempo">
+                  <input type="number" id="tiempoInput" class="form-control" [ngClass]="{'is-invalid': tiempo?.touched && tiempo?.invalid}" formControlName="tiempo">
                 </div>
               </div>
               <div class="row mb-2">
@@ -233,159 +233,13 @@
                 </div>
               </div>
             </div>
-          </form>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-primary" [disabled]="formGroup.invalid">Ingresar</button>
-        <button type="button" class="btn btn-secondary" (click)="newPlan.dismiss('Close click')">Cancelar</button>
-      </div>
-    </div>
-  </ng-template>
-
-  <!-- Modal editar restricción -->
-  <ng-template #content let-editPlan #editPlan>
-    <div class="modal-content">
-      <div class="modal-header vstack gap-3">
-        <button type="button" class="btn-close" aria-label="Close" (click)="editPlan.dismiss('Cross click')"></button>
-        <h1 class="modal-title fs-5" id="modalTitle">Editar Restricción de Lavados</h1>
-      </div>
-      <div class="modal-body">
-        <div>
-          <form [formGroup]="formGroup">
-            <div class="container text-center">
-              <div class="row mb-2">
-                <div class="col text-start">
-                  <label for="codigoInput" class="col-form-label">Código</label>
-                </div>
-                <div class="col-8">
-                  <input type="text" id="codigoInput" class="form-control" [ngClass]="{'is-invalid': codigo?.touched && codigo?.invalid}" formControlName="codigo">
-                </div>
-              </div>
-              <div class="row mb-2">
-                <div class="col-12">
-                  <div *ngIf="codigo?.invalid && codigo?.touched" class="text-danger">
-                    El código es requerido.
-                  </div>
-                </div>
-              </div>
-              <div class="row mb-2">
-                <div class="col text-start">
-                  <label for="descripcionInput" class="col-form-label">Descripción</label>
-                </div>
-                <div class="col-8">
-                  <input type="text" id="descripcionInput" class="form-control" [ngClass]="{'is-invalid': descripcion?.touched && descripcion?.invalid}" formControlName="descripcion">
-                </div>
-              </div>
-              <div class="row mb-2">
-                <div class="col-12">
-                  <div *ngIf="descripcion?.invalid && descripcion?.touched" class="text-danger">
-                    La descripción es requerida.
-                  </div>
-                </div>
-              </div>
-              <div class="row mb-2">
-                <div class="col text-start">
-                  <label for="familiaInput" class="col-form-label">Familia</label>
-                </div>
-                <div class="col-8">
-                  <!-- <input type="text" id="familiaInput" class="form-control"[ngClass]="{'is-invalid': familia?.touched && familia?.invalid}" formControlName="familia"> -->
-                  <select
-                    id="familiaInput"
-                    class="form-control"
-                    [ngClass]="{'is-invalid': familia?.touched && familia?.invalid}"
-                    formControlName="equipo"
-                  >
-                    <option *ngFor="let opcion of lstFamilia" [value]="opcion.idFamilia">
-                      <!-- {{ opcion.nombreFamilia }} -->
-                    </option>
-                  </select>
-                </div>
-              </div>
-              <div class="row mb-2">
-                <div class="col-12">
-                  <div *ngIf="familia?.invalid && familia?.touched" class="text-danger">
-                    La familia es requerida.
-                  </div>
-                </div>
-              </div>
-              <div class="row mb-2">
-                <div class="col text-start">
-                  <label for="tipoInput" class="col-form-label">Tipo lavado</label>
-                </div>
-                <div class="col-8">
-                  <input type="text" id="tipoInput" class="form-control" [ngClass]="{'is-invalid': tipo?.touched && tipo?.invalid}" formControlName="tipo">
-                </div>
-              </div>
-              <div class="row mb-2">
-                <div class="col-12">
-                  <div *ngIf="tipo?.invalid && tipo?.touched" class="text-danger">
-                    El tipo es requerido.
-                  </div>
-                </div>
-              </div>
-              <div class="row mb-2">
-                <div class="col text-start">
-                  <label for="roleInput" class="col-form-label">Frecuencia de lavado</label>
-                </div>
-                <div class="col-8">
-                  <input type="text" id="frecuenciaInput" class="form-control" [ngClass]="{'is-invalid': frecuencia?.touched && frecuencia?.invalid}" formControlName="frecuencia">
-                </div>
-              </div>
-              <div class="row mb-2">
-                <div class="col-12">
-                  <div *ngIf="frecuencia?.invalid && frecuencia?.touched" class="text-danger">
-                    La frecuencia es requerida.
-                  </div>
-                </div>
-              </div>
-              <div class="row mb-2">
-                <div class="col text-start">
-                  <label for="tiempoInput" class="col-form-label">Tiempo de lavado</label>
-                </div>
-                <div class="col-8">
-                  <input type="text" id="tiempoInput" class="form-control" [ngClass]="{'is-invalid': tiempo?.touched && tiempo?.invalid}" formControlName="tiempo">
-                </div>
-              </div>
-              <div class="row mb-2">
-                <div class="col-12">
-                  <div *ngIf="tiempo?.invalid && tiempo?.touched" class="text-danger">
-                    El tiempo es requerido.
-                  </div>
-                </div>
-              </div>
-              <div class="row mb-2">
-                <div class="col text-start">
-                  <label for="equipoInput" class="col-form-label">Equipo</label>
-                </div>
-                <div class="col-8">
-                  <!-- <input type="text" id="equipoInput" class="form-control" [ngClass]="{'is-invalid': equipo?.touched && equipo?.invalid}" formControlName="equipo"> -->
-                  <select
-                    id="equipoInput"
-                    class="form-control"
-                    [ngClass]="{'is-invalid': equipo?.touched && equipo?.invalid}"
-                    formControlName="equipo"
-                  >
-                    <option *ngFor="let opcion of lstEquipos" [value]="opcion.idMaquina">
-                      {{ opcion.nombre }}
-                    </option>
-                  </select>
-                </div>
-              </div>
-              <div class="row mb-2">
-                <div class="col-12">
-                  <div *ngIf="equipo?.invalid && equipo?.touched" class="text-danger">
-                    El equipo es requerido.
-                  </div>
-                </div>
-              </div>
+            <div class="modal-footer d-flex justify-content-rigth">
+              <button *ngIf="currentId == 0" type="submit" class="btn btn-primary" [disabled]="formGroup.invalid">Ingresar</button>
+              <button *ngIf="currentId > 0" type="submit" class="btn btn-primary" [disabled]="formGroup.invalid">Actualizar</button>
+              <button type="button" class="btn btn-secondary" (click)="newPlan.dismiss('Close click')">Cancelar</button>
             </div>
           </form>
         </div>
-      </div>
-      <div class="modal-footer">
-        <button type="submit" class="btn btn-primary" [disabled]="formGroup.invalid">Actualizar</button>
-        <button type="button" class="btn btn-secondary" (click)="editPlan.dismiss('Close click')">Cancelar</button>
       </div>
     </div>
   </ng-template>

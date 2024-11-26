@@ -1,13 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import { ActualizarRestriccionLavadoDto, FamiliaProductoDto, FamiliaProductosService, MaquinaDto, MaquinasService, RestriccionDeLavadoService, RestriccionLavadoDto, TblPermiso} from 'src/app/core/services';
+import { ActualizarRestriccionLavadoDto, FamiliaProductoDto, FamiliaProductosService, MaquinaDto, MaquinasService, RestriccionDeLavadoService, RestriccionLavadoDto} from 'src/app/core/services';
 import * as bootstrap from 'bootstrap';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import * as XLSX from 'xlsx';
 import Swal from 'sweetalert2';
-import { TblModulos } from 'src/app/core/services/model/tblModulos';
-import { TblMaquinas } from 'src/app/core/services/model/tblMaquinas';
-import { TblFamiliaProductos } from 'src/app/core/services/model/tblFamiliaProductos';
 
 @Component({
   selector: 'app-wash-restriction',
@@ -31,13 +28,10 @@ export class WashRestrictionComponent implements OnInit {
 
   searchQuery = new FormControl();
 
-  moduleList: TblModulos[] = [];
-  permissionList: TblPermiso[] = [];
-
   currentId = 0;
 
   lstEquipos : MaquinaDto[] = [];
-  lstFamilia : TblFamiliaProductos[] = [];
+  lstFamilia : FamiliaProductoDto[] = [];
 
   get codigo(): FormControl {
     return this.formGroup.controls['codigo'] as FormControl;
@@ -80,14 +74,14 @@ export class WashRestrictionComponent implements OnInit {
     private config: NgbModalConfig,
   ) {
     this.formGroup = this.fb.group({
-      codigo: ['', Validators.required],
+      codigo: [''],
       descripcion: ['', Validators.required],
       familia: ['', Validators.required],
       tipo: ['', Validators.required],
       frecuencia: ['', Validators.required],
       tiempo: ['', Validators.required],
       equipo: ['', Validators.required],
-      estado: [false, Validators.required],
+      estado: [true],
     });
     config.size = 'lg';
   }
@@ -98,9 +92,9 @@ export class WashRestrictionComponent implements OnInit {
       this.lstEquipos = response.datos ?? [];
     });
 
-    this.familiaService.apiFamiliaProductosConsultarfamiliaGet()
+    this.familiaService.apiFamiliaProductosListadodefamiliaGet()
     .subscribe(response => {
-     // this.lstFamilia = response.datos ?? [];
+      this.lstFamilia = response.datos ?? [];
     });
 
     this.getData();
@@ -166,9 +160,8 @@ export class WashRestrictionComponent implements OnInit {
   }
 
   openModal(modalContent: any): void {
+    this.formGroup.reset();
     this.currentId = 0;
-    this.descripcion.setValue('');
-    this.estado.setValue(false);
     this.modalService.open(modalContent, { ariaLabelledBy: 'modalTitle' });
   }
 
@@ -182,28 +175,20 @@ export class WashRestrictionComponent implements OnInit {
     dropdown.dispose();
   }
 
-  openUpdateModal(id: number, modalContent: any): void {
-    const model = this.model.find(x => x.idRestriccionLavados === id);
-    this.currentId = id;
-    this.descripcion.setValue(model?.descripcion);
-    this.estado.setValue(model?.estado);
-    this.modalService.open(modalContent, { ariaLabelledBy: 'modalTitle' });
-  }
+  onSubmit(): void {
 
-  openCreateModal(modalContent: any): void {
-    this.currentId = 0;
-    this.descripcion.setValue('');
-    this.estado.setValue(false);
-    this.modalService.open(modalContent, { ariaLabelledBy: 'modalTitle' });
-  }
+    if (this.currentId === 0) {
 
-  saveChanges(): void {
-    const update = {
-      id: this.currentId,
-      nombre: this.descripcion.value,
-      estado: this.estado.value,
-    } as ActualizarRestriccionLavadoDto;
-    if (update.idRestriccionLavados === 0) {
+      let update = {
+        idRestriccionLavados: this.currentId,
+        descripcion: this.descripcion.value,
+        idFamilia: this.familia.value,
+        tipoLavado: this.tipo.value,
+        frecuenciaLavado: this.frecuencia.value,
+        tiempoLavado: this.tiempo.value,
+        estado: true
+      } as ActualizarRestriccionLavadoDto;
+
       this.service.apiRestriccionDeLavadoCrearrestriccionlavadoPost(update)
         .subscribe(
           response => {
@@ -216,35 +201,30 @@ export class WashRestrictionComponent implements OnInit {
               `El registro se creó con éxito.`,
               'success'
             );
-            this.count = this.filteredData.length;
-            this.totalPages = Math.ceil(this.count / this.itemsPerPage);
-            this.updatePagination();
-            this.updatePaginatedData();
           }
         )
     } else {
+
+      let update = {
+        idRestriccionLavados: this.currentId,
+        descripcion: this.descripcion.value,
+        idFamilia: this.familia.value,
+        tipoLavado: this.tipo.value,
+        frecuenciaLavado: this.frecuencia.value,
+        tiempoLavado: this.tiempo.value,
+        estado: this.estado.value
+      } as ActualizarRestriccionLavadoDto;
+
       this.service.apiRestriccionDeLavadoActualizarrestriccionlavadoPut(update)
         .subscribe(
           _ => {
-            const toUpdate = this.model.find(x => x.idRestriccionLavados === this.currentId);
-            const updated = {
-              id: toUpdate?.idRestriccionLavados,
-              nombre: this.descripcion.value,
-              estado: this.estado.value,
-              fechaCreacion: toUpdate?.fechaCreacion,
-            } as RestriccionLavadoDto;
-            this.model = [updated, ...this.model.filter(x => x.idRestriccionLavados !== this.currentId)];
-            this.filterData('');
+            this.getData();
             this.modalService.dismissAll();
             Swal.fire(
               `¡Actualización exitosa!`,
               `El registro se actualizó con éxito.`,
               'success'
             );
-            this.count = this.filteredData.length;
-            this.totalPages = Math.ceil(this.count / this.itemsPerPage);
-            this.updatePagination();
-            this.updatePaginatedData();
           },
           error => {
             console.error(error);
@@ -285,66 +265,53 @@ export class WashRestrictionComponent implements OnInit {
     XLSX.writeFile(wb, 'restricciones_lavado.xlsx');
   }
 
-  eliminarRegistro(id: any){
+  eliminarRegistro(id: number, activo:any){
 
-    const update = {
-      id: this.currentId,
-      nombre: this.descripcion.value,
-      estado: this.estado.value,
-    } as ActualizarRestriccionLavadoDto;
+    let mensaje = activo == false ?'Activar' : 'Desactivar';
+    let mensajeAux = activo == false ?'activo' : 'desactivo';
 
     Swal.fire({
       title: '¿Estás seguro?',
-      text: 'de eliminar el registro',
+      text: mensaje + ' el registro',
       icon: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
       cancelButtonColor: '#d33',
-      confirmButtonText: 'Sí, eliminar',
+      confirmButtonText: 'Sí, ' + mensaje,
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
-      //   this.service.apiRestriccionDeLavadoEliminarequipoIdPatch(update)
-      //   .subscribe(
-      //     _ => {
-      //       const toUpdate = this.model.find(x => x.idRestriccionLavados === this.currentId);
-      //       const updated = {
-      //         id: toUpdate?.idRestriccionLavados,
-      //         nombre: this.descripcion.value,
-      //         estado: this.estado.value,
-      //         fechaCreacion: toUpdate?.fechaCreacion,
-      //       } as RestriccionLavadoDto;
-      //       this.model = [updated, ...this.model.filter(x => x.idRestriccionLavados !== this.currentId)];
-      //       this.filterData('');
-      //       this.modalService.dismissAll();
-      //       Swal.fire(
-      //         `¡Eliminación exitosa!`,
-      //         `El registro se elimino con éxito.`,
-      //         'success'
-      //       );
-      //       this.count = this.filteredData.length;
-      //       this.totalPages = Math.ceil(this.count / this.itemsPerPage);
-      //       this.updatePagination();
-      //       this.updatePaginatedData();
-      //     },
-      //     error => {
-      //       console.error(error);
-      //     }
-      //   );
-       }
-    });
+          this.service.apiRestriccionDeLavadoEliminarequipoIdPatch(id)
+        .subscribe(
+          _ => {
+            this.modalService.dismissAll();
+            this.getData();
+            Swal.fire(
+              activo == false ? 'Activado' : 'Desactivado!',
+              'El registro se '+ mensajeAux +' con exito.',
+              'success'
+            );
+          },
+          error => {
+            Swal.fire('Error', 'Hubo un error al desactivar el registro.', 'error');
+          }
+        );
+      }
+      }
+    );
   }
 
-  actualizar(){
+  actualizar(model: RestriccionLavadoDto){
+    this.currentId = model.idRestriccionLavados!;
     this.formGroup = this.fb.group({
-      codigo: ['1', Validators.required],
-      descripcion: ['Lavado Final AVENA', Validators.required],
-      familia: ['Familia', Validators.required],
-      tipo: ['Lavado Final', Validators.required],
-      frecuencia: ['3360', Validators.required],
-      tiempo: ['40', Validators.required],
-      equipo: ['MQ0014', Validators.required],
-      estado: [true, Validators.required],
+      codigo: [model.idRestriccionLavados!, Validators.required],
+      descripcion: [model.descripcion!, Validators.required],
+      familia: [model.idFamilia!, Validators.required],
+      tipo: [model.tipoLavado!, Validators.required],
+      frecuencia: [model.frecuenciaLavado!, Validators.required],
+      tiempo: [model.tiempoLavado!, Validators.required],
+      equipo: [model.idMaquina!, Validators.required],
+      estado: model.estado
     });
   }
 }
