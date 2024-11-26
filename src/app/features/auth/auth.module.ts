@@ -6,12 +6,14 @@ import { LoginComponent } from './login/login.component';
 import { RecuperarComponent } from './recuperar/recuperar.component';
 import { ReactiveFormsModule } from '@angular/forms';
 import { SweetAlert2Module } from '@sweetalert2/ngx-sweetalert2';
+import { ReestablecerPasswordComponent } from './reestablecer-password/reestablecer-password.component';
 
 
 @NgModule({
   declarations: [
     LoginComponent,
-    RecuperarComponent
+    RecuperarComponent,
+    ReestablecerPasswordComponent
   ],
   imports: [
     CommonModule,
