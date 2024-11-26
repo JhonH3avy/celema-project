@@ -11,11 +11,13 @@
 
 export interface ActualizarRestriccionMaquinaDto { 
     id?: number;
-    descripcion?: string | null;
     idMaquina?: string | null;
+    idFamilia?: number | null;
+    descripcion?: string | null;
     tipoRestriccion?: string | null;
     unidadMedida?: string | null;
     valor?: number;
     prioridad?: number;
+    estado?: boolean | null;
 }
 

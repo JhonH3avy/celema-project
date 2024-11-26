@@ -3,6 +3,7 @@ README.md
 api.module.ts
 api/api.ts
 api/familiaProductos.service.ts
+api/lineasProduccion.service.ts
 api/login.service.ts
 api/maestraFamilia.service.ts
 api/maquinas.service.ts
@@ -11,6 +12,7 @@ api/planeacionProduccion.service.ts
 api/productos.service.ts
 api/restriccionDeLavado.service.ts
 api/restriccionMaquinas.service.ts
+api/restriccionRutas.service.ts
 api/roles.service.ts
 api/rutas.service.ts
 api/solicitudesProduccion.service.ts
@@ -19,6 +21,7 @@ configuration.ts
 encoder.ts
 git_push.sh
 index.ts
+model/actualizarLineasProduccionDto.ts
 model/actualizarMaquinaDto.ts
 model/actualizarPlaneacionProduccionDto.ts
 model/actualizarRestriccionLavadoDto.ts
@@ -33,6 +36,7 @@ model/crearPlaneacionProduccionDto.ts
 model/crearPlaneacionProduccionDtoIEnumerableDataResponse.ts
 model/crearRestriccionLavadoDto.ts
 model/crearRestriccionMaquinaDto.ts
+model/crearRestriccionRutaDto.ts
 model/crearRoleDto.ts
 model/crearRoleModuloPermisoDto.ts
 model/crearRutaDto.ts
@@ -42,6 +46,9 @@ model/dayOfWeek.ts
 model/familiaProductoDto.ts
 model/familiaProductoDtoDataResponse.ts
 model/familiaProductoDtoIEnumerableDataResponse.ts
+model/lineasProduccionDto.ts
+model/lineasProduccionDtoDataResponse.ts
+model/lineasProduccionDtoIEnumerableDataResponse.ts
 model/maquinaDto.ts
 model/maquinaDtoDataResponse.ts
 model/maquinaDtoListDataResponse.ts
@@ -61,6 +68,9 @@ model/restriccionMaquinaDto.ts
 model/restriccionMaquinaDtoDataResponse.ts
 model/restriccionMaquinaDtoIEnumerableDataResponse.ts
 model/restriccionMaquinaModuloDto.ts
+model/restriccionRutasDto.ts
+model/restriccionRutasDtoDataResponse.ts
+model/restriccionRutasDtoIEnumerableDataResponse.ts
 model/roleDto.ts
 model/roleDtoDataResponse.ts
 model/roleDtoIEnumerableDataResponse.ts

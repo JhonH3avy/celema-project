@@ -3,7 +3,8 @@ import { Component, OnInit } from '@angular/core';
 import * as XLSX from 'xlsx';
 import Swal from 'sweetalert2';
 import { FormControl } from '@angular/forms';
-import { DateOnly, MaquinaDto } from 'src/app/core/services';
+import { DateOnly, MaquinaDto, RestriccionDeLavadoService, RestriccionLavadoDto, RestriccionMaquinaDto, RestriccionMaquinasService } from 'src/app/core/services';
+import { NgbModal, NgbModalConfig, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
   selector: 'app-equipment-admin',
@@ -19,11 +20,19 @@ export class EquipmentAdminComponent implements OnInit {
   totalPages = 0;
   pages: number[] = [];
 
+  searchQuery = new FormControl();
+
   data: MaquinaDto[] = [];
   filteredData: MaquinaDto[] = [];
   paginatedData: MaquinaDto[] = [];
 
-  machineRestrictionData: any[] = [];
+  machineRestrictionData: RestriccionMaquinaDto[] = [];
+  washRestrictionData: RestriccionLavadoDto[] = [];
+
+  checkedProducts: {checked: boolean, id: number | string}[] = [];
+
+  equimentRestrictionModalRef: NgbModalRef | null = null;
+  equimentWashModalRef: NgbModalRef | null = null;
 
   itemsPerPageControl = new FormControl(10);
   private get itemsPerPage(): number {
@@ -38,7 +47,13 @@ export class EquipmentAdminComponent implements OnInit {
 
   constructor(
     private maquinasService: MaquinasService,
-  ) { }
+    private modalService: NgbModal,
+    private equipmentRestrictionService: RestriccionMaquinasService,
+    private washRestrictionService: RestriccionDeLavadoService,
+    private config: NgbModalConfig,
+  ) {
+    this.config.size = 'lg';
+  }
 
   ngOnInit(): void {
     this.getData();
@@ -55,6 +70,22 @@ export class EquipmentAdminComponent implements OnInit {
         this.updatePagination();
         this.updatePaginatedData();
       });
+  }
+
+  filterData(): void {
+    const query = this.searchQuery.value;
+    if (query.trim() === '') {
+      this.filteredData = this.data;
+    } else {
+      this.filteredData = this.data.filter(equipment =>
+        equipment.nombre?.toLowerCase().includes(query.toLowerCase())
+      );
+      this.currentPage = 1;
+    }
+    this.itemCount = this.filteredData.length;
+    this.totalPages = Math.ceil(this.itemCount / this.itemsPerPage);
+    this.updatePagination();
+    this.updatePaginatedData();
   }
 
   getDateOnlyFormatted(dateOnly: DateOnly | undefined): string {
@@ -87,7 +118,13 @@ export class EquipmentAdminComponent implements OnInit {
   updatePaginatedData(): void {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
-    this.paginatedData = this.filteredData.slice(startIndex, endIndex); // Usa filteredData en lugar de data
+    this.paginatedData = this.filteredData.slice(startIndex, endIndex);
+    this.checkedProducts = this.paginatedData.map(p => {
+      return {
+        checked: false,
+        id: p.idMaquina!,
+      };
+    });
   }
 
   updatePagination(): void {
@@ -100,12 +137,65 @@ export class EquipmentAdminComponent implements OnInit {
     }
   }
 
-  exportToExcel(): void {
-    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.data);
-    const wb: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Roles');
-    XLSX.writeFile(wb, 'familia_productos.xlsx');
+  openEquipmentRestrictionModal(modalContent: any, equipmentId: string): void {
+    this.equipmentRestrictionService.apiRestriccionMaquinasRestriccionPorMaquinaGet(equipmentId)
+      .subscribe(response => {
+        this.machineRestrictionData = response.datos ?? [];
+      });
+    this.equimentRestrictionModalRef = this.modalService.open(modalContent);
   }
 
+  closeEquipmentRestrictionModal(): void {
+    this.equimentRestrictionModalRef?.dismiss();
+    this.equimentRestrictionModalRef = null;
+    this.machineRestrictionData = [];
+  }
 
+  openWashRestrictionModal(modalContent: any, equipmentId: string): void {
+    this.washRestrictionService.apiRestriccionDeLavadoRestriccionPorMaquinaGet(equipmentId)
+      .subscribe(response => {
+        this.washRestrictionData = response.datos ?? [];
+      });
+    this.equimentWashModalRef = this.modalService.open(modalContent);
+  }
+
+  closeWashRestrictionModal(): void {
+    this.equimentWashModalRef?.dismiss();
+    this.equimentWashModalRef = null;
+    this.washRestrictionData = [];
+  }
+
+  exportToExcel(): void {
+    let target: MaquinaDto[] = [];
+    if (this.checkedProducts.filter(x => x.checked).length > 0) {
+      target = this.data.filter(x => this.checkedProducts.filter(x => x.checked).some(c => x.idMaquina === c.id));
+    } else {
+      target = this.data;
+    }
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(target);
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Maquinas');
+    XLSX.writeFile(wb, 'maquinas.xlsx');
+  }
+
+  toggleAll(event: Event): void {
+    const checked = (event.target as HTMLInputElement).checked;
+    this.checkedProducts.forEach((item) => (item.checked = checked));
+  }
+
+  updateSelectAll(event: Event, id: number | string): void {
+    const checked = (event.target as HTMLInputElement).checked;
+    const productCheck = this.checkedProducts.find(x => x.id === id);
+    if (productCheck) {
+      productCheck.checked = checked;
+    }
+  }
+
+  isAllChecked(): boolean {
+    return this.checkedProducts.every((item) => item.checked);
+  }
+
+  isChecked(id: number | string) {
+    return this.checkedProducts.find(x => x.id === id)?.checked;
+  }
 }

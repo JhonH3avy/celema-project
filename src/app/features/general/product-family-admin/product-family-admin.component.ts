@@ -11,6 +11,7 @@ import * as XLSX from 'xlsx';
 export class ProductFamilyAdminComponent implements OnInit {
 
   productFamilyCount = 0;
+  offsetPagesToDisplay = 5;
 
   itemsPerPage = 10;
   currentPage = 1;
@@ -96,7 +97,10 @@ export class ProductFamilyAdminComponent implements OnInit {
 
   updatePagination(): void {
     this.pages = [];
-    for (let i = 1; i <= this.totalPages; i++) {
+    const initialPage = Math.max(1, this.currentPage - this.offsetPagesToDisplay);
+    const negativeOffset = this.currentPage - this.offsetPagesToDisplay < 0 ? this.currentPage - this.offsetPagesToDisplay : 0;
+    const finalPage = Math.min(this.totalPages, this.currentPage + this.offsetPagesToDisplay - negativeOffset);
+    for (let i = initialPage; i <= finalPage; i++) {
       this.pages.push(i);
     }
   }
@@ -110,7 +114,7 @@ export class ProductFamilyAdminComponent implements OnInit {
     }
     const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(target);
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Roles');
+    XLSX.utils.book_append_sheet(wb, ws, 'Familia Productos');
     XLSX.writeFile(wb, 'familia_productos.xlsx');
   }
 

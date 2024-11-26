@@ -129,7 +129,7 @@ export class WashRestrictionComponent implements OnInit {
       this.filteredData = this.model;
     } else {
       this.filteredData = this.model.filter(role =>
-        role.descripción?.toLowerCase().includes(query.toLowerCase())
+        role.descripcion?.toLowerCase().includes(query.toLowerCase())
       );
       this.currentPage = 1;
     }
@@ -185,7 +185,7 @@ export class WashRestrictionComponent implements OnInit {
   openUpdateModal(id: number, modalContent: any): void {
     const model = this.model.find(x => x.id === id);
     this.currentId = id;
-    this.descripcion.setValue(model?.descripción);
+    this.descripcion.setValue(model?.descripcion);
     this.estado.setValue(model?.estado);
     this.modalService.open(modalContent, { ariaLabelledBy: 'modalTitle' });
   }
