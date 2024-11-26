@@ -1,6 +1,6 @@
 <app-menu></app-menu>
 <div class="container">
-  <h2>Administración de Equipos <span class="text-secondary">{{ equimentCount }}</span></h2>
+  <h2>Administración de Equipos <span class="text-secondary">{{ itemCount }}</span></h2>
   <p class="text-secondary">Administre la maquinaria de la empresa</p>
   <div class="d-flex justify-content-end mb-3">
     <div class="d-flex align-items-center">
@@ -42,20 +42,20 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let equipment of equipments">
+      <tr *ngFor="let equipment of paginatedData">
         <th scope="row">
           <div class="form-check">
             <input class="form-check-input" type="checkbox" value="">
           </div>
         </th>
-        <td class="text-secondary text-center">{{ equipment.code }}</td>
-        <td class="text-secondary text-center">{{ equipment.type }}</td>
+        <td class="text-secondary text-center">{{ equipment.idMaquina }}</td>
+        <td class="text-secondary text-center">{{ equipment.nombreTipo }}</td>
         <td>
-          <span [ngClass]="getStatusStyle(equipment.status)" class="badge border">{{ equipment.status }}</span>
+          <span [ngClass]="getStatusStyle(equipment.estado ?? '')" class="badge border">{{ equipment.estado }}</span>
         </td>
-        <td class="text-secondary text-center">{{ equipment.creationDate | date:'dd/MM/yyyy' }}</td>
-        <td class="text-secondary text-center">{{ equipment.description }}</td>
-        <td class="text-secondary text-center">{{ equipment.location }}</td>
+        <td class="text-secondary text-center">{{ getDateOnlyFormatted(equipment.fechaCreacion) }}</td>
+        <td class="text-secondary text-center">{{ equipment.nombre }}</td>
+        <td class="text-secondary text-center">{{ equipment.nombreZona }}</td>
         <td class="text-secondary text-center">
           <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#restrictionAdminModal">
             <i class="bi bi-three-dots-vertical"></i>
@@ -98,7 +98,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let equipmentRestriction of equipmentRestrictions">
+              <tr *ngFor="let equipmentRestriction of machineRestrictionData">
                 <td class="text-secondary text-center">{{ equipmentRestriction.restriction }}</td>
                 <td class="text-secondary text-center">{{ equipmentRestriction.type }}</td>
                 <th scope="row">
@@ -140,7 +140,7 @@
               </tr>
             </thead>
             <tbody>
-              <tr *ngFor="let equipmentRestriction of equipmentRestrictions">
+              <tr *ngFor="let equipmentRestriction of machineRestrictionData">
                 <td class="text-secondary text-center">{{ equipmentRestriction.restriction }}</td>
                 <td class="text-secondary text-center">{{ equipmentRestriction.type }}</td>
                 <th scope="row">

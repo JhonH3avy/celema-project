@@ -1,4 +1,9 @@
+import { MaquinasService } from './../../../core/services/api/maquinas.service';
 import { Component, OnInit } from '@angular/core';
+import * as XLSX from 'xlsx';
+import Swal from 'sweetalert2';
+import { FormControl } from '@angular/forms';
+import { DateOnly, MaquinaDto } from 'src/app/core/services';
 
 @Component({
   selector: 'app-equipment-admin',
@@ -7,103 +12,100 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EquipmentAdminComponent implements OnInit {
 
-  equimentCount = 0;
+  itemCount = 0;
 
+  offsetPagesToDisplay = 5;
   currentPage = 1;
-  totalPages = 5;
-  pages = Array(this.totalPages).fill(0);
+  totalPages = 0;
+  pages: number[] = [];
 
-  equipments = [
-    {
-      id: 1,
-      code: 'PF1',
-      type: 'TP1',
-      description: 'Esta es la descripción de la familia del producto',
-      status: 'Activo',
-      creationDate: new Date('2023-07-06'),
-      location: 'ZN1',
-    },
-    {
-      id: 2,
-      code: 'PF2',
-      type: 'TP2',
-      description: 'Esta es la descripción de la familia del producto',
-      status: 'Activo',
-      creationDate: new Date('2023-07-06'),
-      location: 'ZN2',
-    },
-    {
-      id: 3,
-      code: 'PF3',
-      type: 'TP1',
-      description: 'Esta es la descripción de la familia del producto',
-      status: 'Activo',
-      creationDate: new Date('2023-07-06'),
-      location: 'ZN1',
-    },
-    {
-      id: 4,
-      code: 'PF4',
-      type: 'TP1',
-      description: 'Esta es la descripción de la familia del producto',
-      status: 'Activo',
-      creationDate: new Date('2023-07-06'),
-      location: 'ZN1',
-    },
-    {
-      id: 5,
-      code: 'PF5',
-      type: 'TP3',
-      description: 'Esta es la descripción de la familia del producto',
-      status: 'Inactivo',
-      creationDate: new Date('2023-07-06'),
-      location: 'ZN2',
-    },
-  ];
+  data: MaquinaDto[] = [];
+  filteredData: MaquinaDto[] = [];
+  paginatedData: MaquinaDto[] = [];
 
-  equipmentRestrictions = [
-    {
-      id: 1,
-      restriction: 'Restricción 1',
-      type: 'Tipo 1'
-    },
-    {
-      id: 2,
-      restriction: 'Restricción 2',
-      type: 'Tipo 2'
-    },
-    {
-      id: 3,
-      restriction: 'Restricción 3',
-      type: 'Tipo 3'
-    },
-    {
-      id: 4,
-      restriction: 'Restricción 4',
-      type: 'Tipo 4'
-    },
-    {
-      id: 5,
-      restriction: 'Restricción 5',
-      type: 'Tipo 5'
-    },
-  ];
+  machineRestrictionData: any[] = [];
 
-  constructor() { }
-
-  ngOnInit(): void {
-    this.equimentCount = this.equipments.length;
+  itemsPerPageControl = new FormControl(10);
+  private get itemsPerPage(): number {
+    const itemsPerPageValue = this.itemsPerPageControl.value;
+    if (typeof itemsPerPageValue === 'string') {
+      return Number.parseInt(itemsPerPageValue);
+    } if (typeof itemsPerPageValue === 'number') {
+      return itemsPerPageValue;
+    }
+    return 0;
   }
 
-  getStatusStyle(status: string): string[] {
+  constructor(
+    private maquinasService: MaquinasService,
+  ) { }
+
+  ngOnInit(): void {
+    this.getData();
+  }
+
+  getData(): void {
+    this.maquinasService.apiMaquinasConsultamaquinasGet()
+      .subscribe(response => {
+        this.currentPage = 1;
+        this.data = response.datos ?? [];
+        this.filteredData = this.data;
+        this.itemCount = this.filteredData.length;
+        this.totalPages = Math.ceil(this.itemCount / this.itemsPerPage);
+        this.updatePagination();
+        this.updatePaginatedData();
+      });
+  }
+
+  getDateOnlyFormatted(dateOnly: DateOnly | undefined): string {
+    if (dateOnly) {
+      return `${dateOnly.day}/${dateOnly.month}/${dateOnly.year}`;
+    }
+    return '';
+  }
+
+  getStatusStyle(status: string | undefined): string[] {
     switch (status) {
-      case 'Activo': return ['border-success', 'text-success', 'bg-success-subtle'];
-      case 'Inactivo': return ['border-danger', ' text-danger', 'bg-danger-subtle'];
+      case 'ACTIVO': return ['border-success', 'text-success', 'bg-success-subtle'];
+      case 'INACTIVO': return ['border-danger', ' text-danger', 'bg-danger-subtle'];
       default: return [];
     }
   }
 
   changePage(pageToLoad: number): void {
     this.currentPage = pageToLoad;
+    this.updatePaginatedData();
   }
+
+  changeItemsPerPage(): void {
+    this.totalPages = Math.ceil(this.itemCount / this.itemsPerPage);
+    this.currentPage = 1;
+    this.updatePaginatedData();
+    this.updatePagination();
+  }
+
+  updatePaginatedData(): void {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    this.paginatedData = this.filteredData.slice(startIndex, endIndex); // Usa filteredData en lugar de data
+  }
+
+  updatePagination(): void {
+    this.pages = [];
+    const initialPage = Math.max(1, this.currentPage - this.offsetPagesToDisplay);
+    const negativeOffset = this.currentPage - this.offsetPagesToDisplay < 0 ? this.currentPage - this.offsetPagesToDisplay : 0;
+    const finalPage = Math.min(this.totalPages, this.currentPage + this.offsetPagesToDisplay - negativeOffset);
+    for (let i = initialPage; i <= finalPage; i++) {
+      this.pages.push(i);
+    }
+  }
+
+  exportToExcel(): void {
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.data);
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Roles');
+    XLSX.writeFile(wb, 'familia_productos.xlsx');
+  }
+
+
 }

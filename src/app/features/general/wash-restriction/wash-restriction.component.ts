@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActualizarRestriccionLavadoDto, FamiliaProductoDto, FamiliaProductosService, MaquinasService, RestriccionDeLavadoService, RestriccionLavadoDto, TblPermiso} from 'src/app/core/services';
+import { ActualizarRestriccionLavadoDto, FamiliaProductoDto, FamiliaProductosService, MaquinaDto, MaquinasService, RestriccionDeLavadoService, RestriccionLavadoDto, TblPermiso} from 'src/app/core/services';
 import * as bootstrap from 'bootstrap';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
@@ -36,7 +36,7 @@ export class WashRestrictionComponent implements OnInit {
 
   currentId = 0;
 
-  lstEquipos : TblMaquinas[] = [];
+  lstEquipos : MaquinaDto[] = [];
   lstFamilia : TblFamiliaProductos[] = [];
 
   get codigo(): FormControl {

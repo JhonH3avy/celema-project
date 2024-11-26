@@ -42,6 +42,9 @@ model/dayOfWeek.ts
 model/familiaProductoDto.ts
 model/familiaProductoDtoDataResponse.ts
 model/familiaProductoDtoIEnumerableDataResponse.ts
+model/maquinaDto.ts
+model/maquinaDtoDataResponse.ts
+model/maquinaDtoListDataResponse.ts
 model/models.ts
 model/modulosRolesPermisosDto.ts
 model/planeacionProduccionDto.ts
