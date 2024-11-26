@@ -10,7 +10,7 @@ export const tempAuthGuard: CanActivateFn = (route, state) => {
   const tempToken = route.queryParams['token'];
   const isSettingPassword = !!tempToken;
 
-  const profileRegex = /profile/i;
+  const profileRegex = /reestablecer-contrasena/i;
   const isActivatingProfile = route.url.some(segment => profileRegex.test(segment.path));
 
   const canActivate = isAuthenticated || (isSettingPassword && isActivatingProfile);

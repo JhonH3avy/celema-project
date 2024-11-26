@@ -1,4 +1,3 @@
-import { ConsultaDeUsuario } from './../../../core/services/model/consultaDeUsuario';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { UsuariosDto, UsuariosService } from 'src/app/core/services';
@@ -56,66 +55,37 @@ export class ProfileComponent implements OnInit {
     private usuariosService: UsuariosService,
     private fb: FormBuilder,
     private router: Router,
-    private activatedRoute: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
-    this.activatedRoute.queryParams.subscribe(params => {
-      const paramToken = params['token'];
-      let paramEmail;
-      let useParamToken = false;
-      if (paramToken) {
-        useParamToken = true;
-        localStorage.removeItem('authToken');
-        localStorage.setItem('tempToken', paramToken);
-        let decodedParamToken: any;
-        try {
-          decodedParamToken = jwtDecode(paramToken);
-        } catch (error) {
-          Swal.fire({
-            title: '¡Token inválido!',
-            text: 'El token que ha usado es inválido o ha expirado',
-            icon: 'error',
-          }).then(() => {
-            this.router.navigate(['/login']);
-          });
-          return;
-        }
-        paramEmail = decodedParamToken.email;
-      }
-      const token = useParamToken ? paramToken : localStorage.getItem('authToken');
-      let decodedToken: any;
-      if (!useParamToken) {
-        try {
-          decodedToken = jwtDecode(token);
-        } catch (error) {
-          console.error('Token invalido:', error);
-          return;
-        }
-      }
-      const userEmail = useParamToken ? paramEmail : decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/userdata'];
-      this.usuariosService.apiUsuariosConsultarusuarioGet(userEmail)
-        .subscribe(
-          response => this.handleGetUserResponse(response.datos),
-          error => {
-            if (error.status === 401) {
-              Swal.fire({
-                title: '¡No autorizado!',
-                text: 'El token que ha usado es inválido o ha expirado.',
-                icon: 'error',
-              }).then(() => {
-                this.router.navigate(['/login']);
-              });
-            } else if (error.status === 400) {
-              Swal.fire({
-                title: '¡Ha ocurrido un error!',
-                text: error.error,
-                icon: 'error',
-              });
-            }
+    const token = localStorage.getItem('authToken') ?? '';
+    let decodedToken: any;
+    try {
+      decodedToken = jwtDecode(token);
+    } catch (error) {
+      Swal.fire({
+        title: '¡Token inválido!',
+        text: 'El token que ha usado es inválido',
+        icon: 'error',
+      }).then(() => {
+        this.router.navigate(['/login']);
+      });
+      return;
+    }
+    const userEmail = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/userdata'];
+    this.usuariosService.apiUsuariosConsultarusuarioGet(userEmail)
+      .subscribe(
+        response => this.handleGetUserResponse(response.datos),
+        error => {
+          if (error.status === 400) {
+            Swal.fire({
+              title: '¡Ha ocurrido un error!',
+              text: error.error,
+              icon: 'error',
+            });
           }
-        );
-    });
+        }
+      );
 
     this.newPassword.valueChanges
       .subscribe(newPassword => {
