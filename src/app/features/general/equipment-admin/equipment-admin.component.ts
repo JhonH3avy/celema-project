@@ -3,7 +3,7 @@ import { Component, OnInit } from '@angular/core';
 import * as XLSX from 'xlsx';
 import Swal from 'sweetalert2';
 import { FormControl } from '@angular/forms';
-import { DateOnly, MaquinaDto, RestriccionDeLavadoService, RestriccionLavadoDto, RestriccionMaquinaDto, RestriccionMaquinasService } from 'src/app/core/services';
+import { ActualizarRestriccionLavadoDto, ActualizarRestriccionMaquinaDto, DateOnly, MaquinaDto, RestriccionDeLavadoService, RestriccionLavadoDto, RestriccionMaquinaDto, RestriccionMaquinasService } from 'src/app/core/services';
 import { NgbModal, NgbModalConfig, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 
 @Component({
@@ -32,7 +32,7 @@ export class EquipmentAdminComponent implements OnInit {
   checkedProducts: {checked: boolean, id: number | string}[] = [];
 
   equimentRestrictionModalRef: NgbModalRef | null = null;
-  equimentWashModalRef: NgbModalRef | null = null;
+  washRestrictionModalRef: NgbModalRef | null = null;
 
   itemsPerPageControl = new FormControl(10);
   private get itemsPerPage(): number {
@@ -151,18 +151,83 @@ export class EquipmentAdminComponent implements OnInit {
     this.machineRestrictionData = [];
   }
 
+  saveEquipmentRestrictions(): void {
+    const requests = this.machineRestrictionData.map(m => {
+      return {
+        id: m.id,
+        descripcion: m.descripcion,
+        idFamilia: m.idFamilia,
+        idMaquina: m.idMaquina,
+        valor: m.valor,
+        estado: m.estado,
+        prioridad: m.prioridad,
+        unidadMedida: m.unidadMedida,
+        tipoRestriccion: m.tipoRestriccion,
+      } as ActualizarRestriccionMaquinaDto;
+    });
+    this.equipmentRestrictionService.apiRestriccionMaquinasActualizarRestriccionBatchPut(requests)
+      .subscribe(response => {
+        if (response.datos) {
+          Swal.fire({
+            title: 'Éxito',
+            text: response.exito ?? 'Actualización exitosa',
+            icon: 'success',
+          });
+        }
+      }, error => {
+        Swal.fire({
+          title: 'Error',
+          text: error.error ?? 'Error inesperado durante la actualización de restricciones',
+          icon: 'error',
+        });
+      });
+    this.closeEquipmentRestrictionModal();
+  }
+
   openWashRestrictionModal(modalContent: any, equipmentId: string): void {
     this.washRestrictionService.apiRestriccionDeLavadoRestriccionPorMaquinaGet(equipmentId)
       .subscribe(response => {
         this.washRestrictionData = response.datos ?? [];
       });
-    this.equimentWashModalRef = this.modalService.open(modalContent);
+    this.washRestrictionModalRef = this.modalService.open(modalContent);
   }
 
   closeWashRestrictionModal(): void {
-    this.equimentWashModalRef?.dismiss();
-    this.equimentWashModalRef = null;
+    this.washRestrictionModalRef?.dismiss();
+    this.washRestrictionModalRef = null;
     this.washRestrictionData = [];
+  }
+
+  saveWashRestrictions(): void {
+    const requests = this.washRestrictionData.map(w => {
+      return {
+        descripción: w.descripcion,
+        estado: w.estado,
+        frecuenciaLavado: w.frecuenciaLavado,
+        idFamilia: w.idFamilia,
+        idRestriccionLavados: w.id,
+        prioridad: w.prioridad,
+        tiempoLavado: w.tiempoLavado,
+        tipoLavado: w.tipoLavado,
+      } as ActualizarRestriccionLavadoDto;
+    });
+    this.washRestrictionService.apiRestriccionDeLavadoActualizarRestriccionBatchPut(requests)
+      .subscribe(response => {
+        if (response.datos) {
+          Swal.fire({
+            title: 'Éxito',
+            text: response.exito ?? 'Actualización exitosa',
+            icon: 'success',
+          });
+        }
+      }, error => {
+        Swal.fire({
+          title: 'Error',
+          text: error.error ?? 'Error inesperado durante la actualización de restricciones',
+          icon: 'error',
+        });
+      });
+    this.closeWashRestrictionModal();
   }
 
   exportToExcel(): void {
