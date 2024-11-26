@@ -28,11 +28,11 @@
       <tr class="table-secondary">
         <th scope="col">
           <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="">
+            <input class="form-check-input" type="checkbox" value="" [checked]="isAllChecked()" (change)="toggleAll($event)">
           </div>
         </th>
         <th scope="col" class="text-secondary text-center">Código</th>
-        <!-- <th scope="col" class="text-secondary text-center">Descripción</th> -->
+        <th scope="col" class="text-secondary text-center">Descripción</th>
         <th scope="col" class="text-secondary text-center">Estado</th>
         <th scope="col" class="text-secondary text-center">Fecha de creación</th>
       </tr>
@@ -41,11 +41,11 @@
       <tr *ngFor="let productFamily of paginatedData">
         <th scope="row">
           <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="">
+            <input class="form-check-input" type="checkbox" value="" (change)="updateSelectAll($event, productFamily.id!)" [checked]="isChecked(productFamily.id!)">
           </div>
         </th>
+        <td class="text-secondary text-center">{{ productFamily.id }}</td>
         <td class="text-secondary text-center">{{ productFamily.nombre }}</td>
-        <!-- <td class="text-secondary text-center">{{ productFamily.descripcion }}</td> -->
         <td>
           <span [ngClass]="getStatusStyle(productFamily.estado)" class="badge border">{{ productFamily.estado ? 'Activo' : 'Inactivo' }}</span>
         </td>
