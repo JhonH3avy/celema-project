@@ -285,7 +285,14 @@ export class WashRestrictionComponent implements OnInit {
     XLSX.writeFile(wb, 'restricciones_lavado.xlsx');
   }
 
-  eliminarRegistro(){
+  eliminarRegistro(id: any){
+
+    const update = {
+      id: this.currentId,
+      nombre: this.descripcion.value,
+      estado: this.estado.value,
+    } as ActualizarRestriccionLavadoDto;
+
     Swal.fire({
       title: '¿Estás seguro?',
       text: 'de eliminar el registro',
@@ -297,8 +304,34 @@ export class WashRestrictionComponent implements OnInit {
       cancelButtonText: 'Cancelar'
     }).then((result) => {
       if (result.isConfirmed) {
-
-      }
+      //   this.service.apiRestriccionDeLavadoEliminarequipoIdPatch(update)
+      //   .subscribe(
+      //     _ => {
+      //       const toUpdate = this.model.find(x => x.idRestriccionLavados === this.currentId);
+      //       const updated = {
+      //         id: toUpdate?.idRestriccionLavados,
+      //         nombre: this.descripcion.value,
+      //         estado: this.estado.value,
+      //         fechaCreacion: toUpdate?.fechaCreacion,
+      //       } as RestriccionLavadoDto;
+      //       this.model = [updated, ...this.model.filter(x => x.idRestriccionLavados !== this.currentId)];
+      //       this.filterData('');
+      //       this.modalService.dismissAll();
+      //       Swal.fire(
+      //         `¡Eliminación exitosa!`,
+      //         `El registro se elimino con éxito.`,
+      //         'success'
+      //       );
+      //       this.count = this.filteredData.length;
+      //       this.totalPages = Math.ceil(this.count / this.itemsPerPage);
+      //       this.updatePagination();
+      //       this.updatePaginatedData();
+      //     },
+      //     error => {
+      //       console.error(error);
+      //     }
+      //   );
+       }
     });
   }
 
