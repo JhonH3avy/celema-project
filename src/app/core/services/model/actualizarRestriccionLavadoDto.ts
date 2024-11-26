@@ -14,6 +14,7 @@ export interface ActualizarRestriccionLavadoDto {
     descripcion?: string | null;
     estado?: boolean;
     idFamilia?: number;
+    idMaquina?: string | null;
     tipoLavado?: string | null;
     frecuenciaLavado?: number;
     tiempoLavado?: number;

@@ -16,6 +16,7 @@ api/restriccionRutas.service.ts
 api/roles.service.ts
 api/rutas.service.ts
 api/solicitudesProduccion.service.ts
+api/tipoMaquina.service.ts
 api/usuarios.service.ts
 configuration.ts
 encoder.ts
@@ -25,6 +26,7 @@ model/actualizarFamiliaProductosDto.ts
 model/actualizarLineasProduccionDto.ts
 model/actualizarMaquinaDto.ts
 model/actualizarPlaneacionProduccionDto.ts
+model/actualizarProductosDto.ts
 model/actualizarRestriccionLavadoDto.ts
 model/actualizarRestriccionMaquinaDto.ts
 model/actualizarRolUsuarioDto.ts
@@ -76,6 +78,9 @@ model/roleDto.ts
 model/roleDtoDataResponse.ts
 model/roleDtoIEnumerableDataResponse.ts
 model/roleModuloPermisoDto.ts
+model/rutaDto.ts
+model/rutaDtoDataResponse.ts
+model/rutaDtoIEnumerableDataResponse.ts
 model/solicitudInicioDeSesinUsuario.ts
 model/solicitudProduccionDto.ts
 model/tblIntentosDeLogin.ts
@@ -85,6 +90,9 @@ model/tblPermiso.ts
 model/tblRole.ts
 model/tblRolesPermiso.ts
 model/tblUsuario.ts
+model/tipoMaquinaDto.ts
+model/tipoMaquinaDtoDataResponse.ts
+model/tipoMaquinaDtoIEnumerableDataResponse.ts
 model/updateUnidadDeProduccionDto.ts
 model/usuariosDto.ts
 model/usuariosDtoDataResponse.ts
