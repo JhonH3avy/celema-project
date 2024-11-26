@@ -57,7 +57,7 @@
         <td class="text-secondary text-center">{{ washRestriction.frecuenciaLavado }}</td>
         <td class="text-secondary text-center">{{ washRestriction.tiempoLavado }}</td>
         <td class="d-flex">
-          <button type="button" class="btn rounded-pill border border-danger text-danger bg-danger-subtle me-2" (click)="eliminarRegistro()">Eliminar</button>
+          <button type="button" class="btn rounded-pill border border-danger text-danger bg-danger-subtle me-2" (click)="eliminarRegistro(washRestriction.idRestriccionLavados)">Eliminar</button>
           <button type="button" class="btn rounded-pill border border-success text-success bg-success-subtle me-2" (click)="openModal(editPlan);actualizar()">Actualizar</button>
         </td>
       </tr>
