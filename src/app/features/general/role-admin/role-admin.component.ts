@@ -64,7 +64,6 @@ export class RoleAdminComponent implements OnInit {
         this.permissionList = response.permisos ?? [];
       });
     this.getData();
-    this.searchQuery.valueChanges.subscribe(query => this.filterData(query));
 
   }
 
@@ -84,7 +83,8 @@ export class RoleAdminComponent implements OnInit {
       );
   }
 
-  filterData(query: string): void {
+  filterData(): void {
+    const query = this.searchQuery.value;
     if (query.trim() === '') {
       this.filteredData = this.roles;
     } else {
@@ -155,7 +155,8 @@ export class RoleAdminComponent implements OnInit {
           response => {
             const createdRole = response.datos ?? {};
             this.roles = [createdRole, ...this.roles];
-            this.filterData('');
+            this.searchQuery.setValue('');
+            this.filterData();
             this.modalService.dismissAll();
             Swal.fire(
               `¡Creación exitosa!`,
@@ -180,7 +181,8 @@ export class RoleAdminComponent implements OnInit {
               fechaCreacion: roleToUpdate?.fechaCreacion,
             } as RoleDto;
             this.roles = [updatedRole, ...this.roles.filter(x => x.id !== this.currentRoleId)];
-            this.filterData('');
+            this.searchQuery.setValue('');
+            this.filterData();
             this.modalService.dismissAll();
             Swal.fire(
               `¡Actualización exitosa!`,
@@ -211,7 +213,7 @@ export class RoleAdminComponent implements OnInit {
         _ => {
           const roleUpdated = this.roles.find(x => x.id === role!.id);
           roleUpdated!.estado = status;
-          this.filterData('');
+          this.filterData();
           const newStatus = status ? 'Activado' : 'Desactivado';
           Swal.fire(
             `${newStatus}!`,

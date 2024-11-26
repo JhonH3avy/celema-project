@@ -66,10 +66,10 @@ export class ProfileAdminComponent implements OnInit {
         this.onResetForm();
         this.closeModal();
         this.getData();
-        Swal.fire('Perfil creado', 'El usuario se ha creado exitosamente.', 'success');
+        Swal.fire('Usuario creado', 'El usuario se ha creado exitosamente.', 'success');
       },
       error: (error) => {
-        Swal.fire('Error', 'Hubo un error al crear el perfil.', 'error');
+        Swal.fire('Error', 'Hubo un error al crear el usuario.', 'error');
       }
       });
   }
@@ -100,7 +100,7 @@ export class ProfileAdminComponent implements OnInit {
             );
           },
           error: (error) => {
-            Swal.fire('Error', 'Hubo un error al desactivar el perfil.', 'error');
+            Swal.fire('Error', 'Hubo un error al desactivar el usuario.', 'error');
           }
           });
       }
@@ -202,9 +202,9 @@ export class ProfileAdminComponent implements OnInit {
   exportToExcel(): void {
     const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.paginatedData);
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Perfiles');
+    XLSX.utils.book_append_sheet(wb, ws, 'Usuarios');
 
-    XLSX.writeFile(wb, 'perfiles.xlsx');
+    XLSX.writeFile(wb, 'usuarios.xlsx');
   }
 
   previewImage(event: Event): void {
@@ -263,7 +263,7 @@ export class ProfileAdminComponent implements OnInit {
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Perfil de Usuario');
 
-    XLSX.writeFile(wb, `${user.nombre}_${user.apellido}_perfil.xlsx`)
+    XLSX.writeFile(wb, `${user.nombre}_${user.apellido}_usuario.xlsx`)
 
   }
 
@@ -332,7 +332,7 @@ export class ProfileAdminComponent implements OnInit {
           Swal.fire('Permiso actualizado', 'El permiso se ha actualizado exitosamente.', 'success');
         },
         error: (error) => {
-          Swal.fire('Error', 'Hubo un error al crear el perfil.', 'error');
+          Swal.fire('Error', 'Hubo un error al crear el usuario.', 'error');
         }
         });
     } else {

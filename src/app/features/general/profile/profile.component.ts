@@ -6,6 +6,7 @@ import { jwtDecode } from 'jwt-decode';
 import { ActivatedRoute, Router } from '@angular/router';
 import { matchValidator } from 'src/app/core/validators/match.validator';
 import * as bootstrap from 'bootstrap';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-profile',
@@ -71,7 +72,13 @@ export class ProfileComponent implements OnInit {
         try {
           decodedParamToken = jwtDecode(paramToken);
         } catch (error) {
-          console.error('Token invalido:', error);
+          Swal.fire({
+            title: '¡Token inválido!',
+            text: 'El token que ha usado es inválido o ha expirado',
+            icon: 'error',
+          }).then(() => {
+            this.router.navigate(['/login']);
+          });
           return;
         }
         paramEmail = decodedParamToken.email;
@@ -90,7 +97,23 @@ export class ProfileComponent implements OnInit {
       this.usuariosService.apiUsuariosConsultarusuarioGet(userEmail)
         .subscribe(
           response => this.handleGetUserResponse(response.datos),
-          error => console.error(error)
+          error => {
+            if (error.status === 401) {
+              Swal.fire({
+                title: '¡No autorizado!',
+                text: 'El token que ha usado es inválido o ha expirado.',
+                icon: 'error',
+              }).then(() => {
+                this.router.navigate(['/login']);
+              });
+            } else if (error.status === 400) {
+              Swal.fire({
+                title: '¡Ha ocurrido un error!',
+                text: error.error,
+                icon: 'error',
+              });
+            }
+          }
         );
     });
 

@@ -1,6 +1,6 @@
 <app-menu></app-menu>
 <div class="container">
-  <h3>Administración de perfiles</h3>
+  <h3>Administración de usuarios</h3>
   <p style="color: grey;">Administre los miembros de su equipo y sus permisos de cuenta aquí</p>
   <div class="d-flex justify-content-between mb-3">
     <h5>Todos los usuarios <span class="text-secondary">{{ userCount }}</span></h5>
@@ -12,11 +12,11 @@
         <button class="btn btn-outline-secondary" type="button">
           <i class="bi bi-search"></i>
         </button>
-        <input type="text" class="form-control" placeholder="Buscar" [(ngModel)]="searchQuery" (input)="filterData()" />
+        <input type="text" class="form-control" placeholder="Buscar" [(ngModel)]="searchQuery" />
       </div>
-      <!-- <button type="button" class="btn btn-outline-secondary d-flex align-items-center me-2">
+      <button type="button" class="btn btn-outline-secondary d-flex align-items-center me-2" (click)="filterData()">
         <i class="bi bi-filter me-1"></i> Filtrar
-      </button> -->
+      </button>
       <button type="button" class="btn btn-primary d-flex align-items-center me-2" (click)="exportToExcel()">
         <i class="bi bi-upload me-1"></i> Exportar
       </button>

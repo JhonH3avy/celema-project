@@ -23,6 +23,8 @@ export class ProductFamilyAdminComponent implements OnInit {
   filteredData: FamiliaProductoDto[] = [];
   paginatedData: FamiliaProductoDto[] = [];
 
+  checkedProducts: {checked: boolean, id: number}[] = [];
+
   constructor(
     private productFamilyService: FamiliaProductosService,
   ) { }
@@ -83,7 +85,13 @@ export class ProductFamilyAdminComponent implements OnInit {
   updatePaginatedData(): void {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
-    this.paginatedData = this.filteredData.slice(startIndex, endIndex); // Usa filteredData en lugar de data
+    this.paginatedData = this.filteredData.slice(startIndex, endIndex);
+    this.checkedProducts = this.paginatedData.map(p => {
+      return {
+        checked: false,
+        id: p.id!,
+      };
+    });
   }
 
   updatePagination(): void {
@@ -94,9 +102,36 @@ export class ProductFamilyAdminComponent implements OnInit {
   }
 
   exportToExcel(): void {
-    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.productFamilies);
+    let target: FamiliaProductoDto[] = [];
+    if (this.checkedProducts.filter(x => x.checked).length > 0) {
+      target = this.productFamilies.filter(x => this.checkedProducts.filter(x => x.checked).some(c => x.id === c.id));
+    } else {
+      target = this.productFamilies;
+    }
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(target);
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Roles');
     XLSX.writeFile(wb, 'familia_productos.xlsx');
+  }
+
+  toggleAll(event: Event): void {
+    const checked = (event.target as HTMLInputElement).checked;
+    this.checkedProducts.forEach((item) => (item.checked = checked));
+  }
+
+  updateSelectAll(event: Event, id: number): void {
+    const checked = (event.target as HTMLInputElement).checked;
+    const productCheck = this.checkedProducts.find(x => x.id === id);
+    if (productCheck) {
+      productCheck.checked = checked;
+    }
+  }
+
+  isAllChecked(): boolean {
+    return this.checkedProducts.every((item) => item.checked);
+  }
+
+  isChecked(id: number) {
+    return this.checkedProducts.find(x => x.id === id)?.checked;
   }
 }
