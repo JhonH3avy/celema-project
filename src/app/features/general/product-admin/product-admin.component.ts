@@ -46,7 +46,6 @@ export class ProductAdminComponent implements OnInit {
   ngOnInit(): void {
     this.productCount = this.products.length;
     this.getData();
-    this.searchQuery.valueChanges.subscribe(query => this.filterData(query));
   }
 
   getData(): void {
@@ -62,12 +61,14 @@ export class ProductAdminComponent implements OnInit {
       });
   }
 
-  filterData(query: string): void {
+  filterData(): void {
+    const query = this.searchQuery.value;
     if (query.trim() === '') {
       this.filteredData = this.products;
     } else {
       this.filteredData = this.products.filter(product =>
-        product.nombre?.toLowerCase().includes(query.toLowerCase())
+        product.nombre?.toLowerCase().includes(query.toLowerCase()) ||
+        product.idProducto?.toLowerCase().includes(query.toLowerCase())
       );
       this.currentPage = 1;
     }
@@ -118,10 +119,6 @@ export class ProductAdminComponent implements OnInit {
     for (let i = initialPage; i <= finalPage; i++) {
       this.pages.push(i);
     }
-  }
-
-  selectToExport(product: ProductoDto): void {
-    this.dataToExport
   }
 
   exportToExcel(): void {

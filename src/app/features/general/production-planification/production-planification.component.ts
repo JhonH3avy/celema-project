@@ -31,7 +31,9 @@ export class ProductionPlanificationComponent {
   importFiles: File[] = [];
   validationErrors: string[] = [];
 
-  planificationImportModalInstance: NgbModalRef | null = null;;
+  planificationImportModalInstance: NgbModalRef | null = null;
+
+  checkedProducts: {checked: boolean, id: string}[] = [];
 
   private get itemsPerPage(): number {
     const itemsPerPageValue = this.itemsPerPageControl.value;
@@ -60,7 +62,6 @@ export class ProductionPlanificationComponent {
 
   ngOnInit(): void {
     this.getData();
-    this.searchQuery.valueChanges.subscribe(query => this.filterData(query));
     this.amountToProduce.valueChanges.subscribe(amountToProduct => {
       if (typeof amountToProduct === 'number') {
         return;
@@ -84,13 +85,15 @@ export class ProductionPlanificationComponent {
       });
   }
 
-  filterData(query: string): void {
+  filterData(): void {
+    const query = this.searchQuery.value as string;
     if (query.trim() === '') {
       this.filteredData = this.productionPlanifications;
     } else {
       this.filteredData = this.productionPlanifications.filter(productionPlanification =>
         productionPlanification.nombreProducto?.toLowerCase().includes(query.toLowerCase()) ||
-        productionPlanification.nombreFamilia?.toLowerCase().includes(query.toLowerCase())
+        productionPlanification.nombreFamilia?.toLowerCase().includes(query.toLowerCase()) ||
+        productionPlanification.idProducto?.toLowerCase().includes(query.toLowerCase())
       );
       this.currentPage = 1;
     }
@@ -111,6 +114,7 @@ export class ProductionPlanificationComponent {
   changePage(pageToLoad: number): void {
     this.currentPage = pageToLoad;
     this.updatePaginatedData();
+    this.updatePagination();
   }
 
   changeItemsPerPage(): void {
@@ -123,7 +127,13 @@ export class ProductionPlanificationComponent {
   updatePaginatedData(): void {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
-    this.paginatedData = this.filteredData.slice(startIndex, endIndex); // Usa filteredData en lugar de data
+    this.paginatedData = this.filteredData.slice(startIndex, endIndex);
+    this.checkedProducts = this.paginatedData.map(p => {
+      return {
+        checked: false,
+        id: `${p.idProducto}-${p.semana}`,
+      };
+    });
   }
 
   updatePagination(): void {
@@ -191,10 +201,16 @@ export class ProductionPlanificationComponent {
   }
 
   exportToExcel(): void {
-    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.productionPlanifications);
+    let target: PlaneacionProduccionDto[] = [];
+    if (this.checkedProducts.filter(x => x.checked).length > 0) {
+      target = this.productionPlanifications.filter(x => this.checkedProducts.filter(x => x.checked).some(c => `${x.idProducto}-${x.semana}` === c.id));
+    } else {
+      target = this.productionPlanifications;
+    }
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(target);
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Roles');
-    XLSX.writeFile(wb, 'familia_productos.xlsx');
+    XLSX.utils.book_append_sheet(wb, ws, 'Planificación Producción');
+    XLSX.writeFile(wb, 'planificacion_producción.xlsx');
   }
 
   openPlanificationImport(modalContent: any): void {
@@ -404,4 +420,24 @@ export class ProductionPlanificationComponent {
     window.URL.revokeObjectURL(url);
   }
 
+  toggleAll(event: Event): void {
+    const checked = (event.target as HTMLInputElement).checked;
+    this.checkedProducts.forEach((item) => (item.checked = checked));
+  }
+
+  updateSelectAll(event: Event, id: string): void {
+    const checked = (event.target as HTMLInputElement).checked;
+    const productCheck = this.checkedProducts.find(x => x.id === id);
+    if (productCheck) {
+      productCheck.checked = checked;
+    }
+  }
+
+  isAllChecked(): boolean {
+    return this.checkedProducts.every((item) => item.checked);
+  }
+
+  isChecked(id: string) {
+    return this.checkedProducts.find(x => x.id === id)?.checked;
+  }
 }

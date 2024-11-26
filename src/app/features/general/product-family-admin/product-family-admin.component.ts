@@ -31,7 +31,6 @@ export class ProductFamilyAdminComponent implements OnInit {
 
   ngOnInit(): void {
     this.getData();
-    this.searchQuery.valueChanges.subscribe(query => this.filterData(query));
   }
 
   getData(): void {
@@ -47,7 +46,8 @@ export class ProductFamilyAdminComponent implements OnInit {
       });
   }
 
-  filterData(query: string): void {
+  filterData(): void {
+    const query = this.searchQuery.value;
     if (query.trim() === '') {
       this.filteredData = this.productFamilies;
     } else {
