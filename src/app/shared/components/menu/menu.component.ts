@@ -36,11 +36,14 @@ export class MenuComponent implements OnInit {
       this.apellidos = localStorage.getItem('apellidos');
       this.cargo = localStorage.getItem('cargo');
       this.foto = sessionStorage.getItem('foto-perfil');
-      console.log("base64...", this.foto);
     }, 500);
   }
 
   logout() {
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('nombres');
+    localStorage.removeItem('apellidos');
+    localStorage.removeItem('cargo');
     this.router.navigate(['/login']);
   }
 
