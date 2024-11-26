@@ -183,7 +183,7 @@ export class WashRestrictionComponent implements OnInit {
   }
 
   openUpdateModal(id: number, modalContent: any): void {
-    const model = this.model.find(x => x.id === id);
+    const model = this.model.find(x => x.idRestriccionLavados === id);
     this.currentId = id;
     this.descripcion.setValue(model?.descripcion);
     this.estado.setValue(model?.estado);
@@ -226,14 +226,14 @@ export class WashRestrictionComponent implements OnInit {
       this.service.apiRestriccionDeLavadoActualizarrestriccionlavadoPut(update)
         .subscribe(
           _ => {
-            const toUpdate = this.model.find(x => x.id === this.currentId);
+            const toUpdate = this.model.find(x => x.idRestriccionLavados === this.currentId);
             const updated = {
-              id: toUpdate?.id,
+              id: toUpdate?.idRestriccionLavados,
               nombre: this.descripcion.value,
               estado: this.estado.value,
               fechaCreacion: toUpdate?.fechaCreacion,
             } as RestriccionLavadoDto;
-            this.model = [updated, ...this.model.filter(x => x.id !== this.currentId)];
+            this.model = [updated, ...this.model.filter(x => x.idRestriccionLavados !== this.currentId)];
             this.filterData('');
             this.modalService.dismissAll();
             Swal.fire(

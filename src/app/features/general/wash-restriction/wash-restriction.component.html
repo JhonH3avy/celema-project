@@ -39,7 +39,6 @@
         <th scope="col" class="text-secondary text-center">Tipo</th>
         <th scope="col" class="text-secondary text-center">Frecuencia</th>
         <th scope="col" class="text-secondary text-center">Tiempo</th>
-        <th scope="col" class="text-secondary text-center">Prioridad</th>
         <th scope="col" class="text-secondary text-center">Operaciones</th>
       </tr>
     </thead>
@@ -50,14 +49,13 @@
             <input class="form-check-input" type="checkbox" value="">
           </div>
         </th>
-        <td class="text-secondary text-center">{{ washRestriction.id }}</td>
+        <td class="text-secondary text-center">{{ washRestriction.idRestriccionLavados }}</td>
         <td class="text-secondary text-center">{{ washRestriction.descripcion }}</td>
         <td><span [ngClass]="getStatusStyle(washRestriction.estado!)" class="badge border">{{ washRestriction.estado == true ? 'Activo' : 'Inactivo' }}</span></td>
         <td class="text-secondary text-center">{{ washRestriction.fechaCreacion | date:'dd/MM/yyyy' }}</td>
         <td class="text-secondary text-center">{{ washRestriction.tipoLavado }}</td>
         <td class="text-secondary text-center">{{ washRestriction.frecuenciaLavado }}</td>
         <td class="text-secondary text-center">{{ washRestriction.tiempoLavado }}</td>
-        <td class="text-secondary text-center">{{ washRestriction.prioridad }}</td>
         <td class="d-flex">
           <button type="button" class="btn rounded-pill border border-danger text-danger bg-danger-subtle me-2" (click)="eliminarRegistro()">Eliminar</button>
           <button type="button" class="btn rounded-pill border border-success text-success bg-success-subtle me-2" (click)="openModal(editPlan);actualizar()">Actualizar</button>

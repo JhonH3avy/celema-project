@@ -47,7 +47,7 @@
         <td class="text-secondary text-center">{{ productFamily.id }}</td>
         <td class="text-secondary">{{ productFamily.nombre }}</td>
         <td>
-          <span [ngClass]="getStatusStyle(productFamily.estado)" class="badge border">{{ productFamily.estado ? 'Activo' : 'Inactivo' }}</span>
+          <span [ngClass]="getStatusStyle(productFamily.estado ?? false)" class="badge border">{{ productFamily.estado ? 'Activo' : 'Inactivo' }}</span>
         </td>
         <td class="text-secondary text-center">{{ productFamily.fechaCreacion | date:'dd/MM/yyyy' }}</td>
       </tr>
