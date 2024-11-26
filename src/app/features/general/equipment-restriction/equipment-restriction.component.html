@@ -69,8 +69,8 @@
           </button>
         </td> -->
         <td class="d-flex">
-          <button type="button" class="btn rounded-pill border border-danger text-danger bg-danger-subtle me-2">Eliminar</button>
-          <button type="button" class="btn rounded-pill border border-success text-success bg-success-subtle me-2">Actu</button>
+          <button type="button" class="btn rounded-pill border border-danger text-danger bg-danger-subtle me-2" (click)="eliminarRegistro()">Eliminar</button>
+          <button type="button" class="btn rounded-pill border border-success text-success bg-success-subtle me-2" (click)="openModal(editPlan)">Actualizar</button>
         </td>
       </tr>
     </tbody>
@@ -206,6 +206,92 @@
       <div class="modal-footer">
         <button type="button" class="btn btn-primary" >Ingresar</button>
         <button type="button" class="btn btn-secondary" (click)="newPlan.dismiss('Close click')">Cancelar</button>
+      </div>
+    </div>
+  </ng-template>
+
+   <!-- Modal nueva restricción -->
+   <ng-template #content let-editPlan #editPlan>
+    <div class="modal-content">
+      <div class="modal-header vstack gap-3">
+        <button type="button" class="btn-close" aria-label="Close" (click)="editPlan.dismiss('Cross click')"></button>
+        <h1 class="modal-title fs-5" id="modalTitle">Editar Restricción de Equipos</h1>
+      </div>
+      <div class="modal-body">
+        <div>
+          <form [formGroup]="FormGroup">
+            <div class="container text-center">
+              <div class="row mb-2">
+                <div class="col text-start">
+                  <label for="roleInput" class="col-form-label">Código</label>
+                </div>
+                <div class="col-8">
+                  <input type="text" id="codigoInput" class="form-control" value="PRDCT1" formControlName="codigo">
+                </div>
+              </div>
+              <div class="row mb-2">
+                <div class="col text-start">
+                  <label for="roleInput" class="col-form-label">Descripción</label>
+                </div>
+                <div class="col-8">
+                  <input type="text" id="descripcionInput" class="form-control" value="Descripción" formControlName="descripcion">
+                </div>
+              </div>
+              <div class="row mb-2">
+                <div class="col text-start">
+                  <label for="roleInput" class="col-form-label">Equipo</label>
+                </div>
+                <div class="col-8">
+                  <input type="text" id="equipoInput" class="form-control" value="Equipo" formControlName="equipo">
+                </div>
+              </div>
+              <div class="row mb-2">
+                <div class="col text-start">
+                  <label for="roleInput" class="col-form-label">Tipo de restricción</label>
+                </div>
+                <div class="col-8">
+                  <input type="text" id="tipoRestriccionInput" class="form-control" value="Restricción" formControlName="tipoRestriccion">
+                </div>
+              </div>
+              <div class="row mb-2">
+                <div class="col text-start">
+                  <label for="roleInput" class="col-form-label">Unidad de medida</label>
+                </div>
+                <div class="col-8">
+                  <input type="text" id="unidadMedidaInput" class="form-control" value="Lts" formControlName="unidadMedida">
+                </div>
+              </div>
+              <div class="row mb-2">
+                <div class="col text-start">
+                  <label for="roleInput" class="col-form-label">Valor</label>
+                </div>
+                <div class="col-8">
+                  <input type="text" id="valorInput" class="form-control" value="3" formControlName="valor">
+                </div>
+              </div>
+              <div class="row mb-2">
+                <div class="col text-start">
+                  <label for="roleInput" class="col-form-label">Prioridad</label>
+                </div>
+                <div class="col-8">
+                  <input type="text" id="prioridadInput" class="form-control" value="Alta" formControlName="prioridad">
+                </div>
+              </div>
+              <div class="row mb-2">
+                <div class="col text-start">
+                  <label for="roleInput" class="col-form-label">Familia</label>
+                </div>
+                <div class="col-8">
+                  <input type="text" id="familiaInput" class="form-control" value="Familia" formControlName="familia">
+                </div>
+              </div>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-primary" >Actualizar</button>
+        <button type="button" class="btn btn-secondary" (click)="editPlan.dismiss('Close click')">Cancelar</button>
       </div>
     </div>
   </ng-template>

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-equipment-restriction',
@@ -134,6 +135,23 @@ export class EquipmentRestrictionComponent implements OnInit {
 
   openModal(modalContent: any): void {
     this.modalService.open(modalContent, { size: 'lg', backdrop: 'static', centered: true });
+  }
+
+  eliminarRegistro(){
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: 'de eliminar el registro',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+
+      }
+    });
   }
 
 }

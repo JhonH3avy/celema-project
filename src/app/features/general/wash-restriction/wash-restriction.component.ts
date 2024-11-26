@@ -284,4 +284,34 @@ export class WashRestrictionComponent implements OnInit {
     XLSX.utils.book_append_sheet(wb, ws, 'Restricciones de lavado');
     XLSX.writeFile(wb, 'restricciones_lavado.xlsx');
   }
+
+  eliminarRegistro(){
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: 'de eliminar el registro',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Sí, eliminar',
+      cancelButtonText: 'Cancelar'
+    }).then((result) => {
+      if (result.isConfirmed) {
+
+      }
+    });
+  }
+
+  actualizar(){
+    this.formGroup = this.fb.group({
+      codigo: ['1', Validators.required],
+      descripcion: ['Lavado Final AVENA', Validators.required],
+      familia: ['Familia', Validators.required],
+      tipo: ['Lavado Final', Validators.required],
+      frecuencia: ['3360', Validators.required],
+      tiempo: ['40', Validators.required],
+      equipo: ['MQ0014', Validators.required],
+      estado: [true, Validators.required],
+    });
+  }
 }
