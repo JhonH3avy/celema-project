@@ -34,6 +34,9 @@ export class EquipmentAdminComponent implements OnInit {
   equimentRestrictionModalRef: NgbModalRef | null = null;
   washRestrictionModalRef: NgbModalRef | null = null;
 
+  processingMachineRestrictionBatchUpdate = false;
+  processingWashRestrictionBatchUpdate = false;
+
   itemsPerPageControl = new FormControl(10);
   private get itemsPerPage(): number {
     const itemsPerPageValue = this.itemsPerPageControl.value;
@@ -73,12 +76,14 @@ export class EquipmentAdminComponent implements OnInit {
   }
 
   filterData(): void {
-    const query = this.searchQuery.value;
+    const query = this.searchQuery.value ?? '';
     if (query.trim() === '') {
       this.filteredData = this.data;
     } else {
       this.filteredData = this.data.filter(equipment =>
-        equipment.nombre?.toLowerCase().includes(query.toLowerCase())
+        equipment.nombre?.toLowerCase().includes(query.toLowerCase()) ||
+        equipment.idMaquina?.toLowerCase().includes(query.toLowerCase()) ||
+        equipment.nombreTipo?.toLowerCase().includes(query.toLowerCase())
       );
       this.currentPage = 1;
     }
@@ -165,6 +170,7 @@ export class EquipmentAdminComponent implements OnInit {
         tipoRestriccion: m.tipoRestriccion,
       } as ActualizarRestriccionMaquinaDto;
     });
+    this.processingMachineRestrictionBatchUpdate = true;
     this.equipmentRestrictionService.apiRestriccionMaquinasActualizarRestriccionBatchPut(requests)
       .subscribe(response => {
         if (response.datos) {
@@ -180,8 +186,10 @@ export class EquipmentAdminComponent implements OnInit {
           text: error.error ?? 'Error inesperado durante la actualización de restricciones',
           icon: 'error',
         });
+      }, () => {
+        this.processingMachineRestrictionBatchUpdate = false;
+        this.closeEquipmentRestrictionModal();
       });
-    this.closeEquipmentRestrictionModal();
   }
 
   openWashRestrictionModal(modalContent: any, equipmentId: string): void {
@@ -211,6 +219,7 @@ export class EquipmentAdminComponent implements OnInit {
         tipoLavado: w.tipoLavado,
       } as ActualizarRestriccionLavadoDto;
     });
+    this.processingWashRestrictionBatchUpdate = true;
     this.washRestrictionService.apiRestriccionDeLavadoActualizarRestriccionBatchPut(requests)
       .subscribe(response => {
         if (response.datos) {
@@ -226,8 +235,10 @@ export class EquipmentAdminComponent implements OnInit {
           text: error.error ?? 'Error inesperado durante la actualización de restricciones',
           icon: 'error',
         });
+      }, () => {
+        this.processingWashRestrictionBatchUpdate = false;
+        this.closeWashRestrictionModal();
       });
-    this.closeWashRestrictionModal();
   }
 
   exportToExcel(): void {
