@@ -1,3 +1,4 @@
+export * from './actualizarFamiliaProductosDto';
 export * from './actualizarLineasProduccionDto';
 export * from './actualizarMaquinaDto';
 export * from './actualizarPlaneacionProduccionDto';

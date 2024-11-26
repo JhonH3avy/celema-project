@@ -9,11 +9,10 @@
  */
 
 
-export interface FamiliaProductoDto { 
-    id?: number;
+export interface ActualizarFamiliaProductosDto { 
+    idFamilia?: number;
     nombre?: string | null;
     estado?: boolean | null;
     tiempoFormulacion?: number | null;
-    fechaCreacion?: string | null;
 }
 

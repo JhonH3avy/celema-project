@@ -10,14 +10,14 @@
 
 
 export interface RestriccionLavadoDto { 
-    id?: number;
-    descripcion?: string | null;
-    estado?: boolean;
-    fechaCreacion?: string;
+    idRestriccionLavados?: number;
+    'descripción'?: string | null;
     idFamilia?: number | null;
+    idMaquina?: string | null;
     tipoLavado?: string | null;
     frecuenciaLavado?: number | null;
     tiempoLavado?: number | null;
-    prioridad?: number;
+    estado?: boolean;
+    fechaCreacion?: string;
 }
 

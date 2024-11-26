@@ -21,6 +21,7 @@ configuration.ts
 encoder.ts
 git_push.sh
 index.ts
+model/actualizarFamiliaProductosDto.ts
 model/actualizarLineasProduccionDto.ts
 model/actualizarMaquinaDto.ts
 model/actualizarPlaneacionProduccionDto.ts
