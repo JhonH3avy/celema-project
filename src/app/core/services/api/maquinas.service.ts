@@ -99,14 +99,13 @@ export class MaquinasService {
     }
 
     /**
-     * @param actualizarMaquinaDto 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public apiMaquinasActualizarMaquinaEtlPost(actualizarMaquinaDto?: ActualizarMaquinaDto, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<BooleanDataResponse>;
-    public apiMaquinasActualizarMaquinaEtlPost(actualizarMaquinaDto?: ActualizarMaquinaDto, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<BooleanDataResponse>>;
-    public apiMaquinasActualizarMaquinaEtlPost(actualizarMaquinaDto?: ActualizarMaquinaDto, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<BooleanDataResponse>>;
-    public apiMaquinasActualizarMaquinaEtlPost(actualizarMaquinaDto?: ActualizarMaquinaDto, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public apiMaquinasActualizarMaquinaEtlGet(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<BooleanDataResponse>;
+    public apiMaquinasActualizarMaquinaEtlGet(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<BooleanDataResponse>>;
+    public apiMaquinasActualizarMaquinaEtlGet(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<BooleanDataResponse>>;
+    public apiMaquinasActualizarMaquinaEtlGet(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -142,17 +141,6 @@ export class MaquinasService {
         }
 
 
-        // to determine the Content-Type header
-        const consumes: string[] = [
-            'application/json',
-            'text/json',
-            'application/*+json'
-        ];
-        const httpContentTypeSelected: string | undefined = this.configuration.selectHeaderContentType(consumes);
-        if (httpContentTypeSelected !== undefined) {
-            localVarHeaders = localVarHeaders.set('Content-Type', httpContentTypeSelected);
-        }
-
         let responseType_: 'text' | 'json' | 'blob' = 'json';
         if (localVarHttpHeaderAcceptSelected) {
             if (localVarHttpHeaderAcceptSelected.startsWith('text')) {
@@ -165,10 +153,9 @@ export class MaquinasService {
         }
 
         let localVarPath = `/api/Maquinas/actualizar-maquina-etl`;
-        return this.httpClient.request<BooleanDataResponse>('post', `${this.configuration.basePath}${localVarPath}`,
+        return this.httpClient.request<BooleanDataResponse>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
-                body: actualizarMaquinaDto,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,

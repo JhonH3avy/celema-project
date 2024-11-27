@@ -230,29 +230,10 @@
       }
     },
     "/api/FamiliaProductos/actualizar-familiaProducto-etl": {
-      "post": {
+      "get": {
         "tags": [
           "FamiliaProductos"
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ActualizarFamiliaProductosDto"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ActualizarFamiliaProductosDto"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/ActualizarFamiliaProductosDto"
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": "Success",
@@ -276,26 +257,6 @@
           },
           "400": {
             "description": "Bad Request",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
             "content": {
               "text/plain": {
                 "schema": {
@@ -514,29 +475,10 @@
       }
     },
     "/api/LineasProduccion/actualizar-lineasproduccion-etl": {
-      "post": {
+      "get": {
         "tags": [
           "LineasProduccion"
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ActualizarLineasProduccionDto"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ActualizarLineasProduccionDto"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/ActualizarLineasProduccionDto"
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": "Success",
@@ -560,26 +502,6 @@
           },
           "400": {
             "description": "Bad Request",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
             "content": {
               "text/plain": {
                 "schema": {
@@ -1106,29 +1028,10 @@
       }
     },
     "/api/Maquinas/actualizar-maquina-etl": {
-      "post": {
+      "get": {
         "tags": [
           "Maquinas"
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ActualizarMaquinaDto"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ActualizarMaquinaDto"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/ActualizarMaquinaDto"
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": "Success",
@@ -1152,26 +1055,6 @@
           },
           "400": {
             "description": "Bad Request",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
             "content": {
               "text/plain": {
                 "schema": {
@@ -1543,6 +1426,143 @@
         }
       }
     },
+    "/api/PrediccionesRutas/listadoprediccionesrutasIA": {
+      "get": {
+        "tags": [
+          "PrediccionesRutas"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrediccionesRutasDtoIEnumerableDataResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrediccionesRutasDtoIEnumerableDataResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PrediccionesRutasDtoIEnumerableDataResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/PrediccionesRutas/consultar-prediccionruta-familia-producto-IA": {
+      "get": {
+        "tags": [
+          "PrediccionesRutas"
+        ],
+        "parameters": [
+          {
+            "name": "familia",
+            "in": "query",
+            "schema": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          },
+          {
+            "name": "producto",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/vw_PrediccionesRutas_Familias_ProductosDtoListDataResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/vw_PrediccionesRutas_Familias_ProductosDtoListDataResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/vw_PrediccionesRutas_Familias_ProductosDtoListDataResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/Productos/buscar/todos": {
       "get": {
         "tags": [
@@ -1651,29 +1671,10 @@
       }
     },
     "/api/Productos/actualizar-producto-etl": {
-      "post": {
+      "get": {
         "tags": [
           "Productos"
         ],
-        "requestBody": {
-          "content": {
-            "application/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ActualizarProductosDto"
-              }
-            },
-            "text/json": {
-              "schema": {
-                "$ref": "#/components/schemas/ActualizarProductosDto"
-              }
-            },
-            "application/*+json": {
-              "schema": {
-                "$ref": "#/components/schemas/ActualizarProductosDto"
-              }
-            }
-          }
-        },
         "responses": {
           "200": {
             "description": "Success",
@@ -1697,26 +1698,6 @@
           },
           "400": {
             "description": "Bad Request",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
             "content": {
               "text/plain": {
                 "schema": {
@@ -3628,64 +3609,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/RutaDtoIEnumerableDataResponse"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RutaDtoIEnumerableDataResponse"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RutaDtoIEnumerableDataResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
+            "description": "Success"
           }
         }
       }
@@ -3714,64 +3638,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/RutaDtoDataResponse"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RutaDtoDataResponse"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RutaDtoDataResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "401": {
-            "description": "Unauthorized",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
+            "description": "Success"
           }
         }
       }
@@ -3802,64 +3669,7 @@
         },
         "responses": {
           "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/RutaDtoDataResponse"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RutaDtoDataResponse"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/RutaDtoDataResponse"
-                }
-              }
-            }
-          },
-          "400": {
-            "description": "Bad Request",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server Error",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
+            "description": "Success"
           }
         }
       }
@@ -3890,64 +3700,7 @@
         },
         "responses": {
           "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/BooleanDataResponse"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BooleanDataResponse"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/BooleanDataResponse"
-                }
-              }
-            }
-          },
-          "404": {
-            "description": "Not Found",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          },
-          "500": {
-            "description": "Server Error",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
+            "description": "Success"
           }
         }
       }
@@ -4176,6 +3929,55 @@
           },
           "404": {
             "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/TipoMaquina/actualizar-tipomaquina-etl": {
+      "get": {
+        "tags": [
+          "TipoMaquina"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanDataResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanDataResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanDataResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
             "content": {
               "text/plain": {
                 "schema": {
@@ -4515,33 +4317,166 @@
           }
         }
       }
+    },
+    "/api/Zona/zonas": {
+      "get": {
+        "tags": [
+          "Zona"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ZonaDtoIEnumerableDataResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ZonaDtoIEnumerableDataResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ZonaDtoIEnumerableDataResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Zona/zonaporid": {
+      "get": {
+        "tags": [
+          "Zona"
+        ],
+        "parameters": [
+          {
+            "name": "nombre",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ZonaDtoDataResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ZonaDtoDataResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ZonaDtoDataResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/Zona/actualizar-zona-etl": {
+      "get": {
+        "tags": [
+          "Zona"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanDataResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanDataResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/BooleanDataResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
   "components": {
     "schemas": {
-      "ActualizarFamiliaProductosDto": {
-        "type": "object",
-        "properties": {
-          "idFamilia": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "nombre": {
-            "type": "string",
-            "nullable": true
-          },
-          "estado": {
-            "type": "boolean",
-            "nullable": true
-          },
-          "tiempoFormulacion": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
       "ActualizarLineasProduccionDto": {
         "type": "object",
         "properties": {
@@ -4601,10 +4536,6 @@
             "type": "string",
             "nullable": true
           },
-          "idFamilia": {
-            "type": "integer",
-            "format": "int32"
-          },
           "semana": {
             "type": "string",
             "nullable": true
@@ -4612,40 +4543,6 @@
           "cantidadesProducir": {
             "type": "integer",
             "format": "int32"
-          }
-        },
-        "additionalProperties": false
-      },
-      "ActualizarProductosDto": {
-        "type": "object",
-        "properties": {
-          "idProducto": {
-            "type": "string",
-            "nullable": true
-          },
-          "idFamilia": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "nombre": {
-            "type": "string",
-            "nullable": true
-          },
-          "presentacion": {
-            "type": "string",
-            "nullable": true
-          },
-          "volumen": {
-            "type": "string",
-            "nullable": true
-          },
-          "fechaCreacion": {
-            "$ref": "#/components/schemas/DateOnly"
-          },
-          "estado": {
-            "type": "boolean",
-            "nullable": true
           }
         },
         "additionalProperties": false
@@ -4926,6 +4823,10 @@
           "idFamilia": {
             "type": "integer",
             "format": "int32"
+          },
+          "idMaquina": {
+            "type": "string",
+            "nullable": true
           },
           "estado": {
             "type": "boolean"
@@ -5461,6 +5362,57 @@
         },
         "additionalProperties": false
       },
+      "PrediccionesRutasDto": {
+        "type": "object",
+        "properties": {
+          "idPrediccion": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idFamilia": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "idRuta": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "idProducto": {
+            "type": "string",
+            "nullable": true
+          },
+          "optimalScore": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "fechaPrediccion": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PrediccionesRutasDtoIEnumerableDataResponse": {
+        "type": "object",
+        "properties": {
+          "exito": {
+            "type": "string",
+            "nullable": true
+          },
+          "datos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PrediccionesRutasDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "ProductoDto": {
         "type": "object",
         "properties": {
@@ -5861,69 +5813,6 @@
           "moduloId": {
             "type": "integer",
             "format": "int32"
-          }
-        },
-        "additionalProperties": false
-      },
-      "RutaDto": {
-        "type": "object",
-        "properties": {
-          "idRuta": {
-            "type": "integer",
-            "format": "int64"
-          },
-          "nombre": {
-            "type": "string",
-            "nullable": true
-          },
-          "idFamilia": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "tipoRuta": {
-            "type": "string",
-            "nullable": true
-          },
-          "idLinea": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "idRestriccionRuta": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "RutaDtoDataResponse": {
-        "type": "object",
-        "properties": {
-          "exito": {
-            "type": "string",
-            "nullable": true
-          },
-          "datos": {
-            "$ref": "#/components/schemas/RutaDto"
-          }
-        },
-        "additionalProperties": false
-      },
-      "RutaDtoIEnumerableDataResponse": {
-        "type": "object",
-        "properties": {
-          "exito": {
-            "type": "string",
-            "nullable": true
-          },
-          "datos": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/RutaDto"
-            },
-            "nullable": true
           }
         },
         "additionalProperties": false
@@ -6339,6 +6228,128 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/UsuariosDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ZonaDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nombre": {
+            "type": "string",
+            "nullable": true
+          },
+          "estado": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "fechaCreacion": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "ZonaDtoDataResponse": {
+        "type": "object",
+        "properties": {
+          "exito": {
+            "type": "string",
+            "nullable": true
+          },
+          "datos": {
+            "$ref": "#/components/schemas/ZonaDto"
+          }
+        },
+        "additionalProperties": false
+      },
+      "ZonaDtoIEnumerableDataResponse": {
+        "type": "object",
+        "properties": {
+          "exito": {
+            "type": "string",
+            "nullable": true
+          },
+          "datos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ZonaDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "vw_PrediccionesRutas_Familias_ProductosDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "prediccionIdFamilia": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "ruta": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "producto": {
+            "type": "string",
+            "nullable": true
+          },
+          "optimalScore": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "fechaPrediccion": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "nombreFamilia": {
+            "type": "string",
+            "nullable": true
+          },
+          "estado": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "tiempoFormulacion": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "fechaCreacion": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "vw_PrediccionesRutas_Familias_ProductosDtoListDataResponse": {
+        "type": "object",
+        "properties": {
+          "exito": {
+            "type": "string",
+            "nullable": true
+          },
+          "datos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/vw_PrediccionesRutas_Familias_ProductosDto"
             },
             "nullable": true
           }

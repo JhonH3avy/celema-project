@@ -12,6 +12,7 @@
 export interface CrearRestriccionLavadoDto { 
     descripcion?: string | null;
     idFamilia?: number;
+    idMaquina?: string | null;
     estado?: boolean;
     tipoLavado?: string | null;
     frecuenciaLavado?: number;

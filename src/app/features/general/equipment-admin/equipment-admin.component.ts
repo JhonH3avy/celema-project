@@ -75,6 +75,23 @@ export class EquipmentAdminComponent implements OnInit {
       });
   }
 
+  callUpdateOnDatabase(): void {
+    this.maquinasService.apiMaquinasActualizarMaquinaEtlGet()
+      .subscribe(response => {
+        if (response.datos) {
+          this.getData();
+        }
+      }, error => {
+        if (error.status === 400) {
+          Swal.fire({
+            title: 'Error en ETL',
+            text: error.error,
+            icon: 'error',
+          });
+        }
+      });
+  }
+
   filterData(): void {
     const query = this.searchQuery.value ?? '';
     if (query.trim() === '') {

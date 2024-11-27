@@ -7,11 +7,11 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { ZonaDto } from './zonaDto';
 
 
-export interface ActualizarPlaneacionProduccionDto { 
-    idProducto?: string | null;
-    semana?: string | null;
-    cantidadesProducir?: number;
+export interface ZonaDtoDataResponse { 
+    exito?: string | null;
+    datos?: ZonaDto;
 }
 
