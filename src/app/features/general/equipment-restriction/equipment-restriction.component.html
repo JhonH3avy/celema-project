@@ -14,11 +14,11 @@
         <i class="bi bi-filter me-1"></i>
         Filtrar
       </button>
-      <button type="button" class="btn btn-primary d-flex align-items-center me-2">
+      <button type="button" class="btn btn-primary d-flex align-items-center me-2" (click)="exportToExcel()">
         <i class="bi bi-upload me-1"></i>
         Exportar
       </button>
-      <button type="button" class="btn btn-primary d-flex align-items-center me-2" style="min-width: 170px;" (click)="openModal(newPlan)">
+      <button type="button" class="btn btn-primary d-flex align-items-center me-2" style="min-width: 170px;" (click)="openModal(newRestriction)">
         <i class="bi bi-plus-circle me-1"></i>
         <span class="text-nowrap ms-1">Ingresar nuevo</span>
       </button>
@@ -42,256 +42,193 @@
         <th scope="col" class="text-secondary text-center">Prioridad</th>
         <th scope="col" class="text-secondary text-center">Familia</th>
         <th scope="col" class="text-secondary text-center">Equipo</th>
-        <!-- <th scope="col" class="text-secondary text-center">Restricción lavados</th> -->
         <th scope="col" class="text-secondary text-center">Operaciones</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let equipmentRestriction of equipmentRestrictions">
+      <tr *ngFor="let model of paginatedData">
         <th scope="row">
           <div class="form-check">
             <input class="form-check-input" type="checkbox" value="">
           </div>
         </th>
-        <td class="text-secondary text-center">{{ equipmentRestriction.code }}</td>
-        <td class="text-secondary text-center">{{ equipmentRestriction.description }}</td>
-        <td><span [ngClass]="getStatusStyle(equipmentRestriction.status)" class="badge border">{{ equipmentRestriction.status }}</span></td>
-        <td class="text-secondary text-center">{{ equipmentRestriction.creationDate | date:'dd/MM/yyyy' }}</td>
-        <td class="text-secondary text-center">{{ equipmentRestriction.type }}</td>
-        <td class="text-secondary text-center">{{ equipmentRestriction.meassurementUnit }}</td>
-        <td class="text-secondary text-center">{{ equipmentRestriction.value }}</td>
-        <td class="text-secondary text-center">{{ equipmentRestriction.priority }}</td>
-        <td class="text-secondary text-center">{{ equipmentRestriction.familia }}</td>
-        <td class="text-secondary text-center">{{ equipmentRestriction.equipo }}</td>
-        <!-- <td class="text-center text-nowrap">
-          <button type="button" class="btn btn-outline-secondary" data-bs-toggle="modal" data-bs-target="#washRestrictionModal">
-            <i class="bi bi-three-dots-vertical"></i>
-          </button>
-        </td> -->
+        <td class="text-secondary text-center">{{ model.id }}</td>
+        <td class="text-secondary text-center">{{ model.descripcion }}</td>
+        <td><span [ngClass]="getStatusStyle(model.estado!)" class="badge border">{{ model.estado == true ? 'Activo' : 'Inactivo' }}</span></td>
+        <td class="text-secondary text-center">{{ model.fechaCreacion | date:'dd/MM/yyyy' }}</td>
+        <td class="text-secondary text-center">{{ model.tipoRestriccion }}</td>
+        <td class="text-secondary text-center">{{ model.unidadMedida }}</td>
+        <td class="text-secondary text-center">{{ model.valor }}</td>
+        <td class="text-secondary text-center">{{ model.prioridad }}</td>
+        <td class="text-secondary text-center">{{ model.idFamilia }}</td>
+        <td class="text-secondary text-center">{{ model.idMaquina }}</td>
         <td class="d-flex">
-          <button type="button" class="btn rounded-pill border border-danger text-danger bg-danger-subtle me-2" (click)="eliminarRegistro()">Eliminar</button>
-          <button type="button" class="btn rounded-pill border border-success text-success bg-success-subtle me-2" (click)="openModal(editPlan)">Actualizar</button>
+          <button type="button" class="btn rounded-pill border border-danger text-danger bg-danger-subtle me-2" (click)="eliminarRegistro(model.id!, model.estado)">Eliminar</button>
+          <button type="button" class="btn rounded-pill border border-success text-success bg-success-subtle me-2" (click)="openModal(newRestriction);actualizar(model)">Actualizar</button>
         </td>
       </tr>
     </tbody>
   </table>
 
-  <div class="d-flex justify-content-center align-items-center">
-    <button class="btn btn-light me-2 text-secondary" [ngClass]="{'active': currentPage === (i + 1)}" *ngFor="let page of pages; let i = index" (click)="changePage(i + 1)">
-      {{ i + 1 }}
-    </button>
-  </div>
+  <!-- Paginación -->
+  <div class="d-flex justify-content-between align-items-center" style="margin-bottom: 100px;">
+    <!-- Paginación -->
+    <ul class="pagination mb-0">
+      <li class="page-item" [class.disabled]="currentPage === 1">
+        <a class="page-link" (click)="changePage(1)">Primero</a>
+      </li>
+      <li class="page-item" [class.disabled]="currentPage === 1">
+        <a class="page-link" (click)="changePage(currentPage - 1)">Anterior</a>
+      </li>
+      <li *ngFor="let page of pages" class="page-item" [class.active]="page === currentPage">
+        <a class="page-link" (click)="changePage(page)">{{ page }}</a>
+      </li>
+      <li class="page-item" [class.disabled]="currentPage === totalPages">
+        <a class="page-link" (click)="changePage(currentPage + 1)">Siguiente</a>
+      </li>
+      <li class="page-item" [class.disabled]="currentPage === totalPages">
+        <a class="page-link" (click)="changePage(totalPages)">Último</a>
+      </li>
+    </ul>
 
-  <!-- Modal -->
-  <div class="modal fade" id="washRestrictionModal" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header vstack gap-3">
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          <h1 class="modal-title fs-5" id="modalTitle">Restricción de Lavados</h1>
-        </div>
-        <div class="modal-body">
-          <table class="table">
-            <thead>
-              <tr class="table-secondary">
-                <th scope="col" class="text-secondary text-center">Restricción</th>
-                <th scope="col" class="text-secondary text-center">Tipo</th>
-                <th scope="col">
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="">
-                  </div>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let washRestriction of washRestrictions">
-                <td class="text-secondary text-center">{{ washRestriction.restriction }}</td>
-                <td class="text-secondary text-center">{{ washRestriction.type }}</td>
-                <th scope="row">
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="">
-                  </div>
-                </th>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-          <button type="button" class="btn btn-primary">Asignar</button>
-        </div>
-      </div>
+    <!-- Selector de cantidad por página -->
+    <div class="d-flex align-items-center ms-3">
+      <label for="itemsPerPage" class="form-label mb-0">Mostrar</label>
+      <select id="itemsPerPage" class="form-select w-auto ms-2" [(ngModel)]="itemsPerPage" (change)="changeItemsPerPage()">
+        <option value="10">10</option>
+        <option value="15">15</option>
+      </select>
+      <span class="ms-2">por página</span>
     </div>
   </div>
 
   <!-- Modal nueva restricción -->
-  <ng-template #content let-newPlan #newPlan>
+  <ng-template #content let-newRestriction #newRestriction>
     <div class="modal-content">
       <div class="modal-header vstack gap-3">
-        <button type="button" class="btn-close" aria-label="Close" (click)="newPlan.dismiss('Cross click')"></button>
-        <h1 class="modal-title fs-5" id="modalTitle">Gestión Restricción de Equipos</h1>
+        <button type="button" class="btn-close" aria-label="Close" (click)="newRestriction.dismiss('Cross click')"></button>
+        <h1 class="modal-title fs-5" id="modalTitle">Gestión Restricción de Máquinas</h1>
       </div>
       <div class="modal-body">
         <div>
-          <form [formGroup]="FormGroup">
+          <form [formGroup]="formGroup" (ngSubmit)="onSubmit()">
             <div class="container text-center">
               <div class="row mb-2">
                 <div class="col text-start">
-                  <label for="roleInput" class="col-form-label">Código</label>
+                  <label for="codigoInput" class="col-form-label">Código</label>
                 </div>
                 <div class="col-8">
-                  <input type="text" id="codigoInput" class="form-control" formControlName="codigo">
+                  <input type="text" *ngIf="this.currentId > 0" id="codigoInput" class="form-control" [ngClass]="{'is-invalid': codigo?.touched && codigo?.invalid}" formControlName="codigo">
+                  <div *ngIf="codigo?.invalid && codigo?.touched" class="text-danger"  style="text-align: left;margin: 5px;">
+                    El código es requerido.
+                  </div>
                 </div>
               </div>
               <div class="row mb-2">
                 <div class="col text-start">
-                  <label for="roleInput" class="col-form-label">Descripción</label>
+                  <label for="descripcionInput" class="col-form-label">Descripción</label>
                 </div>
                 <div class="col-8">
-                  <input type="text" id="descripcionInput" class="form-control" formControlName="descripcion">
+                  <input type="text" id="descripcionInput" class="form-control" [ngClass]="{'is-invalid': descripcion?.touched && descripcion?.invalid}" formControlName="descripcion">
+                  <div *ngIf="descripcion?.invalid && descripcion?.touched" class="text-danger"  style="text-align: left;margin: 5px;">
+                    La descripción es requerida.
+                  </div>
                 </div>
               </div>
               <div class="row mb-2">
                 <div class="col text-start">
-                  <label for="roleInput" class="col-form-label">Equipo</label>
+                  <label for="equipoInput" class="col-form-label">Equipo</label>
                 </div>
                 <div class="col-8">
-                  <input type="text" id="equipoInput" class="form-control" formControlName="equipo">
+                  <!-- <input type="text" id="equipoInput" class="form-control" formControlName="equipo"> -->
+                  <select
+                  id="equipoInput"
+                  class="form-control"
+                  [ngClass]="{'is-invalid': equipo?.touched && equipo?.invalid}"
+                  formControlName="equipo"
+                >
+                  <option *ngFor="let opcion of lstEquipos" [value]="opcion.idMaquina">
+                    {{ opcion.nombre }}
+                  </option>
+                </select>
+                <div *ngIf="equipo?.invalid && equipo?.touched" class="text-danger"  style="text-align: left;margin: 5px;">
+                  El equipo es requerido.
+                </div>
                 </div>
               </div>
               <div class="row mb-2">
                 <div class="col text-start">
-                  <label for="roleInput" class="col-form-label">Tipo de restricción</label>
+                  <label for="tipoRestriccionInput" class="col-form-label">Tipo de restricción</label>
                 </div>
                 <div class="col-8">
-                  <input type="text" id="tipoRestriccionInput" class="form-control" formControlName="tipoRestriccion">
+                  <input type="text" id="tipoRestriccionInput" class="form-control" [ngClass]="{'is-invalid': tipoRestriccion?.touched && tipoRestriccion?.invalid}" formControlName="tipoRestriccion">
+                  <div *ngIf="tipoRestriccion?.invalid && tipoRestriccion?.touched" class="text-danger"  style="text-align: left;margin: 5px;">
+                    El tipo restricción es requerido.
+                  </div>
                 </div>
               </div>
               <div class="row mb-2">
                 <div class="col text-start">
-                  <label for="roleInput" class="col-form-label">Unidad de medida</label>
+                  <label for="unidadMedida" class="col-form-label">Unidad de medida</label>
                 </div>
                 <div class="col-8">
-                  <input type="text" id="unidadMedidaInput" class="form-control" formControlName="unidadMedida">
+                  <input type="text" id="unidadMedidaInput" class="form-control" [ngClass]="{'is-invalid': unidadMedida?.touched && unidadMedida?.invalid}" formControlName="unidadMedida">
+                  <div *ngIf="unidadMedida?.invalid && unidadMedida?.touched" class="text-danger"  style="text-align: left;margin: 5px;" style="text-align: left;margin: 5px;">
+                    La unidad de medida es requerida.
+                  </div>
                 </div>
               </div>
               <div class="row mb-2">
                 <div class="col text-start">
-                  <label for="roleInput" class="col-form-label">Valor</label>
+                  <label for="valorInput" class="col-form-label">Valor</label>
                 </div>
                 <div class="col-8">
-                  <input type="text" id="valorInput" class="form-control" formControlName="valor">
+                  <input type="text" id="valorInput" class="form-control" [ngClass]="{'is-invalid': valor?.touched && valor?.invalid}" formControlName="valor">
+                  <div *ngIf="valor?.invalid && valor?.touched" class="text-danger"  style="text-align: left;margin: 5px;">
+                    El valor es requerido.
+                  </div>
                 </div>
               </div>
               <div class="row mb-2">
                 <div class="col text-start">
-                  <label for="roleInput" class="col-form-label">Prioridad</label>
+                  <label for="prioridadInput" class="col-form-label">Prioridad</label>
                 </div>
                 <div class="col-8">
-                  <input type="text" id="prioridadInput" class="form-control" formControlName="prioridad">
+                  <input type="number" id="prioridadInput" class="form-control" [ngClass]="{'is-invalid': prioridad?.touched && prioridad?.invalid}" formControlName="prioridad">
+                  <div *ngIf="prioridad?.invalid && prioridad?.touched" class="text-danger"  style="text-align: left;margin: 5px;">
+                    La prioridad es requerida.
+                  </div>
                 </div>
               </div>
               <div class="row mb-2">
                 <div class="col text-start">
-                  <label for="roleInput" class="col-form-label">Familia</label>
+                  <label for="familiaInput" class="col-form-label">Familia</label>
                 </div>
                 <div class="col-8">
-                  <input type="text" id="familiaInput" class="form-control" formControlName="familia">
+                  <!-- <input type="text" id="familiaInput" class="form-control" formControlName="familia"> -->
+                  <select
+                  id="familiaInput"
+                  class="form-control"
+                  [ngClass]="{'is-invalid': familia?.touched && familia?.invalid}"
+                  formControlName="familia"
+                >
+                  <option *ngFor="let opcion of lstFamilia" [value]="opcion.id">
+                    {{ opcion.nombre }}
+                  </option>
+                </select>
+                <div *ngIf="familia?.invalid && familia?.touched" class="text-danger"  style="text-align: left;margin: 5px;">
+                  La familia es requerida.
+                </div>
                 </div>
               </div>
             </div>
-          </form>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" >Ingresar</button>
-        <button type="button" class="btn btn-secondary" (click)="newPlan.dismiss('Close click')">Cancelar</button>
-      </div>
-    </div>
-  </ng-template>
-
-   <!-- Modal nueva restricción -->
-   <ng-template #content let-editPlan #editPlan>
-    <div class="modal-content">
-      <div class="modal-header vstack gap-3">
-        <button type="button" class="btn-close" aria-label="Close" (click)="editPlan.dismiss('Cross click')"></button>
-        <h1 class="modal-title fs-5" id="modalTitle">Editar Restricción de Equipos</h1>
-      </div>
-      <div class="modal-body">
-        <div>
-          <form [formGroup]="FormGroup">
-            <div class="container text-center">
-              <div class="row mb-2">
-                <div class="col text-start">
-                  <label for="roleInput" class="col-form-label">Código</label>
-                </div>
-                <div class="col-8">
-                  <input type="text" id="codigoInput" class="form-control" value="PRDCT1" formControlName="codigo">
-                </div>
-              </div>
-              <div class="row mb-2">
-                <div class="col text-start">
-                  <label for="roleInput" class="col-form-label">Descripción</label>
-                </div>
-                <div class="col-8">
-                  <input type="text" id="descripcionInput" class="form-control" value="Descripción" formControlName="descripcion">
-                </div>
-              </div>
-              <div class="row mb-2">
-                <div class="col text-start">
-                  <label for="roleInput" class="col-form-label">Equipo</label>
-                </div>
-                <div class="col-8">
-                  <input type="text" id="equipoInput" class="form-control" value="Equipo" formControlName="equipo">
-                </div>
-              </div>
-              <div class="row mb-2">
-                <div class="col text-start">
-                  <label for="roleInput" class="col-form-label">Tipo de restricción</label>
-                </div>
-                <div class="col-8">
-                  <input type="text" id="tipoRestriccionInput" class="form-control" value="Restricción" formControlName="tipoRestriccion">
-                </div>
-              </div>
-              <div class="row mb-2">
-                <div class="col text-start">
-                  <label for="roleInput" class="col-form-label">Unidad de medida</label>
-                </div>
-                <div class="col-8">
-                  <input type="text" id="unidadMedidaInput" class="form-control" value="Lts" formControlName="unidadMedida">
-                </div>
-              </div>
-              <div class="row mb-2">
-                <div class="col text-start">
-                  <label for="roleInput" class="col-form-label">Valor</label>
-                </div>
-                <div class="col-8">
-                  <input type="text" id="valorInput" class="form-control" value="3" formControlName="valor">
-                </div>
-              </div>
-              <div class="row mb-2">
-                <div class="col text-start">
-                  <label for="roleInput" class="col-form-label">Prioridad</label>
-                </div>
-                <div class="col-8">
-                  <input type="text" id="prioridadInput" class="form-control" value="Alta" formControlName="prioridad">
-                </div>
-              </div>
-              <div class="row mb-2">
-                <div class="col text-start">
-                  <label for="roleInput" class="col-form-label">Familia</label>
-                </div>
-                <div class="col-8">
-                  <input type="text" id="familiaInput" class="form-control" value="Familia" formControlName="familia">
-                </div>
-              </div>
+            <div class="modal-footer d-flex justify-content-rigth">
+              <button *ngIf="currentId == 0" type="submit" class="btn btn-primary" [disabled]="formGroup.invalid">Ingresar</button>
+              <button *ngIf="currentId > 0" type="submit" class="btn btn-primary" [disabled]="formGroup.invalid">Actualizar</button>
+              <button type="button" class="btn btn-secondary" (click)="newRestriction.dismiss('Close click')">Cancelar</button>
             </div>
           </form>
         </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" >Actualizar</button>
-        <button type="button" class="btn btn-secondary" (click)="editPlan.dismiss('Close click')">Cancelar</button>
       </div>
     </div>
   </ng-template>
