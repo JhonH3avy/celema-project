@@ -74,7 +74,7 @@ export class WashRestrictionComponent implements OnInit {
     private config: NgbModalConfig,
   ) {
     this.formGroup = this.fb.group({
-      codigo: [''],
+      codigo: ['0'],
       descripcion: ['', Validators.required],
       familia: ['', Validators.required],
       tipo: ['', Validators.required],
@@ -186,15 +186,14 @@ export class WashRestrictionComponent implements OnInit {
         tipoLavado: this.tipo.value,
         frecuenciaLavado: this.frecuencia.value,
         tiempoLavado: this.tiempo.value,
-        estado: true
+        estado: true,
+        idMaquina: this.equipo.value
       } as ActualizarRestriccionLavadoDto;
 
       this.service.apiRestriccionDeLavadoCrearrestriccionlavadoPost(update)
         .subscribe(
           response => {
-            const created = response.datos ?? {};
-            this.model = [created, ...this.model];
-            this.filterData('');
+            this.getData();
             this.modalService.dismissAll();
             Swal.fire(
               `¡Creación exitosa!`,
@@ -212,7 +211,8 @@ export class WashRestrictionComponent implements OnInit {
         tipoLavado: this.tipo.value,
         frecuenciaLavado: this.frecuencia.value,
         tiempoLavado: this.tiempo.value,
-        estado: this.estado.value
+        estado: this.estado.value,
+        idMaquina: this.equipo.value
       } as ActualizarRestriccionLavadoDto;
 
       this.service.apiRestriccionDeLavadoActualizarrestriccionlavadoPut(update)
@@ -304,14 +304,14 @@ export class WashRestrictionComponent implements OnInit {
   actualizar(model: RestriccionLavadoDto){
     this.currentId = model.idRestriccionLavados!;
     this.formGroup = this.fb.group({
-      codigo: [model.idRestriccionLavados!, Validators.required],
+      codigo: [model.idRestriccionLavados!],
       descripcion: [model.descripcion!, Validators.required],
       familia: [model.idFamilia!, Validators.required],
       tipo: [model.tipoLavado!, Validators.required],
       frecuencia: [model.frecuenciaLavado!, Validators.required],
       tiempo: [model.tiempoLavado!, Validators.required],
       equipo: [model.idMaquina!, Validators.required],
-      estado: model.estado
+      estado: [model.estado]
     });
   }
 }
