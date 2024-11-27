@@ -27,6 +27,7 @@ export class WashRestrictionComponent implements OnInit {
   paginatedData: RestriccionLavadoDto[] = [];
 
   searchQuery = new FormControl();
+  searchQueryText = '';
 
   currentId = 0;
 
@@ -118,6 +119,15 @@ export class WashRestrictionComponent implements OnInit {
       );
   }
 
+  obtenerFiltro(event: Event){
+    const inputValue = (event.target as HTMLInputElement).value;
+    this.searchQueryText = inputValue;
+  }
+
+  filtrar(){
+    this.filterData(this.searchQueryText);
+  }
+
   filterData(query: string): void {
     if (query.trim() === '') {
       this.filteredData = this.model;
@@ -131,6 +141,15 @@ export class WashRestrictionComponent implements OnInit {
     this.totalPages = Math.ceil(this.count / this.itemsPerPage);
     this.updatePagination();
     this.updatePaginatedData();
+  }
+
+  clearData(){
+    this.currentPage = 1;
+    this.getData();
+    this.searchQueryText = '';
+
+    const buscador = document.getElementById('buscador') as HTMLInputElement;
+    buscador.value = '';
   }
 
   getStatusStyle(status: boolean): string[] {

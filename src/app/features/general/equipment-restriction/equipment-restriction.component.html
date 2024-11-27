@@ -4,13 +4,16 @@
   <p class="text-secondary">Administre las máquinas de la empresa</p>
   <div class="d-flex justify-content-end mb-3">
     <div class="d-flex align-items-center">
+      <button type="button" class="btn btn-outline-primary me-2">
+        <i (click)="clearData()" class="bi bi-arrow-repeat"></i>
+      </button>
       <div class="input-group me-2">
         <button class="btn btn-outline-secondary" type="button">
           <i class="bi bi-search"></i>
         </button>
-        <input type="text" class="form-control" placeholder="Buscar">
+        <input type="text" class="form-control" placeholder="Buscar" id="buscador" (change)="obtenerFiltro($event)">
       </div>
-      <button type="button" class="btn btn-outline-secondary d-flex align-items-center me-2">
+      <button type="button" class="btn btn-outline-secondary d-flex align-items-center me-2" (click)="filtrar()">
         <i class="bi bi-filter me-1"></i>
         Filtrar
       </button>

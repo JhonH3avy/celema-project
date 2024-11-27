@@ -28,6 +28,7 @@ export class EquipmentRestrictionComponent implements OnInit {
   paginatedData: RestriccionMaquinaDto[] = [];
 
   searchQuery = new FormControl();
+  searchQueryText = '';
 
   currentId = 0;
 
@@ -108,6 +109,15 @@ export class EquipmentRestrictionComponent implements OnInit {
 
   }
 
+  obtenerFiltro(event: Event){
+    const inputValue = (event.target as HTMLInputElement).value;
+    this.searchQueryText = inputValue;
+  }
+
+  filtrar(){
+    this.filterData(this.searchQueryText);
+  }
+
   getData(): void {
     this.service.apiRestriccionMaquinasListaRestriccionMaquinasGet()
       .subscribe(
@@ -137,6 +147,15 @@ export class EquipmentRestrictionComponent implements OnInit {
     this.totalPages = Math.ceil(this.count / this.itemsPerPage);
     this.updatePagination();
     this.updatePaginatedData();
+  }
+
+  clearData(){
+    this.currentPage = 1;
+    this.getData();
+    this.searchQueryText = '';
+
+    const buscador = document.getElementById('buscador') as HTMLInputElement;
+    buscador.value = '';
   }
 
   getStatusStyle(status: boolean): string[] {
