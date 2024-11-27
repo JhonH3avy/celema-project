@@ -1,3 +1,4 @@
+import { ActualizarPlaneacionProduccionDto } from './../../../core/services/model/actualizarPlaneacionProduccionDto';
 import { Component } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
@@ -34,6 +35,8 @@ export class ProductionPlanificationComponent {
   planificationImportModalInstance: NgbModalRef | null = null;
 
   checkedProducts: {checked: boolean, id: string}[] = [];
+
+  isCreateProductionPlanification = false;
 
   private get itemsPerPage(): number {
     const itemsPerPageValue = this.itemsPerPageControl.value;
@@ -147,29 +150,56 @@ export class ProductionPlanificationComponent {
   }
 
   createProductionPlanification(): void {
-    const productionPlanificationCreateRequest = {
-      idProducto: this.productionPlanificationGroup.controls['productId'].value,
-      cantidadesProducir: this.amountToProduce.value,
-      semana: this.productionPlanificationGroup.controls['week'].value,
-    } as CrearPlaneacionProduccionDto;
-    this.planeacionProduccionService.apiPlaneacionProduccionPost(productionPlanificationCreateRequest)
-      .subscribe(response => {
-        this.productionPlanifications = [response.datos!, ...this.productionPlanifications];
-        Swal.fire({
-          title: 'Éxito',
-          text: response.exito!,
-          icon: 'success'
-        });
-      }, error => {
-        if (error.status === 400) {
+    if (this.isCreateProductionPlanification) {
+      const productionPlanificationCreateRequest = {
+        idProducto: this.productionPlanificationGroup.controls['productId'].value,
+        cantidadesProducir: this.amountToProduce.value,
+        semana: this.productionPlanificationGroup.controls['week'].value,
+      } as CrearPlaneacionProduccionDto;
+      this.planeacionProduccionService.apiPlaneacionProduccionPost(productionPlanificationCreateRequest)
+        .subscribe(response => {
+          this.productionPlanifications = [response.datos!, ...this.productionPlanifications];
           Swal.fire({
-            title: 'Error',
-            text: error.error,
-            icon: 'error'
+            title: 'Éxito',
+            text: response.exito!,
+            icon: 'success'
           });
-        }
-
-      });
+        }, error => {
+          if (error.status === 400) {
+            Swal.fire({
+              title: 'Error',
+              text: error.error,
+              icon: 'error'
+            });
+          }
+        });
+    } else {
+      const productionPlanificationUpdateRequest = {
+        idProducto: this.productionPlanificationGroup.controls['productId'].value,
+        cantidadesProducir: this.amountToProduce.value,
+        semana: this.productionPlanificationGroup.controls['week'].value,
+      } as ActualizarPlaneacionProduccionDto;
+      this.planeacionProduccionService.apiPlaneacionProduccionPut(productionPlanificationUpdateRequest)
+        .subscribe(response => {
+          const productionPlanificationUpdated = this.productionPlanifications.find(x => x.idProducto === productionPlanificationUpdateRequest.idProducto && x.semana === productionPlanificationUpdateRequest.semana);
+          if (productionPlanificationUpdated) {
+            productionPlanificationUpdated.cantidadesProducir = productionPlanificationUpdateRequest.cantidadesProducir;
+          }
+          Swal.fire({
+            title: 'Éxito',
+            text: response.exito!,
+            icon: 'success'
+          });
+        }, error => {
+          if (error.status === 400) {
+            Swal.fire({
+              title: 'Error',
+              text: error.error,
+              icon: 'error'
+            });
+          }
+        });
+    }
   }
 
   togglePlaneacionProduccion(planeacionProduccion: PlaneacionProduccionDto): void {
@@ -218,8 +248,8 @@ export class ProductionPlanificationComponent {
   }
 
   openProductionPlanificationModal(modalContent: any, productionPlanification: PlaneacionProduccionDto | null): void {
-    const isCreate = productionPlanification === null;
-    if (isCreate) {
+    this.isCreateProductionPlanification = productionPlanification === null;
+    if (this.isCreateProductionPlanification) {
       this.enableReferenceFormInputs();
       this.loadProductionPlanificationFormValues(null);
     } else {

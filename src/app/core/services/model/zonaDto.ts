@@ -9,9 +9,10 @@
  */
 
 
-export interface ActualizarPlaneacionProduccionDto { 
-    idProducto?: string | null;
-    semana?: string | null;
-    cantidadesProducir?: number;
+export interface ZonaDto { 
+    id?: number;
+    nombre?: string | null;
+    estado?: boolean | null;
+    fechaCreacion?: string | null;
 }
 

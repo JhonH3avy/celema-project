@@ -9,6 +9,7 @@ api/maestraFamilia.service.ts
 api/maquinas.service.ts
 api/modulosRolesPermisos.service.ts
 api/planeacionProduccion.service.ts
+api/prediccionesRutas.service.ts
 api/productos.service.ts
 api/restriccionDeLavado.service.ts
 api/restriccionMaquinas.service.ts
@@ -18,15 +19,14 @@ api/rutas.service.ts
 api/solicitudesProduccion.service.ts
 api/tipoMaquina.service.ts
 api/usuarios.service.ts
+api/zona.service.ts
 configuration.ts
 encoder.ts
 git_push.sh
 index.ts
-model/actualizarFamiliaProductosDto.ts
 model/actualizarLineasProduccionDto.ts
 model/actualizarMaquinaDto.ts
 model/actualizarPlaneacionProduccionDto.ts
-model/actualizarProductosDto.ts
 model/actualizarRestriccionLavadoDto.ts
 model/actualizarRestriccionMaquinaDto.ts
 model/actualizarRolUsuarioDto.ts
@@ -60,6 +60,8 @@ model/modulosRolesPermisosDto.ts
 model/planeacionProduccionDto.ts
 model/planeacionProduccionDtoDataResponse.ts
 model/planeacionProduccionDtoIEnumerableDataResponse.ts
+model/prediccionesRutasDto.ts
+model/prediccionesRutasDtoIEnumerableDataResponse.ts
 model/productoDto.ts
 model/productoDtoDataResponse.ts
 model/productoDtoIEnumerableDataResponse.ts
@@ -78,9 +80,6 @@ model/roleDto.ts
 model/roleDtoDataResponse.ts
 model/roleDtoIEnumerableDataResponse.ts
 model/roleModuloPermisoDto.ts
-model/rutaDto.ts
-model/rutaDtoDataResponse.ts
-model/rutaDtoIEnumerableDataResponse.ts
 model/solicitudInicioDeSesinUsuario.ts
 model/solicitudProduccionDto.ts
 model/tblIntentosDeLogin.ts
@@ -97,5 +96,10 @@ model/updateUnidadDeProduccionDto.ts
 model/usuariosDto.ts
 model/usuariosDtoDataResponse.ts
 model/usuariosDtoIEnumerableDataResponse.ts
+model/vwPrediccionesRutasFamiliasProductosDto.ts
+model/vwPrediccionesRutasFamiliasProductosDtoListDataResponse.ts
+model/zonaDto.ts
+model/zonaDtoDataResponse.ts
+model/zonaDtoIEnumerableDataResponse.ts
 param.ts
 variables.ts

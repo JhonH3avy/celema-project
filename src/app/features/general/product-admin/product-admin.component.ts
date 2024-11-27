@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ProductoDto, ProductosService } from 'src/app/core/services';
+import Swal from 'sweetalert2';
 import * as XLSX from 'xlsx';
 
 @Component({
@@ -58,6 +59,23 @@ export class ProductAdminComponent implements OnInit {
         this.totalPages = Math.ceil(this.productCount / this.itemsPerPage);
         this.updatePagination();
         this.updatePaginatedData();
+      });
+  }
+
+  callUpdateOnDatabase(): void {
+    this.productService.apiProductosActualizarProductoEtlGet()
+      .subscribe(response => {
+        if (response.datos) {
+          this.getData();
+        }
+      }, error => {
+        if (error.status === 400) {
+          Swal.fire({
+            title: 'Error en ETL',
+            text: error.error,
+            icon: 'error',
+          });
+        }
       });
   }
 

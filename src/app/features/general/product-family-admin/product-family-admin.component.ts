@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { FamiliaProductoDto, FamiliaProductosService } from 'src/app/core/services';
 import * as XLSX from 'xlsx';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-product-family-admin',
@@ -44,6 +45,23 @@ export class ProductFamilyAdminComponent implements OnInit {
         this.totalPages = Math.ceil(this.productFamilyCount / this.itemsPerPage);
         this.updatePagination();
         this.updatePaginatedData();
+      });
+  }
+
+  callUpdateOnDatabase(): void {
+    this.productFamilyService.apiFamiliaProductosActualizarFamiliaProductoEtlGet()
+      .subscribe(response => {
+        if (response.datos) {
+          this.getData();
+        }
+      }, error => {
+        if (error.status === 400) {
+          Swal.fire({
+            title: 'Error en ETL',
+            text: error.error,
+            icon: 'error',
+          });
+        }
       });
   }
 

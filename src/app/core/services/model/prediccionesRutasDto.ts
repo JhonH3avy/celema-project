@@ -9,9 +9,12 @@
  */
 
 
-export interface ActualizarPlaneacionProduccionDto { 
+export interface PrediccionesRutasDto { 
+    idPrediccion?: number;
+    idFamilia?: number | null;
+    idRuta?: number | null;
     idProducto?: string | null;
-    semana?: string | null;
-    cantidadesProducir?: number;
+    optimalScore?: number | null;
+    fechaPrediccion?: string | null;
 }
 

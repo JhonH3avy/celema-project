@@ -19,9 +19,9 @@ import { Observable }                                        from 'rxjs';
 // @ts-ignore
 import { BooleanDataResponse } from '../model/booleanDataResponse';
 // @ts-ignore
-import { ProductoDtoDataResponse } from '../model/productoDtoDataResponse';
+import { ZonaDtoDataResponse } from '../model/zonaDtoDataResponse';
 // @ts-ignore
-import { ProductoDtoIEnumerableDataResponse } from '../model/productoDtoIEnumerableDataResponse';
+import { ZonaDtoIEnumerableDataResponse } from '../model/zonaDtoIEnumerableDataResponse';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -32,7 +32,7 @@ import { Configuration }                                     from '../configurat
 @Injectable({
   providedIn: 'root'
 })
-export class ProductosService {
+export class ZonaService {
 
     protected basePath = 'http://localhost';
     public defaultHeaders = new HttpHeaders();
@@ -98,10 +98,10 @@ export class ProductosService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public apiProductosActualizarProductoEtlGet(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<BooleanDataResponse>;
-    public apiProductosActualizarProductoEtlGet(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<BooleanDataResponse>>;
-    public apiProductosActualizarProductoEtlGet(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<BooleanDataResponse>>;
-    public apiProductosActualizarProductoEtlGet(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public apiZonaActualizarZonaEtlGet(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<BooleanDataResponse>;
+    public apiZonaActualizarZonaEtlGet(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<BooleanDataResponse>>;
+    public apiZonaActualizarZonaEtlGet(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<BooleanDataResponse>>;
+    public apiZonaActualizarZonaEtlGet(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -148,7 +148,7 @@ export class ProductosService {
             }
         }
 
-        let localVarPath = `/api/Productos/actualizar-producto-etl`;
+        let localVarPath = `/api/Zona/actualizar-zona-etl`;
         return this.httpClient.request<BooleanDataResponse>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
@@ -163,19 +163,19 @@ export class ProductosService {
     }
 
     /**
-     * @param codigo 
+     * @param nombre 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public apiProductosBuscarPorCodigoGet(codigo?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<ProductoDtoDataResponse>;
-    public apiProductosBuscarPorCodigoGet(codigo?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ProductoDtoDataResponse>>;
-    public apiProductosBuscarPorCodigoGet(codigo?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ProductoDtoDataResponse>>;
-    public apiProductosBuscarPorCodigoGet(codigo?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public apiZonaZonaporidGet(nombre?: string, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<ZonaDtoDataResponse>;
+    public apiZonaZonaporidGet(nombre?: string, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ZonaDtoDataResponse>>;
+    public apiZonaZonaporidGet(nombre?: string, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ZonaDtoDataResponse>>;
+    public apiZonaZonaporidGet(nombre?: string, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
-        if (codigo !== undefined && codigo !== null) {
+        if (nombre !== undefined && nombre !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>codigo, 'codigo');
+            <any>nombre, 'nombre');
         }
 
         let localVarHeaders = this.defaultHeaders;
@@ -223,8 +223,8 @@ export class ProductosService {
             }
         }
 
-        let localVarPath = `/api/Productos/buscar/por-codigo`;
-        return this.httpClient.request<ProductoDtoDataResponse>('get', `${this.configuration.basePath}${localVarPath}`,
+        let localVarPath = `/api/Zona/zonaporid`;
+        return this.httpClient.request<ZonaDtoDataResponse>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 params: localVarQueryParameters,
@@ -242,10 +242,10 @@ export class ProductosService {
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public apiProductosBuscarTodosGet(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<ProductoDtoIEnumerableDataResponse>;
-    public apiProductosBuscarTodosGet(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ProductoDtoIEnumerableDataResponse>>;
-    public apiProductosBuscarTodosGet(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ProductoDtoIEnumerableDataResponse>>;
-    public apiProductosBuscarTodosGet(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public apiZonaZonasGet(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<ZonaDtoIEnumerableDataResponse>;
+    public apiZonaZonasGet(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<ZonaDtoIEnumerableDataResponse>>;
+    public apiZonaZonasGet(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<ZonaDtoIEnumerableDataResponse>>;
+    public apiZonaZonasGet(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -292,8 +292,8 @@ export class ProductosService {
             }
         }
 
-        let localVarPath = `/api/Productos/buscar/todos`;
-        return this.httpClient.request<ProductoDtoIEnumerableDataResponse>('get', `${this.configuration.basePath}${localVarPath}`,
+        let localVarPath = `/api/Zona/zonas`;
+        return this.httpClient.request<ZonaDtoIEnumerableDataResponse>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
                 responseType: <any>responseType_,
