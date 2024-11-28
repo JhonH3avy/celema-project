@@ -278,6 +278,73 @@
         }
       }
     },
+    "/api/HistoricoRutas": {
+      "get": {
+        "tags": [
+          "HistoricoRutas"
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "itemsPerPage",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/HistoricoRutaDtoPaginatedDataDataResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HistoricoRutaDtoPaginatedDataDataResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HistoricoRutaDtoPaginatedDataDataResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/LineasProduccion/listarlineasProducciongeneral": {
       "get": {
         "tags": [
@@ -3843,6 +3910,55 @@
         }
       }
     },
+    "/api/TblPrediccionRutaYTblRuta/obtener-rutas-predicciones": {
+      "get": {
+        "tags": [
+          "TblPrediccionRutaYTblRuta"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/TblPrediccionRutaYTblRutaDtoListDataResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TblPrediccionRutaYTblRutaDtoListDataResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/TblPrediccionRutaYTblRutaDtoListDataResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Server Error",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/TipoMaquina/tipomaquinas": {
       "get": {
         "tags": [
@@ -5142,6 +5258,93 @@
         },
         "additionalProperties": false
       },
+      "HistoricoRutaDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idRutaPrediccion": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "semanaProduccion": {
+            "type": "string",
+            "nullable": true
+          },
+          "idFamilia": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nombreFamilia": {
+            "type": "string",
+            "nullable": true
+          },
+          "rutaElegida": {
+            "type": "boolean"
+          },
+          "fechaCreacion": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "idRuta": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "equipmentList": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          },
+          "restrictionList": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "HistoricoRutaDtoPaginatedData": {
+        "type": "object",
+        "properties": {
+          "page": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalItemCount": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "data": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/HistoricoRutaDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "HistoricoRutaDtoPaginatedDataDataResponse": {
+        "type": "object",
+        "properties": {
+          "exito": {
+            "type": "string",
+            "nullable": true
+          },
+          "datos": {
+            "$ref": "#/components/schemas/HistoricoRutaDtoPaginatedData"
+          }
+        },
+        "additionalProperties": false
+      },
       "LineasProduccionDto": {
         "type": "object",
         "properties": {
@@ -5947,6 +6150,56 @@
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/TblRolesPermiso"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TblPrediccionRutaYTblRutaDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "descripcion": {
+            "type": "string",
+            "nullable": true
+          },
+          "idFamilia": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "tipoRuta": {
+            "type": "string",
+            "nullable": true
+          },
+          "linea": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "restriccion": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TblPrediccionRutaYTblRutaDtoListDataResponse": {
+        "type": "object",
+        "properties": {
+          "exito": {
+            "type": "string",
+            "nullable": true
+          },
+          "datos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TblPrediccionRutaYTblRutaDto"
             },
             "nullable": true
           }
