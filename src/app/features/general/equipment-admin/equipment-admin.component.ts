@@ -5,6 +5,7 @@ import Swal from 'sweetalert2';
 import { FormControl } from '@angular/forms';
 import { ActualizarRestriccionLavadoDto, ActualizarRestriccionMaquinaDto, DateOnly, MaquinaDto, RestriccionDeLavadoService, RestriccionLavadoDto, RestriccionMaquinaDto, RestriccionMaquinasService } from 'src/app/core/services';
 import { NgbModal, NgbModalConfig, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-equipment-admin',
@@ -54,6 +55,7 @@ export class EquipmentAdminComponent implements OnInit {
     private equipmentRestrictionService: RestriccionMaquinasService,
     private washRestrictionService: RestriccionDeLavadoService,
     private config: NgbModalConfig,
+    private datePipe: DatePipe,
   ) {
     this.config.size = 'lg';
   }
@@ -112,7 +114,9 @@ export class EquipmentAdminComponent implements OnInit {
 
   getDateOnlyFormatted(dateOnly: DateOnly | undefined): string {
     if (dateOnly) {
-      return `${dateOnly.day}/${dateOnly.month}/${dateOnly.year}`;
+      const rawDateOnly = dateOnly as string;
+      const date = new Date(rawDateOnly);
+      return this.datePipe.transform(date, 'dd/MM/yyyy') ?? '';
     }
     return '';
   }
