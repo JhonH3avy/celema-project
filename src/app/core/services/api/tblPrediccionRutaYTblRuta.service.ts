@@ -17,7 +17,7 @@ import { CustomHttpParameterCodec }                          from '../encoder';
 import { Observable }                                        from 'rxjs';
 
 // @ts-ignore
-import { TblPrediccionRutaYTblRutaDtoListDataResponse } from '../model/tblPrediccionRutaYTblRutaDtoListDataResponse';
+import { TblPrediccionRutaYTblRutaDtoRespuestaPaginacion } from '../model/tblPrediccionRutaYTblRutaDtoRespuestaPaginacion';
 
 // @ts-ignore
 import { BASE_PATH, COLLECTION_FORMATS }                     from '../variables';
@@ -91,13 +91,25 @@ export class TblPrediccionRutaYTblRutaService {
     }
 
     /**
+     * @param pagina 
+     * @param tamanoPagina 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public apiTblPrediccionRutaYTblRutaObtenerRutasPrediccionesGet(observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<TblPrediccionRutaYTblRutaDtoListDataResponse>;
-    public apiTblPrediccionRutaYTblRutaObtenerRutasPrediccionesGet(observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<TblPrediccionRutaYTblRutaDtoListDataResponse>>;
-    public apiTblPrediccionRutaYTblRutaObtenerRutasPrediccionesGet(observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<TblPrediccionRutaYTblRutaDtoListDataResponse>>;
-    public apiTblPrediccionRutaYTblRutaObtenerRutasPrediccionesGet(observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public apiTblPrediccionRutaYTblRutaObtenerRutasPrediccionesPaginadasGet(pagina?: number, tamanoPagina?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<TblPrediccionRutaYTblRutaDtoRespuestaPaginacion>;
+    public apiTblPrediccionRutaYTblRutaObtenerRutasPrediccionesPaginadasGet(pagina?: number, tamanoPagina?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<TblPrediccionRutaYTblRutaDtoRespuestaPaginacion>>;
+    public apiTblPrediccionRutaYTblRutaObtenerRutasPrediccionesPaginadasGet(pagina?: number, tamanoPagina?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<TblPrediccionRutaYTblRutaDtoRespuestaPaginacion>>;
+    public apiTblPrediccionRutaYTblRutaObtenerRutasPrediccionesPaginadasGet(pagina?: number, tamanoPagina?: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+
+        let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        if (pagina !== undefined && pagina !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>pagina, 'pagina');
+        }
+        if (tamanoPagina !== undefined && tamanoPagina !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>tamanoPagina, 'tamanoPagina');
+        }
 
         let localVarHeaders = this.defaultHeaders;
 
@@ -144,10 +156,11 @@ export class TblPrediccionRutaYTblRutaService {
             }
         }
 
-        let localVarPath = `/api/TblPrediccionRutaYTblRuta/obtener-rutas-predicciones`;
-        return this.httpClient.request<TblPrediccionRutaYTblRutaDtoListDataResponse>('get', `${this.configuration.basePath}${localVarPath}`,
+        let localVarPath = `/api/TblPrediccionRutaYTblRuta/obtener-rutas-predicciones-paginadas`;
+        return this.httpClient.request<TblPrediccionRutaYTblRutaDtoRespuestaPaginacion>('get', `${this.configuration.basePath}${localVarPath}`,
             {
                 context: localVarHttpContext,
+                params: localVarQueryParameters,
                 responseType: <any>responseType_,
                 withCredentials: this.configuration.withCredentials,
                 headers: localVarHeaders,

@@ -92,7 +92,7 @@ model/tblModulo.ts
 model/tblModulosUsuario.ts
 model/tblPermiso.ts
 model/tblPrediccionRutaYTblRutaDto.ts
-model/tblPrediccionRutaYTblRutaDtoListDataResponse.ts
+model/tblPrediccionRutaYTblRutaDtoRespuestaPaginacion.ts
 model/tblRole.ts
 model/tblRolesPermiso.ts
 model/tblUsuario.ts

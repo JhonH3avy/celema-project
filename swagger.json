@@ -341,6 +341,120 @@
                 }
               }
             }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/HistoricoRutas/filter": {
+      "get": {
+        "tags": [
+          "HistoricoRutas"
+        ],
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "itemsPerPage",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "searchQuery",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/HistoricoRutaDtoPaginatedDataDataResponse"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HistoricoRutaDtoPaginatedDataDataResponse"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/HistoricoRutaDtoPaginatedDataDataResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad Request",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
           }
         }
       }
@@ -3910,10 +4024,30 @@
         }
       }
     },
-    "/api/TblPrediccionRutaYTblRuta/obtener-rutas-predicciones": {
+    "/api/TblPrediccionRutaYTblRuta/obtener-rutas-predicciones-paginadas": {
       "get": {
         "tags": [
           "TblPrediccionRutaYTblRuta"
+        ],
+        "parameters": [
+          {
+            "name": "pagina",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 1
+            }
+          },
+          {
+            "name": "tamanoPagina",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32",
+              "default": 10
+            }
+          }
         ],
         "responses": {
           "200": {
@@ -3921,17 +4055,37 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/TblPrediccionRutaYTblRutaDtoListDataResponse"
+                  "$ref": "#/components/schemas/TblPrediccionRutaYTblRutaDtoRespuestaPaginacion"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/TblPrediccionRutaYTblRutaDtoListDataResponse"
+                  "$ref": "#/components/schemas/TblPrediccionRutaYTblRutaDtoRespuestaPaginacion"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/TblPrediccionRutaYTblRutaDtoListDataResponse"
+                  "$ref": "#/components/schemas/TblPrediccionRutaYTblRutaDtoRespuestaPaginacion"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Not Found",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
                 }
               }
             }
@@ -6185,16 +6339,35 @@
             "type": "integer",
             "format": "int32",
             "nullable": true
+          },
+          "sugerencia": {
+            "type": "boolean"
+          },
+          "mensaje": {
+            "type": "string",
+            "nullable": true
           }
         },
         "additionalProperties": false
       },
-      "TblPrediccionRutaYTblRutaDtoListDataResponse": {
+      "TblPrediccionRutaYTblRutaDtoRespuestaPaginacion": {
         "type": "object",
         "properties": {
-          "exito": {
-            "type": "string",
-            "nullable": true
+          "paginaActual": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "tamanoPagina": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPaginas": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalRegistros": {
+            "type": "integer",
+            "format": "int32"
           },
           "datos": {
             "type": "array",

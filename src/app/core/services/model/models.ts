@@ -63,7 +63,7 @@ export * from './tblModulo';
 export * from './tblModulosUsuario';
 export * from './tblPermiso';
 export * from './tblPrediccionRutaYTblRutaDto';
-export * from './tblPrediccionRutaYTblRutaDtoListDataResponse';
+export * from './tblPrediccionRutaYTblRutaDtoRespuestaPaginacion';
 export * from './tblRole';
 export * from './tblRolesPermiso';
 export * from './tblUsuario';
