@@ -1,7 +1,7 @@
 <app-menu></app-menu>
 <div class="container mb-5">
-  <h2>Administración de Equipos <span class="text-secondary">{{ itemCount }}</span></h2>
-  <p class="text-secondary">Administre la maquinaria de la empresa</p>
+  <h2>Administración de Equipos</h2>
+  <p class="text-secondary">Administre la maquinaria de la empresa, cantidad de registros <span class="text-secondary">{{ itemCount }}</span></p>
   <div class="d-flex justify-content-end mb-3">
     <div class="d-flex align-items-center">
       <div class="input-group me-2">
@@ -11,7 +11,7 @@
         <button class="btn btn-outline-secondary" type="button" (click)="filterData()">
           <i class="bi bi-search"></i>
         </button>
-        <input type="text" class="form-control" placeholder="Buscar" [formControl]="searchQuery">
+        <input type="text" class="form-control" placeholder="Buscar: código, equipo, tipo" ngbTooltip="Buscar por código, equipo, tipo" [formControl]="searchQuery">
       </div>
       <button type="button" class="btn btn-outline-secondary d-flex align-items-center me-2" (click)="filterData()">
         <i class="bi bi-filter me-1"></i>

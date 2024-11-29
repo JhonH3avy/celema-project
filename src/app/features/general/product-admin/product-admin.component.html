@@ -1,7 +1,7 @@
 <app-menu></app-menu>
 <div class="container">
-  <h2>Administración de SKU <span class="text-secondary">{{ productCount }}</span></h2>
-  <p class="text-secondary">Administre los SKU de la empresa</p>
+  <h2>Administración de SKU</h2>
+  <p class="text-secondary">Administre los SKU de la empresa, cantidad de registros <span class="text-secondary">{{ productCount }}</span></p>
   <div class="d-flex justify-content-end mb-3">
     <div class="d-flex align-items-center">
       <button type="button" class="btn btn-outline-primary me-2" (click)="callUpdateOnDatabase()">
@@ -11,7 +11,7 @@
         <button class="btn btn-outline-secondary" type="button">
           <i class="bi bi-search"></i>
         </button>
-        <input type="text" class="form-control" placeholder="Buscar" [formControl]="searchQuery">
+        <input type="text" class="form-control" placeholder="Buscar: producto, código" ngbTooltip="Buscar por  producto, código" [formControl]="searchQuery">
       </div>
       <button type="button" class="btn btn-outline-secondary d-flex align-items-center me-2" (click)="filterData()">
         <i class="bi bi-filter me-1"></i>

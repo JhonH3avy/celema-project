@@ -1,7 +1,7 @@
 <app-menu></app-menu>
 <div class="container pb-5">
   <h2>Planeación de la producción</h2>
-  <p class="text-secondary">Gestión de la demanda</p>
+  <p class="text-secondary">Gestión de la demanda, cantidad de registros <span class="text-secondary">{{ itemCount }}</span></p>
   <div class="d-flex justify-content-end mb-3">
     <div class="d-flex align-items-center">
       <button type="button" class="btn btn-primary d-flex align-items-center" (click)="openPlanificationImport(uploadPlan)">
@@ -12,7 +12,7 @@
         <button class="btn btn-outline-secondary" type="button" (click)="filterData()">
           <i class="bi bi-search"></i>
         </button>
-        <input type="text" class="form-control" placeholder="Buscar" [formControl]="searchQuery">
+        <input type="text" class="form-control" placeholder="Buscar: producto, familia, código" ngbTooltip="Buscar por  producto, familia, código" [formControl]="searchQuery">
       </div>
       <button type="button" class="btn btn-outline-secondary d-flex align-items-center me-2" (click)="filterData()">
         <i class="bi bi-filter me-1"></i>
