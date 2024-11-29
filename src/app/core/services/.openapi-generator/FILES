@@ -3,6 +3,7 @@ README.md
 api.module.ts
 api/api.ts
 api/familiaProductos.service.ts
+api/historicoRutas.service.ts
 api/lineasProduccion.service.ts
 api/login.service.ts
 api/maestraFamilia.service.ts
@@ -17,6 +18,7 @@ api/restriccionRutas.service.ts
 api/roles.service.ts
 api/rutas.service.ts
 api/solicitudesProduccion.service.ts
+api/tblPrediccionRutaYTblRuta.service.ts
 api/tipoMaquina.service.ts
 api/usuarios.service.ts
 api/zona.service.ts
@@ -49,6 +51,9 @@ model/dayOfWeek.ts
 model/familiaProductoDto.ts
 model/familiaProductoDtoDataResponse.ts
 model/familiaProductoDtoIEnumerableDataResponse.ts
+model/historicoRutaDto.ts
+model/historicoRutaDtoPaginatedData.ts
+model/historicoRutaDtoPaginatedDataDataResponse.ts
 model/lineasProduccionDto.ts
 model/lineasProduccionDtoDataResponse.ts
 model/lineasProduccionDtoIEnumerableDataResponse.ts
@@ -86,6 +91,8 @@ model/tblIntentosDeLogin.ts
 model/tblModulo.ts
 model/tblModulosUsuario.ts
 model/tblPermiso.ts
+model/tblPrediccionRutaYTblRutaDto.ts
+model/tblPrediccionRutaYTblRutaDtoRespuestaPaginacion.ts
 model/tblRole.ts
 model/tblRolesPermiso.ts
 model/tblUsuario.ts

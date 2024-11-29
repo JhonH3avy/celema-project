@@ -1,4 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { HistoricoRutaDto, HistoricoRutaDtoPaginatedDataDataResponse, HistoricoRutasService } from 'src/app/core/services';
+import * as XLSX from 'xlsx';
+import Swal from 'sweetalert2';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-route-planification',
@@ -8,76 +13,89 @@ import { Component, OnInit } from '@angular/core';
 export class RoutePlanificationComponent implements OnInit {
 
   currentPage = 1;
-  totalPages = 5;
-  pages = Array(this.totalPages).fill(0);
+  totalPages = 1;
+  itemsPerPage = 10;
+  pages: number[] = [];
+  offsetPagesToDisplay = 5;
 
-  washRestrictions = [
-    {
-      id: 1,
-      code: 'PRDCT1',
-      description: 'Esta es la descripción del equipo',
-      status: 'OK',
-      requestDate: new Date('2023-07-06'),
-      equipmentList: ['EC1', 'EC4', 'EC2'],
-      restrictionList: ['RC1', 'RC5'],
-      routeUsage: '10',
-    },
-    {
-      id: 2,
-      code: 'PRDCT2',
-      description: 'Esta es la descripción del equipo',
-      status: 'OK',
-      requestDate: new Date('2023-07-06'),
-      equipmentList: ['EC1'],
-      restrictionList: ['RC1', 'RC2', 'RC3'],
-      routeUsage: '2',
-    },
-    {
-      id: 3,
-      code: 'PRDCT3',
-      description: 'Esta es la descripción del equipo',
-      status: 'OK',
-      requestDate: new Date('2023-07-06'),
-      equipmentList: ['EC3', 'EC4'],
-      restrictionList: ['RC2', 'RC8', 'RC10'],
-      routeUsage: '5',
-    },
-    {
-      id: 4,
-      code: 'PRDCT4',
-      description: 'Esta es la descripción del equipo',
-      status: 'OK',
-      requestDate: new Date('2023-07-06'),
-      equipmentList: ['EC1'],
-      restrictionList: ['RC1'],
-      routeUsage: '9',
-    },
-    {
-      id: 5,
-      code: 'PRDCT5',
-      description: 'Esta es la descripción del equipo',
-      status: 'OFF',
-      requestDate: new Date('2023-07-06'),
-      equipmentList: ['EC1', 'EC2', 'EC3'],
-      restrictionList: ['RC1', 'RC2', 'RC3'],
-      routeUsage: '8',
-    },
-  ]
+  data: HistoricoRutaDto[] = [];
+  searchQuery = new FormControl();
 
-  constructor() { }
+  constructor(
+    private historicoRutasService: HistoricoRutasService,
+    private router: Router,
+  ) { }
 
   ngOnInit(): void {
+    this.getData();
   }
 
-  getStatusStyle(status: string): string[] {
+  getData(): void {
+    this.historicoRutasService.apiHistoricoRutasGet(this.currentPage, this.itemsPerPage)
+      .subscribe(
+        response => this.handleDataResponse(response),
+        error => this.handleErrorResponse(error)
+      );
+  }
+
+  private handleDataResponse(response: HistoricoRutaDtoPaginatedDataDataResponse): void {
+    if (response.datos) {
+      this.currentPage = 1;
+      this.data = response.datos?.data ?? [];
+      this.totalPages = Math.ceil(response.datos.totalItemCount ?? 0 / this.itemsPerPage);
+      this.updatePagination();
+    }
+  }
+
+  private handleErrorResponse(error: any): void {
+    if (error.status === 400 || error.status === 401) {
+      Swal.fire({
+        title: 'Error',
+        text: error.error,
+        icon: 'error'
+      });
+    } else {
+      Swal.fire({
+        title: 'Error',
+        text: 'Un error inesperado ha ocurrido con la petición',
+        icon: 'error'
+      });
+    }
+  }
+
+  filterData(): void {
+    const filter = this.searchQuery.value;
+    if (filter) {
+      this.historicoRutasService.apiHistoricoRutasFilterGet(this.currentPage, this.itemsPerPage, filter)
+        .subscribe(
+          response => this.handleDataResponse(response),
+          error => this.handleErrorResponse(error)
+        );
+    } else {
+      this.getData();
+    }
+  }
+
+  getStatusStyle(status: boolean): string[] {
     switch (status) {
-      case 'OK': return ['border-success', 'text-success', 'bg-success-subtle'];
-      case 'OFF': return ['border-danger', ' text-danger', 'bg-danger-subtle'];
+      case true: return ['border-success', 'text-success', 'bg-success-subtle'];
+      case false: return ['border-danger', ' text-danger', 'bg-danger-subtle'];
       default: return [];
+    }
+  }
+
+  updatePagination(): void {
+    this.pages = [];
+    const initialPage = Math.max(1, this.currentPage - this.offsetPagesToDisplay);
+    const negativeOffset = this.currentPage - this.offsetPagesToDisplay < 0 ? this.currentPage - this.offsetPagesToDisplay : 0;
+    const finalPage = Math.min(this.totalPages, this.currentPage + this.offsetPagesToDisplay - negativeOffset);
+    for (let i = initialPage; i <= finalPage; i++) {
+      this.pages.push(i);
     }
   }
 
   changePage(pageToLoad: number): void {
     this.currentPage = pageToLoad;
+    this.getData();
   }
 }

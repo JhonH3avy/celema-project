@@ -79,7 +79,13 @@ export class RoleAdminComponent implements OnInit {
           this.updatePagination();
           this.updatePaginatedData();
         },
-        error => console.error(error)
+        error => {
+          Swal.fire({
+            title: 'Error',
+            text: error.error,
+            icon: 'error'
+          });
+        }
       );
   }
 

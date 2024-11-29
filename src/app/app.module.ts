@@ -30,6 +30,7 @@ import { RoutePlanificationDetailComponent } from './features/general/route-plan
 import { RoutePlanificationPriorizationComponent } from './features/general/route-planification-priorization/route-planification-priorization.component';
 import { ProductionPlanificationComponent } from './features/general/production-planification/production-planification.component';
 import { environment } from 'src/environments/environment';
+import { DatePipe } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -79,6 +80,7 @@ import { environment } from 'src/environments/environment';
       useClass: AuthInterceptor,
       multi: true
     },
+    DatePipe,
   ],
   bootstrap: [AppComponent]
 })
