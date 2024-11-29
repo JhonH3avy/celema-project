@@ -35,6 +35,8 @@ export class EquipmentRestrictionComponent implements OnInit {
   lstEquipos : MaquinaDto[] = [];
   lstFamilia : FamiliaProductoDto[] = [];
 
+  checkedRegister: {checked: boolean, id: number}[] = [];
+
   get codigo(): FormControl {
     return this.formGroup.controls['codigo'] as FormControl;
   }
@@ -271,6 +273,12 @@ export class EquipmentRestrictionComponent implements OnInit {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
     this.paginatedData = this.filteredData.slice(startIndex, endIndex);
+    this.checkedRegister = this.paginatedData.map(p => {
+      return {
+        checked: false,
+        id: p.id!,
+      };
+    });
   }
 
   updatePagination(): void {
@@ -286,11 +294,18 @@ export class EquipmentRestrictionComponent implements OnInit {
   }
 
   exportToExcel(): void {
-    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.model);
+    let target: FamiliaProductoDto[] = [];
+    if (this.checkedRegister.filter(x => x.checked).length > 0) {
+      target = this.model.filter(x => this.checkedRegister.filter(x => x.checked).some(c => x.id === c.id));
+    } else {
+      target = this.model;
+    }
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(target);
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Restricciones Maquina');
     XLSX.writeFile(wb, 'restricciones_maquina.xlsx');
   }
+
 
   eliminarRegistro(id: number, activo:any){
 
@@ -341,6 +356,27 @@ export class EquipmentRestrictionComponent implements OnInit {
       equipo: [model.idMaquina!, Validators.required],
       estado: [model.estado]
     });
+  }
+
+  toggleAll(event: Event): void {
+    const checked = (event.target as HTMLInputElement).checked;
+    this.checkedRegister.forEach((item) => (item.checked = checked));
+  }
+
+  updateSelectAll(event: Event, id: number): void {
+    const checked = (event.target as HTMLInputElement).checked;
+    const productCheck = this.checkedRegister.find(x => x.id === id);
+    if (productCheck) {
+      productCheck.checked = checked;
+    }
+  }
+
+  isAllChecked(): boolean {
+    return this.checkedRegister.every((item) => item.checked);
+  }
+
+  isChecked(id: number) {
+    return this.checkedRegister.find(x => x.id === id)?.checked;
   }
 
 }
