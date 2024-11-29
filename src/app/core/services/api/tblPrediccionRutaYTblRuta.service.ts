@@ -91,17 +91,22 @@ export class TblPrediccionRutaYTblRutaService {
     }
 
     /**
+     * @param semana 
      * @param pagina 
      * @param tamanoPagina 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public apiTblPrediccionRutaYTblRutaObtenerRutasPrediccionesPaginadasGet(pagina?: number, tamanoPagina?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<TblPrediccionRutaYTblRutaDtoRespuestaPaginacion>;
-    public apiTblPrediccionRutaYTblRutaObtenerRutasPrediccionesPaginadasGet(pagina?: number, tamanoPagina?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<TblPrediccionRutaYTblRutaDtoRespuestaPaginacion>>;
-    public apiTblPrediccionRutaYTblRutaObtenerRutasPrediccionesPaginadasGet(pagina?: number, tamanoPagina?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<TblPrediccionRutaYTblRutaDtoRespuestaPaginacion>>;
-    public apiTblPrediccionRutaYTblRutaObtenerRutasPrediccionesPaginadasGet(pagina?: number, tamanoPagina?: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public apiTblPrediccionRutaYTblRutaObtenerRutasPrediccionesPaginadasGet(semana?: string, pagina?: number, tamanoPagina?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<TblPrediccionRutaYTblRutaDtoRespuestaPaginacion>;
+    public apiTblPrediccionRutaYTblRutaObtenerRutasPrediccionesPaginadasGet(semana?: string, pagina?: number, tamanoPagina?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<TblPrediccionRutaYTblRutaDtoRespuestaPaginacion>>;
+    public apiTblPrediccionRutaYTblRutaObtenerRutasPrediccionesPaginadasGet(semana?: string, pagina?: number, tamanoPagina?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<TblPrediccionRutaYTblRutaDtoRespuestaPaginacion>>;
+    public apiTblPrediccionRutaYTblRutaObtenerRutasPrediccionesPaginadasGet(semana?: string, pagina?: number, tamanoPagina?: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
+        if (semana !== undefined && semana !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>semana, 'semana');
+        }
         if (pagina !== undefined && pagina !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
             <any>pagina, 'pagina');

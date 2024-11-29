@@ -4031,6 +4031,13 @@
         ],
         "parameters": [
           {
+            "name": "semana",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
             "name": "pagina",
             "in": "query",
             "schema": {
