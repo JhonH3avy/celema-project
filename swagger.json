@@ -6333,6 +6333,10 @@
             "format": "int32",
             "nullable": true
           },
+          "nombreFamilia": {
+            "type": "string",
+            "nullable": true
+          },
           "tipoRuta": {
             "type": "string",
             "nullable": true
@@ -6345,6 +6349,22 @@
           "restriccion": {
             "type": "integer",
             "format": "int32",
+            "nullable": true
+          },
+          "nombreRestriccion": {
+            "type": "string",
+            "nullable": true
+          },
+          "precision": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "listaEquipos": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
             "nullable": true
           },
           "sugerencia": {
