@@ -1,5 +1,5 @@
 <app-menu></app-menu>
-<div class="container">
+<div class="container mb-5">
   <h2>Planeación de Rutas</h2>
   <p class="text-secondary">Administre las rutas de la empresa</p>
   <div class="d-flex justify-content-start mb-3">
@@ -8,7 +8,7 @@
         <i class="bi bi-arrow-return-left me-1"></i>
         <span class="text-nowrap ms-1">Volver</span>
       </button>
-      <div class="input-group me-2">
+      <!-- <div class="input-group me-2">
         <select class="form-select" id="exampleSelect" aria-label="Selecciona una opción">
           <option selected>202410</option>
         </select>
@@ -22,8 +22,8 @@
         <select class="form-select" id="exampleSelect" aria-label="Selecciona una opción" style="width: 150px;">
           <option selected>Producto</option>
         </select>
-      </div>
-      <button type="button" class="btn btn-primary d-flex align-items-center me-2" style="min-width: 190px">
+      </div> -->
+      <button type="button" class="btn btn-primary d-flex align-items-center me-2" style="min-width: 190px" (click)="openSemanaChooseModal(semanaModal)">
         <i class="bi bi-robot me-1"></i>
         <span class="text-nowrap ms-1">Encontrar Rutas AI</span>
       </button>
@@ -36,47 +36,35 @@
   <table class="table">
     <thead>
       <tr class="table-secondary">
-        <th scope="col">
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="">
-          </div>
-        </th>
-        <th scope="col" class="text-secondary text-center">Producto</th>
+        <th scope="col" class="text-secondary text-center">Familia</th>
         <th scope="col" class="text-secondary text-center">Equipos Usados</th>
         <th scope="col" class="text-secondary text-center">Restricciones Ruta</th>
-        <th scope="col" class="text-secondary text-center">Tiempo</th>
+        <!-- <th scope="col" class="text-secondary text-center">Tiempo</th> -->
         <th scope="col" class="text-secondary text-center">Precisión</th>
-        <th scope="col" class="text-secondary text-center">Familia</th>
         <th scope="col" class="text-secondary text-center">AI</th>
         <th scope="col" class="text-secondary text-center">Selección</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let washRestriction of washRestrictions; let i = index">
-        <th scope="row">
-          <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="">
-          </div>
-        </th>
-        <td class="text-secondary text-center">PRD # {{i+1}}</td>
-        <td class="text-secondary text-center">{{ washRestriction.equipmentList.join(', ') }}</td>
-        <td class="text-secondary text-center">Restricciones</td>
-        <td class="text-secondary text-center">10 min</td>
-        <td class="text-secondary text-center">{{ washRestriction.requestDate | date:'dd/MM/yyyy' }}</td>
-        <td class="text-secondary text-center">Familia</td>
+      <tr *ngFor="let planDetails of data; let i = index">
+        <td class="text-secondary text-center">{{ planDetails.nombreFamilia }}</td>
+        <td class="text-secondary text-center">{{ planDetails.listaEquipos?.join(', ') }}</td>
+        <td class="text-secondary text-center">{{ planDetails.nombreRestriccion }}</td>
+        <!-- <td class="text-secondary text-center">10 min</td> -->
+        <td class="text-secondary text-center">{{ planDetails.precision | percent }}</td>
         <td class="text-secondary text-center">
-          <input type="radio" name="ai">
+          <input type="checkbox" name="ai" disabled [checked]="planDetails.sugerencia">
         </td>
         <td class="text-secondary text-center">
-          <input type="radio" name="seleccion">
+          <input type="radio" name="seleccion" (toggle)="selectPlan(planDetails)">
         </td>
       </tr>
     </tbody>
   </table>
 
   <div class="d-flex justify-content-center align-items-center">
-    <button class="btn btn-light me-2 text-secondary" [ngClass]="{'active': currentPage === (i + 1)}" *ngFor="let page of pages; let i = index" (click)="changePage(i + 1)">
-      {{ i + 1 }}
+    <button class="btn btn-light me-2 text-secondary" [ngClass]="{'active': currentPage === page}" *ngFor="let page of pages" (click)="changePage(page)">
+      {{ page }}
     </button>
   </div>
 
@@ -93,6 +81,25 @@
     </div>
   </div>
 
+  <!-- Modal semana -->
+  <ng-template let-semanaModal #semanaModal>
+    <div class="modal-content">
+      <div class="modal-header vstack gap-3">
+        <button type="button" class="btn-close" aria-label="Close" (click)="semanaModal.dismiss('Cross click')"></button>
+        <h1 class="modal-title fs-5" id="modalTitle">Seleccione semana objetivo</h1>
+      </div>
+      <div class="modal-body">
+        <div class="input-group me-2">
+          <input type="text" class="form-control" placeholder="Buscar" [formControl]="semanaControl">
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="semanaModal.dismiss('Close click')">Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="getData()" [disabled]="loading">Asignar</button>
+      </div>
+    </div>
+  </ng-template>
+
   <!-- Modal importar plan -->
   <ng-template #content let-history #history>
     <div class="modal-content">
@@ -104,31 +111,27 @@
         <table class="table">
           <thead>
             <tr class="table-secondary">
-              <th scope="col">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="">
-                </div>
-              </th>
               <th scope="col" class="text-secondary text-center">Periodo</th>
               <th scope="col" class="text-secondary text-center">Editar</th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let washRestriction of washRestrictions">
-              <th scope="row">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="">
-                </div>
-              </th>
-              <td class="text-secondary text-center">202410</td>
+            <tr *ngFor="let semana of historicoData">
+              <td class="text-secondary text-center">{{ semana }}</td>
               <td class="text-secondary text-center">
-                <button class="btn btn-light" (click)="history.dismiss('Cross click')">
+                <button class="btn btn-light" (click)="getSpecificSemanaData(semana)">
                   <i class="bi bi-pencil"></i>
                 </button>
               </td>
             </tr>
           </tbody>
         </table>
+
+        <div class="d-flex justify-content-center align-items-center">
+          <button class="btn btn-light me-2 text-secondary" [ngClass]="{'active': historicoCurrentPage === page}" *ngFor="let page of historicoPages" (click)="changeHistoricoPage(page)">
+            {{ page }}
+          </button>
+        </div>      
       </div>
     </div>
   </ng-template>
