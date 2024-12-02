@@ -87,6 +87,8 @@ model/roleDtoIEnumerableDataResponse.ts
 model/roleModuloPermisoDto.ts
 model/solicitudInicioDeSesinUsuario.ts
 model/solicitudProduccionDto.ts
+model/stringPaginatedData.ts
+model/stringPaginatedDataDataResponse.ts
 model/tblIntentosDeLogin.ts
 model/tblModulo.ts
 model/tblModulosUsuario.ts

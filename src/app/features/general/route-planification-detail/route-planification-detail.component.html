@@ -111,31 +111,27 @@
         <table class="table">
           <thead>
             <tr class="table-secondary">
-              <th scope="col">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="">
-                </div>
-              </th>
               <th scope="col" class="text-secondary text-center">Periodo</th>
               <th scope="col" class="text-secondary text-center">Editar</th>
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let planDetails of data">
-              <th scope="row">
-                <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="">
-                </div>
-              </th>
-              <td class="text-secondary text-center">202410</td>
+            <tr *ngFor="let semana of historicoData">
+              <td class="text-secondary text-center">{{ semana }}</td>
               <td class="text-secondary text-center">
-                <button class="btn btn-light" (click)="history.dismiss('Cross click')">
+                <button class="btn btn-light" (click)="getSpecificSemanaData(semana)">
                   <i class="bi bi-pencil"></i>
                 </button>
               </td>
             </tr>
           </tbody>
         </table>
+
+        <div class="d-flex justify-content-center align-items-center">
+          <button class="btn btn-light me-2 text-secondary" [ngClass]="{'active': historicoCurrentPage === page}" *ngFor="let page of historicoPages" (click)="changeHistoricoPage(page)">
+            {{ page }}
+          </button>
+        </div>      
       </div>
     </div>
   </ng-template>

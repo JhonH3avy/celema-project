@@ -103,7 +103,7 @@ export class ReestablecerPasswordComponent implements OnInit {
         if (response.datos) {
           Swal.fire({
             title: '¡Actualización exitosa!',
-            text: response.exito,
+            text: response.exito ?? '',
             icon: 'success',
           });
           this.router.navigate(['/login']);

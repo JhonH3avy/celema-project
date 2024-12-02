@@ -58,6 +58,8 @@ export * from './roleDtoIEnumerableDataResponse';
 export * from './roleModuloPermisoDto';
 export * from './solicitudInicioDeSesinUsuario';
 export * from './solicitudProduccionDto';
+export * from './stringPaginatedData';
+export * from './stringPaginatedDataDataResponse';
 export * from './tblIntentosDeLogin';
 export * from './tblModulo';
 export * from './tblModulosUsuario';
