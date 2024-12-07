@@ -7,6 +7,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { DateOnly } from './dateOnly';
 
 
 export interface CrearMaquinaDto { 
@@ -16,5 +17,7 @@ export interface CrearMaquinaDto {
     nombre?: string | null;
     personalRequeridoMaquina?: number | null;
     personalRequeridoEmbalaje?: number | null;
+    estado?: boolean | null;
+    fechaCreacion?: DateOnly;
 }
 

@@ -15,5 +15,7 @@ export interface CrearHistoricoRutasDto {
     semanaProduccion?: string | null;
     idFamilia?: number;
     rutaElegida?: boolean;
+    sugerencia?: boolean;
+    precision?: number;
 }
 

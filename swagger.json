@@ -5136,6 +5136,13 @@
             "type": "integer",
             "format": "int32",
             "nullable": true
+          },
+          "estado": {
+            "type": "string",
+            "nullable": true
+          },
+          "fechaCreacion": {
+            "$ref": "#/components/schemas/DateOnly"
           }
         },
         "additionalProperties": false
@@ -5378,6 +5385,13 @@
           },
           "rutaElegida": {
             "type": "boolean"
+          },
+          "sugerencia": {
+            "type": "boolean"
+          },
+          "precision": {
+            "type": "number",
+            "format": "double"
           }
         },
         "additionalProperties": false
@@ -5412,6 +5426,13 @@
             "type": "integer",
             "format": "int32",
             "nullable": true
+          },
+          "estado": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "fechaCreacion": {
+            "$ref": "#/components/schemas/DateOnly"
           }
         },
         "additionalProperties": false
@@ -6759,8 +6780,7 @@
           },
           "linea": {
             "type": "integer",
-            "format": "int32",
-            "nullable": true
+            "format": "int64"
           },
           "restriccion": {
             "type": "integer",
