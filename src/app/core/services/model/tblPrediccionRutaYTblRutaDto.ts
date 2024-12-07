@@ -22,5 +22,6 @@ export interface TblPrediccionRutaYTblRutaDto {
     listaEquipos?: Array<string> | null;
     sugerencia?: boolean;
     mensaje?: string | null;
+    seleccionado?: boolean;
 }
 
