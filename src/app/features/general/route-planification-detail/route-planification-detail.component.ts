@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { NgbModal, NgbModalOptions, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { TblPrediccionRutaYTblRutaDto, TblPrediccionRutaYTblRutaService } from 'src/app/core/services';
+import { CrearHistoricoRutasDto, HistoricoRutasService, TblPrediccionRutaYTblRutaDto, TblPrediccionRutaYTblRutaService } from 'src/app/core/services';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -24,7 +24,7 @@ export class RoutePlanificationDetailComponent {
   data: TblPrediccionRutaYTblRutaDto[] = [];
   historicoData: string[] = [];
 
-  currentPlan: TblPrediccionRutaYTblRutaDto | null = null;
+  selectedPlans: {idFamilia: number, idRuta: number, aiGenerated: boolean}[] = [];
 
   semanaControl = new FormControl();
 
@@ -37,6 +37,7 @@ export class RoutePlanificationDetailComponent {
   constructor(
     private modalService: NgbModal,
     private routePlanificationDetailService: TblPrediccionRutaYTblRutaService,
+    private historicRutaService: HistoricoRutasService,
   ) {
   }
 
@@ -74,7 +75,7 @@ export class RoutePlanificationDetailComponent {
 
   getSpecificSemanaData(semana: string): void {
     this.semanaControl.setValue(semana);
-    this.getData();
+    this.loadHistoricoData();
     this.historicoModalRef?.dismiss();
   }
 
@@ -99,6 +100,37 @@ export class RoutePlanificationDetailComponent {
           });
         }
       });
+  }
+
+  loadHistoricoData(): void {
+    this.currentPage = 1;
+    this.historicRutaService.apiHistoricoRutasGet(this.currentPage, this.itemsPerPage)
+      .subscribe(response => {
+        this.data = response.datos?.data?.map(hr => {
+          return {
+            idFamilia: hr.idFamilia,
+            linea: hr.idRuta ?? hr.idRutaPrediccion ?? 0,
+            precision: hr.precision,
+            sugerencia: hr.idRutaPrediccion != null && hr.idRuta == null,            
+          } as TblPrediccionRutaYTblRutaDto;
+        }) ?? [];
+        this.selectedPlans = response.datos?.data?.filter(hr => hr.rutaElegida).map(hr => {
+          return {
+            idFamilia: hr.idFamilia ?? 0,
+            idRuta: hr.idRuta ?? 0,
+            aiGenerated: hr.idRutaPrediccion != null && hr.idRuta == null,
+          };
+        }) ?? [];
+        this.totalPages = response.datos?.totalItemCount ?? 0 / this.itemsPerPage;
+        this.updatePagination();
+      })
+  }
+
+  isPlanSelected(plan: TblPrediccionRutaYTblRutaDto): boolean {
+    return this.selectedPlans.some(x => x.idFamilia === plan.idFamilia &&
+      x.idRuta === plan.linea &&
+      x.aiGenerated === plan.sugerencia
+    );
   }
 
   getStatusStyle(status: string): string[] {
@@ -154,7 +186,69 @@ export class RoutePlanificationDetailComponent {
     }
   }
 
-  selectPlan(plan: TblPrediccionRutaYTblRutaDto): void {    
-    this.currentPlan = plan;
+  selectPlan(plan: TblPrediccionRutaYTblRutaDto): void {
+    const existingPlanOnFamilyAndRoute = this.selectedPlans.some(x => 
+      x.idFamilia == plan.idFamilia &&
+      x.idRuta == plan.linea
+    );
+    const newPlanToAdd = {
+      idFamilia: plan.idFamilia ?? 0, 
+      idRuta: plan.linea ?? 0,
+      aiGenerated: plan.sugerencia ?? false,
+    };
+    if (existingPlanOnFamilyAndRoute) {
+      this.selectedPlans = [...this.selectedPlans.filter(x => 
+        x.idFamilia == plan.idFamilia &&
+        x.idRuta == plan.linea),
+        newPlanToAdd,
+      ];
+    } else {
+      this.selectedPlans.push(newPlanToAdd);
+    }
+  }
+
+  saveHistoricoData(): void {
+    const saveHistoricoDataRequests = this.data.map(h => {
+      return {
+        idFamilia: h.idFamilia,
+        idRuta: h.sugerencia ? null : h.linea,
+        idRutaPrediccion: h.sugerencia ? h.linea : null,
+        semanaProduccion: this.semanaControl.value,
+        rutaElegida: this.selectedPlans.some(x => x.idFamilia == h.idFamilia &&
+          x.idRuta == h.linea &&
+          x.aiGenerated == h.sugerencia
+        ),
+      } as CrearHistoricoRutasDto;
+    });
+    this.routePlanificationDetailService.apiTblPrediccionRutaYTblRutaPost(saveHistoricoDataRequests)
+      .subscribe(response => {
+        if (response.exito) {
+          Swal.fire({
+            title: 'Éxito',
+            text: response.exito,
+            icon: 'success',
+          });
+        } else {
+          Swal.fire({
+            title: 'Éxito',
+            text: 'Operación exitosa',
+            icon: 'success',
+          });
+        }
+      }, error => {
+        if (error.status === 400) {
+          Swal.fire({
+            title: 'Error',
+            text: error.error,
+            icon: 'error',
+          });
+        } else {
+          Swal.fire({
+            title: 'Error',
+            text: 'Ha ocurrido un error inesperado',
+            icon: 'error',
+          });
+        }
+      });
   }
 }

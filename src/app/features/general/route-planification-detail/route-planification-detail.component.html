@@ -46,7 +46,7 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let planDetails of data; let i = index">
+      <tr *ngFor="let planDetails of data">
         <td class="text-secondary text-center">{{ planDetails.nombreFamilia }}</td>
         <td class="text-secondary text-center">{{ planDetails.listaEquipos?.join(', ') }}</td>
         <td class="text-secondary text-center">{{ planDetails.nombreRestriccion }}</td>
@@ -56,7 +56,7 @@
           <input type="checkbox" name="ai" disabled [checked]="planDetails.sugerencia">
         </td>
         <td class="text-secondary text-center">
-          <input type="radio" name="seleccion" (toggle)="selectPlan(planDetails)">
+          <input type="radio" [name]="planDetails.idFamilia" [checked]="isPlanSelected(planDetails)" (toggle)="selectPlan(planDetails)">
         </td>
       </tr>
     </tbody>
@@ -70,7 +70,7 @@
 
   <div class="d-flex justify-content-end mb-3" style="margin-top: 20px;">
     <div class="d-flex align-items-center">
-      <button type="button" class="btn btn-primary d-flex align-items-center me-2">
+      <button type="button" class="btn btn-primary d-flex align-items-center me-2" (click)="saveHistoricoData()">
         <i class="bi bi-floppy me-1"></i>
         <span class="text-nowrap ms-1">Guardar</span>
       </button>

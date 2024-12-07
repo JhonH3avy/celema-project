@@ -36,6 +36,7 @@ model/actualizarRoleDto.ts
 model/actualizarRoleModuloPermisoDto.ts
 model/actualizarRutaDto.ts
 model/booleanDataResponse.ts
+model/crearHistoricoRutasDto.ts
 model/crearMaquinaDto.ts
 model/crearPlaneacionProduccionDto.ts
 model/crearPlaneacionProduccionDtoIEnumerableDataResponse.ts
@@ -52,6 +53,7 @@ model/familiaProductoDto.ts
 model/familiaProductoDtoDataResponse.ts
 model/familiaProductoDtoIEnumerableDataResponse.ts
 model/historicoRutaDto.ts
+model/historicoRutaDtoIEnumerableDataResponse.ts
 model/historicoRutaDtoPaginatedData.ts
 model/historicoRutaDtoPaginatedDataDataResponse.ts
 model/lineasProduccionDto.ts

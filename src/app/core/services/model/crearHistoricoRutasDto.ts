@@ -9,17 +9,11 @@
  */
 
 
-export interface HistoricoRutaDto { 
-    id?: number;
+export interface CrearHistoricoRutasDto { 
     idRutaPrediccion?: number | null;
+    idRuta?: number | null;
     semanaProduccion?: string | null;
     idFamilia?: number;
-    nombreFamilia?: string | null;
     rutaElegida?: boolean;
-    fechaCreacion?: string;
-    idRuta?: number | null;
-    precision?: number;
-    equipmentList?: Array<string> | null;
-    restrictionList?: Array<string> | null;
 }
 
