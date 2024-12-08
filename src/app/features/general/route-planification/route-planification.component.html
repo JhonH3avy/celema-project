@@ -31,29 +31,29 @@
             <input class="form-check-input" type="checkbox" value="" [checked]="isAllChecked()" (change)="toggleAll($event)">
           </div>
         </th>
-        <th scope="col" class="text-secondary text-center">Código</th>
-        <th scope="col" class="text-secondary text-center">Descripción</th>
-        <th scope="col" class="text-secondary text-center">Ruta elegida</th>
-        <th scope="col" class="text-secondary text-center">Fecha de solicitud</th>
+        <th scope="col" class="text-secondary text-center">Familia</th>
+        <th scope="col" class="text-secondary text-center">Ruta</th>
+        <!-- <th scope="col" class="text-secondary text-center">Ruta elegida</th> -->
+        <!-- <th scope="col" class="text-secondary text-center">Fecha de solicitud</th> -->
         <th scope="col" class="text-secondary text-center">Lista de equipos</th>
         <th scope="col" class="text-secondary text-center">Lista de restricciones</th>
-        <!-- <th scope="col" class="text-secondary text-center">Uso de la ruta</th> -->
+        <th scope="col" class="text-secondary text-center">Uso de la ruta</th>
       </tr>
     </thead>
     <tbody>
       <tr *ngFor="let routePlanification of data">
         <th scope="row">
           <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="" (change)="updateSelectAll($event, routePlanification.id!)" [checked]="isChecked(routePlanification.id!)">
+            <input class="form-check-input" type="checkbox" value="" (change)="updateSelectAll($event, routePlanification.idRuta!)" [checked]="isChecked(routePlanification.idRuta!)">
           </div>
         </th>
-        <td class="text-secondary text-center">{{ routePlanification.semanaProduccion }}</td>
         <td class="text-secondary text-center">{{ routePlanification.nombreFamilia }}</td>
-        <td class="text-center"><span [ngClass]="getStatusStyle(routePlanification.rutaElegida ?? false)" class="badge border">{{ routePlanification.rutaElegida ? 'Elegida' : 'No elegida' }}</span></td>
-        <td class="text-secondary text-center">{{ routePlanification.fechaCreacion | date:'dd/MM/yyyy' }}</td>
+        <td class="text-secondary text-center">{{ routePlanification.nombreRuta }}</td>
+        <!-- <td class="text-center"><span [ngClass]="getStatusStyle(routePlanification.rutaElegida ?? false)" class="badge border">{{ routePlanification.rutaElegida ? 'Elegida' : 'No elegida' }}</span></td> -->
+        <!-- <td class="text-secondary text-center">{{ routePlanification.fechaCreacion | date:'dd/MM/yyyy' }}</td> -->
         <td class="text-secondary text-center">{{ routePlanification.equipmentList?.join(', ') ?? ''}}</td>
         <td class="text-secondary text-center">{{ routePlanification.restriction }}</td>
-        <!-- <td class="text-secondary text-center">{{ routePlanification.routeUsage }}</td> -->
+        <td class="text-secondary text-center">{{ routePlanification.usos }}</td>
       </tr>
     </tbody>
   </table>

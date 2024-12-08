@@ -106,7 +106,7 @@ export class RoutePlanificationComponent implements OnInit {
   exportToExcel(): void {
     let target: HistoricoRutaDto[] = [];
     if (this.checkedProducts.filter(x => x.checked).length > 0) {
-      target = this.data.filter(x => this.checkedProducts.filter(x => x.checked).some(c => x.id === c.id));
+      target = this.data.filter(x => this.checkedProducts.filter(x => x.checked).some(c => x.idRuta === c.id));
     } else {
       target = this.data;
     }

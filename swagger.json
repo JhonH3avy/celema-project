@@ -5958,19 +5958,6 @@
       "HistoricoRutaDto": {
         "type": "object",
         "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "idRutaPrediccion": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "semanaProduccion": {
-            "type": "string",
-            "nullable": true
-          },
           "idFamilia": {
             "type": "integer",
             "format": "int32"
@@ -5979,24 +5966,14 @@
             "type": "string",
             "nullable": true
           },
-          "rutaElegida": {
-            "type": "boolean"
-          },
-          "fechaCreacion": {
-            "type": "string",
-            "format": "date-time"
-          },
           "idRuta": {
             "type": "integer",
-            "format": "int64",
-            "nullable": true
+            "format": "int64"
           },
-          "precision": {
-            "type": "number",
-            "format": "double"
-          },
-          "sugerencia": {
-            "type": "boolean"
+          "nombreRuta": {
+            "type": "string",
+            "nullable": true,
+            "readOnly": true
           },
           "equipmentList": {
             "type": "array",
@@ -6008,6 +5985,10 @@
           "restriction": {
             "type": "string",
             "nullable": true
+          },
+          "usos": {
+            "type": "integer",
+            "format": "int32"
           }
         },
         "additionalProperties": false
