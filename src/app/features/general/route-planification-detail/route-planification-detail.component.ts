@@ -119,6 +119,11 @@ export class RoutePlanificationDetailComponent {
     }
   }
 
+  selectPlan(plan: TblPrediccionRutaYTblRutaDto): void {
+    this.data.filter(x => x.idFamilia === plan.idFamilia).forEach(x => x.seleccionado = false);
+    plan.seleccionado = true;
+  }
+
   getSpecificSemanaData(semana: string): void {
     this.semanaControl.setValue(semana);
     this.loadHistoricoData();
