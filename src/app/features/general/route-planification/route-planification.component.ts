@@ -23,6 +23,8 @@ export class RoutePlanificationComponent implements OnInit {
 
   checkedProducts: {checked: boolean, id: number}[] = [];
 
+  handleErrorStatuses: number[] = [400, 404];
+
   constructor(
     private historicoRutasService: HistoricoRutasService,
     private router: Router,
@@ -50,7 +52,7 @@ export class RoutePlanificationComponent implements OnInit {
   }
 
   private handleErrorResponse(error: any): void {
-    if (error.status === 400 || error.status === 401) {
+    if (this.handleErrorStatuses.includes(error.status)) {
       Swal.fire({
         title: 'Error',
         text: error.error,
@@ -128,6 +130,9 @@ export class RoutePlanificationComponent implements OnInit {
   }
 
   isAllChecked(): boolean {
+    if (this.checkedProducts.length === 0) {
+      return false;
+    }
     return this.checkedProducts.every((item) => item.checked);
   }
 

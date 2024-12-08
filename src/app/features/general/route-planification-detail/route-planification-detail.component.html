@@ -8,21 +8,12 @@
         <i class="bi bi-arrow-return-left me-1"></i>
         <span class="text-nowrap ms-1">Volver</span>
       </button>
-      <!-- <div class="input-group me-2">
-        <select class="form-select" id="exampleSelect" aria-label="Selecciona una opción">
-          <option selected>202410</option>
+      <div class="input-group me-2">
+        <select class="form-select" aria-label="Selecciona una opción" [formControl]="familiaFilterControl">
+          <option value="0" selected disabled>Familia</option>
+          <option [value]="familia.id" *ngFor="let familia of familiasInSemana">{{ familia.label }}</option>
         </select>
       </div>
-      <div class="input-group me-2">
-        <select class="form-select" id="exampleSelect" aria-label="Selecciona una opción">
-          <option selected>Familia</option>
-        </select>
-      </div>
-      <div class="input-group me-2">
-        <select class="form-select" id="exampleSelect" aria-label="Selecciona una opción" style="width: 150px;">
-          <option selected>Producto</option>
-        </select>
-      </div> -->
       <button type="button" class="btn btn-primary d-flex align-items-center me-2" style="min-width: 190px" (click)="openSemanaChooseModal(semanaModal)">
         <i class="bi bi-robot me-1"></i>
         <span class="text-nowrap ms-1">Encontrar Rutas AI</span>
@@ -37,6 +28,7 @@
     <thead>
       <tr class="table-secondary">
         <th scope="col" class="text-secondary text-center">Familia</th>
+        <th scope="col" class="text-secondary text-center">Descripción</th>
         <th scope="col" class="text-secondary text-center">Equipos Usados</th>
         <th scope="col" class="text-secondary text-center">Restricciones Ruta</th>
         <!-- <th scope="col" class="text-secondary text-center">Tiempo</th> -->
@@ -48,15 +40,16 @@
     <tbody>
       <tr *ngFor="let planDetails of data">
         <td class="text-secondary text-center">{{ planDetails.nombreFamilia }}</td>
+        <td class="text-secondary text-center">{{ planDetails.nombreRuta }}</td>
         <td class="text-secondary text-center">{{ planDetails.listaEquipos?.join(', ') }}</td>
         <td class="text-secondary text-center">{{ planDetails.nombreRestriccion }}</td>
         <!-- <td class="text-secondary text-center">10 min</td> -->
-        <td class="text-secondary text-center">{{ planDetails.precision | percent }}</td>
+        <td class="text-secondary text-center">{{ formatPercent(planDetails.precision ?? 0) }}</td>
         <td class="text-secondary text-center">
           <input type="checkbox" name="ai" disabled [checked]="planDetails.sugerencia">
         </td>
         <td class="text-secondary text-center">
-          <input type="radio" [name]="planDetails.idFamilia" [checked]="isPlanSelected(planDetails)" (toggle)="selectPlan(planDetails)">
+          <input type="radio" [name]="planDetails.idFamilia" [checked]="planDetails.seleccionado" (change)="planDetails.seleccionado = !planDetails.seleccionado">
         </td>
       </tr>
     </tbody>
@@ -131,7 +124,7 @@
           <button class="btn btn-light me-2 text-secondary" [ngClass]="{'active': historicoCurrentPage === page}" *ngFor="let page of historicoPages" (click)="changeHistoricoPage(page)">
             {{ page }}
           </button>
-        </div>      
+        </div>
       </div>
     </div>
   </ng-template>

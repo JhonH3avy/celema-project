@@ -11,6 +11,7 @@
 
 export interface TblPrediccionRutaYTblRutaDto { 
     id?: number;
+    nombreRuta?: string | null;
     descripcion?: string | null;
     idFamilia?: number | null;
     nombreFamilia?: string | null;

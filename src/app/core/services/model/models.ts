@@ -28,6 +28,8 @@ export * from './historicoRutaDto';
 export * from './historicoRutaDtoIEnumerableDataResponse';
 export * from './historicoRutaDtoPaginatedData';
 export * from './historicoRutaDtoPaginatedDataDataResponse';
+export * from './int32ReferenceDto';
+export * from './int32ReferenceDtoIEnumerableDataResponse';
 export * from './lineasProduccionDto';
 export * from './lineasProduccionDtoDataResponse';
 export * from './lineasProduccionDtoIEnumerableDataResponse';

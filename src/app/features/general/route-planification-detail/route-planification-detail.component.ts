@@ -1,7 +1,8 @@
+import { PercentPipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { NgbModal, NgbModalOptions, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { CrearHistoricoRutasDto, HistoricoRutasService, TblPrediccionRutaYTblRutaDto, TblPrediccionRutaYTblRutaService } from 'src/app/core/services';
+import { CrearHistoricoRutasDto, HistoricoRutasService, Int32ReferenceDto, TblPrediccionRutaYTblRutaDto, TblPrediccionRutaYTblRutaService } from 'src/app/core/services';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -31,17 +32,27 @@ export class RoutePlanificationDetailComponent {
   semanaChooseModalRef: NgbModalRef | null = null;
   historicoModalRef: NgbModalRef | null = null;
 
+  familiasInSemana: Int32ReferenceDto[] = [];
+
+  familiaFilterControl = new FormControl<number>(0);
+
   loading = false;
   historicoLoading = false;
 
   constructor(
     private modalService: NgbModal,
     private routePlanificationDetailService: TblPrediccionRutaYTblRutaService,
-    private historicRutaService: HistoricoRutasService,
+    private historicoRutaService: HistoricoRutasService,
+    private percentPipe: PercentPipe
   ) {
   }
 
   ngOnInit(): void {
+    this.familiaFilterControl.valueChanges
+      .subscribe(value => {
+        this.currentPage = 1;
+        this.filterData(value);
+      });
   }
 
   getData(): void {
@@ -53,8 +64,13 @@ export class RoutePlanificationDetailComponent {
           this.totalPages = response.totalPaginas ?? 0;
           this.semanaChooseModalRef?.dismiss();
           this.updatePagination();
+          this.loading = false;
+          this.routePlanificationDetailService.apiTblPrediccionRutaYTblRutaFamiliasReferencesBySemanaGet(this.semanaControl.value)
+            .subscribe(response => {
+              this.familiasInSemana = response.datos ?? [];
+            });
         }, error => {
-          if (error.status === 400) {
+          if (error.status === 400 || error.status === 404) {
             Swal.fire({
               title: 'Error',
               text: error.error,
@@ -67,10 +83,40 @@ export class RoutePlanificationDetailComponent {
               icon: 'error',
             });
           }
-        }, () => {
           this.loading = false;
         }
       );
+  }
+
+  filterData(idFamilia: number | null): void {
+    if (this.familiaFilterControl.value === 0 || idFamilia == null) {
+      this.getData();
+    } else {
+      this.routePlanificationDetailService.apiTblPrediccionRutaYTblRutaFiltrarRutasPorSemanaYFamiliaPaginadasGet(this.semanaControl.value, idFamilia, this.currentPage, this.itemsPerPage)
+      .subscribe(
+        response => {
+          this.data = response.datos ?? [];
+          this.totalPages = response.totalPaginas ?? 0;
+          this.updatePagination();
+          this.loading = false;
+        }, error => {
+          if (error.status === 400 || error.status === 404) {
+            Swal.fire({
+              title: 'Error',
+              text: error.error,
+              icon: 'error',
+            });
+          } else {
+            Swal.fire({
+              title: 'Error',
+              text: 'Sucedió un error inseperado al traer las predicciones de rutas',
+              icon: 'error',
+            });
+          }
+          this.loading = false;
+        }
+      );
+    }
   }
 
   getSpecificSemanaData(semana: string): void {
@@ -83,6 +129,7 @@ export class RoutePlanificationDetailComponent {
     this.routePlanificationDetailService.apiTblPrediccionRutaYTblRutaHistoricoRutasGet(this.historicoCurrentPage, this.historicoItemsPerPage)
       .subscribe(response => {
         this.historicoData = response.datos?.data ?? [];
+        this.familiasInSemana = [];
         this.historicoTotalPages = response.datos?.totalItemCount ?? 0 / this.historicoItemsPerPage;
         this.updateHistoricoPagination();
       }, error => {
@@ -104,33 +151,12 @@ export class RoutePlanificationDetailComponent {
 
   loadHistoricoData(): void {
     this.currentPage = 1;
-    this.historicRutaService.apiHistoricoRutasGet(this.currentPage, this.itemsPerPage)
+    this.routePlanificationDetailService.apiTblPrediccionRutaYTblRutaHistoricoBySemanaGet(this.semanaControl.value, this.currentPage, this.itemsPerPage)
       .subscribe(response => {
-        this.data = response.datos?.data?.map(hr => {
-          return {
-            idFamilia: hr.idFamilia,
-            linea: hr.idRuta ?? hr.idRutaPrediccion ?? 0,
-            precision: hr.precision,
-            sugerencia: hr.idRutaPrediccion != null && hr.idRuta == null,            
-          } as TblPrediccionRutaYTblRutaDto;
-        }) ?? [];
-        this.selectedPlans = response.datos?.data?.filter(hr => hr.rutaElegida).map(hr => {
-          return {
-            idFamilia: hr.idFamilia ?? 0,
-            idRuta: hr.idRuta ?? 0,
-            aiGenerated: hr.idRutaPrediccion != null && hr.idRuta == null,
-          };
-        }) ?? [];
-        this.totalPages = response.datos?.totalItemCount ?? 0 / this.itemsPerPage;
+        this.data = response.datos ?? [];
+        this.totalPages = response.totalPaginas ?? 0;
         this.updatePagination();
       })
-  }
-
-  isPlanSelected(plan: TblPrediccionRutaYTblRutaDto): boolean {
-    return this.selectedPlans.some(x => x.idFamilia === plan.idFamilia &&
-      x.idRuta === plan.linea &&
-      x.aiGenerated === plan.sugerencia
-    );
   }
 
   getStatusStyle(status: string): string[] {
@@ -144,7 +170,7 @@ export class RoutePlanificationDetailComponent {
   changePage(pageToLoad: number): void {
     this.currentPage = pageToLoad;
     this.data = [];
-    this.getData();
+    this.filterData(this.familiaFilterControl.value);
     this.updatePagination();
   }
 
@@ -158,7 +184,7 @@ export class RoutePlanificationDetailComponent {
   openModal(modalContent: any): void {
     const modalOptions = { size: 'lg', backdrop: 'static', centered: true } as NgbModalOptions;
     this.historicoModalRef = this.modalService.open(modalContent, modalOptions);
-    this.getHistoricoData(); 
+    this.getHistoricoData();
   }
 
   openSemanaChooseModal(modalContent: any): void {
@@ -186,41 +212,18 @@ export class RoutePlanificationDetailComponent {
     }
   }
 
-  selectPlan(plan: TblPrediccionRutaYTblRutaDto): void {
-    const existingPlanOnFamilyAndRoute = this.selectedPlans.some(x => 
-      x.idFamilia == plan.idFamilia &&
-      x.idRuta == plan.linea
-    );
-    const newPlanToAdd = {
-      idFamilia: plan.idFamilia ?? 0, 
-      idRuta: plan.linea ?? 0,
-      aiGenerated: plan.sugerencia ?? false,
-    };
-    if (existingPlanOnFamilyAndRoute) {
-      this.selectedPlans = [...this.selectedPlans.filter(x => 
-        x.idFamilia == plan.idFamilia &&
-        x.idRuta == plan.linea),
-        newPlanToAdd,
-      ];
-    } else {
-      this.selectedPlans.push(newPlanToAdd);
-    }
-  }
-
   saveHistoricoData(): void {
-    const saveHistoricoDataRequests = this.data.map(h => {
+    const saveHistoricoDataRequests = this.data.filter(x => x.seleccionado).map(h => {
       return {
         idFamilia: h.idFamilia,
-        idRuta: h.sugerencia ? null : h.linea,
-        idRutaPrediccion: h.sugerencia ? h.linea : null,
+        idRuta: h.id,
         semanaProduccion: this.semanaControl.value,
-        rutaElegida: this.selectedPlans.some(x => x.idFamilia == h.idFamilia &&
-          x.idRuta == h.linea &&
-          x.aiGenerated == h.sugerencia
-        ),
+        rutaElegida: h.seleccionado,
+        sugerencia: h.sugerencia,
+        precision: h.precision,
       } as CrearHistoricoRutasDto;
     });
-    this.routePlanificationDetailService.apiTblPrediccionRutaYTblRutaPost(saveHistoricoDataRequests)
+    this.historicoRutaService.apiHistoricoRutasPost(saveHistoricoDataRequests)
       .subscribe(response => {
         if (response.exito) {
           Swal.fire({
@@ -250,5 +253,13 @@ export class RoutePlanificationDetailComponent {
           });
         }
       });
+  }
+
+  formatPercent(percent: number): string {
+    if (percent === 0) {
+      return 'N/A';
+    } else {
+      return this.percentPipe.transform(percent) ?? '';
+    }
   }
 }
