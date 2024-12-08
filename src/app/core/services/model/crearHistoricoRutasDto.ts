@@ -10,8 +10,7 @@
 
 
 export interface CrearHistoricoRutasDto { 
-    idRutaPrediccion?: number | null;
-    idRuta?: number | null;
+    idRuta?: number;
     semanaProduccion?: string | null;
     idFamilia?: number;
     rutaElegida?: boolean;

@@ -19,7 +19,8 @@ export interface HistoricoRutaDto {
     fechaCreacion?: string;
     idRuta?: number | null;
     precision?: number;
+    sugerencia?: boolean;
     equipmentList?: Array<string> | null;
-    restrictionList?: Array<string> | null;
+    restriction?: string | null;
 }
 

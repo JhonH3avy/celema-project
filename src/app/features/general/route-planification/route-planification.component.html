@@ -52,7 +52,7 @@
         <td class="text-center"><span [ngClass]="getStatusStyle(routePlanification.rutaElegida ?? false)" class="badge border">{{ routePlanification.rutaElegida ? 'Elegida' : 'No elegida' }}</span></td>
         <td class="text-secondary text-center">{{ routePlanification.fechaCreacion | date:'dd/MM/yyyy' }}</td>
         <td class="text-secondary text-center">{{ routePlanification.equipmentList?.join(', ') ?? ''}}</td>
-        <td class="text-secondary text-center">{{ routePlanification.restrictionList?.join(', ') ?? '' }}</td>
+        <td class="text-secondary text-center">{{ routePlanification.restriction }}</td>
         <!-- <td class="text-secondary text-center">{{ routePlanification.routeUsage }}</td> -->
       </tr>
     </tbody>
