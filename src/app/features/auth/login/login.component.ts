@@ -91,12 +91,11 @@ export class LoginComponent implements OnInit {
       },
       error: (error) => {
         this.loading = false;
-        this.errorMessage = 'Hubo un error al iniciar sesión. Intenta nuevamente.';
 
         Swal.fire({
           icon: 'error',
           title: 'Error',
-          text: 'Usuario y/o contraseña inválida.',
+          text: error.error.mensaje,
           confirmButtonText: 'Aceptar'
         });
       }
