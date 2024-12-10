@@ -31,7 +31,7 @@
       <tr class="table-secondary">
         <th scope="col">
           <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="">
+            <input class="form-check-input" type="checkbox" value="" [checked]="isAllChecked()" (change)="toggleAll($event)">
           </div>
         </th>
         <th scope="col" class="text-secondary text-center">Usuario</th>
@@ -43,40 +43,40 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let profile of paginatedData">
+      <tr *ngFor="let model of paginatedData">
         <th scope="row">
           <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="">
+            <input class="form-check-input" type="checkbox" value="" (change)="updateSelectAll($event, model.id)" [checked]="isChecked(model.id)">
           </div>
         </th>
         <td>
           <div class="d-flex">
-            <img [src]="profile.profileImageSource == null ? './assets/img/profile_image_placeholder.jpg' : profile.profileImageSource" class="rounded profile-image me-2" />
+            <img [src]="model.profileImageSource == null ? './assets/img/profile_image_placeholder.jpg' : model.profileImageSource" class="rounded profile-image me-2" />
             <div>
-              <div class="text-secondary">{{ profile.nombre }} {{ profile.apellido }}</div>
-              <div class="text-secondary">{{ profile.correoElectronico }}</div>
+              <div class="text-secondary">{{ model.nombre }} {{ model.apellido }}</div>
+              <div class="text-secondary">{{ model.correoElectronico }}</div>
             </div>
           </div>
         </td>
         <td>
-          <span *ngFor="let access of profile.tblModulosUsuarios" [ngClass]="getProfileAccessStyle(access)" class="badge border me-1">{{ access }}</span>
+          <span *ngFor="let access of model.tblModulosUsuarios" [ngClass]="getProfileAccessStyle(access)" class="badge border me-1">{{ access }}</span>
         </td>
         <td>
-          <span *ngIf="profile.activo == true" class="badge border me-1 border-success text-success bg-success-subtle">Activo</span>
-          <span *ngIf="profile.activo != true" class="badge border me-1 border-danger text-danger bg-danger-subtle">Inactivo</span>
+          <span *ngIf="model.activo == true" class="badge border me-1 border-success text-success bg-success-subtle">Activo</span>
+          <span *ngIf="model.activo != true" class="badge border me-1 border-danger text-danger bg-danger-subtle">Inactivo</span>
         </td>
-        <td class="text-secondary text-center">{{ profile.ultimoAcceso | date:'dd/MM/yyyy' }}</td>
-        <td class="text-secondary text-center">{{ profile.fechaIngreso | date:'dd/MM/yyyy' }}</td>
+        <td class="text-secondary text-center">{{ model.ultimoAcceso | date:'dd/MM/yyyy' }}</td>
+        <td class="text-secondary text-center">{{ model.fechaIngreso | date:'dd/MM/yyyy' }}</td>
         <td>
           <div ngbDropdown>
             <button type="button" ngbDropdownToggle class="btn btn-outline-secondary">
               <!-- <i class="bi bi-three-dots-vertical"></i> -->
             </button>
             <ul class="dropdown-menu" ngbDropdownMenu>
-              <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#updateProfileModal" (click)="datosUsuario(profile.nombre + profile.apellido, profile.cargo)"><i class="bi bi-key"></i> Modificar permisos</a></li>
-              <li><a class="dropdown-item" (click)="exportUser(profile)"><i class="bi bi-file-earmark-break"></i> Exportar</a></li>
-              <li><a *ngIf="profile.activo == true" class="dropdown-item" (click)="desactivarUsuario(profile.id, profile.activo)"><i class="bi bi-slash-circle"></i> Desactivar usuario</a></li>
-              <li><a *ngIf="profile.activo !== true" class="dropdown-item" (click)="desactivarUsuario(profile.id, profile.activo)"><i class="bi bi-slash-circle"></i> Activar usuario</a></li>
+              <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#updateProfileModal" (click)="datosUsuario(model.nombre + model.apellido, model.cargo, model.id)"><i class="bi bi-key"></i> Modificar permisos</a></li>
+              <li><a class="dropdown-item" (click)="exportUser(model)"><i class="bi bi-file-earmark-break"></i> Exportar</a></li>
+              <li><a *ngIf="model.activo == true" class="dropdown-item" (click)="desactivarUsuario(model.id, model.activo)"><i class="bi bi-slash-circle"></i> Desactivar usuario</a></li>
+              <li><a *ngIf="model.activo !== true" class="dropdown-item" (click)="desactivarUsuario(model.id, model.activo)"><i class="bi bi-slash-circle"></i> Activar usuario</a></li>
             </ul>
           </div>
         </td>

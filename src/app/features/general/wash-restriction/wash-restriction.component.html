@@ -38,7 +38,6 @@
         <th scope="col" class="text-secondary text-center">Código</th>
         <th scope="col" class="text-secondary text-center">Descripción</th>
         <th scope="col" class="text-secondary text-center">Estado</th>
-        <th scope="col" class="text-secondary text-center">Fecha de creación</th>
         <th scope="col" class="text-secondary text-center">Tipo</th>
         <th scope="col" class="text-secondary text-center">Frecuencia</th>
         <th scope="col" class="text-secondary text-center">Tiempo</th>
@@ -55,7 +54,6 @@
         <td class="text-secondary text-center">{{ model.idRestriccionLavados }}</td>
         <td class="text-secondary text-center">{{ model.descripcion }}</td>
         <td><span [ngClass]="getStatusStyle(model.estado!)" class="badge border">{{ model.estado == true ? 'Activo' : 'Inactivo' }}</span></td>
-        <td class="text-secondary text-center">{{ model.fechaCreacion | date:'dd/MM/yyyy' }}</td>
         <td class="text-secondary text-center">{{ model.tipoLavado }}</td>
         <td class="text-secondary text-center">{{ model.frecuenciaLavado }}</td>
         <td class="text-secondary text-center">{{ model.tiempoLavado }}</td>
