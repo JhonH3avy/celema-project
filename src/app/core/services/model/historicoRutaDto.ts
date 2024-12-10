@@ -10,15 +10,12 @@
 
 
 export interface HistoricoRutaDto { 
-    id?: number;
-    idRutaPrediccion?: number | null;
-    semanaProduccion?: string | null;
     idFamilia?: number;
     nombreFamilia?: string | null;
-    rutaElegida?: boolean;
-    fechaCreacion?: string;
-    idRuta?: number | null;
+    idRuta?: number;
+    readonly nombreRuta?: string | null;
     equipmentList?: Array<string> | null;
-    restrictionList?: Array<string> | null;
+    restriction?: string | null;
+    usos?: number;
 }
 

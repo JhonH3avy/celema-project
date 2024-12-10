@@ -1,7 +1,8 @@
+import { PercentPipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { NgbModal, NgbModalOptions, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
-import { TblPrediccionRutaYTblRutaDto, TblPrediccionRutaYTblRutaService } from 'src/app/core/services';
+import { CrearHistoricoRutasDto, HistoricoRutasService, Int32ReferenceDto, TblPrediccionRutaYTblRutaDto, TblPrediccionRutaYTblRutaService } from 'src/app/core/services';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -24,12 +25,16 @@ export class RoutePlanificationDetailComponent {
   data: TblPrediccionRutaYTblRutaDto[] = [];
   historicoData: string[] = [];
 
-  currentPlan: TblPrediccionRutaYTblRutaDto | null = null;
+  selectedPlans: {idFamilia: number, idRuta: number, aiGenerated: boolean}[] = [];
 
   semanaControl = new FormControl();
 
   semanaChooseModalRef: NgbModalRef | null = null;
   historicoModalRef: NgbModalRef | null = null;
+
+  familiasInSemana: Int32ReferenceDto[] = [];
+
+  familiaFilterControl = new FormControl<number>(0);
 
   loading = false;
   historicoLoading = false;
@@ -37,10 +42,17 @@ export class RoutePlanificationDetailComponent {
   constructor(
     private modalService: NgbModal,
     private routePlanificationDetailService: TblPrediccionRutaYTblRutaService,
+    private historicoRutaService: HistoricoRutasService,
+    private percentPipe: PercentPipe
   ) {
   }
 
   ngOnInit(): void {
+    this.familiaFilterControl.valueChanges
+      .subscribe(value => {
+        this.currentPage = 1;
+        this.filterData(value);
+      });
   }
 
   getData(): void {
@@ -52,8 +64,13 @@ export class RoutePlanificationDetailComponent {
           this.totalPages = response.totalPaginas ?? 0;
           this.semanaChooseModalRef?.dismiss();
           this.updatePagination();
+          this.loading = false;
+          this.routePlanificationDetailService.apiTblPrediccionRutaYTblRutaFamiliasReferencesBySemanaGet(this.semanaControl.value)
+            .subscribe(response => {
+              this.familiasInSemana = response.datos ?? [];
+            });
         }, error => {
-          if (error.status === 400) {
+          if (error.status === 400 || error.status === 404) {
             Swal.fire({
               title: 'Error',
               text: error.error,
@@ -66,15 +83,50 @@ export class RoutePlanificationDetailComponent {
               icon: 'error',
             });
           }
-        }, () => {
           this.loading = false;
         }
       );
   }
 
+  filterData(idFamilia: number | null): void {
+    if (this.familiaFilterControl.value === 0 || idFamilia == null) {
+      this.getData();
+    } else {
+      this.routePlanificationDetailService.apiTblPrediccionRutaYTblRutaFiltrarRutasPorSemanaYFamiliaPaginadasGet(this.semanaControl.value, idFamilia, this.currentPage, this.itemsPerPage)
+      .subscribe(
+        response => {
+          this.data = response.datos ?? [];
+          this.totalPages = response.totalPaginas ?? 0;
+          this.updatePagination();
+          this.loading = false;
+        }, error => {
+          if (error.status === 400 || error.status === 404) {
+            Swal.fire({
+              title: 'Error',
+              text: error.error,
+              icon: 'error',
+            });
+          } else {
+            Swal.fire({
+              title: 'Error',
+              text: 'Sucedió un error inseperado al traer las predicciones de rutas',
+              icon: 'error',
+            });
+          }
+          this.loading = false;
+        }
+      );
+    }
+  }
+
+  selectPlan(plan: TblPrediccionRutaYTblRutaDto): void {
+    this.data.filter(x => x.idFamilia === plan.idFamilia).forEach(x => x.seleccionado = false);
+    plan.seleccionado = true;
+  }
+
   getSpecificSemanaData(semana: string): void {
     this.semanaControl.setValue(semana);
-    this.getData();
+    this.loadHistoricoData();
     this.historicoModalRef?.dismiss();
   }
 
@@ -82,6 +134,7 @@ export class RoutePlanificationDetailComponent {
     this.routePlanificationDetailService.apiTblPrediccionRutaYTblRutaHistoricoRutasGet(this.historicoCurrentPage, this.historicoItemsPerPage)
       .subscribe(response => {
         this.historicoData = response.datos?.data ?? [];
+        this.familiasInSemana = [];
         this.historicoTotalPages = response.datos?.totalItemCount ?? 0 / this.historicoItemsPerPage;
         this.updateHistoricoPagination();
       }, error => {
@@ -101,6 +154,16 @@ export class RoutePlanificationDetailComponent {
       });
   }
 
+  loadHistoricoData(): void {
+    this.currentPage = 1;
+    this.routePlanificationDetailService.apiTblPrediccionRutaYTblRutaHistoricoBySemanaGet(this.semanaControl.value, this.currentPage, this.itemsPerPage)
+      .subscribe(response => {
+        this.data = response.datos ?? [];
+        this.totalPages = response.totalPaginas ?? 0;
+        this.updatePagination();
+      })
+  }
+
   getStatusStyle(status: string): string[] {
     switch (status) {
       case 'OK': return ['border-success', 'text-success', 'bg-success-subtle'];
@@ -112,7 +175,7 @@ export class RoutePlanificationDetailComponent {
   changePage(pageToLoad: number): void {
     this.currentPage = pageToLoad;
     this.data = [];
-    this.getData();
+    this.filterData(this.familiaFilterControl.value);
     this.updatePagination();
   }
 
@@ -126,7 +189,7 @@ export class RoutePlanificationDetailComponent {
   openModal(modalContent: any): void {
     const modalOptions = { size: 'lg', backdrop: 'static', centered: true } as NgbModalOptions;
     this.historicoModalRef = this.modalService.open(modalContent, modalOptions);
-    this.getHistoricoData(); 
+    this.getHistoricoData();
   }
 
   openSemanaChooseModal(modalContent: any): void {
@@ -154,7 +217,54 @@ export class RoutePlanificationDetailComponent {
     }
   }
 
-  selectPlan(plan: TblPrediccionRutaYTblRutaDto): void {    
-    this.currentPlan = plan;
+  saveHistoricoData(): void {
+    const saveHistoricoDataRequests = this.data.filter(x => x.seleccionado).map(h => {
+      return {
+        idFamilia: h.idFamilia,
+        idRuta: h.id,
+        semanaProduccion: this.semanaControl.value,
+        rutaElegida: h.seleccionado,
+        sugerencia: h.sugerencia,
+        precision: h.precision,
+      } as CrearHistoricoRutasDto;
+    });
+    this.historicoRutaService.apiHistoricoRutasPost(saveHistoricoDataRequests)
+      .subscribe(response => {
+        if (response.exito) {
+          Swal.fire({
+            title: 'Éxito',
+            text: response.exito,
+            icon: 'success',
+          });
+        } else {
+          Swal.fire({
+            title: 'Éxito',
+            text: 'Operación exitosa',
+            icon: 'success',
+          });
+        }
+      }, error => {
+        if (error.status === 400) {
+          Swal.fire({
+            title: 'Error',
+            text: error.error,
+            icon: 'error',
+          });
+        } else {
+          Swal.fire({
+            title: 'Error',
+            text: 'Ha ocurrido un error inesperado',
+            icon: 'error',
+          });
+        }
+      });
+  }
+
+  formatPercent(percent: number): string {
+    if (percent === 0) {
+      return 'N/A';
+    } else {
+      return this.percentPipe.transform(percent) ?? '';
+    }
   }
 }

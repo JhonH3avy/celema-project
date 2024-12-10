@@ -21,6 +21,10 @@ export class RoutePlanificationComponent implements OnInit {
   data: HistoricoRutaDto[] = [];
   searchQuery = new FormControl();
 
+  checkedProducts: {checked: boolean, id: number}[] = [];
+
+  handleErrorStatuses: number[] = [400, 404];
+
   constructor(
     private historicoRutasService: HistoricoRutasService,
     private router: Router,
@@ -48,7 +52,7 @@ export class RoutePlanificationComponent implements OnInit {
   }
 
   private handleErrorResponse(error: any): void {
-    if (error.status === 400 || error.status === 401) {
+    if (this.handleErrorStatuses.includes(error.status)) {
       Swal.fire({
         title: 'Error',
         text: error.error,
@@ -97,5 +101,42 @@ export class RoutePlanificationComponent implements OnInit {
   changePage(pageToLoad: number): void {
     this.currentPage = pageToLoad;
     this.getData();
+  }
+
+  exportToExcel(): void {
+    let target: HistoricoRutaDto[] = [];
+    if (this.checkedProducts.filter(x => x.checked).length > 0) {
+      target = this.data.filter(x => this.checkedProducts.filter(x => x.checked).some(c => x.idRuta === c.id));
+    } else {
+      target = this.data;
+    }
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(target);
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Planificación Producción');
+    XLSX.writeFile(wb, 'planificacion_producción.xlsx');
+  }
+
+  toggleAll(event: Event): void {
+    const checked = (event.target as HTMLInputElement).checked;
+    this.checkedProducts.forEach((item) => (item.checked = checked));
+  }
+
+  updateSelectAll(event: Event, id: number): void {
+    const checked = (event.target as HTMLInputElement).checked;
+    const productCheck = this.checkedProducts.find(x => x.id === id);
+    if (productCheck) {
+      productCheck.checked = checked;
+    }
+  }
+
+  isAllChecked(): boolean {
+    if (this.checkedProducts.length === 0) {
+      return false;
+    }
+    return this.checkedProducts.every((item) => item.checked);
+  }
+
+  isChecked(id: number) {
+    return this.checkedProducts.find(x => x.id === id)?.checked;
   }
 }

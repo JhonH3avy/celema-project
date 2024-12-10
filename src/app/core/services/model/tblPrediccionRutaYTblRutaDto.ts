@@ -11,16 +11,18 @@
 
 export interface TblPrediccionRutaYTblRutaDto { 
     id?: number;
+    nombreRuta?: string | null;
     descripcion?: string | null;
     idFamilia?: number | null;
     nombreFamilia?: string | null;
     tipoRuta?: string | null;
-    linea?: number | null;
+    linea?: number;
     restriccion?: number | null;
     nombreRestriccion?: string | null;
     precision?: number | null;
     listaEquipos?: Array<string> | null;
     sugerencia?: boolean;
     mensaje?: string | null;
+    seleccionado?: boolean;
 }
 
