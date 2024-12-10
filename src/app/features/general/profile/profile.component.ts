@@ -87,17 +87,24 @@ export class ProfileComponent implements OnInit {
         }
       );
 
-    this.newPassword.valueChanges
-      .subscribe(newPassword => {
-        if (newPassword && !this.newPassword.hasValidator(Validators.minLength(6)) && !this.newPassword.hasValidator(Validators.pattern("[^a-zA-Z0-9]"))) {
-          this.newPassword.addValidators([Validators.minLength(6), Validators.pattern("[^a-zA-Z0-9]")]);
-          this.newPassword.updateValueAndValidity({emitEvent: false});
-          this.profileControlGroup.addValidators(matchValidator('confirmPassword', 'newPassword'));
-        } else if (!newPassword) {
-          this.newPassword.clearValidators();
-          this.profileControlGroup.removeValidators(matchValidator('confirmPassword', 'newPassword'));
-        }
+      this.profileControlGroup = this.fb.group({
+        username: ['', Validators.required],
+        newPassword: ['', Validators.minLength(4)],
+        confirmPassword: [''],
+        name: ['', Validators.required],
+        lastname: ['', Validators.required],
+        cargo: ['', Validators.required],
+        cedula: ['', Validators.required],
+        profile: [''],
       });
+
+      this.profileControlGroup.setValidators(matchValidator('newPassword', 'confirmPassword'));
+
+      this.newPassword.valueChanges
+      .subscribe(() => {
+        this.newPassword.updateValueAndValidity();
+      });
+
   }
 
   async goBackToHome(): Promise<void> {

@@ -36,7 +36,7 @@
         <!-- Mensajes de error para el campo de contraseña -->
         <div *ngIf="password?.touched && password?.invalid" class="invalid-feedback">
           <div *ngIf="password?.errors?.['required']">La contraseña es obligatoria.</div>
-          <div *ngIf="password?.errors?.['minlength']">La contraseña debe tener al menos 6 caracteres.</div>
+          <div *ngIf="password?.errors?.['minlength']">La contraseña debe tener al menos 4 caracteres.</div>
         </div>
       </div>
 

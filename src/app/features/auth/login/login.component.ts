@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit {
     // Inicializamos el formulario con un nuevo campo rememberMe
     this.loginForm = this.fb.group({
       username: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(4)]],
+      password: ['', [Validators.required, Validators.minLength(3)]],
       rememberMe: [false]  // Campo para recordar la contraseña
     });
   }
@@ -91,12 +91,19 @@ export class LoginComponent implements OnInit {
       },
       error: (error) => {
         this.loading = false;
+        console.log(error);
 
         Swal.fire({
           icon: 'error',
           title: 'Error',
           text: error.error.mensaje,
           confirmButtonText: 'Aceptar'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            if(error.status == 423){
+              this.router.navigate(['/recuperar']);
+            }
+          }
         });
       }
     });
