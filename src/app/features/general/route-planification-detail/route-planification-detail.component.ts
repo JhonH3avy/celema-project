@@ -1,8 +1,10 @@
 import { PercentPipe } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl } from '@angular/forms';
+import { Router } from '@angular/router';
 import { NgbModal, NgbModalOptions, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
 import { CrearHistoricoRutasDto, HistoricoRutasService, Int32ReferenceDto, TblPrediccionRutaYTblRutaDto, TblPrediccionRutaYTblRutaService } from 'src/app/core/services';
+import { PrioritizationService } from 'src/app/core/services/prioritization.service';
 import Swal from 'sweetalert2';
 
 @Component({
@@ -25,8 +27,6 @@ export class RoutePlanificationDetailComponent {
   data: TblPrediccionRutaYTblRutaDto[] = [];
   historicoData: string[] = [];
 
-  selectedPlans: {idFamilia: number, idRuta: number, aiGenerated: boolean}[] = [];
-
   semanaControl = new FormControl();
 
   semanaChooseModalRef: NgbModalRef | null = null;
@@ -43,7 +43,9 @@ export class RoutePlanificationDetailComponent {
     private modalService: NgbModal,
     private routePlanificationDetailService: TblPrediccionRutaYTblRutaService,
     private historicoRutaService: HistoricoRutasService,
-    private percentPipe: PercentPipe
+    private percentPipe: PercentPipe,
+    private prioritizationService: PrioritizationService,
+    private router: Router,
   ) {
   }
 
@@ -124,6 +126,10 @@ export class RoutePlanificationDetailComponent {
     plan.seleccionado = true;
   }
 
+  isAnyPlanSelected(): boolean {
+    return this.data.some(x => x.seleccionado);
+  }
+
   getSpecificSemanaData(semana: string): void {
     this.semanaControl.setValue(semana);
     this.loadHistoricoData();
@@ -135,7 +141,7 @@ export class RoutePlanificationDetailComponent {
       .subscribe(response => {
         this.historicoData = response.datos?.data ?? [];
         this.familiasInSemana = [];
-        this.historicoTotalPages = response.datos?.totalItemCount ?? 0 / this.historicoItemsPerPage;
+        this.historicoTotalPages = (response.datos?.totalItemCount ?? 0) / this.historicoItemsPerPage;
         this.updateHistoricoPagination();
       }, error => {
         if (error.status === 404) {
@@ -266,5 +272,10 @@ export class RoutePlanificationDetailComponent {
     } else {
       return this.percentPipe.transform(percent) ?? '';
     }
+  }
+
+  prioritizeProducts(): void {
+    this.prioritizationService.saveRoutePlanificationsForPrioritization(this.data.filter(x => x.seleccionado).map(x => x.idFamilia!), this.semanaControl.value);
+    this.router.navigate(['/planificacion-rutas-priorizacion']);
   }
 }

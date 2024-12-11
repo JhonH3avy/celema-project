@@ -1,6 +1,6 @@
 <app-menu></app-menu>
 <div class="container">
-  <p class="text-secondary">Priorización de Proucción Celema</p>
+  <p class="text-secondary">Priorización de Producción Celema</p>
   <table class="table">
     <thead>
       <tr class="table-secondary">
@@ -19,26 +19,26 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let washRestriction of washRestrictions; let i = index">
+      <tr *ngFor="let productPrioritization of data">
         <th scope="row">
           <div class="form-check">
             <input class="form-check-input" type="checkbox" value="">
           </div>
         </th>
-        <td class="text-secondary text-center">PRD #{{ i+1 }}</td>
-        <td class="text-secondary text-center">{{ washRestriction.equipmentList.join(', ') }}</td>
-        <td class="text-secondary text-center">Restricciones</td>
-        <td class="text-secondary text-center">Restricciones Equipo</td>
-        <td class="text-secondary text-center">{{ washRestriction.requestDate | date:'dd/MM/yyyy' }}</td>
-        <td class="text-secondary text-center">Familia</td>
-        <td class="text-secondary text-center">{{ i + 1 }}</td>
+        <td class="text-secondary text-center">{{ productPrioritization.idProducto }}</td>
+        <td class="text-secondary text-center">{{ productPrioritization.nombreMaquina }}</td>
+        <td class="text-secondary text-center">{{ productPrioritization.restriccionRuta }}</td>
+        <td class="text-secondary text-center">{{ productPrioritization.restriccionesMaquina?.join(', ') }}</td>
+        <td class="text-secondary text-center">{{ productPrioritization.restriccionesLavado?.join(', ') }}</td>
+        <td class="text-secondary text-center">{{ productPrioritization.nombreFamilia }}</td>
+        <td class="text-secondary text-center">{{ productPrioritization.ejecucion }}</td>
       </tr>
     </tbody>
   </table>
 
   <div class="d-flex justify-content-center align-items-center">
-    <button class="btn btn-light me-2 text-secondary" [ngClass]="{'active': currentPage === (i + 1)}" *ngFor="let page of pages; let i = index" (click)="changePage(i + 1)">
-      {{ i + 1 }}
+    <button class="btn btn-light me-2 text-secondary" [ngClass]="{'active': currentPage === page}" *ngFor="let page of pages" (click)="changePage(page)">
+      {{ page }}
     </button>
   </div>
 

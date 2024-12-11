@@ -11,6 +11,7 @@ api/maquinas.service.ts
 api/modulosRolesPermisos.service.ts
 api/planeacionProduccion.service.ts
 api/prediccionesRutas.service.ts
+api/priorizacionRutas.service.ts
 api/productos.service.ts
 api/restriccionDeLavado.service.ts
 api/restriccionMaquinas.service.ts
@@ -56,6 +57,7 @@ model/historicoRutaDto.ts
 model/historicoRutaDtoIEnumerableDataResponse.ts
 model/historicoRutaDtoPaginatedData.ts
 model/historicoRutaDtoPaginatedDataDataResponse.ts
+model/initialRoutePrioritizationRequest.ts
 model/int32ReferenceDto.ts
 model/int32ReferenceDtoIEnumerableDataResponse.ts
 model/lineasProduccionDto.ts
@@ -71,6 +73,8 @@ model/planeacionProduccionDtoDataResponse.ts
 model/planeacionProduccionDtoIEnumerableDataResponse.ts
 model/prediccionesRutasDto.ts
 model/prediccionesRutasDtoIEnumerableDataResponse.ts
+model/productRoutePrioritizationDto.ts
+model/productRoutePrioritizationDtoIEnumerableDataResponse.ts
 model/productoDto.ts
 model/productoDtoDataResponse.ts
 model/productoDtoIEnumerableDataResponse.ts
