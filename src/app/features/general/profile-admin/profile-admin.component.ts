@@ -114,12 +114,7 @@ export class ProfileAdminComponent implements OnInit {
   }
 
   getProfileAccessStyle(access: string): string[] {
-    switch (access) {
-      case 'Admin': return ['border-primary', 'text-primary', 'bg-primary-subtle'];
-      case 'Editor de plan': return ['border-danger', 'text-danger', 'bg-danger-subtle'];
-      case 'Lector': return ['border-success', 'text-success', 'bg-success-subtle'];
-      default: return [];
-    }
+    return ['border-primary', 'text-primary', 'bg-primary-subtle'];
   }
 
   closeModal(): void {
@@ -305,11 +300,11 @@ export class ProfileAdminComponent implements OnInit {
     dropdown.toggle();
   }
 
-  datosUsuario(nombre:any, cargo:any, id:any){
+  datosUsuario(nombre:any, cargo:any, id:any, idRol:any){
     this.nombreUsuarioTitle = nombre;
     this.cargoTitle = cargo;
     this.selectedUserId = id;
-    this.selectedRole(2);
+    this.selectedRole(idRol);
   }
 
   getRoles(){
