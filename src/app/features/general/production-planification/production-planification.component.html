@@ -36,7 +36,8 @@
             <input class="form-check-input" type="checkbox" value="" [checked]="isAllChecked()" (change)="toggleAll($event)">
           </div>
         </th>
-        <th scope="col" class="text-secondary text-center">Código</th>
+        <th scope="col" class="text-secondary text-center">Código Producto</th>
+        <th scope="col" class="text-secondary text-center">Descripción Producto</th>
         <th scope="col" class="text-secondary text-center">Estado</th>
         <th scope="col" class="text-secondary text-center">Unidades a producir</th>
         <th scope="col" class="text-secondary text-center">Semana</th>
@@ -51,6 +52,7 @@
             <input class="form-check-input" type="checkbox" value="" (change)="updateSelectAll($event, productionPlanification.idProducto + '-' + productionPlanification.semana)" [checked]="isChecked(productionPlanification.idProducto + '-' + productionPlanification.semana)">
           </div>
         </th>
+        <td class="text-secondary text-center">{{ productionPlanification.idProducto }}</td>
         <td class="text-secondary text-center">{{ productionPlanification.nombreProducto }}</td>
         <td class="text-secondary text-center">
           <span [ngClass]="getStatusStyle(productionPlanification.estado ?? false)" class="badge border">{{ productionPlanification.estado ? 'Activo' : 'Inactivo' }}</span>
