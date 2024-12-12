@@ -57,6 +57,7 @@ model/historicoRutaDto.ts
 model/historicoRutaDtoIEnumerableDataResponse.ts
 model/historicoRutaDtoPaginatedData.ts
 model/historicoRutaDtoPaginatedDataDataResponse.ts
+model/initialProductFamilyRoutePrioritizationRequest.ts
 model/initialRoutePrioritizationRequest.ts
 model/int32ReferenceDto.ts
 model/int32ReferenceDtoIEnumerableDataResponse.ts

@@ -7,10 +7,11 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { InitialProductFamilyRoutePrioritizationRequest } from './initialProductFamilyRoutePrioritizationRequest';
 
 
 export interface InitialRoutePrioritizationRequest { 
     semana?: string | null;
-    familyIds?: Array<number> | null;
+    productFamilyRoutePrioritizations?: Array<InitialProductFamilyRoutePrioritizationRequest> | null;
 }
 

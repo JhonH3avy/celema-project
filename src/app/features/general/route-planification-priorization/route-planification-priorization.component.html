@@ -1,50 +1,79 @@
 <app-menu></app-menu>
-<div class="container">
-  <p class="text-secondary">Priorización de Producción Celema</p>
+<div class="container pb-5">
+  <h2>Priorización de Producción Celema</h2>
+  <div class="d-flex justify-content-end mb-3">
+    <div class="d-flex align-items-center">
+      <button type="button" class="btn btn-primary d-flex align-items-center me-2" (click)="exportToExcel()">
+        <i class="bi bi-upload me-1"></i>
+        Exportar
+      </button>
+    </div>
+  </div>
   <table class="table">
     <thead>
       <tr class="table-secondary">
         <th scope="col">
           <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="">
+            <input class="form-check-input" type="checkbox" value="" [checked]="isAllChecked()" (change)="toggleAll($event)">
           </div>
         </th>
         <th scope="col" class="text-secondary text-center">Producto</th>
+        <th scope="col" class="text-secondary text-center">Familia</th>
         <th scope="col" class="text-secondary text-center">Equipos Usados</th>
         <th scope="col" class="text-secondary text-center">Restricciones Ruta</th>
         <th scope="col" class="text-secondary text-center">Restricciones Equipo</th>
         <th scope="col" class="text-secondary text-center">Lavado</th>
-        <th scope="col" class="text-secondary text-center">Familia</th>
+        <th scope="col" class="text-secondary text-center">Cantidad a Producir</th>
         <th scope="col" class="text-secondary text-center">Orden</th>
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let productPrioritization of data">
+      <tr *ngFor="let productPrioritization of paginatedData">
         <th scope="row">
           <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="">
+            <input class="form-check-input" type="checkbox" value="" (change)="updateSelectAll($event, productPrioritization.idMaquina! + '-' + productPrioritization.ejecucion)" [checked]="isChecked(productPrioritization.idMaquina! + '-' + productPrioritization.ejecucion)">
           </div>
         </th>
         <td class="text-secondary text-center">{{ productPrioritization.idProducto }}</td>
+        <td class="text-secondary text-center">{{ productPrioritization.nombreFamilia }}</td>
         <td class="text-secondary text-center">{{ productPrioritization.nombreMaquina }}</td>
         <td class="text-secondary text-center">{{ productPrioritization.restriccionRuta }}</td>
         <td class="text-secondary text-center">{{ productPrioritization.restriccionesMaquina?.join(', ') }}</td>
         <td class="text-secondary text-center">{{ productPrioritization.restriccionesLavado?.join(', ') }}</td>
-        <td class="text-secondary text-center">{{ productPrioritization.nombreFamilia }}</td>
+        <td class="text-secondary text-center">{{ productPrioritization.volumenProducir }}</td>
         <td class="text-secondary text-center">{{ productPrioritization.ejecucion }}</td>
       </tr>
     </tbody>
   </table>
 
-  <div class="d-flex justify-content-center align-items-center">
-    <button class="btn btn-light me-2 text-secondary" [ngClass]="{'active': currentPage === page}" *ngFor="let page of pages" (click)="changePage(page)">
-      {{ page }}
-    </button>
+  <div class="d-flex justify-content-between align-items-center">
+    <!-- Paginación -->
+    <ul class="pagination mb-0">
+      <li class="page-item" [class.disabled]="currentPage === 1">
+        <a class="page-link"(click)="changePage(currentPage - 1)">Anterior</a>
+      </li>
+      <li *ngFor="let page of pages" class="page-item" [class.active]="page === currentPage">
+        <a class="page-link" (click)="changePage(page)">{{ page }}</a>
+      </li>
+      <li class="page-item" [class.disabled]="currentPage === totalPages">
+        <a class="page-link" (click)="changePage(currentPage + 1)">Siguiente</a>
+      </li>
+    </ul>
+
+    <!-- Selector de cantidad por página -->
+    <div class="d-flex align-items-center ms-3">
+      <label for="itemsPerPage" class="form-label mb-0">Mostrar</label>
+      <select id="itemsPerPage" class="form-select w-auto ms-2" [formControl]="itemsPerPageControl" (change)="changeItemsPerPage()">
+        <option value="10">10</option>
+        <option value="15">15</option>
+      </select>
+      <span class="ms-2">por página</span>
+    </div>
   </div>
 
   <div class="d-flex justify-content-end mb-3" style="margin-top: 20px;">
     <div class="d-flex align-items-center">
-      <button type="button" class="btn btn-primary d-flex align-items-center me-2">
+      <button type="button" class="btn btn-primary d-flex align-items-center me-2" (click)="saveData()" [disabled]="loading">
         <i class="bi bi-floppy me-1"></i>
         <span class="text-nowrap ms-1">Guardar</span>
       </button>

@@ -28,6 +28,7 @@ export * from './historicoRutaDto';
 export * from './historicoRutaDtoIEnumerableDataResponse';
 export * from './historicoRutaDtoPaginatedData';
 export * from './historicoRutaDtoPaginatedDataDataResponse';
+export * from './initialProductFamilyRoutePrioritizationRequest';
 export * from './initialRoutePrioritizationRequest';
 export * from './int32ReferenceDto';
 export * from './int32ReferenceDtoIEnumerableDataResponse';

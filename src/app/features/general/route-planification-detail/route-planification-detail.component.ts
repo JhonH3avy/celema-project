@@ -275,7 +275,12 @@ export class RoutePlanificationDetailComponent {
   }
 
   prioritizeProducts(): void {
-    this.prioritizationService.saveRoutePlanificationsForPrioritization(this.data.filter(x => x.seleccionado).map(x => x.idFamilia!), this.semanaControl.value);
+    this.prioritizationService.saveRoutePlanificationsForPrioritization(this.data.filter(x => x.seleccionado).map(x => {
+      return {
+        familyId: x.idFamilia!,
+        routeId: x.id!,
+      };
+    }), this.semanaControl.value);
     this.router.navigate(['/planificacion-rutas-priorizacion']);
   }
 }
