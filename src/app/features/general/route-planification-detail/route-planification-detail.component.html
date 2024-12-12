@@ -10,7 +10,7 @@
       </button>
       <div class="input-group me-2">
         <select class="form-select" aria-label="Selecciona una opción" [formControl]="familiaFilterControl">
-          <option value="0" selected disabled>Familia</option>
+          <option value="0" selected>Familia</option>
           <option [value]="familia.id" *ngFor="let familia of familiasInSemana">{{ familia.label }}</option>
         </select>
       </div>
@@ -67,7 +67,7 @@
         <i class="bi bi-floppy me-1"></i>
         <span class="text-nowrap ms-1">Guardar</span>
       </button>
-      <button type="button" class="btn btn-primary d-flex align-items-center me-2" routerLink="/planificacion-rutas-priorizacion">
+      <button type="button" class="btn btn-primary d-flex align-items-center me-2" (click)="prioritizeProducts()" [disabled]="!isAnyPlanSelected()">
         <i class="bi bi-calendar-plus me-1"></i>
         <span class="text-nowrap ms-1">Priorizar</span>
       </button>

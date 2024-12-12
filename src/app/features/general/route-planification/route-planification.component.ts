@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
 import { HistoricoRutaDto, HistoricoRutaDtoPaginatedDataDataResponse, HistoricoRutasService } from 'src/app/core/services';
 import * as XLSX from 'xlsx';
 import Swal from 'sweetalert2';
@@ -27,10 +26,10 @@ export class RoutePlanificationComponent implements OnInit {
 
   constructor(
     private historicoRutasService: HistoricoRutasService,
-    private router: Router,
   ) { }
 
   ngOnInit(): void {
+    this.currentPage = 1;
     this.getData();
   }
 
@@ -44,9 +43,8 @@ export class RoutePlanificationComponent implements OnInit {
 
   private handleDataResponse(response: HistoricoRutaDtoPaginatedDataDataResponse): void {
     if (response.datos) {
-      this.currentPage = 1;
       this.data = response.datos?.data ?? [];
-      this.totalPages = Math.ceil(response.datos.totalItemCount ?? 0 / this.itemsPerPage);
+      this.totalPages = Math.ceil((response.datos.totalItemCount ?? 0) / this.itemsPerPage);
       this.updatePagination();
     }
   }
@@ -100,7 +98,12 @@ export class RoutePlanificationComponent implements OnInit {
 
   changePage(pageToLoad: number): void {
     this.currentPage = pageToLoad;
-    this.getData();
+    const filter = this.searchQuery.value;
+    if (filter) {
+      this.filterData();
+    } else {
+      this.getData();
+    }
   }
 
   exportToExcel(): void {
