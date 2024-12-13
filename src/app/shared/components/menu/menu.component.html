@@ -11,7 +11,7 @@
     <!-- Menú horizontal -->
     <div class="navbar-links d-flex gap-3">
       <a routerLink="/home">Inicio</a>
-      <a routerLink="/home">Tablero de Control</a>
+      <a routerLink="/board">Tablero de Control</a>
 
       <div class="dropdown" *ngIf="userHasAccess('consultas')">
         <a class="dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" (click)="openMenuDropdown(consultasDropdown)">

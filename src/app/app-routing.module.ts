@@ -13,6 +13,7 @@ import { ProductionPlanificationComponent } from './features/general/production-
 import { RoutePlanificationDetailComponent } from './features/general/route-planification-detail/route-planification-detail.component';
 import { RoutePlanificationPriorizationComponent } from './features/general/route-planification-priorization/route-planification-priorization.component';
 import { authGuard } from './core/guards/auth.guard';
+import { BoardComponent } from './features/general/board/board.component';
 
 const routes: Routes = [
   { path: 'administracion-perfiles', component: ProfileAdminComponent, canActivate: [authGuard] },
@@ -27,6 +28,7 @@ const routes: Routes = [
   { path: 'planificacion-product', component: ProductionPlanificationComponent, canActivate: [authGuard] },
   { path: 'planificacion-rutas-detalle', component: RoutePlanificationDetailComponent, canActivate: [authGuard] },
   { path: 'planificacion-rutas-priorizacion', component: RoutePlanificationPriorizationComponent, canActivate: [authGuard] },
+  { path: 'board', component: BoardComponent, canActivate: [authGuard] },
 ];
 
 @NgModule({

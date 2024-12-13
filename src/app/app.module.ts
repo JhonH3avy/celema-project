@@ -31,6 +31,7 @@ import { RoutePlanificationPriorizationComponent } from './features/general/rout
 import { ProductionPlanificationComponent } from './features/general/production-planification/production-planification.component';
 import { environment } from 'src/environments/environment';
 import { DatePipe, PercentPipe } from '@angular/common';
+import { BoardComponent } from './features/general/board/board.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +53,7 @@ import { DatePipe, PercentPipe } from '@angular/common';
     RoutePlanificationDetailComponent,
     RoutePlanificationPriorizationComponent,
     WashRestrictionComponent,
+    BoardComponent
   ],
   imports: [
     BrowserModule,
