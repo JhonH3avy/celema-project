@@ -25,6 +25,7 @@ export class RoutePlanificationPriorizationComponent {
   checkedProducts: {checked: boolean, id: string}[] = [];
   totalPages = 1;
   itemsPerPageControl = new FormControl(10);
+
   private get itemsPerPage(): number {
     const itemsPerPageValue = this.itemsPerPageControl.value;
     if (typeof itemsPerPageValue === 'string') {
@@ -156,7 +157,14 @@ export class RoutePlanificationPriorizationComponent {
     } else {
       target = this.data;
     }
-    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(target);
+    const processedData = target.map(x => {
+      return {
+        ...x,
+        restriccionesLavado: x.restriccionesLavado?.join(','),
+        restriccionesMaquina: x.restriccionesMaquina?.join(','),
+      };
+    });
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(processedData);
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Planificación Rutas');
     XLSX.writeFile(wb, 'planificacion_rutas.xlsx');

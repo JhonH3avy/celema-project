@@ -65,11 +65,11 @@ export class ProductionPlanificationComponent {
 
   ngOnInit(): void {
     this.getData();
-    this.amountToProduce.valueChanges.subscribe(amountToProduct => {
-      if (typeof amountToProduct === 'number') {
+    this.amountToProduce.valueChanges.subscribe(amount => {
+      if (typeof amount === 'number') {
         return;
-      } else if (typeof amountToProduct === 'string') {
-        const numberValue = Number.parseInt(amountToProduct);
+      } else if (typeof amount === 'string' && Number.isInteger(amount)) {
+        const numberValue = Number.parseInt(amount);
         this.amountToProduce.setValue(numberValue, { emitEvent: false });
       }
     })
@@ -163,6 +163,8 @@ export class ProductionPlanificationComponent {
             title: 'Éxito',
             text: response.exito!,
             icon: 'success'
+          }).then(() => {
+            this.closeProductionPlanificationModal();
           });
         }, error => {
           if (error.status === 400) {
@@ -170,6 +172,8 @@ export class ProductionPlanificationComponent {
               title: 'Error',
               text: error.error,
               icon: 'error'
+            }).then(() => {
+              this.closeProductionPlanificationModal();
             });
           }
         });
@@ -189,6 +193,8 @@ export class ProductionPlanificationComponent {
             title: 'Éxito',
             text: response.exito!,
             icon: 'success'
+          }).then(() => {
+            this.closeProductionPlanificationModal();
           });
         }, error => {
           if (error.status === 400) {
@@ -196,6 +202,8 @@ export class ProductionPlanificationComponent {
               title: 'Error',
               text: error.error,
               icon: 'error'
+            }).then(() => {
+              this.closeProductionPlanificationModal();
             });
           }
         });
@@ -393,6 +401,13 @@ export class ProductionPlanificationComponent {
     this.fileName = '';
   }
 
+  closeImportModal(): void {
+    this.importFiles = [];
+    this.fileName = '';
+    this.selectedFileName = '';
+    this.planificationImportModalInstance?.dismiss();
+  }
+
   isUploading = false;          // Para controlar si estamos cargando
   uploadProgress = 0;           // Progreso de la carga
   selectedFileName: string | null = null; // Nombre del archivo seleccionado
@@ -407,6 +422,8 @@ export class ProductionPlanificationComponent {
           title: 'Éxito',
           text: 'La importación se llevo acabo exitosamente',
           icon: 'success',
+        }).then(() => {
+          this.closeImportModal();
         });
       }, error => {
         if (error.status === 400) {
@@ -414,6 +431,8 @@ export class ProductionPlanificationComponent {
             title: 'Error',
             text: error.error.exito,
             icon: 'error',
+          }).then(() => {
+            this.closeImportModal();
           });
           this.downloadCSV(error.error.datos);
         } else {
@@ -421,6 +440,8 @@ export class ProductionPlanificationComponent {
             title: 'Error',
             text: 'Sucedió un error inesperado durante la importación',
             icon: 'error',
+          }).then(() => {
+            this.closeImportModal();
           });
         }
       });
