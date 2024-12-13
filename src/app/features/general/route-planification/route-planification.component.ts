@@ -45,6 +45,12 @@ export class RoutePlanificationComponent implements OnInit {
     if (response.datos) {
       this.data = response.datos?.data ?? [];
       this.totalPages = Math.ceil((response.datos.totalItemCount ?? 0) / this.itemsPerPage);
+      this.checkedProducts = this.data.map(x => {
+        return {
+          id: x.idRuta!,
+          checked: false,
+        };
+      });
       this.updatePagination();
     }
   }
@@ -115,8 +121,8 @@ export class RoutePlanificationComponent implements OnInit {
     }
     const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(target);
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Planificación Producción');
-    XLSX.writeFile(wb, 'planificacion_producción.xlsx');
+    XLSX.utils.book_append_sheet(wb, ws, 'Planeación Rutas');
+    XLSX.writeFile(wb, 'planeacion_rutas.xlsx');
   }
 
   toggleAll(event: Event): void {
