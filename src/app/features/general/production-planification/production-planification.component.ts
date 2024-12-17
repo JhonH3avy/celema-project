@@ -96,7 +96,8 @@ export class ProductionPlanificationComponent {
       this.filteredData = this.productionPlanifications.filter(productionPlanification =>
         productionPlanification.nombreProducto?.toLowerCase().includes(query.toLowerCase()) ||
         productionPlanification.nombreFamilia?.toLowerCase().includes(query.toLowerCase()) ||
-        productionPlanification.idProducto?.toLowerCase().includes(query.toLowerCase())
+        productionPlanification.idProducto?.toLowerCase().includes(query.toLowerCase()) ||
+        productionPlanification.semana?.toLowerCase().includes(query.toLowerCase())
       );
       this.currentPage = 1;
     }

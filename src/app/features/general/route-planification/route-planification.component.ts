@@ -119,7 +119,13 @@ export class RoutePlanificationComponent implements OnInit {
     } else {
       target = this.data;
     }
-    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(target);
+    const processedData = target.map(x => {
+      return {
+        ...x,
+        listaEquipos: x.equipmentList?.join(','),
+      };
+    });
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(processedData);
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Planeación Rutas');
     XLSX.writeFile(wb, 'planeacion_rutas.xlsx');
