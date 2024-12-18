@@ -32,6 +32,8 @@ export class RoleAdminComponent implements OnInit {
   moduleList: TblModulos[] = [];
   permissionList: TblPermiso[] = [];
 
+  moduleListEdit: TblModulos[] = [];
+
   currentRoleId = 0;
   currentRoleModulePermissions: {id: number, idModule: number, idPermission: number}[] = [];
 
@@ -58,13 +60,45 @@ export class RoleAdminComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.modulosRolesPermisosService.apiModulosRolesPermisosObtenermodulosypermisosGet()
-      .subscribe(response => {
-        this.moduleList = response.modulos ?? [];
-        this.permissionList = response.permisos ?? [];
-      });
     this.getData();
 
+  }
+
+  cargarModulosEdicion(modulos: any){
+    this.moduleListEdit = modulos;
+    this.modulosRolesPermisosService.apiModulosRolesPermisosObtenermodulosypermisosGet()
+    .subscribe(response => {
+
+      this.moduleList = response.modulos ?? [];
+      this.permissionList = response.permisos ?? [];
+
+      this.moduleListEdit.forEach(element => {
+        this.moduleList.forEach(elementModule => {
+          if(element.id == elementModule.id){
+            elementModule.isCheck = true;
+            elementModule.permisos = element.permisos;
+            console.log("Permisos", elementModule.permisos);
+          }
+        });
+      });
+    });
+  }
+
+  isPermissionInList(module: any, id: any): boolean {
+    let retorno = false;
+
+    // Verificamos si module es válido (no es null ni undefined)
+    if (module && Array.isArray(module) && module.length > 0) {
+      // Iterar sobre los elementos del array
+      module.forEach((element: { id: any; }) => {
+        // Si encontramos un elemento con el mismo id, lo marcamos como true
+        if (element.id == id) {
+          retorno = true;
+        }
+      });
+    }
+
+    return retorno;
   }
 
   getData(): void {

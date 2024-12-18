@@ -58,7 +58,7 @@
               <i class="bi bi-three-dots-vertical"></i>
             </button>
             <ul class="dropdown-menu" ngbDropdownMenu>
-              <li><a class="dropdown-item" type="button" (click)="openUpdateRoleModal(role.id!, roleUpdateModal)"><i class="bi bi-pencil"></i> Modificar rol</a></li>
+              <li><a class="dropdown-item" type="button" (click)="cargarModulosEdicion(role.modulos);openUpdateRoleModal(role.id!, roleUpdateModal)"><i class="bi bi-pencil"></i> Modificar rol</a></li>
               <li *ngIf="role.estado"><a class="dropdown-item" type="button" (click)="toggleRoleStatus(role.id!, false)"><i class="bi bi-power"></i> Inactivar rol</a></li>
               <li *ngIf="!role.estado"><a class="dropdown-item" type="button" (click)="toggleRoleStatus(role.id!, true)"><i class="bi bi-power"></i> Activar rol</a></li>
             </ul>
@@ -142,7 +142,7 @@
             <tr class="table-secondary">
               <th scope="col">
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="">
+                  <!-- <input class="form-check-input" type="checkbox" value=""> -->
                 </div>
               </th>
               <th scope="col" class="text-secondary text-center">Módulo</th>
@@ -153,13 +153,13 @@
             <tr *ngFor="let module of moduleList">
               <th scope="row">
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="">
+                  <input class="form-check-input" type="checkbox" id="{{module.id}}" [checked]=module.isCheck value="">
                 </div>
               </th>
               <td class="text-secondary">{{ module.nombreModulo }}</td>
               <td scope="row" *ngFor="let permission of permissionList">
                 <div class="form-check d-flex justify-content-center">
-                  <input class="form-check-input" type="checkbox" value="" (change)="updatePermission(module.id!, permission.id!, $event)">
+                  <input class="form-check-input" type="checkbox" value="" [checked]="isPermissionInList(module.permisos, permission.id)" (change)="updatePermission(module.id!, permission.id!, $event)">
                 </div>
               </td>
             </tr>
