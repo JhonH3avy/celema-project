@@ -22,8 +22,6 @@ export class RoutePlanificationComponent implements OnInit {
 
   checkedProducts: {checked: boolean, id: number}[] = [];
 
-  handleErrorStatuses: number[] = [400, 404];
-
   constructor(
     private historicoRutasService: HistoricoRutasService,
   ) { }
@@ -56,11 +54,17 @@ export class RoutePlanificationComponent implements OnInit {
   }
 
   private handleErrorResponse(error: any): void {
-    if (this.handleErrorStatuses.includes(error.status)) {
+    if (error.status === 400) {
       Swal.fire({
         title: 'Error',
         text: error.error,
         icon: 'error'
+      });
+    } else if (error.status === 404) {
+      Swal.fire({
+        title: 'No hay planeación',
+        text: error.error,
+        icon: 'info'
       });
     } else {
       Swal.fire({
