@@ -146,9 +146,9 @@ export class RoutePlanificationDetailComponent {
       }, error => {
         if (error.status === 404) {
           Swal.fire({
-            title: 'Error',
+            title: 'No hay información',
             text: error.error,
-            icon: 'error',
+            icon: 'info',
           });
         } else {
           Swal.fire({
