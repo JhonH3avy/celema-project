@@ -13,10 +13,10 @@ import { DateOnly } from './dateOnly';
 export interface MaquinaDto { 
     idMaquina?: string | null;
     idTipo?: number | null;
-    nombreTipo?: string | null;
     idZona?: number | null;
-    nombreZona?: string | null;
     nombre?: string | null;
+    tipoNombre?: string | null;
+    zonaNombre?: string | null;
     personalRequeridoMaquina?: number | null;
     personalRequeridoEmbalaje?: number | null;
     estado?: string | null;

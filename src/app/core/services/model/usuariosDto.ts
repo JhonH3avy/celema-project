@@ -23,6 +23,8 @@ export interface UsuariosDto {
     clave?: string | null;
     activo?: boolean;
     foto?: string | null;
+    rolId?: number;
+    modulos?: Array<string> | null;
     roles?: Array<number> | null;
     usuarioPermiso?: Array<RestriccionMaquinaModuloDto> | null;
 }

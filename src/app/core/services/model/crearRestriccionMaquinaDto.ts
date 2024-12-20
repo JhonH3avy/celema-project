@@ -7,6 +7,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { DateOnly } from './dateOnly';
 
 
 export interface CrearRestriccionMaquinaDto { 
@@ -17,5 +18,7 @@ export interface CrearRestriccionMaquinaDto {
     unidadMedida?: string | null;
     valor?: number;
     prioridad?: number;
+    estado?: boolean | null;
+    fechaCreacion?: DateOnly;
 }
 

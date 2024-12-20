@@ -5546,6 +5546,9 @@
           "estado": {
             "type": "boolean",
             "nullable": true
+          },
+          "fechaCreacion": {
+            "$ref": "#/components/schemas/DateOnly"
           }
         },
         "additionalProperties": false
@@ -5835,6 +5838,13 @@
           "prioridad": {
             "type": "integer",
             "format": "int32"
+          },
+          "estado": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "fechaCreacion": {
+            "$ref": "#/components/schemas/DateOnly"
           }
         },
         "additionalProperties": false
@@ -5885,26 +5895,12 @@
           "estado": {
             "type": "boolean"
           },
-          "permisos": {
+          "modulos": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/CrearRoleModuloPermisoDto"
+              "$ref": "#/components/schemas/ModuloDto"
             },
             "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "CrearRoleModuloPermisoDto": {
-        "type": "object",
-        "properties": {
-          "permisoId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "moduloId": {
-            "type": "integer",
-            "format": "int32"
           }
         },
         "additionalProperties": false
@@ -5912,6 +5908,10 @@
       "CrearRutaDto": {
         "type": "object",
         "properties": {
+          "idRuta": {
+            "type": "integer",
+            "format": "int32"
+          },
           "nombre": {
             "type": "string",
             "nullable": true
@@ -5926,33 +5926,11 @@
             "format": "int32",
             "nullable": true
           },
-          "idMaquinas": {
-            "type": "string",
-            "nullable": true
-          },
           "tipoRuta": {
             "type": "string",
             "nullable": true
           },
           "idRestriccionRuta": {
-            "type": "integer",
-            "format": "int32",
-            "nullable": true
-          },
-          "rutaSugeridaEmpresa": {
-            "type": "boolean",
-            "nullable": true
-          },
-          "rutaSugeridaModelo": {
-            "type": "boolean",
-            "nullable": true
-          },
-          "fechaCreacion": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
-          },
-          "rutaElegida": {
             "type": "integer",
             "format": "int32",
             "nullable": true
@@ -5984,6 +5962,10 @@
             "nullable": true
           },
           "clave": {
+            "type": "string",
+            "nullable": true
+          },
+          "foto": {
             "type": "string",
             "nullable": true
           },
@@ -6316,20 +6298,20 @@
             "format": "int32",
             "nullable": true
           },
-          "nombreTipo": {
-            "type": "string",
-            "nullable": true
-          },
           "idZona": {
             "type": "integer",
             "format": "int32",
             "nullable": true
           },
-          "nombreZona": {
+          "nombre": {
             "type": "string",
             "nullable": true
           },
-          "nombre": {
+          "tipoNombre": {
+            "type": "string",
+            "nullable": true
+          },
+          "zonaNombre": {
             "type": "string",
             "nullable": true
           },
@@ -6383,6 +6365,23 @@
         },
         "additionalProperties": false
       },
+      "ModuloDto": {
+        "type": "object",
+        "properties": {
+          "idModulo": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "permisos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PermisosRoleDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "ModulosRolesPermisosDto": {
         "type": "object",
         "properties": {
@@ -6402,6 +6401,34 @@
           },
           "mensaje": {
             "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PermisosDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nombre": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "PermisosRoleDto": {
+        "type": "object",
+        "properties": {
+          "idPermisos": {
+            "type": "array",
+            "items": {
+              "type": "integer",
+              "format": "int32"
+            },
             "nullable": true
           }
         },
@@ -6954,13 +6981,19 @@
             "type": "boolean"
           },
           "fechaCreacion": {
-            "type": "string",
-            "format": "date-time"
+            "$ref": "#/components/schemas/DateOnly"
           },
           "permisos": {
             "type": "array",
             "items": {
               "$ref": "#/components/schemas/RoleModuloPermisoDto"
+            },
+            "nullable": true
+          },
+          "modulos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/UsuarioModuloDto"
             },
             "nullable": true
           }
@@ -7136,6 +7169,13 @@
           "fechaCreacion": {
             "type": "string",
             "format": "date-time"
+          },
+          "tblRolesPermisos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/TblRolesPermiso"
+            },
+            "nullable": true
           }
         },
         "additionalProperties": false
@@ -7155,11 +7195,18 @@
             "type": "integer",
             "format": "int32"
           },
+          "idModulo": {
+            "type": "integer",
+            "format": "int32"
+          },
           "idRolNavigation": {
             "$ref": "#/components/schemas/TblRole"
           },
           "idUsuarioNavigation": {
             "$ref": "#/components/schemas/TblUsuario"
+          },
+          "tblModulo": {
+            "$ref": "#/components/schemas/TblModulo"
           }
         },
         "additionalProperties": false
@@ -7329,6 +7376,13 @@
             "type": "integer",
             "format": "int32"
           },
+          "idModulo": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "idModuloNavigation": {
+            "$ref": "#/components/schemas/TblModulo"
+          },
           "idPermisoNavigation": {
             "$ref": "#/components/schemas/TblPermiso"
           },
@@ -7479,6 +7533,27 @@
         },
         "additionalProperties": false
       },
+      "UsuarioModuloDto": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "nombreModulo": {
+            "type": "string",
+            "nullable": true
+          },
+          "permisos": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/PermisosDto"
+            },
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
       "UsuariosDto": {
         "type": "object",
         "properties": {
@@ -7522,6 +7597,17 @@
           "foto": {
             "type": "string",
             "format": "byte",
+            "nullable": true
+          },
+          "rolId": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "modulos": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
             "nullable": true
           },
           "roles": {
