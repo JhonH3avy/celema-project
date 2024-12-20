@@ -7434,7 +7434,6 @@
           },
           "foto": {
             "type": "string",
-            "format": "byte",
             "nullable": true
           },
           "tblIntentosDeLogins": {
@@ -7596,7 +7595,6 @@
           },
           "foto": {
             "type": "string",
-            "format": "byte",
             "nullable": true
           },
           "rolId": {

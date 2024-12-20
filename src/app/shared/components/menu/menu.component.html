@@ -53,7 +53,7 @@
       </div>
 
       <!-- Foto de perfil -->
-      <img src="https://png.pngtree.com/png-clipart/20231019/original/pngtree-user-profile-avatar-png-image_13369988.png" alt="Foto de Perfil" class="avatar-img" />
+      <img [src]="foto ? 'data:image/jpeg;base64,' + foto : './assets/img/profile_image_placeholder.jpg'" alt="Foto de Perfil" class="avatar-img" />
 
       <!-- Menú desplegable con flecha hacia abajo -->
       <div class="dropdown" style="margin-left: 10px;">

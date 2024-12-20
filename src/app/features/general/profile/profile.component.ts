@@ -14,6 +14,8 @@ import Swal from 'sweetalert2';
 })
 export class ProfileComponent implements OnInit {
 
+  imagePreview: string | null = null;
+
   profileControlGroup = this.fb.group({
     username: ['', Validators.required],
     newPassword: [''],
@@ -40,6 +42,7 @@ export class ProfileComponent implements OnInit {
       cedula: Number.parseInt(this.profileControlGroup.get('cedula')?.value ?? ''),
       clave: this.profileControlGroup.get('newPassword')?.value === '' ? null : this.profileControlGroup.get('newPassword')?.value,
       id: this.currentUserId,
+      foto: this.imagePreview,
     } as UsuariosDto;
   }
 
@@ -75,7 +78,7 @@ export class ProfileComponent implements OnInit {
     const userEmail = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/userdata'];
     this.usuariosService.apiUsuariosConsultarusuarioGet(userEmail)
       .subscribe(
-        response => this.handleGetUserResponse(response.datos),
+        response => this.handleGetUserResponse(response.datos!),
         error => {
           if (error.status === 400) {
             Swal.fire({
@@ -135,14 +138,31 @@ export class ProfileComponent implements OnInit {
       );
   }
 
-  private handleGetUserResponse(user: any): void {
+  previewImage(event: Event): void {
+    const input = event.target as HTMLInputElement;
+
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        const base64Data = reader.result as string;
+        this.imagePreview = base64Data.split(',')[1];
+      };
+
+      reader.readAsDataURL(file);
+    }
+  }
+
+  private handleGetUserResponse(user: UsuariosDto): void {
     this.fullName = `${user.nombre} ${user.apellido}`;
-    this.cargo = user.cargo;
+    this.cargo = user.cargo ?? '';
     this.currentUserId = user.id;
-    this.profileControlGroup.get('username')?.setValue(user.correoElectronico);
-    this.profileControlGroup.get('name')?.setValue(user.nombre);
-    this.profileControlGroup.get('lastname')?.setValue(user.apellido);
-    this.profileControlGroup.get('cargo')?.setValue(user.cargo);
-    this.profileControlGroup.get('cedula')?.setValue(user.cedula);
+    this.profileControlGroup.get('username')?.setValue(user.correoElectronico ?? '');
+    this.profileControlGroup.get('name')?.setValue(user.nombre ?? '');
+    this.profileControlGroup.get('lastname')?.setValue(user.apellido?? '');
+    this.profileControlGroup.get('cargo')?.setValue(user.cargo ?? '');
+    this.profileControlGroup.get('cedula')?.setValue(user.cedula?.toString() ?? '');
+    this.imagePreview = user.foto ?? '';
   }
 }
