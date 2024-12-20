@@ -49,13 +49,13 @@
           </div>
         </th>
         <td class="text-secondary text-center">{{ equipment.idMaquina }}</td>
-        <td class="text-secondary text-center">{{ equipment.nombreTipo }}</td>
+        <td class="text-secondary text-center">{{ equipment.tipoNombre }}</td>
         <td>
           <span [ngClass]="getStatusStyle(equipment.estado ?? '')" class="badge border">{{ equipment.estado }}</span>
         </td>
         <td class="text-secondary text-center">{{ getDateOnlyFormatted(equipment.fechaCreacion) }}</td>
         <td class="text-secondary text-center">{{ equipment.nombre }}</td>
-        <td class="text-secondary text-center">{{ equipment.nombreZona }}</td>
+        <td class="text-secondary text-center">{{ equipment.zonaNombre }}</td>
         <td class="text-secondary text-center">
           <button class="btn btn-light" (click)="openEquipmentRestrictionModal(equipmentRestrictionModal, equipment.idMaquina!)">
             <i class="bi bi-three-dots-vertical"></i>

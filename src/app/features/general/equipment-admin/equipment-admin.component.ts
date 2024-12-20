@@ -102,7 +102,7 @@ export class EquipmentAdminComponent implements OnInit {
       this.filteredData = this.data.filter(equipment =>
         equipment.nombre?.toLowerCase().includes(query.toLowerCase()) ||
         equipment.idMaquina?.toLowerCase().includes(query.toLowerCase()) ||
-        equipment.nombreTipo?.toLowerCase().includes(query.toLowerCase())
+        equipment.tipoNombre?.toLowerCase().includes(query.toLowerCase())
       );
       this.currentPage = 1;
     }

@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import { ActualizarRoleDto, ModulosRolesPermisosService, RoleDto, RolesService, TblPermiso } from 'src/app/core/services';
+import { ActualizarRoleDto, DateOnly, ModulosRolesPermisosService, RoleDto, RolesService, TblPermiso } from 'src/app/core/services';
 import * as bootstrap from 'bootstrap';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import * as XLSX from 'xlsx';
 import Swal from 'sweetalert2';
 import { TblModulos } from 'src/app/core/services/model/tblModulos';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-role-admin',
@@ -51,6 +52,7 @@ export class RoleAdminComponent implements OnInit {
     private modalService: NgbModal,
     private config: NgbModalConfig,
     private modulosRolesPermisosService: ModulosRolesPermisosService,
+    private datePipe: DatePipe,
   ) {
     this.roleFormGroup = this.fb.group({
       nombre: ['', Validators.required],
@@ -306,6 +308,16 @@ export class RoleAdminComponent implements OnInit {
         this.currentRoleModulePermissions = this.currentRoleModulePermissions.filter(x => x.idModule === idModule && x.idPermission === idPermission);
       }
     }
+  }
+
+  getDateFormatted(dateOnly: DateOnly | string): string {
+    let target: string;
+    if (typeof dateOnly === 'object') {
+      target = dateOnly.toString();
+    } else {
+      target = dateOnly;
+    }
+    return this.datePipe.transform(target, 'dd/MM/yyyy') ?? '';
   }
 
 }

@@ -51,7 +51,7 @@
         <td class="text-center">
           <span [ngClass]="getStatusStyle(role.estado ?? false)" class="badge border">{{ role.estado ? 'Activo' : 'Inactivo' }}</span>
         </td>
-        <td class="text-secondary text-center">{{ role.fechaCreacion | date:'dd/MM/yyyy' }}</td>
+        <td class="text-secondary text-center">{{ getDateFormatted(role.fechaCreacion ?? '') }}</td>
         <td>
           <div ngbDropdown>
             <button type="button" ngbDropdownToggle class="btn btn-outline-secondary">
