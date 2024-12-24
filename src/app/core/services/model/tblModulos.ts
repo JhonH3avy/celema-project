@@ -12,16 +12,16 @@ import { TblRolesPermiso } from "./tblRolesPermiso";
 
 
 export interface TblModulos {
-    id?: number;
+    idModulo?: number;
     nombreModulo?: string | null;
     fechaCreacion?: string;
     isCheck?: boolean;
-    permisos?: Array<TblModulosAux> | null;
+    idPermisos?: Array<TblModulosAux> | null;
 }
 
 export interface TblModulosAux {
-  id?: number;
+  idModulo?: number;
   nombre?: string | null;
-  tblRolesPermisos?: Array<TblRolesPermiso> | null;
+  tblRolesPermisos?: Array<number> | null;
   isChecked: boolean
 }

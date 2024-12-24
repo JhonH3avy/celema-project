@@ -112,10 +112,12 @@ export class LoginComponent implements OnInit {
   infoUsuario(usuario: any, _: any){
     this.usuariosService.apiUsuariosConsultarusuarioGet(usuario)
       .subscribe(response => {
+        localStorage.removeItem('idUsuario');
         localStorage.removeItem('nombres');
         localStorage.removeItem('apellidos');
         localStorage.removeItem('cargo');
 
+        localStorage.setItem('idUsuario', response.datos?.id!.toString()!);
         localStorage.setItem('nombres', response.datos?.nombre!);
         localStorage.setItem('apellidos', response.datos?.apellido!);
         localStorage.setItem('cargo', response.datos?.cargo!);
