@@ -35,7 +35,7 @@ export class MenuComponent implements OnInit {
       this.nombres = localStorage.getItem('nombres');
       this.apellidos = localStorage.getItem('apellidos');
       this.cargo = localStorage.getItem('cargo');
-      this.foto = sessionStorage.getItem('foto-perfil');
+      this.foto = localStorage.getItem('foto-perfil');
     }, 500);
   }
 
@@ -44,6 +44,7 @@ export class MenuComponent implements OnInit {
     localStorage.removeItem('nombres');
     localStorage.removeItem('apellidos');
     localStorage.removeItem('cargo');
+    localStorage.removeItem('foto-perfil');
     this.router.navigate(['/login']);
   }
 

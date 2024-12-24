@@ -121,6 +121,9 @@ export class LoginComponent implements OnInit {
         localStorage.setItem('nombres', response.datos?.nombre!);
         localStorage.setItem('apellidos', response.datos?.apellido!);
         localStorage.setItem('cargo', response.datos?.cargo!);
+        if (response.datos?.foto) {
+          localStorage.setItem('foto-perfil', response.datos?.foto);
+        }
       }, error => {
         this.loading = false;
         this.errorMessage = 'Hubo un error. Intenta nuevamente.';

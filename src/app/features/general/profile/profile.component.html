@@ -12,6 +12,22 @@
     <br>
     <p>Detalles del usuario</p>
     <form [formGroup]="profileControlGroup">
+      <div class="modal-header vstack gap-3">
+        <div class="d-flex flex-column align-items-center">
+          <img
+            id="photoPreview"
+            class="big-profile-image mt-2"
+            [src]="imagePreview ? 'data:image/jpeg;base64,' + imagePreview : './assets/img/profile_image_placeholder.jpg'"
+            alt="profile picture"
+            style="width: 100px; height: 100px; object-fit: cover; border-radius: 50%;"
+          />
+          <label for="uploadPhoto" class="upload-icon" style="cursor: pointer;">
+            <span class="add-icon">+</span>
+            <i class="bi bi-camera" style="font-size: 1.5rem;"></i>
+            <input type="file" id="uploadPhoto" accept="image/*" (change)="previewImage($event)" style="display: none;">
+          </label>
+        </div>
+      </div>
       <div class="form-group">
         <i class="far fa-user-circle icon"></i>
         <input id="name" type="text" placeholder="Escriba su nombre" formControlName="name"/>

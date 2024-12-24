@@ -51,7 +51,7 @@
         </th>
         <td>
           <div class="d-flex">
-            <img [src]="model.profileImageSource == null ? './assets/img/profile_image_placeholder.jpg' : model.profileImageSource" class="rounded profile-image me-2" />
+            <img [src]="model.foto ? 'data:image/jpeg;base64,' + model.foto : './assets/img/profile_image_placeholder.jpg'" class="rounded profile-image me-2" />
             <div>
               <div class="text-secondary">{{ model.nombre }} {{ model.apellido }}</div>
               <div class="text-secondary">{{ model.correoElectronico }}</div>
