@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  apiUrl: 'http://62.146.180.148:81', // URL de la API para el entorno de desarrollo
-  apiUrlV2: 'http://62.146.180.148:82'
+  apiUrl: 'https://aiplanner.insighthousetech.com', // URL de la API para el entorno de desarrollo
+  apiUrlV2: 'https://aiplanner.insighthousetech.com'
 };
 
 /*
