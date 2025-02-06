@@ -39,6 +39,8 @@ export class RoutePlanificationDetailComponent {
   loading = false;
   historicoLoading = false;
 
+  familySelections: { [idFamilia: number]: number | undefined } = {};
+
   constructor(
     private modalService: NgbModal,
     private routePlanificationDetailService: TblPrediccionRutaYTblRutaService,
@@ -46,8 +48,7 @@ export class RoutePlanificationDetailComponent {
     private percentPipe: PercentPipe,
     private prioritizationService: PrioritizationService,
     private router: Router,
-  ) {
-  }
+  ) { }
 
   ngOnInit(): void {
     this.familiaFilterControl.valueChanges
@@ -81,7 +82,7 @@ export class RoutePlanificationDetailComponent {
           } else {
             Swal.fire({
               title: 'Error',
-              text: 'Sucedió un error inseperado al traer las predicciones de rutas',
+              text: 'Sucedió un error inesperado al traer las predicciones de rutas',
               icon: 'error',
             });
           }
@@ -95,35 +96,45 @@ export class RoutePlanificationDetailComponent {
       this.getData();
     } else {
       this.routePlanificationDetailService.apiTblPrediccionRutaYTblRutaFiltrarRutasPorSemanaYFamiliaPaginadasGet(this.semanaControl.value, idFamilia, this.currentPage, this.itemsPerPage)
-      .subscribe(
-        response => {
-          this.data = response.datos ?? [];
-          this.totalPages = response.totalPaginas ?? 0;
-          this.updatePagination();
-          this.loading = false;
-        }, error => {
-          if (error.status === 400 || error.status === 404) {
-            Swal.fire({
-              title: 'Error',
-              text: error.error,
-              icon: 'error',
-            });
-          } else {
-            Swal.fire({
-              title: 'Error',
-              text: 'Sucedió un error inseperado al traer las predicciones de rutas',
-              icon: 'error',
-            });
+        .subscribe(
+          response => {
+            this.data = response.datos ?? [];
+            this.totalPages = response.totalPaginas ?? 0;
+            this.updatePagination();
+            this.loading = false;
+
+            const selectedRouteId = this.familySelections[idFamilia];
+            if (selectedRouteId !== undefined) {
+              const selectedPlan = this.data.find(x => x.id === selectedRouteId);
+              if (selectedPlan) {
+                selectedPlan.seleccionado = true;
+              }
+            }
+          }, error => {
+            if (error.status === 400 || error.status === 404) {
+              Swal.fire({
+                title: 'Error',
+                text: error.error,
+                icon: 'error',
+              });
+            } else {
+              Swal.fire({
+                title: 'Error',
+                text: 'Sucedió un error inesperado al traer las predicciones de rutas',
+                icon: 'error',
+              });
+            }
+            this.loading = false;
           }
-          this.loading = false;
-        }
-      );
+        );
     }
   }
 
   selectPlan(plan: TblPrediccionRutaYTblRutaDto): void {
     this.data.filter(x => x.idFamilia === plan.idFamilia).forEach(x => x.seleccionado = false);
     plan.seleccionado = true;
+
+    this.familySelections[plan.idFamilia?? 0] = plan.id;
   }
 
   isAnyPlanSelected(): boolean {
@@ -153,7 +164,7 @@ export class RoutePlanificationDetailComponent {
         } else {
           Swal.fire({
             title: 'Error',
-            text: 'Sucedió un error inseperado al traer las predicciones de rutas',
+            text: 'Sucedió un error inesperado al traer las predicciones de rutas',
             icon: 'error',
           });
         }
