@@ -15,6 +15,7 @@ import { DatePipe } from '@angular/common';
 export class EquipmentAdminComponent implements OnInit {
 
   itemCount = 0;
+  loading = false;
 
   offsetPagesToDisplay = 5;
   currentPage = 1;
@@ -78,10 +79,17 @@ export class EquipmentAdminComponent implements OnInit {
   }
 
   callUpdateOnDatabase(): void {
+    this.loading = true;
     this.maquinasService.apiMaquinasActualizarMaquinaEtlGet()
       .subscribe(response => {
         if (response.datos) {
+          Swal.fire({
+            title: 'Éxito',
+            text: '' + response.exito,
+            icon: 'success',
+          });
           this.getData();
+          this.loading = false;
         }
       }, error => {
         if (error.status === 400) {

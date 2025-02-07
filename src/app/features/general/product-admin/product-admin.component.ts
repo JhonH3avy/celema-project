@@ -12,6 +12,7 @@ import * as XLSX from 'xlsx';
 export class ProductAdminComponent implements OnInit {
 
   productCount = 0;
+  loading = false;
 
   currentPage = 1;
   totalPages = 5;
@@ -63,10 +64,17 @@ export class ProductAdminComponent implements OnInit {
   }
 
   callUpdateOnDatabase(): void {
+    this.loading = true;
     this.productService.apiProductosActualizarProductoEtlGet()
       .subscribe(response => {
         if (response.datos) {
+          Swal.fire({
+            title: 'Éxito',
+            text: '' + response.exito,
+            icon: 'success',
+          });
           this.getData();
+          this.loading = false;
         }
       }, error => {
         if (error.status === 400) {

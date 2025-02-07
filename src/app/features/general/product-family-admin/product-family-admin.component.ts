@@ -13,6 +13,7 @@ export class ProductFamilyAdminComponent implements OnInit {
 
   productFamilyCount = 0;
   offsetPagesToDisplay = 5;
+  loading = false;
 
   itemsPerPage = 10;
   currentPage = 1;
@@ -49,10 +50,17 @@ export class ProductFamilyAdminComponent implements OnInit {
   }
 
   callUpdateOnDatabase(): void {
+    this.loading = true;
     this.productFamilyService.apiFamiliaProductosActualizarFamiliaProductoEtlGet()
       .subscribe(response => {
         if (response.datos) {
+          Swal.fire({
+            title: 'Éxito',
+            text: '' + response.exito,
+            icon: 'success',
+          });
           this.getData();
+          this.loading = false;
         }
       }, error => {
         if (error.status === 400) {
