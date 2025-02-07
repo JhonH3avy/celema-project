@@ -95,7 +95,8 @@ export class RoutePlanificationDetailComponent {
     if (this.familiaFilterControl.value === 0 || idFamilia == null) {
       this.getData();
     } else {
-      this.routePlanificationDetailService.apiTblPrediccionRutaYTblRutaFiltrarRutasPorSemanaYFamiliaPaginadasGet(this.semanaControl.value, idFamilia, this.currentPage, this.itemsPerPage)
+      this.routePlanificationDetailService.apiTblPrediccionRutaYTblRutaFiltrarRutasPorSemanaYFamiliaPaginadasGet(this.semanaControl.value, idFamilia, '' //TODO: Add query filter here
+        , this.currentPage, this.itemsPerPage)
         .subscribe(
           response => {
             this.data = response.datos ?? [];

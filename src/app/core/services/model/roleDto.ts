@@ -7,9 +7,8 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { ActualizarRoleDtoModulosInner } from './actualizarRoleDtoModulosInner';
 import { DateOnly } from './dateOnly';
-import { RoleModuloPermisoDto } from './roleModuloPermisoDto';
-import { UsuarioModuloDto } from './usuarioModuloDto';
 
 
 export interface RoleDto { 
@@ -17,7 +16,6 @@ export interface RoleDto {
     nombre?: string | null;
     estado?: boolean;
     fechaCreacion?: DateOnly;
-    permisos?: Array<RoleModuloPermisoDto> | null;
-    modulos?: Array<UsuarioModuloDto> | null;
+    modulos?: Array<ActualizarRoleDtoModulosInner> | null;
 }
 

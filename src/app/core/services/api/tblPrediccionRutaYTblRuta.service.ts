@@ -173,32 +173,37 @@ export class TblPrediccionRutaYTblRutaService {
     /**
      * @param semana 
      * @param idFamilia 
-     * @param pagina 
-     * @param tamanoPagina 
+     * @param query 
+     * @param page 
+     * @param pageSize 
      * @param observe set whether or not to return the data Observable as the body, response or events. defaults to returning the body.
      * @param reportProgress flag to report request and response progress.
      */
-    public apiTblPrediccionRutaYTblRutaFiltrarRutasPorSemanaYFamiliaPaginadasGet(semana?: string, idFamilia?: number, pagina?: number, tamanoPagina?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<TblPrediccionRutaYTblRutaDtoRespuestaPaginacion>;
-    public apiTblPrediccionRutaYTblRutaFiltrarRutasPorSemanaYFamiliaPaginadasGet(semana?: string, idFamilia?: number, pagina?: number, tamanoPagina?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<TblPrediccionRutaYTblRutaDtoRespuestaPaginacion>>;
-    public apiTblPrediccionRutaYTblRutaFiltrarRutasPorSemanaYFamiliaPaginadasGet(semana?: string, idFamilia?: number, pagina?: number, tamanoPagina?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<TblPrediccionRutaYTblRutaDtoRespuestaPaginacion>>;
-    public apiTblPrediccionRutaYTblRutaFiltrarRutasPorSemanaYFamiliaPaginadasGet(semana?: string, idFamilia?: number, pagina?: number, tamanoPagina?: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
+    public apiTblPrediccionRutaYTblRutaFiltrarRutasPorSemanaYFamiliaPaginadasGet(semana?: string, idFamilia?: number, query?: string, page?: number, pageSize?: number, observe?: 'body', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<TblPrediccionRutaYTblRutaDtoRespuestaPaginacion>;
+    public apiTblPrediccionRutaYTblRutaFiltrarRutasPorSemanaYFamiliaPaginadasGet(semana?: string, idFamilia?: number, query?: string, page?: number, pageSize?: number, observe?: 'response', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpResponse<TblPrediccionRutaYTblRutaDtoRespuestaPaginacion>>;
+    public apiTblPrediccionRutaYTblRutaFiltrarRutasPorSemanaYFamiliaPaginadasGet(semana?: string, idFamilia?: number, query?: string, page?: number, pageSize?: number, observe?: 'events', reportProgress?: boolean, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<HttpEvent<TblPrediccionRutaYTblRutaDtoRespuestaPaginacion>>;
+    public apiTblPrediccionRutaYTblRutaFiltrarRutasPorSemanaYFamiliaPaginadasGet(semana?: string, idFamilia?: number, query?: string, page?: number, pageSize?: number, observe: any = 'body', reportProgress: boolean = false, options?: {httpHeaderAccept?: 'text/plain' | 'application/json' | 'text/json', context?: HttpContext, transferCache?: boolean}): Observable<any> {
 
         let localVarQueryParameters = new HttpParams({encoder: this.encoder});
         if (semana !== undefined && semana !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>semana, 'semana');
+            <any>semana, 'Semana');
         }
         if (idFamilia !== undefined && idFamilia !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>idFamilia, 'idFamilia');
+            <any>idFamilia, 'IdFamilia');
         }
-        if (pagina !== undefined && pagina !== null) {
+        if (query !== undefined && query !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>pagina, 'pagina');
+            <any>query, 'Query');
         }
-        if (tamanoPagina !== undefined && tamanoPagina !== null) {
+        if (page !== undefined && page !== null) {
           localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
-            <any>tamanoPagina, 'tamanoPagina');
+            <any>page, 'Page');
+        }
+        if (pageSize !== undefined && pageSize !== null) {
+          localVarQueryParameters = this.addToHttpParams(localVarQueryParameters,
+            <any>pageSize, 'PageSize');
         }
 
         let localVarHeaders = this.defaultHeaders;

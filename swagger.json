@@ -4347,14 +4347,14 @@
         ],
         "parameters": [
           {
-            "name": "semana",
+            "name": "Semana",
             "in": "query",
             "schema": {
               "type": "string"
             }
           },
           {
-            "name": "idFamilia",
+            "name": "IdFamilia",
             "in": "query",
             "schema": {
               "type": "integer",
@@ -4362,21 +4362,26 @@
             }
           },
           {
-            "name": "pagina",
+            "name": "Query",
             "in": "query",
             "schema": {
-              "type": "integer",
-              "format": "int32",
-              "default": 1
+              "type": "string"
             }
           },
           {
-            "name": "tamanoPagina",
+            "name": "Page",
             "in": "query",
             "schema": {
               "type": "integer",
-              "format": "int32",
-              "default": 10
+              "format": "int32"
+            }
+          },
+          {
+            "name": "PageSize",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
             }
           }
         ],
@@ -5581,30 +5586,37 @@
           "estado": {
             "type": "boolean"
           },
-          "permisos": {
+          "modulos": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/ActualizarRoleModuloPermisoDto"
+              "type": "object",
+              "properties": {
+                "idModulo": {
+                  "type": "integer"
+                },
+                "idPermisos": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer"
+                  }
+                }
+              }
             },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "ActualizarRoleModuloPermisoDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "permisoId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "moduloId": {
-            "type": "integer",
-            "format": "int32"
+            "nullable": true,
+            "example": [
+              {
+                "idModulo": null,
+                "idPermisos": [ ]
+              },
+              {
+                "idModulo": null,
+                "idPermisos": [ ]
+              },
+              {
+                "idModulo": null,
+                "idPermisos": [ ]
+              }
+            ]
           }
         },
         "additionalProperties": false
@@ -5898,9 +5910,34 @@
           "modulos": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/ModuloDto"
+              "type": "object",
+              "properties": {
+                "idModulo": {
+                  "type": "integer"
+                },
+                "idPermisos": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer"
+                  }
+                }
+              }
             },
-            "nullable": true
+            "nullable": true,
+            "example": [
+              {
+                "idModulo": null,
+                "idPermisos": [ ]
+              },
+              {
+                "idModulo": null,
+                "idPermisos": [ ]
+              },
+              {
+                "idModulo": null,
+                "idPermisos": [ ]
+              }
+            ]
           }
         },
         "additionalProperties": false
@@ -6365,23 +6402,6 @@
         },
         "additionalProperties": false
       },
-      "ModuloDto": {
-        "type": "object",
-        "properties": {
-          "idModulo": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "permisos": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/PermisosRoleDto"
-            },
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
       "ModulosRolesPermisosDto": {
         "type": "object",
         "properties": {
@@ -6401,34 +6421,6 @@
           },
           "mensaje": {
             "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "PermisosDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "nombre": {
-            "type": "string",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "PermisosRoleDto": {
-        "type": "object",
-        "properties": {
-          "idPermisos": {
-            "type": "array",
-            "items": {
-              "type": "integer",
-              "format": "int32"
-            },
             "nullable": true
           }
         },
@@ -6983,19 +6975,37 @@
           "fechaCreacion": {
             "$ref": "#/components/schemas/DateOnly"
           },
-          "permisos": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/RoleModuloPermisoDto"
-            },
-            "nullable": true
-          },
           "modulos": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/UsuarioModuloDto"
+              "type": "object",
+              "properties": {
+                "idModulo": {
+                  "type": "integer"
+                },
+                "idPermisos": {
+                  "type": "array",
+                  "items": {
+                    "type": "integer"
+                  }
+                }
+              }
             },
-            "nullable": true
+            "nullable": true,
+            "example": [
+              {
+                "idModulo": null,
+                "idPermisos": [ ]
+              },
+              {
+                "idModulo": null,
+                "idPermisos": [ ]
+              },
+              {
+                "idModulo": null,
+                "idPermisos": [ ]
+              }
+            ]
           }
         },
         "additionalProperties": false
@@ -7026,24 +7036,6 @@
               "$ref": "#/components/schemas/RoleDto"
             },
             "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "RoleModuloPermisoDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "permisoId": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "moduloId": {
-            "type": "integer",
-            "format": "int32"
           }
         },
         "additionalProperties": false
@@ -7527,27 +7519,6 @@
           },
           "estado": {
             "type": "boolean",
-            "nullable": true
-          }
-        },
-        "additionalProperties": false
-      },
-      "UsuarioModuloDto": {
-        "type": "object",
-        "properties": {
-          "id": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "nombreModulo": {
-            "type": "string",
-            "nullable": true
-          },
-          "permisos": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/PermisosDto"
-            },
             "nullable": true
           }
         },

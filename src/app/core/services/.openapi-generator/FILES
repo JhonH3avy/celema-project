@@ -34,7 +34,7 @@ model/actualizarRestriccionLavadoDto.ts
 model/actualizarRestriccionMaquinaDto.ts
 model/actualizarRolUsuarioDto.ts
 model/actualizarRoleDto.ts
-model/actualizarRoleModuloPermisoDto.ts
+model/actualizarRoleDtoModulosInner.ts
 model/actualizarRutaDto.ts
 model/booleanDataResponse.ts
 model/crearHistoricoRutasDto.ts
@@ -67,10 +67,7 @@ model/maquinaDto.ts
 model/maquinaDtoDataResponse.ts
 model/maquinaDtoListDataResponse.ts
 model/models.ts
-model/moduloDto.ts
 model/modulosRolesPermisosDto.ts
-model/permisosDto.ts
-model/permisosRoleDto.ts
 model/planeacionProduccionDto.ts
 model/planeacionProduccionDtoDataResponse.ts
 model/planeacionProduccionDtoIEnumerableDataResponse.ts
@@ -95,7 +92,6 @@ model/restriccionRutasDtoIEnumerableDataResponse.ts
 model/roleDto.ts
 model/roleDtoDataResponse.ts
 model/roleDtoIEnumerableDataResponse.ts
-model/roleModuloPermisoDto.ts
 model/solicitudInicioDeSesinUsuario.ts
 model/solicitudProduccionDto.ts
 model/stringPaginatedData.ts
@@ -113,7 +109,6 @@ model/tipoMaquinaDto.ts
 model/tipoMaquinaDtoDataResponse.ts
 model/tipoMaquinaDtoIEnumerableDataResponse.ts
 model/updateUnidadDeProduccionDto.ts
-model/usuarioModuloDto.ts
 model/usuariosDto.ts
 model/usuariosDtoDataResponse.ts
 model/usuariosDtoIEnumerableDataResponse.ts
