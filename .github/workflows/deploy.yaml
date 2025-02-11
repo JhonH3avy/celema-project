@@ -20,10 +20,8 @@ jobs:
     environment: ${{ github.event.inputs.environment }}
 
     steps:
-      - name: Checkout Selected Branch
+      - name: Checkout Repository
         uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.inputs.branch }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
