@@ -3,10 +3,13 @@ name: Deploy Angular App via FTP
 on:
   workflow_dispatch:
     inputs:
-      branch:
-        description: "Select the branch to deploy"
+      environment:
+        description: "Select the deployment environment"
         required: true
-        default: "main"
+        default: "prod"
+        type: choice
+        options:
+          - prod
   push:
     branches:
       - main
@@ -14,10 +17,13 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment }}
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout Selected Branch
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.branch }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
