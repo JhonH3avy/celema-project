@@ -21,20 +21,11 @@ export class RoutePlanificationPriorizationComponent {
   data: ProductRoutePrioritizationDto[] = [];
   paginatedData: ProductRoutePrioritizationDto[] = [];
   filteredData: ProductRoutePrioritizationDto[] = [];
-
-  checkedProducts: {checked: boolean, id: string}[] = [];
   totalPages = 1;
   itemsPerPageControl = new FormControl(10);
+  itemsPerPage = 10;
 
-  private get itemsPerPage(): number {
-    const itemsPerPageValue = this.itemsPerPageControl.value;
-    if (typeof itemsPerPageValue === 'string') {
-      return Number.parseInt(itemsPerPageValue);
-    } if (typeof itemsPerPageValue === 'number') {
-      return itemsPerPageValue;
-    }
-    return 0;
-  }
+  checkedProducts: { [key: string]: boolean } = {};
 
   constructor(
     private prioritizationService: PrioritizationService,
@@ -55,8 +46,8 @@ export class RoutePlanificationPriorizationComponent {
           if (response.datos) {
             this.data = response.datos ?? [];
             this.filteredData = this.data;
-            this.itemCount = this.data.length;
-            this.totalPages = Math.ceil(this.data.length / this.itemsPerPage);
+            this.itemCount = this.filteredData.length;
+            this.totalPages = Math.ceil(this.filteredData.length / this.itemsPerPage);
             this.updatePagination();
             this.updatePaginatedData();
           }
@@ -116,44 +107,45 @@ export class RoutePlanificationPriorizationComponent {
       });
   }
 
-  changePage(pageToLoad: number): void {
-    this.currentPage = pageToLoad;
-    this.updatePaginatedData();
+  changePage(page: number): void {
+    if (page >= 1 && page <= this.totalPages) {
+      this.currentPage = page;
+      this.updatePagination();
+      this.updatePaginatedData();
+    }
   }
 
   changeItemsPerPage(): void {
-    this.totalPages = Math.ceil(this.itemCount / this.itemsPerPage);
+    this.totalPages = Math.ceil(this.filteredData.length / this.itemsPerPage);
     this.currentPage = 1;
     this.updatePaginatedData();
     this.updatePagination();
   }
 
   updatePagination(): void {
-    this.pages = [];
-    const initialPage = Math.max(1, this.currentPage - this.offsetPagesToDisplay);
-    const negativeOffset = this.currentPage - this.offsetPagesToDisplay < 0 ? this.currentPage - this.offsetPagesToDisplay : 0;
-    const finalPage = Math.min(this.totalPages, this.currentPage + this.offsetPagesToDisplay - negativeOffset);
-    for (let i = initialPage; i <= finalPage; i++) {
-      this.pages.push(i);
+    const maxVisiblePages = 10;
+    let startPage = Math.max(1, this.currentPage - Math.floor(maxVisiblePages / 2));
+    let endPage = Math.min(this.totalPages, startPage + maxVisiblePages - 1);
+
+    if (endPage - startPage + 1 < maxVisiblePages) {
+      startPage = Math.max(1, endPage - maxVisiblePages + 1);
     }
+
+    this.pages = Array.from({ length: endPage - startPage + 1 }, (_, i) => startPage + i);
   }
+
 
   updatePaginatedData(): void {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
     this.paginatedData = this.filteredData.slice(startIndex, endIndex);
-    this.checkedProducts = this.paginatedData.map(p => {
-      return {
-        checked: false,
-        id: (p.idMaquina + '-' + p.ejecucion),
-      };
-    });
   }
+
 
   exportToExcel(): void {
     let target: ProductRoutePrioritizationDto[] = [];
-    if (this.checkedProducts.filter(x => x.checked).length > 0) {
-      target = this.data.filter(x => this.checkedProducts.filter(x => x.checked).some(c => (x.idMaquina + '-' + x.ejecucion) === c.id));
+    if (Object.values(this.checkedProducts).some(checked => checked)) {
+      target = this.data.filter(x => this.checkedProducts[`${x.idProducto}-${x.idMaquina}-${x.ejecucion}`]);
     } else {
       target = this.data;
     }
@@ -168,29 +160,30 @@ export class RoutePlanificationPriorizationComponent {
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Planificación Rutas');
     XLSX.writeFile(wb, 'planificacion_rutas.xlsx');
-  }
+ }
 
-  toggleAll(event: Event): void {
-    const checked = (event.target as HTMLInputElement).checked;
-    this.checkedProducts.forEach((item) => (item.checked = checked));
-  }
+
+ toggleAll(event: Event): void {
+  const checked = (event.target as HTMLInputElement).checked;
+
+  this.paginatedData.forEach((item) => {
+    const key = `${item.idProducto}-${item.idMaquina}-${item.ejecucion}`;
+    this.checkedProducts[key] = checked;
+  });
+}
 
   updateSelectAll(event: Event, id: string): void {
     const checked = (event.target as HTMLInputElement).checked;
-    const productCheck = this.checkedProducts.find(x => x.id === id);
-    if (productCheck) {
-      productCheck.checked = checked;
-    }
+    this.checkedProducts[id] = checked;
   }
+
 
   isAllChecked(): boolean {
-    if (this.checkedProducts.length === 0) {
-      return false;
-    }
-    return this.checkedProducts.every((item) => item.checked);
+    return this.paginatedData.every((item) => this.checkedProducts[`${item.idProducto}-${item.idMaquina}-${item.ejecucion}`]);
   }
 
-  isChecked(id: string) {
-    return this.checkedProducts.find(x => x.id === id)?.checked;
+
+  isChecked(id: string): boolean {
+    return this.checkedProducts[id] || false;
   }
 }
