@@ -1,6 +1,12 @@
 name: Deploy Angular App via FTP
 
 on:
+  workflow_dispatch:
+    inputs:
+      branch:
+        description: "Select the branch to deploy"
+        required: true
+        default: "main"
   push:
     branches:
       - main
