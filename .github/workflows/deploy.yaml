@@ -10,10 +10,6 @@ on:
         type: choice
         options:
           - prod
-      branch:
-        description: "Enter the branch to deploy"
-        required: true
-        default: "main"
 
   push:
     branches:
@@ -28,7 +24,7 @@ jobs:
       - name: Checkout Selected Branch
         uses: actions/checkout@v4
         with:
-          ref: ${{ github.event.inputs.branch || github.ref_name }}
+          ref: ${{ github.ref_name }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
