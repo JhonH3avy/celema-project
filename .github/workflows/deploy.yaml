@@ -10,6 +10,11 @@ on:
         type: choice
         options:
           - prod
+      branch:
+        description: "Enter the branch to deploy"
+        required: true
+        default: "main"
+
   push:
     branches:
       - main
@@ -17,11 +22,13 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment: ${{ github.event.inputs.environment }}
+    environment: ${{ github.event.inputs.environment || (github.ref == 'refs/heads/main' && 'prod') }}
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout Selected Branch
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.branch || github.ref_name }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
