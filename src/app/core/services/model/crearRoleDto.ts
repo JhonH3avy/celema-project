@@ -7,12 +7,12 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
-import { CrearRoleModuloPermisoDto } from './crearRoleModuloPermisoDto';
+import { ActualizarRoleDtoModulosInner } from './actualizarRoleDtoModulosInner';
 
 
 export interface CrearRoleDto { 
     nombre?: string | null;
     estado?: boolean;
-    permisos?: Array<CrearRoleModuloPermisoDto> | null;
+    modulos?: Array<ActualizarRoleDtoModulosInner> | null;
 }
 

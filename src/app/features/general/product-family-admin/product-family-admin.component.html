@@ -1,22 +1,22 @@
 <app-menu></app-menu>
 <div class="container">
-  <h2>Familia de SKU <span class="text-secondary">{{ productFamilyCount }}</span></h2>
-  <p class="text-secondary">Familia de productos</p>
+  <h2>Familia de SKU</h2>
+  <p class="text-secondary">Familia de productos, cantidad de registros <span class="text-secondary">{{ productFamilyCount }}</span></p>
   <div class="d-flex justify-content-end mb-3">
     <div class="d-flex align-items-center">
       <div class="input-group me-2">
-        <button type="button" class="btn btn-outline-primary me-2" (click)="getData()">
+        <button type="button" class="btn btn-outline-primary me-2" (click)="callUpdateOnDatabase()">
           <i class="bi bi-arrow-repeat"></i>
         </button>
         <button class="btn btn-outline-secondary" type="button">
           <i class="bi bi-search"></i>
         </button>
-        <input type="text" class="form-control" placeholder="Buscar" [formControl]="searchQuery">
+        <input type="text" class="form-control" placeholder="Buscar: familia" ngbTooltip="Buscar por familia" [formControl]="searchQuery">
       </div>
-      <!-- <button type="button" class="btn btn-outline-secondary d-flex align-items-center me-2">
+      <button type="button" class="btn btn-outline-secondary d-flex align-items-center me-2" (click)="filterData()">
         <i class="bi bi-filter me-1"></i>
         Filtrar
-      </button> -->
+      </button>
       <button type="button" class="btn btn-primary d-flex align-items-center" (click)="exportToExcel()">
         <i class="bi bi-upload me-1"></i>
         Exportar
@@ -28,11 +28,11 @@
       <tr class="table-secondary">
         <th scope="col">
           <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="">
+            <input class="form-check-input" type="checkbox" value="" [checked]="isAllChecked()" (change)="toggleAll($event)">
           </div>
         </th>
         <th scope="col" class="text-secondary text-center">Código</th>
-        <!-- <th scope="col" class="text-secondary text-center">Descripción</th> -->
+        <th scope="col" class="text-secondary text-center">Descripción</th>
         <th scope="col" class="text-secondary text-center">Estado</th>
         <th scope="col" class="text-secondary text-center">Fecha de creación</th>
       </tr>
@@ -41,13 +41,13 @@
       <tr *ngFor="let productFamily of paginatedData">
         <th scope="row">
           <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="">
+            <input class="form-check-input" type="checkbox" value="" (change)="updateSelectAll($event, productFamily.id!)" [checked]="isChecked(productFamily.id!)">
           </div>
         </th>
-        <td class="text-secondary text-center">{{ productFamily.nombre }}</td>
-        <!-- <td class="text-secondary text-center">{{ productFamily.descripcion }}</td> -->
+        <td class="text-secondary text-center">{{ productFamily.id }}</td>
+        <td class="text-secondary">{{ productFamily.nombre }}</td>
         <td>
-          <span [ngClass]="getStatusStyle(productFamily.estado)" class="badge border">{{ productFamily.estado ? 'Activo' : 'Inactivo' }}</span>
+          <span [ngClass]="getStatusStyle(productFamily.estado ?? false)" class="badge border">{{ productFamily.estado ? 'Activo' : 'Inactivo' }}</span>
         </td>
         <td class="text-secondary text-center">{{ productFamily.fechaCreacion | date:'dd/MM/yyyy' }}</td>
       </tr>
@@ -79,4 +79,12 @@
       <span class="ms-2">por página</span>
     </div>
   </div>
+</div>
+
+<div *ngIf="loading" class="loading">
+  <div class="radar">
+    <img src="./assets/img/logo.png" alt="Cargando..." class="loading-image" />
+  </div>
+  <br>
+  <p>Espere por favor...</p>
 </div>

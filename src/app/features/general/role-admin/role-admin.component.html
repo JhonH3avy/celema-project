@@ -10,15 +10,15 @@
         </button>
         <input type="text" class="form-control" placeholder="Buscar" [formControl]="searchQuery">
       </div>
-      <!-- <button type="button" class="btn btn-outline-secondary d-flex align-items-center me-2">
+      <button type="button" class="btn btn-outline-secondary d-flex align-items-center me-2" (click)="filterData()">
         <i class="bi bi-filter me-1"></i>
         Filtrar
-      </button> -->
+      </button>
       <button type="button" class="btn btn-primary d-flex align-items-center me-2" (click)="exportToExcel()">
         <i class="bi bi-upload me-1"></i>
         Exportar
       </button>
-      <button type="button" class="btn btn-primary d-flex align-items-center" (click)="openCreateRoleModal(roleUpdateModal)">
+      <button type="button" class="btn btn-primary d-flex align-items-center" (click)="cargarModulosCrear();openCreateRoleModal(roleUpdateModal)">
         <i class="bi bi-plus me-1"></i>
         Crear
       </button>
@@ -29,7 +29,7 @@
       <tr class="table-secondary">
         <th scope="col">
           <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="">
+            <input class="form-check-input" type="checkbox" value="" [checked]="isAllChecked()" (change)="toggleAll($event)">
           </div>
         </th>
         <th scope="col" class="text-secondary text-center">Rol</th>
@@ -40,27 +40,27 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let role of paginatedData">
+      <tr *ngFor="let model of paginatedData">
         <th scope="row">
           <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="">
+            <input class="form-check-input" type="checkbox" value="" (change)="updateSelectAll($event, model.id!)" [checked]="isChecked(model.id!)">
           </div>
         </th>
-        <td class="text-secondary">{{ role.nombre }}</td>
+        <td class="text-secondary">{{ model.nombre }}</td>
         <!-- <td class="text-secondary text-center"></td> -->
         <td class="text-center">
-          <span [ngClass]="getStatusStyle(role.estado ?? false)" class="badge border">{{ role.estado ? 'Activo' : 'Inactivo' }}</span>
+          <span [ngClass]="getStatusStyle(model.estado ?? false)" class="badge border">{{ model.estado ? 'Activo' : 'Inactivo' }}</span>
         </td>
-        <td class="text-secondary text-center">{{ role.fechaCreacion | date:'dd/MM/yyyy' }}</td>
+        <td class="text-secondary text-center">{{ getDateFormatted(model.fechaCreacion ?? '') }}</td>
         <td>
           <div ngbDropdown>
             <button type="button" ngbDropdownToggle class="btn btn-outline-secondary">
               <i class="bi bi-three-dots-vertical"></i>
             </button>
             <ul class="dropdown-menu" ngbDropdownMenu>
-              <li><a class="dropdown-item" type="button" (click)="openUpdateRoleModal(role.id!, roleUpdateModal)"><i class="bi bi-pencil"></i> Modificar rol</a></li>
-              <li *ngIf="role.estado"><a class="dropdown-item" type="button" (click)="toggleRoleStatus(role.id!, false)"><i class="bi bi-power"></i> Inactivar rol</a></li>
-              <li *ngIf="!role.estado"><a class="dropdown-item" type="button" (click)="toggleRoleStatus(role.id!, true)"><i class="bi bi-power"></i> Activar rol</a></li>
+              <li><a class="dropdown-item" type="button" (click)="cargarModulosEdicion(model.modulos);openUpdateRoleModal(model.id!, roleUpdateModal)"><i class="bi bi-pencil"></i> Modificar rol</a></li>
+              <!-- <li *ngIf="role.estado"><a class="dropdown-item" type="button" (click)="toggleRoleStatus(role.id!, false)"><i class="bi bi-power"></i> Inactivar rol</a></li>
+              <li *ngIf="!role.estado"><a class="dropdown-item" type="button" (click)="toggleRoleStatus(role.id!, true)"><i class="bi bi-power"></i> Activar rol</a></li> -->
             </ul>
           </div>
         </td>
@@ -99,7 +99,7 @@
     <div class="modal-content">
       <div class="modal-header vstack gap-3">
         <button type="button" class="btn-close" aria-label="Close" (click)="roleUpdateModal.dismiss('Cross click')"></button>
-        <h1 class="modal-title fs-5" id="modalTitle">Edición de Rol</h1>
+        <h1 class="modal-title fs-5" id="modalTitle">Administración de Rol</h1>
       </div>
       <div class="modal-body">
         <form [formGroup]="roleFormGroup">
@@ -142,7 +142,7 @@
             <tr class="table-secondary">
               <th scope="col">
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="">
+                  <!-- <input class="form-check-input" type="checkbox" value=""> -->
                 </div>
               </th>
               <th scope="col" class="text-secondary text-center">Módulo</th>
@@ -153,13 +153,13 @@
             <tr *ngFor="let module of moduleList">
               <th scope="row">
                 <div class="form-check">
-                  <input class="form-check-input" type="checkbox" value="">
+                  <input class="form-check-input" type="checkbox" id="{{module.id}}" [checked]=module.isCheck value="">
                 </div>
               </th>
               <td class="text-secondary">{{ module.nombreModulo }}</td>
               <td scope="row" *ngFor="let permission of permissionList">
                 <div class="form-check d-flex justify-content-center">
-                  <input class="form-check-input" type="checkbox" value="" (change)="updatePermission(module.id!, permission.id!, $event)">
+                  <input class="form-check-input" type="checkbox" value="" [checked]="isPermissionInList(module.permisos, permission.id)" (change)="updatePermission(module.id!, permission.id!, $event)">
                 </div>
               </td>
             </tr>

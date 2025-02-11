@@ -1,4 +1,5 @@
 export const environment = {
   production: true,
-  apiUrl: 'http://62.146.180.148:81'
+  apiUrl: 'https://aiplanner.insighthousetech.com',
+  apiUrlV2: 'https://aiplanner.insighthousetech.com'
 };

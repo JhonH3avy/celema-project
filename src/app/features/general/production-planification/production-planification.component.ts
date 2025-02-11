@@ -1,6 +1,10 @@
+import { ActualizarPlaneacionProduccionDto } from './../../../core/services/model/actualizarPlaneacionProduccionDto';
 import { Component } from '@angular/core';
-import { FormBuilder, FormGroup } from '@angular/forms';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { NgbModal, NgbModalRef } from '@ng-bootstrap/ng-bootstrap';
+import { CrearPlaneacionProduccionDto, PlaneacionProduccionDto, PlaneacionProduccionService } from 'src/app/core/services';
+import * as XLSX from 'xlsx';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-production-planification',
@@ -8,99 +12,324 @@ import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
   styleUrl: './production-planification.component.css'
 })
 export class ProductionPlanificationComponent {
-  FormGroup: FormGroup;
-  productCount = 0;
+  productionPlanificationGroup: FormGroup;
+  itemCount = 0;
+  offsetPagesToDisplay = 5;
 
   currentPage = 1;
   totalPages = 5;
-  pages = Array(this.totalPages).fill(0);
+  pages: number[] = [];
   currentStep: number = 1;
   fileName: string = '';
 
-  products = [
-    {
-      id: 1,
-      code: 'PF1',
-      description: 'Esta es la descripción de la familia del producto',
-      unidades: '2000',
-      semana: '32',
-      creationDate: new Date('2023-07-06'),
-      familia: 'Familia 1',
-    },
-    {
-      id: 2,
-      code: 'PF2',
-      description: 'Esta es la descripción de la familia del producto',
-      unidades: '2000',
-      semana: '32',
-      creationDate: new Date('2023-07-06'),
-      familia: 'Familia 1',
-    },
-    {
-      id: 3,
-      code: 'PF3',
-      description: 'Esta es la descripción de la familia del producto',
-      unidades: '2000',
-      semana: '32',
-      creationDate: new Date('2023-07-06'),
-      familia: 'Familia 1',
-    },
-    {
-      id: 4,
-      code: 'PF4',
-      description: 'Esta es la descripción de la familia del producto',
-      unidades: '2000',
-      semana: '32',
-      creationDate: new Date('2023-07-06'),
-      familia: 'Familia 1',
-    },
-    {
-      id: 5,
-      code: 'PF5',
-      description: 'Esta es la descripción de la familia del producto',
-      unidades: '2000',
-      semana: '32',
-      creationDate: new Date('2023-07-06'),
-      familia: 'Familia 1',
-    },
-  ]
+  productionPlanifications: PlaneacionProduccionDto[] = [];
+  filteredData: PlaneacionProduccionDto[] = [];
+  paginatedData: PlaneacionProduccionDto[] = [];
 
-  constructor(private modalService: NgbModal, private fb: FormBuilder) {
-    this.FormGroup = this.fb.group({
+  itemsPerPageControl = new FormControl(10);
+  searchQuery = new FormControl();
 
+  importFiles: File[] = [];
+  validationErrors: string[] = [];
+
+  planificationImportModalInstance: NgbModalRef | null = null;
+
+  checkedProducts: {checked: boolean, id: string}[] = [];
+
+  isCreateProductionPlanification = false;
+
+  private get itemsPerPage(): number {
+    const itemsPerPageValue = this.itemsPerPageControl.value;
+    if (typeof itemsPerPageValue === 'string') {
+      return Number.parseInt(itemsPerPageValue);
+    } if (typeof itemsPerPageValue === 'number') {
+      return itemsPerPageValue;
+    }
+    return 0;
+  }
+
+  constructor(
+    private modalService: NgbModal,
+    private fb: FormBuilder,
+    private planeacionProduccionService: PlaneacionProduccionService) {
+    this.productionPlanificationGroup = this.fb.group({
+      productId: ['', Validators.required],
+      amountToProduce: [0, Validators.required],
+      week: ['', Validators.required]
     });
    }
 
-  ngOnInit(): void {
-    this.productCount = this.products.length;
+  get amountToProduce(): FormControl {
+    return this.productionPlanificationGroup.controls['amountToProduce'] as FormControl;
   }
 
-  getStatusStyle(status: string): string[] {
+  ngOnInit(): void {
+    this.getData();
+    this.amountToProduce.valueChanges.subscribe(amount => {
+      if (typeof amount === 'number') {
+        return;
+      } else if (typeof amount === 'string' && Number.isInteger(amount)) {
+        const numberValue = Number.parseInt(amount);
+        this.amountToProduce.setValue(numberValue, { emitEvent: false });
+      }
+    })
+  }
+
+  getData(): void {
+    this.planeacionProduccionService.apiPlaneacionProduccionGet()
+      .subscribe(response => {
+        this.currentPage = 1;
+        this.productionPlanifications = response.datos ?? [];
+        this.filteredData = this.productionPlanifications;
+        this.itemCount = this.filteredData.length;
+        this.totalPages = Math.ceil(this.itemCount / this.itemsPerPage);
+        this.updatePagination();
+        this.updatePaginatedData();
+      });
+  }
+
+  filterData(): void {
+    const query = this.searchQuery.value as string;
+    if (query.trim() === '') {
+      this.filteredData = this.productionPlanifications;
+    } else {
+      this.filteredData = this.productionPlanifications.filter(productionPlanification =>
+        productionPlanification.nombreProducto?.toLowerCase().includes(query.toLowerCase()) ||
+        productionPlanification.nombreFamilia?.toLowerCase().includes(query.toLowerCase()) ||
+        productionPlanification.idProducto?.toLowerCase().includes(query.toLowerCase()) ||
+        productionPlanification.semana?.toLowerCase().includes(query.toLowerCase())
+      );
+      this.currentPage = 1;
+    }
+    this.itemCount = this.filteredData.length;
+    this.totalPages = Math.ceil(this.itemCount / this.itemsPerPage);
+    this.updatePagination();
+    this.updatePaginatedData();
+  }
+
+  getStatusStyle(status: boolean | undefined): string[] {
     switch (status) {
-      case 'Activo': return ['border-success', 'text-success', 'bg-success-subtle'];
-      case 'Inactivo': return ['border-danger', ' text-danger', 'bg-danger-subtle'];
+      case true: return ['border-success', 'text-success', 'bg-success-subtle'];
+      case false: return ['border-danger', ' text-danger', 'bg-danger-subtle'];
       default: return [];
     }
   }
 
   changePage(pageToLoad: number): void {
     this.currentPage = pageToLoad;
+    this.updatePaginatedData();
+    this.updatePagination();
   }
 
-  openModal(modalContent: any): void {
+  changeItemsPerPage(): void {
+    this.totalPages = Math.ceil(this.itemCount / this.itemsPerPage);
+    this.currentPage = 1;
+    this.updatePaginatedData();
+    this.updatePagination();
+  }
+
+  updatePaginatedData(): void {
+    const startIndex = (this.currentPage - 1) * this.itemsPerPage;
+    const endIndex = startIndex + this.itemsPerPage;
+    this.paginatedData = this.filteredData.slice(startIndex, endIndex);
+    this.checkedProducts = this.paginatedData.map(p => {
+      return {
+        checked: false,
+        id: `${p.idProducto}-${p.semana}`,
+      };
+    });
+  }
+
+  updatePagination(): void {
+    this.pages = [];
+    const initialPage = Math.max(1, this.currentPage - this.offsetPagesToDisplay);
+    const negativeOffset = this.currentPage - this.offsetPagesToDisplay < 0 ? this.currentPage - this.offsetPagesToDisplay : 0;
+    const finalPage = Math.min(this.totalPages, this.currentPage + this.offsetPagesToDisplay - negativeOffset);
+    for (let i = initialPage; i <= finalPage; i++) {
+      this.pages.push(i);
+    }
+  }
+
+  createProductionPlanification(): void {
+    if (this.isCreateProductionPlanification) {
+      const productionPlanificationCreateRequest = {
+        idProducto: this.productionPlanificationGroup.controls['productId'].value,
+        cantidadesProducir: this.amountToProduce.value,
+        semana: this.productionPlanificationGroup.controls['week'].value,
+      } as CrearPlaneacionProduccionDto;
+      this.planeacionProduccionService.apiPlaneacionProduccionPost(productionPlanificationCreateRequest)
+        .subscribe(response => {
+          this.productionPlanifications = [response.datos!, ...this.productionPlanifications];
+          Swal.fire({
+            title: 'Éxito',
+            text: response.exito!,
+            icon: 'success'
+          }).then(() => {
+            this.closeProductionPlanificationModal();
+          });
+        }, error => {
+          if (error.status === 400) {
+            Swal.fire({
+              title: 'Error',
+              text: error.error,
+              icon: 'error'
+            }).then(() => {
+              this.closeProductionPlanificationModal();
+            });
+          }
+        });
+    } else {
+      const productionPlanificationUpdateRequest = {
+        idProducto: this.productionPlanificationGroup.controls['productId'].value,
+        cantidadesProducir: this.amountToProduce.value,
+        semana: this.productionPlanificationGroup.controls['week'].value,
+      } as ActualizarPlaneacionProduccionDto;
+      this.planeacionProduccionService.apiPlaneacionProduccionPut(productionPlanificationUpdateRequest)
+        .subscribe(response => {
+          const productionPlanificationUpdated = this.productionPlanifications.find(x => x.idProducto === productionPlanificationUpdateRequest.idProducto && x.semana === productionPlanificationUpdateRequest.semana);
+          if (productionPlanificationUpdated) {
+            productionPlanificationUpdated.cantidadesProducir = productionPlanificationUpdateRequest.cantidadesProducir;
+          }
+          Swal.fire({
+            title: 'Éxito',
+            text: response.exito!,
+            icon: 'success'
+          }).then(() => {
+            this.closeProductionPlanificationModal();
+          });
+        }, error => {
+          if (error.status === 400) {
+            Swal.fire({
+              title: 'Error',
+              text: error.error,
+              icon: 'error'
+            }).then(() => {
+              this.closeProductionPlanificationModal();
+            });
+          }
+        });
+    }
+  }
+
+  togglePlaneacionProduccion(planeacionProduccion: PlaneacionProduccionDto): void {
+    Swal.fire({
+      title: `¿Está seguro que desea ${planeacionProduccion.estado ? 'desactivar' : 'activar'} la planeación de producción?`,
+      text:`La planeación de producción con id producto ${planeacionProduccion.idProducto}, familia ${planeacionProduccion.nombreFamilia} y semana ${planeacionProduccion.semana}.`,
+      icon: 'question',
+      showCloseButton: true,
+      showCancelButton: true,
+      focusCancel: true,
+      confirmButtonText: 'Actualizar',
+      cancelButtonText: 'Cancelar',
+    }).then(result => {
+      if (result.isConfirmed) {
+        this.planeacionProduccionService.apiPlaneacionProduccionDelete(planeacionProduccion.idProducto!, planeacionProduccion.idFamilia, planeacionProduccion.semana!)
+        .subscribe(response => {
+          if (response.datos) {
+            Swal.fire("¡Éxito!", "Se han realizado exitosamente los cambios", "success");
+            planeacionProduccion.estado = !planeacionProduccion.estado;
+          } else {
+            Swal.fire("Hubo un error", 'No se pudo realizar la operación', "error");
+          }
+        }, error => {
+          Swal.fire("Hubo un error", error, "error");
+        });
+      }
+    });
+
+  }
+
+  exportToExcel(): void {
+    let target: PlaneacionProduccionDto[] = [];
+    if (this.checkedProducts.filter(x => x.checked).length > 0) {
+      target = this.productionPlanifications.filter(x => this.checkedProducts.filter(x => x.checked).some(c => `${x.idProducto}-${x.semana}` === c.id));
+    } else {
+      target = this.productionPlanifications;
+    }
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(target);
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Planificación Producción');
+    XLSX.writeFile(wb, 'planificacion_producción.xlsx');
+  }
+
+  openPlanificationImport(modalContent: any): void {
+    this.planificationImportModalInstance = this.modalService.open(modalContent);
+  }
+
+  openProductionPlanificationModal(modalContent: any, productionPlanification: PlaneacionProduccionDto | null): void {
+    this.isCreateProductionPlanification = productionPlanification === null;
+    if (this.isCreateProductionPlanification) {
+      this.enableReferenceFormInputs();
+      this.loadProductionPlanificationFormValues(null);
+    } else {
+      this.disableReferenceFormInputs();
+      this.loadProductionPlanificationFormValues(productionPlanification);
+    }
     this.modalService.open(modalContent, { size: 'lg', backdrop: 'static', centered: true });
   }
 
-  nextStep() {
-    if (this.currentStep < 3) {
-      this.currentStep++;
+  private enableReferenceFormInputs(): void {
+    this.productionPlanificationGroup.controls['productId'].enable();
+    this.productionPlanificationGroup.controls['week'].enable();
+  }
+
+  private disableReferenceFormInputs(): void {
+    this.productionPlanificationGroup.controls['productId'].disable();
+    this.productionPlanificationGroup.controls['week'].disable();
+  }
+
+  private loadProductionPlanificationFormValues(productionPlanification: PlaneacionProduccionDto | null): void {
+    this.productionPlanificationGroup.controls['productId'].setValue(productionPlanification?.idProducto ?? '');
+    this.amountToProduce.setValue(productionPlanification?.cantidadesProducir ?? 0);
+    this.productionPlanificationGroup.controls['week'].setValue(productionPlanification?.semana ?? '');
+  }
+
+  nextStep(): void {
+    if (this.currentStep === 1) {
+      this.currentStep = 2;
+      this.validateFiles();
+    } else if (this.currentStep === 2) {
+      this.currentStep = 3;
     }
   }
 
-  prevStep() {
-    if (this.currentStep > 1) {
-      this.currentStep--;
+  prevStep(): void {
+    if (this.currentStep === 3) {
+      this.currentStep = 2;
+      this.validateFiles();
+    } else if (this.currentStep === 2) {
+      this.currentStep = 1;
     }
+  }
+
+  isNextStepDisabled(step: number): boolean {
+    if (step === 2) {
+      return this.validationErrors.length > 0;
+    } else if (step === 3) {
+      return true;
+    }
+    return false;
+  }
+
+  isPrevStepDisabled(step: number): boolean {
+    if (step === 1) {
+      return true;
+    }
+    return false;
+  }
+
+  closeProductionPlanificationModal(): void {
+    this.importFiles = [];
+    this.planificationImportModalInstance?.dismiss();
+  }
+
+  private validateFiles(): void {
+    this.validationErrors = [];
+    this.importFiles.forEach(file => {
+      if (!file.name.endsWith('.csv')) {
+        this.validationErrors.push(`El archivo ${file.name} no tiene el formato requerido '.csv'.`)
+      }
+    });
   }
 
   // Método para hacer clic en el input de archivo
@@ -111,24 +340,38 @@ export class ProductionPlanificationComponent {
     }
   }
 
+  private addFilesFromFileList(fileList: FileList): void {
+    this.importFiles = [];
+    for (let i = 0; i < fileList.length; i++) {
+      const file = fileList[i];
+      this.importFiles.push(file);
+      this.fileName = file.name;
+      this.selectedFileName = file.name;
+    }
+  }
+
   // Método para manejar cuando un archivo es seleccionado
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
-    if (input?.files?.length) {
-      this.fileName = input.files[0].name;
+    if (input.files) {
+      this.addFilesFromFileList(input.files);
     }
   }
 
   // Método para manejar cuando se arrastra un archivo sobre el área
   onDrop(event: DragEvent): void {
     event.preventDefault();
-    const fileInput = document.getElementById('upload-file') as HTMLInputElement;
+    // const fileInput = document.getElementById('upload-file') as HTMLInputElement;
     const files = event.dataTransfer?.files;
 
-    if (files?.length) {
-      fileInput.files = files;
-      this.fileName = files[0].name;
+    if (files) {
+      this.addFilesFromFileList(files);
     }
+
+    // if (files?.length) {
+    //   fileInput.files = files;
+    //   this.fileName = files[0].name;
+    // }
 
     const dragArea = document.getElementById('drag-drop-area');
     if (dragArea) {
@@ -159,23 +402,94 @@ export class ProductionPlanificationComponent {
     this.fileName = '';
   }
 
+  closeImportModal(): void {
+    this.importFiles = [];
+    this.fileName = '';
+    this.selectedFileName = '';
+    this.planificationImportModalInstance?.dismiss();
+  }
+
   isUploading = false;          // Para controlar si estamos cargando
   uploadProgress = 0;           // Progreso de la carga
   selectedFileName: string | null = null; // Nombre del archivo seleccionado
 
-  startUpload(event: any) {
+  startUpload() {
     this.isUploading = true;  // Comenzamos la carga
-      this.uploadProgress = 0;  // Reiniciamos el progreso
+    this.uploadProgress = 0;  // Reiniciamos el progreso
 
-      // Simulamos una carga con intervalos
-      const interval = setInterval(() => {
-        this.uploadProgress += 10;
-        if (this.uploadProgress >= 100) {
-          clearInterval(interval);  // Detenemos el intervalo cuando llegue al 100%
-          this.isUploading = false;  // Detenemos la simulación de carga
-          this.uploadProgress = 100;
+    this.planeacionProduccionService.apiPlaneacionProduccionImportPlanPost(this.importFiles[0])
+      .subscribe(response => {
+        Swal.fire({
+          title: 'Éxito',
+          text: 'La importación se llevo acabo exitosamente',
+          icon: 'success',
+        }).then(() => {
+          this.closeImportModal();
+        });
+      }, error => {
+        if (error.status === 400) {
+          Swal.fire({
+            title: 'Error',
+            text: error.error.exito,
+            icon: 'error',
+          }).then(() => {
+            this.closeImportModal();
+          });
+          this.downloadCSV(error.error.datos);
+        } else {
+          Swal.fire({
+            title: 'Error',
+            text: 'Sucedió un error inesperado durante la importación',
+            icon: 'error',
+          }).then(() => {
+            this.closeImportModal();
+          });
         }
-      }, 500);  // Incrementamos el progreso cada 500ms
+      });
   }
 
+  downloadCSV(data: any) {
+    // 1. Convert the data to CSV format
+    const headers = Object.keys(data[0]).join(','); // Extract headers
+    const rows = data.map((obj: any) =>
+      Object.values(obj)
+        .map(value => `"${value}"`) // Quote each value
+        .join(',')
+    );
+    const csvContent = [headers, ...rows].join('\n');
+
+    // 2. Create a Blob from the CSV content
+    const blob = new Blob([csvContent], { type: 'text/csv' });
+
+    // 3. Create a URL for the Blob and trigger the download
+    const url = window.URL.createObjectURL(blob);
+    const anchor = document.createElement('a');
+    anchor.href = url;
+    anchor.download = 'data.csv';
+    anchor.click();
+
+    // 4. Cleanup
+    window.URL.revokeObjectURL(url);
+  }
+
+  toggleAll(event: Event): void {
+    const checked = (event.target as HTMLInputElement).checked;
+    this.checkedProducts.forEach((item) => (item.checked = checked));
+  }
+
+  updateSelectAll(event: Event, id: string): void {
+    const checked = (event.target as HTMLInputElement).checked;
+    const productCheck = this.checkedProducts.find(x => x.id === id);
+    if (productCheck) {
+      productCheck.checked = checked;
+    }
+  }
+
+  isAllChecked(): boolean {
+    return this.checkedProducts.every((item) => item.checked);
+  }
+
+  isChecked(id: string) {
+    return this.checkedProducts.find(x => x.id === id)?.checked;
+  }
 }

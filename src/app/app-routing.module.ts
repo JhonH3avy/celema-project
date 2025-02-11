@@ -12,20 +12,23 @@ import { RoutePlanificationComponent } from './features/general/route-planificat
 import { ProductionPlanificationComponent } from './features/general/production-planification/production-planification.component';
 import { RoutePlanificationDetailComponent } from './features/general/route-planification-detail/route-planification-detail.component';
 import { RoutePlanificationPriorizationComponent } from './features/general/route-planification-priorization/route-planification-priorization.component';
+import { authGuard } from './core/guards/auth.guard';
+import { BoardComponent } from './features/general/board/board.component';
 
 const routes: Routes = [
-  { path: 'administracion-perfiles', component: ProfileAdminComponent },
-  { path: 'administracion-roles', component: RoleAdminComponent },
-  { path: 'administracion-productos', component: ProductAdminComponent },
-  { path: 'administracion-familia-productos', component: ProductFamilyAdminComponent },
-  { path: 'administracion-equipos', component: EquipmentAdminComponent },
-  { path: 'planificacion-demanda', component: DemandPlanificationComponent },
-  { path: 'restriccion-equipos', component: EquipmentRestrictionComponent },
-  { path: 'restriccion-lavados', component: WashRestrictionComponent },
-  { path: 'planificacion-rutas', component: RoutePlanificationComponent },
-  { path: 'planificacion-product', component: ProductionPlanificationComponent },
-  { path: 'planificacion-rutas-detalle', component: RoutePlanificationDetailComponent },
-  { path: 'planificacion-rutas-priorizacion', component: RoutePlanificationPriorizationComponent },
+  { path: 'administracion-perfiles', component: ProfileAdminComponent, canActivate: [authGuard] },
+  { path: 'administracion-roles', component: RoleAdminComponent, canActivate: [authGuard] },
+  { path: 'administracion-productos', component: ProductAdminComponent, canActivate: [authGuard] },
+  { path: 'administracion-familia-productos', component: ProductFamilyAdminComponent, canActivate: [authGuard] },
+  { path: 'administracion-equipos', component: EquipmentAdminComponent, canActivate: [authGuard] },
+  { path: 'planificacion-demanda', component: DemandPlanificationComponent, canActivate: [authGuard] },
+  { path: 'restriccion-equipos', component: EquipmentRestrictionComponent, canActivate: [authGuard] },
+  { path: 'restriccion-lavados', component: WashRestrictionComponent, canActivate: [authGuard] },
+  { path: 'planificacion-rutas', component: RoutePlanificationComponent, canActivate: [authGuard] },
+  { path: 'planificacion-product', component: ProductionPlanificationComponent, canActivate: [authGuard] },
+  { path: 'planificacion-rutas-detalle', component: RoutePlanificationDetailComponent, canActivate: [authGuard] },
+  { path: 'planificacion-rutas-priorizacion', component: RoutePlanificationPriorizationComponent, canActivate: [authGuard] },
+  { path: 'board', component: BoardComponent, canActivate: [authGuard] },
 ];
 
 @NgModule({

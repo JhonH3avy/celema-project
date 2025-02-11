@@ -9,12 +9,15 @@
  */
 import { TblPermiso } from './tblPermiso';
 import { TblRole } from './tblRole';
+import { TblModulo } from './tblModulo';
 
 
 export interface TblRolesPermiso { 
     id?: number;
     idRol?: number;
     idPermiso?: number;
+    idModulo?: number;
+    idModuloNavigation?: TblModulo;
     idPermisoNavigation?: TblPermiso;
     idRolNavigation?: TblRole;
 }

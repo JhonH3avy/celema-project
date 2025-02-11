@@ -10,8 +10,24 @@
       </tr>
     </table>
     <br>
-    <p>Detalles del perfil</p>
+    <p>Detalles del usuario</p>
     <form [formGroup]="profileControlGroup">
+      <div class="modal-header vstack gap-3">
+        <div class="d-flex flex-column align-items-center">
+          <img
+            id="photoPreview"
+            class="big-profile-image mt-2"
+            [src]="imagePreview ? 'data:image/jpeg;base64,' + imagePreview : './assets/img/profile_image_placeholder.jpg'"
+            alt="profile picture"
+            style="width: 100px; height: 100px; object-fit: cover; border-radius: 50%;"
+          />
+          <label for="uploadPhoto" class="upload-icon" style="cursor: pointer;">
+            <span class="add-icon">+</span>
+            <i class="bi bi-camera" style="font-size: 1.5rem;"></i>
+            <input type="file" id="uploadPhoto" accept="image/*" (change)="previewImage($event)" style="display: none;">
+          </label>
+        </div>
+      </div>
       <div class="form-group">
         <i class="far fa-user-circle icon"></i>
         <input id="name" type="text" placeholder="Escriba su nombre" formControlName="name"/>
@@ -36,8 +52,11 @@
         <i class="fas fa-key icon"></i>
         <input id="newPassword" type="password" placeholder="Escriba su nueva contraseña" formControlName="newPassword"/>
       </div>
-      <div *ngIf="newPassword.invalid && newPassword.touched" class="text-danger text-start">
+      <!-- <div *ngIf="newPassword.invalid && newPassword.touched" class="text-danger text-start">
         <p class="fs-6">La contraseña no cumple con los requisitos mínimos</p>
+      </div> -->
+      <div *ngIf="newPassword.errors?.minlength && newPassword.touched" class="text-danger text-start">
+        <p class="fs-6">La contraseña debe tener al menos 4 caracteres</p>
       </div>
 
       <div class="form-group">
@@ -61,7 +80,7 @@
       <table style="width: 100%;">
         <tr>
           <td>
-            <button type="button" class="btn-submit" (click)="saveChanges(changeSuccessfulModal, changeFailedModal)" [disabled]="profileControlGroup.invalid">Restablecer</button>
+            <button type="button" class="btn-submit" (click)="saveChanges(changeSuccessfulModal, changeFailedModal)" [disabled]="!profileControlGroup.valid">Restablecer</button>
           </td>
           <td>
             <button type="button" class="btn-submit" style="background-color: #808080;" (click)="goBackToHome()">Cancelar</button>

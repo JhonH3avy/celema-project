@@ -1,4 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { HistoricoRutaDto, HistoricoRutaDtoPaginatedDataDataResponse, HistoricoRutasService } from 'src/app/core/services';
+import * as XLSX from 'xlsx';
+import Swal from 'sweetalert2';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-route-planification',
@@ -8,76 +12,150 @@ import { Component, OnInit } from '@angular/core';
 export class RoutePlanificationComponent implements OnInit {
 
   currentPage = 1;
-  totalPages = 5;
-  pages = Array(this.totalPages).fill(0);
+  totalPages = 1;
+  itemsPerPage = 10;
+  pages: number[] = [];
+  offsetPagesToDisplay = 5;
 
-  washRestrictions = [
-    {
-      id: 1,
-      code: 'PRDCT1',
-      description: 'Esta es la descripción del equipo',
-      status: 'OK',
-      requestDate: new Date('2023-07-06'),
-      equipmentList: ['EC1', 'EC4', 'EC2'],
-      restrictionList: ['RC1', 'RC5'],
-      routeUsage: '10',
-    },
-    {
-      id: 2,
-      code: 'PRDCT2',
-      description: 'Esta es la descripción del equipo',
-      status: 'OK',
-      requestDate: new Date('2023-07-06'),
-      equipmentList: ['EC1'],
-      restrictionList: ['RC1', 'RC2', 'RC3'],
-      routeUsage: '2',
-    },
-    {
-      id: 3,
-      code: 'PRDCT3',
-      description: 'Esta es la descripción del equipo',
-      status: 'OK',
-      requestDate: new Date('2023-07-06'),
-      equipmentList: ['EC3', 'EC4'],
-      restrictionList: ['RC2', 'RC8', 'RC10'],
-      routeUsage: '5',
-    },
-    {
-      id: 4,
-      code: 'PRDCT4',
-      description: 'Esta es la descripción del equipo',
-      status: 'OK',
-      requestDate: new Date('2023-07-06'),
-      equipmentList: ['EC1'],
-      restrictionList: ['RC1'],
-      routeUsage: '9',
-    },
-    {
-      id: 5,
-      code: 'PRDCT5',
-      description: 'Esta es la descripción del equipo',
-      status: 'OFF',
-      requestDate: new Date('2023-07-06'),
-      equipmentList: ['EC1', 'EC2', 'EC3'],
-      restrictionList: ['RC1', 'RC2', 'RC3'],
-      routeUsage: '8',
-    },
-  ]
+  data: HistoricoRutaDto[] = [];
+  searchQuery = new FormControl();
 
-  constructor() { }
+  checkedProducts: {checked: boolean, id: number}[] = [];
+
+  constructor(
+    private historicoRutasService: HistoricoRutasService,
+  ) { }
 
   ngOnInit(): void {
+    this.currentPage = 1;
+    this.getData();
   }
 
-  getStatusStyle(status: string): string[] {
+  getData(): void {
+    this.historicoRutasService.apiHistoricoRutasGet(this.currentPage, this.itemsPerPage)
+      .subscribe(
+        response => this.handleDataResponse(response),
+        error => this.handleErrorResponse(error)
+      );
+  }
+
+  private handleDataResponse(response: HistoricoRutaDtoPaginatedDataDataResponse): void {
+    if (response.datos) {
+      this.data = response.datos?.data ?? [];
+      this.totalPages = Math.ceil((response.datos.totalItemCount ?? 0) / this.itemsPerPage);
+      this.checkedProducts = this.data.map(x => {
+        return {
+          id: x.idRuta!,
+          checked: false,
+        };
+      });
+      this.updatePagination();
+    }
+  }
+
+  private handleErrorResponse(error: any): void {
+    if (error.status === 400) {
+      Swal.fire({
+        title: 'Error',
+        text: error.error,
+        icon: 'error'
+      });
+    } else if (error.status === 404) {
+      Swal.fire({
+        title: 'No hay planeación',
+        text: error.error,
+        icon: 'info'
+      });
+    } else {
+      Swal.fire({
+        title: 'Error',
+        text: 'Un error inesperado ha ocurrido con la petición',
+        icon: 'error'
+      });
+    }
+  }
+
+  filterData(): void {
+    const filter = this.searchQuery.value;
+    if (filter) {
+      this.historicoRutasService.apiHistoricoRutasFilterGet(this.currentPage, this.itemsPerPage, filter)
+        .subscribe(
+          response => this.handleDataResponse(response),
+          error => this.handleErrorResponse(error)
+        );
+    } else {
+      this.getData();
+    }
+  }
+
+  getStatusStyle(status: boolean): string[] {
     switch (status) {
-      case 'OK': return ['border-success', 'text-success', 'bg-success-subtle'];
-      case 'OFF': return ['border-danger', ' text-danger', 'bg-danger-subtle'];
+      case true: return ['border-success', 'text-success', 'bg-success-subtle'];
+      case false: return ['border-danger', ' text-danger', 'bg-danger-subtle'];
       default: return [];
+    }
+  }
+
+  updatePagination(): void {
+    this.pages = [];
+    const initialPage = Math.max(1, this.currentPage - this.offsetPagesToDisplay);
+    const negativeOffset = this.currentPage - this.offsetPagesToDisplay < 0 ? this.currentPage - this.offsetPagesToDisplay : 0;
+    const finalPage = Math.min(this.totalPages, this.currentPage + this.offsetPagesToDisplay - negativeOffset);
+    for (let i = initialPage; i <= finalPage; i++) {
+      this.pages.push(i);
     }
   }
 
   changePage(pageToLoad: number): void {
     this.currentPage = pageToLoad;
+    const filter = this.searchQuery.value;
+    if (filter) {
+      this.filterData();
+    } else {
+      this.getData();
+    }
+  }
+
+  exportToExcel(): void {
+    let target: HistoricoRutaDto[] = [];
+    if (this.checkedProducts.filter(x => x.checked).length > 0) {
+      target = this.data.filter(x => this.checkedProducts.filter(x => x.checked).some(c => x.idRuta === c.id));
+    } else {
+      target = this.data;
+    }
+    const processedData = target.map(x => {
+      return {
+        ...x,
+        listaEquipos: x.equipmentList?.join(','),
+      };
+    });
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(processedData);
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Planeación Rutas');
+    XLSX.writeFile(wb, 'planeacion_rutas.xlsx');
+  }
+
+  toggleAll(event: Event): void {
+    const checked = (event.target as HTMLInputElement).checked;
+    this.checkedProducts.forEach((item) => (item.checked = checked));
+  }
+
+  updateSelectAll(event: Event, id: number): void {
+    const checked = (event.target as HTMLInputElement).checked;
+    const productCheck = this.checkedProducts.find(x => x.id === id);
+    if (productCheck) {
+      productCheck.checked = checked;
+    }
+  }
+
+  isAllChecked(): boolean {
+    if (this.checkedProducts.length === 0) {
+      return false;
+    }
+    return this.checkedProducts.every((item) => item.checked);
+  }
+
+  isChecked(id: number) {
+    return this.checkedProducts.find(x => x.id === id)?.checked;
   }
 }

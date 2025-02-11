@@ -24,11 +24,11 @@ export class IdleService {
 
     this.idleTimeout = setTimeout(() => {
       this.isIdle.next(true);
-    }, 300000);
+    }, 700000);
 
     this.warningTimeout = setTimeout(() => {
       this.showInactivityModal();
-    }, 120000);
+    }, 190000);
   }
 
   private showInactivityModal() {
@@ -51,6 +51,10 @@ export class IdleService {
   logout() {
     clearTimeout(this.idleTimeout);
     clearTimeout(this.warningTimeout);
+    localStorage.removeItem('authToken');
+    localStorage.removeItem('nombres');
+    localStorage.removeItem('apellidos');
+    localStorage.removeItem('cargo');
     this.router.navigate(['/login']);
   }
 }

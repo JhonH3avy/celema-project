@@ -1,17 +1,40 @@
 import { Component, OnInit } from '@angular/core';
-import { ActualizarRoleDto, ModulosRolesPermisosService, RoleDto, RolesService, TblPermiso } from 'src/app/core/services';
+import { ActualizarRoleDto, CrearRoleDto, DateOnly, ModulosRolesPermisosService, RoleDto, RolesService, TblPermiso } from 'src/app/core/services';
 import * as bootstrap from 'bootstrap';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { NgbModal, NgbModalConfig } from '@ng-bootstrap/ng-bootstrap';
 import * as XLSX from 'xlsx';
 import Swal from 'sweetalert2';
 import { TblModulos } from 'src/app/core/services/model/tblModulos';
+import { DatePipe } from '@angular/common';
+
+interface ModulePermission {
+  idModulo: number;
+  idPermisos: number[]
+}
+
+export interface TblModulosAux {
+    id?: number;
+    nombreModulo?: string | null;
+    fechaCreacion?: string;
+    isCheck?: boolean;
+    permisos?: Array<TblModulosAux2> | null;
+}
+
+export interface TblModulosAux2 {
+  idModulo?: number;
+  nombre?: string | null;
+  tblRolesPermisos?: Array<number> | null;
+  isChecked: boolean
+}
 
 @Component({
   selector: 'app-role-admin',
   templateUrl: './role-admin.component.html',
   styleUrls: ['./role-admin.component.css']
 })
+
+
 export class RoleAdminComponent implements OnInit {
 
   currentPage = 1;
@@ -29,11 +52,14 @@ export class RoleAdminComponent implements OnInit {
 
   searchQuery = new FormControl();
 
-  moduleList: TblModulos[] = [];
+  moduleList: TblModulosAux[] = [];
   permissionList: TblPermiso[] = [];
 
+  moduleListEdit: TblModulos[] = [];
+
   currentRoleId = 0;
-  currentRoleModulePermissions: {id: number, idModule: number, idPermission: number}[] = [];
+
+  currentRoleModulePermissions: ModulePermission[] = [];
 
   get nombre(): FormControl {
     return this.roleFormGroup.controls['nombre'] as FormControl;
@@ -49,23 +75,72 @@ export class RoleAdminComponent implements OnInit {
     private modalService: NgbModal,
     private config: NgbModalConfig,
     private modulosRolesPermisosService: ModulosRolesPermisosService,
+    private datePipe: DatePipe,
   ) {
     this.roleFormGroup = this.fb.group({
       nombre: ['', Validators.required],
       estado: [false, Validators.required],
     });
-    config.size = 'lg';
+    this.config.size = 'lg';
   }
 
-  ngOnInit(): void {
-    this.modulosRolesPermisosService.apiModulosRolesPermisosObtenermodulosypermisosGet()
-      .subscribe(response => {
-        this.moduleList = response.modulos ?? [];
-        this.permissionList = response.permisos ?? [];
-      });
-    this.getData();
-    this.searchQuery.valueChanges.subscribe(query => this.filterData(query));
+  checkedRegister: {checked: boolean, id: number}[] = [];
+  model: RoleDto[] = [];
 
+  ngOnInit(): void {
+    this.getData();
+  }
+
+  cargarModulosCrear(){
+    this.moduleList = [];
+    this.permissionList = [];
+    this.modulosRolesPermisosService.apiModulosRolesPermisosObtenermodulosypermisosGet()
+    .subscribe(response => {
+
+      this.moduleList = response.modulos ?? [];
+      this.permissionList = response.permisos ?? [];
+    });
+  }
+
+  cargarModulosEdicion(modulos: any){
+    this.moduleListEdit = modulos;
+    this.modulosRolesPermisosService.apiModulosRolesPermisosObtenermodulosypermisosGet()
+    .subscribe(response => {
+
+      this.moduleList = response.modulos ?? [];
+      this.permissionList = response.permisos ?? [];
+
+      this.moduleListEdit.forEach(element => {
+        this.moduleList.forEach(elementModule => {
+          if(element.idModulo == elementModule.id){
+            elementModule.isCheck = true;
+            elementModule.permisos = element.idPermisos;
+            console.log("Permisos", elementModule.permisos);
+            console.log("Permisos...", element.idPermisos);
+            element.idPermisos!.forEach(elementPermission => {
+              this.updatePermissionCarga(element.idModulo!, Number(elementPermission), true);
+            });
+          }
+        });
+      });
+    });
+  }
+
+  isPermissionInList(module: any, id: any): boolean {
+    let retorno = false;
+
+    // Verificamos si module es válido (no es null ni undefined)
+    if (module && Array.isArray(module) && module.length > 0) {
+      // Iterar sobre los elementos del array
+      module.forEach((element: { id: any; }) => {
+        // Si encontramos un elemento con el mismo id, lo marcamos como true
+        if (element == id) {
+          retorno = true;
+        }
+      });
+    }
+
+    return retorno;
   }
 
   getData(): void {
@@ -80,11 +155,18 @@ export class RoleAdminComponent implements OnInit {
           this.updatePagination();
           this.updatePaginatedData();
         },
-        error => console.error(error)
+        error => {
+          Swal.fire({
+            title: 'Error',
+            text: error.error,
+            icon: 'error'
+          });
+        }
       );
   }
 
-  filterData(query: string): void {
+  filterData(): void {
+    const query = this.searchQuery.value;
     if (query.trim() === '') {
       this.filteredData = this.roles;
     } else {
@@ -144,32 +226,42 @@ export class RoleAdminComponent implements OnInit {
   }
 
   saveRoleChanges(): void {
-    const updateRole = {
+    const create = {
+      nombre: this.nombre.value,
+      estado: this.estado.value,
+      usuarioId: Number(localStorage.getItem('idUsuario')),
+      modulos: this.currentRoleModulePermissions
+    } as CrearRoleDto;
+
+    const update = {
       id: this.currentRoleId,
       nombre: this.nombre.value,
       estado: this.estado.value,
-    } as ActualizarRoleDto;
-    if (updateRole.id === 0) {
-      this.rolesService.apiRolesCrearrolePost(updateRole)
+      modulos: this.currentRoleModulePermissions
+    };
+    if (this.currentRoleId === 0) {
+      this.rolesService.apiRolesCrearrolePost(create)
         .subscribe(
           response => {
             const createdRole = response.datos ?? {};
             this.roles = [createdRole, ...this.roles];
-            this.filterData('');
+            this.searchQuery.setValue('');
+            this.filterData();
             this.modalService.dismissAll();
             Swal.fire(
               `¡Creación exitosa!`,
-              `El usuario se creó con éxito.`,
+              `El rol se creó con éxito.`,
               'success'
             );
             this.rolesCount = this.filteredData.length;
             this.totalPages = Math.ceil(this.rolesCount / this.itemsPerPage);
             this.updatePagination();
             this.updatePaginatedData();
+            this.getData();
           }
         )
     } else {
-      this.rolesService.apiRolesActualizarrolePut(updateRole)
+      this.rolesService.apiRolesActualizarrolePut(update)
         .subscribe(
           _ => {
             const roleToUpdate = this.roles.find(x => x.id === this.currentRoleId);
@@ -180,17 +272,19 @@ export class RoleAdminComponent implements OnInit {
               fechaCreacion: roleToUpdate?.fechaCreacion,
             } as RoleDto;
             this.roles = [updatedRole, ...this.roles.filter(x => x.id !== this.currentRoleId)];
-            this.filterData('');
+            this.searchQuery.setValue('');
+            this.filterData();
             this.modalService.dismissAll();
             Swal.fire(
               `¡Actualización exitosa!`,
-              `El usuario se actualizó con éxito.`,
+              `El rol se actualizó con éxito.`,
               'success'
             );
             this.rolesCount = this.filteredData.length;
             this.totalPages = Math.ceil(this.rolesCount / this.itemsPerPage);
             this.updatePagination();
             this.updatePaginatedData();
+            this.getData();
           },
           error => {
             console.error(error);
@@ -211,7 +305,7 @@ export class RoleAdminComponent implements OnInit {
         _ => {
           const roleUpdated = this.roles.find(x => x.id === role!.id);
           roleUpdated!.estado = status;
-          this.filterData('');
+          this.filterData();
           const newStatus = status ? 'Activado' : 'Desactivado';
           Swal.fire(
             `${newStatus}!`,
@@ -236,6 +330,12 @@ export class RoleAdminComponent implements OnInit {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
     this.paginatedData = this.filteredData.slice(startIndex, endIndex); // Usa filteredData en lugar de data
+    this.checkedRegister = this.paginatedData.map(p => {
+      return {
+        checked: false,
+        id: p.id!,
+      };
+    });
   }
 
   updatePagination(): void {
@@ -246,24 +346,126 @@ export class RoleAdminComponent implements OnInit {
   }
 
   exportToExcel(): void {
-    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.roles);
-    const wb: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Roles');
-    XLSX.writeFile(wb, 'roles.xlsx');
+      let target: RoleDto[] = [];
+      console.log("checkedRegister...",this.checkedRegister);
+      if (this.checkedRegister.filter(x => x.checked).length > 0) {
+        target = this.model.filter(x => this.checkedRegister.filter(x => x.checked).some(c => x.id === c.id));
+        console.log("target1...",target);
+      } else {
+        target = this.model;
+        console.log("target...2",target);
+      }
+      const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(target);
+      const wb: XLSX.WorkBook = XLSX.utils.book_new();
+      XLSX.utils.book_append_sheet(wb, ws, 'Roles');
+      XLSX.writeFile(wb, 'roles.xlsx');
+    }
+
+  updatePermissionCarga(idModule: number, idPermission: number, event: boolean): void {
+
+    // Buscar si ya existe el módulo en la lista
+    let modulePermission = this.currentRoleModulePermissions.find(x => x.idModulo === idModule);
+
+    if (event) {
+      // Si no existe el módulo, agregarlo con el permiso
+      if (!modulePermission) {
+        this.currentRoleModulePermissions.push({
+          idModulo: idModule,
+          idPermisos: [idPermission] // Agregar directamente el permiso
+        });
+      } else {
+        // Si el módulo existe, agregar el permiso si no está ya en la lista
+        if (!modulePermission.idPermisos.includes(idPermission)) {
+          modulePermission.idPermisos.push(idPermission); // Agregar al array
+        }
+      }
+    } else {
+      if (modulePermission) {
+        // Si el permiso está marcado como no seleccionado, eliminarlo del array
+        modulePermission.idPermisos = modulePermission.idPermisos.filter(
+          permission => permission !== idPermission
+        );
+
+        // Si no quedan permisos, eliminar el módulo completo
+        if (modulePermission.idPermisos.length === 0) {
+          this.currentRoleModulePermissions = this.currentRoleModulePermissions.filter(
+            x => x.idModulo !== idModule
+          );
+        }
+      }
+    }
+
+    console.log("Estos son los módulos con permisos cargados:", this.currentRoleModulePermissions);
   }
 
   updatePermission(idModule: number, idPermission: number, event: any): void {
     const checked = event.target.checked as boolean;
-    const modulePermission = this.currentRoleModulePermissions.find(x => x.idModule === idModule && x.idPermission === idPermission);
+
+    // Buscar si ya existe el módulo en la lista
+    let modulePermission = this.currentRoleModulePermissions.find(x => x.idModulo === idModule);
+
     if (checked) {
+      // Si no existe el módulo, agregarlo con el permiso
       if (!modulePermission) {
-        this.currentRoleModulePermissions.push({id: 0, idModule, idPermission});
+        this.currentRoleModulePermissions.push({
+          idModulo: idModule,
+          idPermisos: [idPermission] // Agregar directamente el permiso
+        });
+      } else {
+        // Si el módulo existe, agregar el permiso si no está ya en la lista
+        if (!modulePermission.idPermisos.includes(idPermission)) {
+          modulePermission.idPermisos.push(idPermission); // Agregar al array
+        }
       }
     } else {
       if (modulePermission) {
-        this.currentRoleModulePermissions = this.currentRoleModulePermissions.filter(x => x.idModule === idModule && x.idPermission === idPermission);
+        // Si el permiso está marcado como no seleccionado, eliminarlo del array
+        modulePermission.idPermisos = modulePermission.idPermisos.filter(
+          permission => permission !== idPermission
+        );
+
+        // Si no quedan permisos, eliminar el módulo completo
+        if (modulePermission.idPermisos.length === 0) {
+          this.currentRoleModulePermissions = this.currentRoleModulePermissions.filter(
+            x => x.idModulo !== idModule
+          );
+        }
       }
     }
+
+    console.log("Estos son los módulos con permisos:", this.currentRoleModulePermissions);
+  }
+
+
+  getDateFormatted(dateOnly: DateOnly | string): string {
+    let target: string;
+    if (typeof dateOnly === 'object') {
+      target = dateOnly.toString();
+    } else {
+      target = dateOnly;
+    }
+    return this.datePipe.transform(target, 'dd/MM/yyyy') ?? '';
+  }
+
+  toggleAll(event: Event): void {
+    const checked = (event.target as HTMLInputElement).checked;
+    this.checkedRegister.forEach((item) => (item.checked = checked));
+  }
+
+  updateSelectAll(event: Event, id: number): void {
+    const checked = (event.target as HTMLInputElement).checked;
+    const productCheck = this.checkedRegister.find(x => x.id === id);
+    if (productCheck) {
+      productCheck.checked = checked;
+    }
+  }
+
+  isAllChecked(): boolean {
+    return this.checkedRegister.every((item) => item.checked);
+  }
+
+  isChecked(id: number) {
+    return this.checkedRegister.find(x => x.id === id)?.checked;
   }
 
 }

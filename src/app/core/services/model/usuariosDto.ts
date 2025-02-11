@@ -7,6 +7,7 @@
  * https://openapi-generator.tech
  * Do not edit the class manually.
  */
+import { DateOnly } from './dateOnly';
 import { RestriccionMaquinaModuloDto } from './restriccionMaquinaModuloDto';
 
 
@@ -16,9 +17,14 @@ export interface UsuariosDto {
     cedula?: number;
     nombre?: string | null;
     apellido?: string | null;
+    fechaIngreso?: DateOnly;
+    ultimoAcceso?: DateOnly;
     cargo?: string | null;
     clave?: string | null;
     activo?: boolean;
+    foto?: string | null;
+    rolId?: number;
+    modulos?: Array<string> | null;
     roles?: Array<number> | null;
     usuarioPermiso?: Array<RestriccionMaquinaModuloDto> | null;
 }

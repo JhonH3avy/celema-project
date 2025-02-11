@@ -19,6 +19,7 @@ import { RoutePlanificationComponent } from './features/general/route-planificat
 import { ProfileComponent } from './features/general/profile/profile.component';
 import { CoreModule } from './core/services/core.module';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { ApiModule as ApiModuleV2, Configuration as ConfigurationV2 } from './core/services-v2';
 import { ApiModule, Configuration } from './core/services';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './core/interceptors/auth.interceptor';
@@ -29,6 +30,8 @@ import { RoutePlanificationDetailComponent } from './features/general/route-plan
 import { RoutePlanificationPriorizationComponent } from './features/general/route-planification-priorization/route-planification-priorization.component';
 import { ProductionPlanificationComponent } from './features/general/production-planification/production-planification.component';
 import { environment } from 'src/environments/environment';
+import { DatePipe, PercentPipe } from '@angular/common';
+import { BoardComponent } from './features/general/board/board.component';
 
 @NgModule({
   declarations: [
@@ -50,6 +53,7 @@ import { environment } from 'src/environments/environment';
     RoutePlanificationDetailComponent,
     RoutePlanificationPriorizationComponent,
     WashRestrictionComponent,
+    BoardComponent
   ],
   imports: [
     BrowserModule,
@@ -61,7 +65,12 @@ import { environment } from 'src/environments/environment';
     ApiModule.forRoot(() => {
       return new Configuration({
         basePath: environment.apiUrl
-      })
+      });
+    }),
+    ApiModuleV2.forRoot(() => {
+      return new ConfigurationV2({
+        basePath: environment.apiUrlV2
+      });
     }),
     SweetAlert2Module.forRoot(),
     BrowserAnimationsModule,
@@ -73,6 +82,8 @@ import { environment } from 'src/environments/environment';
       useClass: AuthInterceptor,
       multi: true
     },
+    DatePipe,
+    PercentPipe,
   ],
   bootstrap: [AppComponent]
 })

@@ -5,6 +5,7 @@ import { ApiService } from 'src/app/core/services/api.service';
 import Swal from 'sweetalert2';
 import * as XLSX from 'xlsx';
 import * as bootstrap from 'bootstrap';
+import { ActualizarRolUsuarioDto, UsuariosDto, UsuariosService } from 'src/app/core/services';
 
 @Component({
   selector: 'app-profile-admin',
@@ -20,6 +21,7 @@ export class ProfileAdminComponent implements OnInit {
   userCount = 0;
   searchQuery: string = '';
   selectedRoleId: number | null = null;
+  selectedUserId: number | null = null;
 
   currentPage = 1;
   itemsPerPage = 10;
@@ -34,7 +36,11 @@ export class ProfileAdminComponent implements OnInit {
   imageBase64: string | null = null;
   imagePreview: string | null = null;
 
-  constructor(private apiService: ApiService, private fb: FormBuilder, private modalService: NgbModal) {
+  model: UsuariosDto[] = [];
+  count = 0;
+  checkedRegister: {checked: boolean, id: number}[] = [];
+
+  constructor(private apiService: ApiService, private fb: FormBuilder, private modalService: NgbModal, private service: UsuariosService) {
     this.Form = this.fb.group({
       cedula: ['', [Validators.required]],
       nombres: ['', [Validators.required]],
@@ -66,10 +72,10 @@ export class ProfileAdminComponent implements OnInit {
         this.onResetForm();
         this.closeModal();
         this.getData();
-        Swal.fire('Perfil creado', 'El usuario se ha creado exitosamente.', 'success');
+        Swal.fire('Usuario creado', 'El usuario se ha creado exitosamente.', 'success');
       },
       error: (error) => {
-        Swal.fire('Error', 'Hubo un error al crear el perfil.', 'error');
+        Swal.fire('Error', 'Hubo un error al crear el usuario.', 'error');
       }
       });
   }
@@ -100,7 +106,7 @@ export class ProfileAdminComponent implements OnInit {
             );
           },
           error: (error) => {
-            Swal.fire('Error', 'Hubo un error al desactivar el perfil.', 'error');
+            Swal.fire('Error', 'Hubo un error al desactivar el usuario.', 'error');
           }
           });
       }
@@ -108,12 +114,7 @@ export class ProfileAdminComponent implements OnInit {
   }
 
   getProfileAccessStyle(access: string): string[] {
-    switch (access) {
-      case 'Admin': return ['border-primary', 'text-primary', 'bg-primary-subtle'];
-      case 'Editor de plan': return ['border-danger', 'text-danger', 'bg-danger-subtle'];
-      case 'Lector': return ['border-success', 'text-success', 'bg-success-subtle'];
-      default: return [];
-    }
+    return ['border-primary', 'text-primary', 'bg-primary-subtle'];
   }
 
   closeModal(): void {
@@ -134,7 +135,7 @@ export class ProfileAdminComponent implements OnInit {
     this.searchQuery = '';
   }
 
-  getData() {
+  getDataOld() {
     this.apiService.get('api/Usuarios/listausuarios').subscribe({
       next: (response: any) => {
         this.data = response.datos;
@@ -156,14 +157,30 @@ export class ProfileAdminComponent implements OnInit {
     });
   }
 
+  getData(): void {
+    this.service.apiUsuariosListausuariosGet()
+      .subscribe(
+        response => {
+          this.currentPage = 1;
+          this.model = response.datos ?? [];
+          this.filteredData = this.model;
+          this.count = this.filteredData.length;
+          this.totalPages = Math.ceil(this.count / this.itemsPerPage);
+          this.updatePagination();
+          this.updatePaginatedData();
+        },
+        error => console.error(error)
+      );
+  }
+
   filterData(): void {
     if (this.searchQuery.trim() === '') {
-      this.filteredData = this.data;
+      this.filteredData = this.model;
     } else {
-      this.filteredData = this.data.filter(profile =>
-        profile.correoElectronico.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-        profile.nombre.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
-        profile.apellido.toLowerCase().includes(this.searchQuery.toLowerCase())
+      this.filteredData = this.model.filter(profile =>
+        profile.correoElectronico?.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+        profile.nombre?.toLowerCase().includes(this.searchQuery.toLowerCase()) ||
+        profile.apellido?.toLowerCase().includes(this.searchQuery.toLowerCase())
       );
       this.currentPage = 1;
     }
@@ -183,6 +200,12 @@ export class ProfileAdminComponent implements OnInit {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
     this.paginatedData = this.filteredData.slice(startIndex, endIndex); // Usa filteredData en lugar de data
+    this.checkedRegister = this.paginatedData.map(p => {
+      return {
+        checked: false,
+        id: p.id!,
+      };
+    });
   }
 
   changeItemsPerPage(): void {
@@ -200,11 +223,16 @@ export class ProfileAdminComponent implements OnInit {
   }
 
   exportToExcel(): void {
-    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.paginatedData);
+    let target: UsuariosDto[] = [];
+    if (this.checkedRegister.filter(x => x.checked).length > 0) {
+      target = this.model.filter(x => this.checkedRegister.filter(x => x.checked).some(c => x.id === c.id));
+    } else {
+      target = this.model;
+    }
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(target);
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Perfiles');
-
-    XLSX.writeFile(wb, 'perfiles.xlsx');
+    XLSX.utils.book_append_sheet(wb, ws, 'Usuarios');
+    XLSX.writeFile(wb, 'usuarios.xlsx');
   }
 
   previewImage(event: Event): void {
@@ -263,7 +291,7 @@ export class ProfileAdminComponent implements OnInit {
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Perfil de Usuario');
 
-    XLSX.writeFile(wb, `${user.nombre}_${user.apellido}_perfil.xlsx`)
+    XLSX.writeFile(wb, `${user.nombre}_${user.apellido}_usuario.xlsx`)
 
   }
 
@@ -272,17 +300,17 @@ export class ProfileAdminComponent implements OnInit {
     dropdown.toggle();
   }
 
-  datosUsuario(nombre:any, cargo:any){
+  datosUsuario(nombre:any, cargo:any, id:any, idRol:any){
     this.nombreUsuarioTitle = nombre;
     this.cargoTitle = cargo;
-    this.selectedRole(1);
+    this.selectedUserId = id;
+    this.selectedRole(idRol);
   }
 
   getRoles(){
     this.apiService.get('api/Roles/listarolesactivos').subscribe({
       next: (response: any) => {
         this.dataRoles = response.datos;
-        console.log("Roles...", this.dataRoles);
 
         if (
           this.selectedRoleId &&
@@ -324,7 +352,11 @@ export class ProfileAdminComponent implements OnInit {
   applyChanges() {
     if (this.selectedRoleId) {
       console.log('Rol seleccionado:', this.selectedRoleId);
-      this.apiService.put('api/Usuarios/crearusuario', null).subscribe({
+      let datos: ActualizarRolUsuarioDto = {
+        idRol: this.selectedRoleId!,
+        idUsuario: this.selectedUserId!
+      }
+      this.service.apiUsuariosActualizarrolusuarioPut(datos).subscribe({
         next: (response) => {
           this.onResetForm();
           this.closeModal();
@@ -332,7 +364,12 @@ export class ProfileAdminComponent implements OnInit {
           Swal.fire('Permiso actualizado', 'El permiso se ha actualizado exitosamente.', 'success');
         },
         error: (error) => {
-          Swal.fire('Error', 'Hubo un error al crear el perfil.', 'error');
+          Swal.fire({
+            icon: 'error',
+            title: 'Error',
+            text: error.error,
+            confirmButtonText: 'Aceptar',
+          });
         }
         });
     } else {
@@ -343,6 +380,27 @@ export class ProfileAdminComponent implements OnInit {
         confirmButtonText: 'Aceptar',
       });
     }
+  }
+
+  toggleAll(event: Event): void {
+    const checked = (event.target as HTMLInputElement).checked;
+    this.checkedRegister.forEach((item) => (item.checked = checked));
+  }
+
+  updateSelectAll(event: Event, id: number): void {
+    const checked = (event.target as HTMLInputElement).checked;
+    const productCheck = this.checkedRegister.find(x => x.id === id);
+    if (productCheck) {
+      productCheck.checked = checked;
+    }
+  }
+
+  isAllChecked(): boolean {
+    return this.checkedRegister.every((item) => item.checked);
+  }
+
+  isChecked(id: number) {
+    return this.checkedRegister.find(x => x.id === id)?.checked;
   }
 }
 

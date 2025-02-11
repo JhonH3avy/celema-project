@@ -1,23 +1,23 @@
 <app-menu></app-menu>
-<div class="container">
-  <h2>Administración de Equipos <span class="text-secondary">{{ equimentCount }}</span></h2>
-  <p class="text-secondary">Administre la maquinaria de la empresa</p>
+<div class="container mb-5">
+  <h2>Administración de Equipos</h2>
+  <p class="text-secondary">Administre la maquinaria de la empresa, cantidad de registros <span class="text-secondary">{{ itemCount }}</span></p>
   <div class="d-flex justify-content-end mb-3">
     <div class="d-flex align-items-center">
       <div class="input-group me-2">
-        <button type="button" class="btn btn-outline-primary me-2">
+        <button type="button" class="btn btn-outline-primary me-2" (click)="callUpdateOnDatabase()">
           <i class="bi bi-arrow-repeat"></i>
         </button>
-        <button class="btn btn-outline-secondary" type="button">
+        <button class="btn btn-outline-secondary" type="button" (click)="filterData()">
           <i class="bi bi-search"></i>
         </button>
-        <input type="text" class="form-control" placeholder="Buscar">
+        <input type="text" class="form-control" placeholder="Buscar: código, equipo, tipo" ngbTooltip="Buscar por código, equipo, tipo" [formControl]="searchQuery">
       </div>
-      <button type="button" class="btn btn-outline-secondary d-flex align-items-center me-2">
+      <button type="button" class="btn btn-outline-secondary d-flex align-items-center me-2" (click)="filterData()">
         <i class="bi bi-filter me-1"></i>
         Filtrar
       </button>
-      <button type="button" class="btn btn-primary d-flex align-items-center">
+      <button type="button" class="btn btn-primary d-flex align-items-center" (click)="exportToExcel()">
         <i class="bi bi-upload me-1"></i>
         Exportar
       </button>
@@ -28,7 +28,7 @@
       <tr class="table-secondary">
         <th scope="col">
           <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="">
+            <input class="form-check-input" type="checkbox" value="" [checked]="isAllChecked()" (change)="toggleAll($event)">
           </div>
         </th>
         <th scope="col" class="text-secondary text-center">Código</th>
@@ -42,27 +42,27 @@
       </tr>
     </thead>
     <tbody>
-      <tr *ngFor="let equipment of equipments">
+      <tr *ngFor="let equipment of paginatedData">
         <th scope="row">
           <div class="form-check">
-            <input class="form-check-input" type="checkbox" value="">
+            <input class="form-check-input" type="checkbox" value="" (change)="updateSelectAll($event, equipment.idMaquina!)" [checked]="isChecked(equipment.idMaquina!)">
           </div>
         </th>
-        <td class="text-secondary text-center">{{ equipment.code }}</td>
-        <td class="text-secondary text-center">{{ equipment.type }}</td>
+        <td class="text-secondary text-center">{{ equipment.idMaquina }}</td>
+        <td class="text-secondary text-center">{{ equipment.tipoNombre }}</td>
         <td>
-          <span [ngClass]="getStatusStyle(equipment.status)" class="badge border">{{ equipment.status }}</span>
+          <span [ngClass]="getStatusStyle(equipment.estado ?? '')" class="badge border">{{ equipment.estado }}</span>
         </td>
-        <td class="text-secondary text-center">{{ equipment.creationDate | date:'dd/MM/yyyy' }}</td>
-        <td class="text-secondary text-center">{{ equipment.description }}</td>
-        <td class="text-secondary text-center">{{ equipment.location }}</td>
+        <td class="text-secondary text-center">{{ getDateOnlyFormatted(equipment.fechaCreacion) }}</td>
+        <td class="text-secondary text-center">{{ equipment.nombre }}</td>
+        <td class="text-secondary text-center">{{ equipment.zonaNombre }}</td>
         <td class="text-secondary text-center">
-          <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#restrictionAdminModal">
+          <button class="btn btn-light" (click)="openEquipmentRestrictionModal(equipmentRestrictionModal, equipment.idMaquina!)">
             <i class="bi bi-three-dots-vertical"></i>
           </button>
         </td>
         <td class="d-flex justify-content-center">
-          <button class="btn btn-light" data-bs-toggle="modal" data-bs-target="#restrictionlavadoAdminModal">
+          <button class="btn btn-light" (click)="openWashRestrictionModal(washRestrictionModal, equipment.idMaquina!)">
             <i class="bi bi-three-dots-vertical"></i>
           </button>
         </td>
@@ -70,93 +70,117 @@
     </tbody>
   </table>
 
-  <div class="d-flex justify-content-center align-items-center">
-    <button class="btn btn-light me-2 text-secondary" [ngClass]="{'active': currentPage === (i + 1)}" *ngFor="let page of pages; let i = index" (click)="changePage(i + 1)">
-      {{ i + 1 }}
-    </button>
+  <!-- Paginación -->
+  <div class="d-flex justify-content-between align-items-center">
+    <!-- Paginación -->
+    <ul class="pagination mb-0">
+      <li class="page-item" [class.disabled]="currentPage === 1">
+        <a class="page-link"(click)="changePage(currentPage - 1)">Anterior</a>
+      </li>
+      <li *ngFor="let page of pages" class="page-item" [class.active]="page === currentPage">
+        <a class="page-link" (click)="changePage(page)">{{ page }}</a>
+      </li>
+      <li class="page-item" [class.disabled]="currentPage === totalPages">
+        <a class="page-link" (click)="changePage(currentPage + 1)">Siguiente</a>
+      </li>
+    </ul>
+
+    <!-- Selector de cantidad por página -->
+    <div class="d-flex align-items-center ms-3">
+      <label for="itemsPerPage" class="form-label mb-0">Mostrar</label>
+      <select id="itemsPerPage" class="form-select w-auto ms-2" [formControl]="itemsPerPageControl" (change)="changeItemsPerPage()">
+        <option value="10">10</option>
+        <option value="15">15</option>
+      </select>
+      <span class="ms-2">por página</span>
+    </div>
   </div>
 
   <!-- Modal restriccion equipo-->
-  <div class="modal fade" id="restrictionAdminModal" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header vstack gap-3">
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          <h1 class="modal-title fs-5" id="modalTitle">Admnistración de Restricciones</h1>
-        </div>
-        <div class="modal-body">
-          <table class="table">
-            <thead>
-              <tr class="table-secondary">
-                <th scope="col" class="text-secondary text-center">Restricción</th>
-                <th scope="col" class="text-secondary text-center">Tipo</th>
-                <th scope="col">
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="">
-                  </div>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let equipmentRestriction of equipmentRestrictions">
-                <td class="text-secondary text-center">{{ equipmentRestriction.restriction }}</td>
-                <td class="text-secondary text-center">{{ equipmentRestriction.type }}</td>
-                <th scope="row">
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="">
-                  </div>
-                </th>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-          <button type="button" class="btn btn-primary">Asignar</button>
-        </div>
+  <ng-template ng-template let-equipmentRestrictionModal #equipmentRestrictionModal>
+    <div class="modal-content">
+      <div class="modal-header vstack gap-3">
+        <button type="button" class="btn-close" (click)="equipmentRestrictionModal.dismiss()"></button>
+        <h1 class="modal-title fs-5" id="modalTitle">Admnistración de Restricciones</h1>
+      </div>
+      <div class="modal-body">
+        <table class="table">
+          <thead>
+            <tr class="table-secondary">
+              <th scope="col" class="text-secondary text-center">Restricción</th>
+              <th scope="col" class="text-secondary text-center">Tipo</th>
+              <th scope="col">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="">
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let equipmentRestriction of machineRestrictionData">
+              <td class="text-secondary text-center">{{ equipmentRestriction.descripcion }}</td>
+              <td class="text-secondary text-center">{{ equipmentRestriction.tipoRestriccion }}</td>
+              <th scope="row">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="" [checked]="equipmentRestriction.estado" [(ngModel)]="equipmentRestriction.estado">
+                </div>
+              </th>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="equipmentRestrictionModal.dismiss()">Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="saveEquipmentRestrictions()" [disabled]="processingMachineRestrictionBatchUpdate">Asignar</button>
       </div>
     </div>
-  </div>
+  </ng-template>
 
   <!-- Modal restricción lavado-->
-  <div class="modal fade" id="restrictionlavadoAdminModal" tabindex="-1" aria-labelledby="modalTitle" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header vstack gap-3">
-          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-          <h1 class="modal-title fs-5" id="modalTitle">Admnistración de Restricciones Lavado</h1>
-        </div>
-        <div class="modal-body">
-          <table class="table">
-            <thead>
-              <tr class="table-secondary">
-                <th scope="col" class="text-secondary text-center">Restricción</th>
-                <th scope="col" class="text-secondary text-center">Tipo</th>
-                <th scope="col">
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="">
-                  </div>
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr *ngFor="let equipmentRestriction of equipmentRestrictions">
-                <td class="text-secondary text-center">{{ equipmentRestriction.restriction }}</td>
-                <td class="text-secondary text-center">{{ equipmentRestriction.type }}</td>
-                <th scope="row">
-                  <div class="form-check">
-                    <input class="form-check-input" type="checkbox" value="">
-                  </div>
-                </th>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancelar</button>
-          <button type="button" class="btn btn-primary">Asignar</button>
-        </div>
+  <ng-template ng-template let-washRestrictionModal #washRestrictionModal>
+    <div class="modal-content">
+      <div class="modal-header vstack gap-3">
+        <button type="button" class="btn-close" (click)="washRestrictionModal.dismiss()"></button>
+        <h1 class="modal-title fs-5" id="modalTitle">Admnistración de Restricciones Lavado</h1>
+      </div>
+      <div class="modal-body">
+        <table class="table">
+          <thead>
+            <tr class="table-secondary">
+              <th scope="col" class="text-secondary text-center">Restricción</th>
+              <th scope="col" class="text-secondary text-center">Tipo</th>
+              <th scope="col">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="" >
+                </div>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let washRestriction of washRestrictionData">
+              <td class="text-secondary text-center">{{ washRestriction.descripcion }}</td>
+              <td class="text-secondary text-center">{{ washRestriction.tipoLavado }}</td>
+              <th scope="row">
+                <div class="form-check">
+                  <input class="form-check-input" type="checkbox" value="" [checked]="washRestriction.estado" [(ngModel)]="washRestriction.estado">
+                </div>
+              </th>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" (click)="washRestrictionModal.dismiss()">Cancelar</button>
+        <button type="button" class="btn btn-primary" (click)="saveWashRestrictions()" [disabled]="processingWashRestrictionBatchUpdate">Asignar</button>
       </div>
     </div>
+  </ng-template>
+</div>
+
+<div *ngIf="loading" class="loading">
+  <div class="radar">
+    <img src="./assets/img/logo.png" alt="Cargando..." class="loading-image" />
   </div>
+  <br>
+  <p>Espere por favor...</p>
 </div>

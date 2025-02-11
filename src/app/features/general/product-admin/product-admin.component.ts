@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { ProductoDto, ProductosService } from 'src/app/core/services';
+import Swal from 'sweetalert2';
 import * as XLSX from 'xlsx';
 
 @Component({
@@ -11,6 +12,7 @@ import * as XLSX from 'xlsx';
 export class ProductAdminComponent implements OnInit {
 
   productCount = 0;
+  loading = false;
 
   currentPage = 1;
   totalPages = 5;
@@ -22,6 +24,10 @@ export class ProductAdminComponent implements OnInit {
 
   itemsPerPageControl = new FormControl(10);
   searchQuery = new FormControl();
+
+  dataToExport: ProductoDto[] = [];
+
+  checkedProducts: {checked: boolean, productId: string}[] = [];
 
   private offsetPagesToDisplay = 5;
 
@@ -42,7 +48,6 @@ export class ProductAdminComponent implements OnInit {
   ngOnInit(): void {
     this.productCount = this.products.length;
     this.getData();
-    this.searchQuery.valueChanges.subscribe(query => this.filterData(query));
   }
 
   getData(): void {
@@ -58,12 +63,38 @@ export class ProductAdminComponent implements OnInit {
       });
   }
 
-  filterData(query: string): void {
+  callUpdateOnDatabase(): void {
+    this.loading = true;
+    this.productService.apiProductosActualizarProductoEtlGet()
+      .subscribe(response => {
+        if (response.datos) {
+          Swal.fire({
+            title: 'Éxito',
+            text: '' + response.exito,
+            icon: 'success',
+          });
+          this.getData();
+          this.loading = false;
+        }
+      }, error => {
+        if (error.status === 400) {
+          Swal.fire({
+            title: 'Error en ETL',
+            text: error.error,
+            icon: 'error',
+          });
+        }
+      });
+  }
+
+  filterData(): void {
+    const query = this.searchQuery.value;
     if (query.trim() === '') {
       this.filteredData = this.products;
     } else {
       this.filteredData = this.products.filter(product =>
-        product.nombre?.toLowerCase().includes(query.toLowerCase())
+        product.nombre?.toLowerCase().includes(query.toLowerCase()) ||
+        product.idProducto?.toLowerCase().includes(query.toLowerCase())
       );
       this.currentPage = 1;
     }
@@ -97,7 +128,13 @@ export class ProductAdminComponent implements OnInit {
   updatePaginatedData(): void {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
-    this.paginatedData = this.filteredData.slice(startIndex, endIndex); // Usa filteredData en lugar de data
+    this.paginatedData = this.filteredData.slice(startIndex, endIndex);
+    this.checkedProducts = this.paginatedData.map(p => {
+      return {
+        checked: false,
+        productId: p.idProducto!,
+      };
+    });
   }
 
   updatePagination(): void {
@@ -111,9 +148,36 @@ export class ProductAdminComponent implements OnInit {
   }
 
   exportToExcel(): void {
-    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.products);
+    let target: ProductoDto[] = [];
+    if (this.checkedProducts.filter(x => x.checked).length > 0) {
+      target = this.products.filter(x => this.checkedProducts.filter(x => x.checked).some(c => x.idProducto === c.productId));
+    } else {
+      target = this.products;
+    }
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(target);
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Roles');
     XLSX.writeFile(wb, 'productos.xlsx');
+  }
+
+  toggleAll(event: Event): void {
+    const checked = (event.target as HTMLInputElement).checked;
+    this.checkedProducts.forEach((item) => (item.checked = checked));
+  }
+
+  updateSelectAll(event: Event, productId: string): void {
+    const checked = (event.target as HTMLInputElement).checked;
+    const productCheck = this.checkedProducts.find(x => x.productId === productId);
+    if (productCheck) {
+      productCheck.checked = checked;
+    }
+  }
+
+  isAllChecked(): boolean {
+    return this.checkedProducts.every((item) => item.checked);
+  }
+
+  isChecked(productId: string) {
+    return this.checkedProducts.find(x => x.productId === productId)?.checked;
   }
 }

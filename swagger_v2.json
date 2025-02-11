@@ -1,0 +1,1332 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Apis_Optimizacion",
+    "version": "1.0"
+  },
+  "paths": {
+    "/listar-equiposRuta-general": {
+      "get": {
+        "tags": [
+          "EquiposRuta"
+        ],
+        "parameters": [
+          {
+            "name": "CodigoBusqueda",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/listar-equiposRuta": {
+      "get": {
+        "tags": [
+          "EquiposRuta"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/listar-equiposRuta-maquina": {
+      "get": {
+        "tags": [
+          "EquiposRuta"
+        ],
+        "parameters": [
+          {
+            "name": "IdMaquinas",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/listar-equiposRuta-ruta": {
+      "get": {
+        "tags": [
+          "EquiposRuta"
+        ],
+        "parameters": [
+          {
+            "name": "IdRuta",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/actualizar-equiposRuta": {
+      "post": {
+        "tags": [
+          "EquiposRuta"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TblListadoEquiposRutum"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TblListadoEquiposRutum"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/TblListadoEquiposRutum"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/listar-familiaProducto-general": {
+      "get": {
+        "tags": [
+          "FamiliasProductos"
+        ],
+        "parameters": [
+          {
+            "name": "CodigoBusqueda",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/listar-familiaProducto-especifico": {
+      "get": {
+        "tags": [
+          "FamiliasProductos"
+        ],
+        "parameters": [
+          {
+            "name": "IdFamilia",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/listar-familiaProducto": {
+      "get": {
+        "tags": [
+          "FamiliasProductos"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/actualizar-familiaProducto-etl": {
+      "get": {
+        "tags": [
+          "FamiliasProductos"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/listar-lineasProduccion-general": {
+      "get": {
+        "tags": [
+          "Lineas"
+        ],
+        "parameters": [
+          {
+            "name": "CodigoBusqueda",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/listar-LineasProduccion-especifico": {
+      "get": {
+        "tags": [
+          "Lineas"
+        ],
+        "parameters": [
+          {
+            "name": "IdLinea",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/listar-LineasProduccion": {
+      "get": {
+        "tags": [
+          "Lineas"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/actualizar-lineasProduccionm-etl": {
+      "get": {
+        "tags": [
+          "Lineas"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/listar-maquinas-general": {
+      "get": {
+        "tags": [
+          "Maquinas"
+        ],
+        "parameters": [
+          {
+            "name": "CodigoBusqueda",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/listar-maquinas": {
+      "get": {
+        "tags": [
+          "Maquinas"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/listar-maquinas-especifico": {
+      "get": {
+        "tags": [
+          "Maquinas"
+        ],
+        "parameters": [
+          {
+            "name": "IdMaquina",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/actualizar-maquinas-etl": {
+      "get": {
+        "tags": [
+          "Maquinas"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/listar-maquinas-restriccionLavados": {
+      "get": {
+        "tags": [
+          "Maquinas"
+        ],
+        "parameters": [
+          {
+            "name": "IdMaquina",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/listar-maquinas-restriccionMaquinas": {
+      "get": {
+        "tags": [
+          "Maquinas"
+        ],
+        "parameters": [
+          {
+            "name": "IdMaquina",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/listar-planeacionProduccion-general": {
+      "get": {
+        "tags": [
+          "PlaneacionProduccion"
+        ],
+        "parameters": [
+          {
+            "name": "CodigoBusqueda",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/listar-planeacionProduccion-especifico": {
+      "get": {
+        "tags": [
+          "PlaneacionProduccion"
+        ],
+        "parameters": [
+          {
+            "name": "IdFamilia",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/listar-planeacionProduccion": {
+      "get": {
+        "tags": [
+          "PlaneacionProduccion"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/ingresar-planeacionProduccion": {
+      "post": {
+        "tags": [
+          "PlaneacionProduccion"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TblUnidadesProduccion"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TblUnidadesProduccion"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/TblUnidadesProduccion"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/actualizar-planeacionProduccion": {
+      "put": {
+        "tags": [
+          "PlaneacionProduccion"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TblUnidadesProduccion"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TblUnidadesProduccion"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/TblUnidadesProduccion"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/listar-productos-general": {
+      "get": {
+        "tags": [
+          "Producto"
+        ],
+        "parameters": [
+          {
+            "name": "CodigoBusqueda",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/listar-productos": {
+      "get": {
+        "tags": [
+          "Producto"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/listar-productos-especifico": {
+      "get": {
+        "tags": [
+          "Producto"
+        ],
+        "parameters": [
+          {
+            "name": "IdProducto",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/actualizar-productos-etl": {
+      "get": {
+        "tags": [
+          "Producto"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/listar-restriccionLavados-general": {
+      "get": {
+        "tags": [
+          "RestriccionLavados"
+        ],
+        "parameters": [
+          {
+            "name": "CodigoBusqueda",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/listar-restriccionLavados-especifico": {
+      "get": {
+        "tags": [
+          "RestriccionLavados"
+        ],
+        "parameters": [
+          {
+            "name": "Id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/listar-restriccionLavados": {
+      "get": {
+        "tags": [
+          "RestriccionLavados"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/ingresar-restriccionLavados": {
+      "post": {
+        "tags": [
+          "RestriccionLavados"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TblRestriccionLavado"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TblRestriccionLavado"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/TblRestriccionLavado"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/actualizar-restriccionLavados": {
+      "put": {
+        "tags": [
+          "RestriccionLavados"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TblRestriccionLavado"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TblRestriccionLavado"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/TblRestriccionLavado"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/listar-restriccionMaquinas-general": {
+      "get": {
+        "tags": [
+          "RestriccionMaquinas"
+        ],
+        "parameters": [
+          {
+            "name": "CodigoBusqueda",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/listar-restriccionMaquinas-especifico": {
+      "get": {
+        "tags": [
+          "RestriccionMaquinas"
+        ],
+        "parameters": [
+          {
+            "name": "Id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/listar-restriccionMaquinas": {
+      "get": {
+        "tags": [
+          "RestriccionMaquinas"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/ingresar-restriccionMaquinas": {
+      "post": {
+        "tags": [
+          "RestriccionMaquinas"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TblRestriccionMaquina"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TblRestriccionMaquina"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/TblRestriccionMaquina"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/actualizar-restriccionMaquinas": {
+      "put": {
+        "tags": [
+          "RestriccionMaquinas"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TblRestriccionMaquina"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TblRestriccionMaquina"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/TblRestriccionMaquina"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/listar-restriccionRutas-general": {
+      "get": {
+        "tags": [
+          "RestriccionRutas"
+        ],
+        "parameters": [
+          {
+            "name": "CodigoBusqueda",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/listar-restriccionRutas-especifico": {
+      "get": {
+        "tags": [
+          "RestriccionRutas"
+        ],
+        "parameters": [
+          {
+            "name": "Id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/listar-restriccionRutas": {
+      "get": {
+        "tags": [
+          "RestriccionRutas"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/ingresar-restriccionRutas": {
+      "post": {
+        "tags": [
+          "RestriccionRutas"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TblRestriccionRutum"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TblRestriccionRutum"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/TblRestriccionRutum"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/actualizar-restriccionRutas": {
+      "put": {
+        "tags": [
+          "RestriccionRutas"
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TblRestriccionRutum"
+              }
+            },
+            "text/json": {
+              "schema": {
+                "$ref": "#/components/schemas/TblRestriccionRutum"
+              }
+            },
+            "application/*+json": {
+              "schema": {
+                "$ref": "#/components/schemas/TblRestriccionRutum"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/listar-tipoMaquina-general": {
+      "get": {
+        "tags": [
+          "TipoMaquina"
+        ],
+        "parameters": [
+          {
+            "name": "CodigoBusqueda",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/listar-tipoMaquina": {
+      "get": {
+        "tags": [
+          "TipoMaquina"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/listar-tipoMaquina-especifico": {
+      "get": {
+        "tags": [
+          "TipoMaquina"
+        ],
+        "parameters": [
+          {
+            "name": "Id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/actualizar-tipoMaquina-etl": {
+      "get": {
+        "tags": [
+          "TipoMaquina"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/listar-zonas-general": {
+      "get": {
+        "tags": [
+          "Zona"
+        ],
+        "parameters": [
+          {
+            "name": "CodigoBusqueda",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/listar-zonas-especifico": {
+      "get": {
+        "tags": [
+          "Zona"
+        ],
+        "parameters": [
+          {
+            "name": "Id",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/listar-zonas": {
+      "get": {
+        "tags": [
+          "Zona"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/actualizar-zonas-etl": {
+      "get": {
+        "tags": [
+          "Zona"
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "DateOnly": {
+        "type": "object",
+        "properties": {
+          "year": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "month": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "day": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "dayOfWeek": {
+            "$ref": "#/components/schemas/DayOfWeek"
+          },
+          "dayOfYear": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          },
+          "dayNumber": {
+            "type": "integer",
+            "format": "int32",
+            "readOnly": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "DayOfWeek": {
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5,
+          6
+        ],
+        "type": "integer",
+        "format": "int32"
+      },
+      "TblListadoEquiposRutum": {
+        "type": "object",
+        "properties": {
+          "IdMaquina": {
+            "type": "string",
+            "nullable": true
+          },
+          "IdRuta": {
+            "type": "integer",
+            "format": "int64",
+            "nullable": true
+          },
+          "Orden": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "nombreRuta": {
+            "type": "string",
+            "nullable": true
+          },
+          "nombreEquipo": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TblRestriccionLavado": {
+        "type": "object",
+        "properties": {
+          "IdRestriccionLavados": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "Descripcion": {
+            "type": "string",
+            "nullable": true
+          },
+          "IdFamilia": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "IdMaquina": {
+            "type": "string",
+            "nullable": true
+          },
+          "TipoLavado": {
+            "type": "string",
+            "nullable": true
+          },
+          "FrecuenciaLavado": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "Tiempolavado": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "Estado": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "FechaCreacion": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "familiaNombre": {
+            "type": "string",
+            "nullable": true
+          },
+          "nombreMaquina": {
+            "type": "string",
+            "nullable": true
+          },
+          "personalRequeridoEmbalaje": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "personalRequeridoMaquina": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "zonaNombre": {
+            "type": "string",
+            "nullable": true
+          },
+          "tipoMaquina": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TblRestriccionMaquina": {
+        "type": "object",
+        "properties": {
+          "IdRestriccionMaquina": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "IdMaquina": {
+            "type": "string",
+            "nullable": true
+          },
+          "IdFamilia": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "Descripcion": {
+            "type": "string",
+            "nullable": true
+          },
+          "TipoRestriccion": {
+            "type": "string",
+            "nullable": true
+          },
+          "UnidadMedida": {
+            "type": "string",
+            "nullable": true
+          },
+          "Valor": {
+            "type": "number",
+            "format": "double",
+            "nullable": true
+          },
+          "Prioridad": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "Estado": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "FechaCreacion": {
+            "$ref": "#/components/schemas/DateOnly"
+          },
+          "familiaNombre": {
+            "type": "string",
+            "nullable": true
+          },
+          "nombreMaquina": {
+            "type": "string",
+            "nullable": true
+          },
+          "zonaNombre": {
+            "type": "string",
+            "nullable": true
+          },
+          "tipoMaquina": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TblRestriccionRutum": {
+        "type": "object",
+        "properties": {
+          "IdRestriccionRuta": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "Descripcion": {
+            "type": "string",
+            "nullable": true
+          },
+          "IdMaquina": {
+            "type": "string",
+            "nullable": true
+          },
+          "IdFamilia": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "TipoRestriccion": {
+            "type": "string",
+            "nullable": true
+          },
+          "UnidadMedida": {
+            "type": "string",
+            "nullable": true
+          },
+          "valor": {
+            "type": "string",
+            "nullable": true
+          },
+          "Prioridad": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "FechaCreacion": {
+            "type": "string",
+            "format": "date-time",
+            "nullable": true
+          },
+          "familiaNombre": {
+            "type": "string",
+            "nullable": true
+          },
+          "maquinaNombre": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TblUnidadesProduccion": {
+        "type": "object",
+        "properties": {
+          "IProducto": {
+            "type": "string",
+            "nullable": true
+          },
+          "IdFamilia": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "Semana": {
+            "maxLength": 6,
+            "minLength": 0,
+            "type": "string",
+            "nullable": true
+          },
+          "CantidadProduccir": {
+            "type": "integer",
+            "format": "int32",
+            "nullable": true
+          },
+          "Estado": {
+            "type": "boolean",
+            "nullable": true
+          },
+          "nombreFamilia": {
+            "type": "string",
+            "nullable": true
+          },
+          "nombreProducto": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      }
+    }
+  }
+}

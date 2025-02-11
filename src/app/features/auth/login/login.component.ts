@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit {
     // Inicializamos el formulario con un nuevo campo rememberMe
     this.loginForm = this.fb.group({
       username: ['', [Validators.required, Validators.email]],
-      password: ['', [Validators.required, Validators.minLength(4)]],
+      password: ['', [Validators.required, Validators.minLength(3)]],
       rememberMe: [false]  // Campo para recordar la contraseña
     });
   }
@@ -91,13 +91,19 @@ export class LoginComponent implements OnInit {
       },
       error: (error) => {
         this.loading = false;
-        this.errorMessage = 'Hubo un error al iniciar sesión. Intenta nuevamente.';
+        console.log(error);
 
         Swal.fire({
           icon: 'error',
           title: 'Error',
-          text: 'Usuario y/o contraseña inválida.',
+          text: error.error.mensaje,
           confirmButtonText: 'Aceptar'
+        }).then((result) => {
+          if (result.isConfirmed) {
+            if(error.status == 423){
+              this.router.navigate(['/recuperar']);
+            }
+          }
         });
       }
     });
@@ -106,13 +112,18 @@ export class LoginComponent implements OnInit {
   infoUsuario(usuario: any, _: any){
     this.usuariosService.apiUsuariosConsultarusuarioGet(usuario)
       .subscribe(response => {
+        localStorage.removeItem('idUsuario');
         localStorage.removeItem('nombres');
         localStorage.removeItem('apellidos');
         localStorage.removeItem('cargo');
 
+        localStorage.setItem('idUsuario', response.datos?.id!.toString()!);
         localStorage.setItem('nombres', response.datos?.nombre!);
         localStorage.setItem('apellidos', response.datos?.apellido!);
         localStorage.setItem('cargo', response.datos?.cargo!);
+        if (response.datos?.foto) {
+          localStorage.setItem('foto-perfil', response.datos?.foto);
+        }
       }, error => {
         this.loading = false;
         this.errorMessage = 'Hubo un error. Intenta nuevamente.';

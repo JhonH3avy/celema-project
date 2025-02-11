@@ -12,8 +12,8 @@
 export interface FamiliaProductoDto { 
     id?: number;
     nombre?: string | null;
-    estado?: boolean;
+    estado?: boolean | null;
     tiempoFormulacion?: number | null;
-    fechaCreacion?: string;
+    fechaCreacion?: string | null;
 }
 

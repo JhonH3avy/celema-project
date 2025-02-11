@@ -9,13 +9,16 @@
  */
 import { TblUsuario } from './tblUsuario';
 import { TblRole } from './tblRole';
+import { TblModulo } from './tblModulo';
 
 
 export interface TblModulosUsuario { 
     id?: number;
     idRol?: number;
     idUsuario?: number;
+    idModulo?: number;
     idRolNavigation?: TblRole;
     idUsuarioNavigation?: TblUsuario;
+    tblModulo?: TblModulo;
 }
 

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { FamiliaProductoDto, FamiliaProductosService } from 'src/app/core/services';
 import * as XLSX from 'xlsx';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-product-family-admin',
@@ -11,6 +12,8 @@ import * as XLSX from 'xlsx';
 export class ProductFamilyAdminComponent implements OnInit {
 
   productFamilyCount = 0;
+  offsetPagesToDisplay = 5;
+  loading = false;
 
   itemsPerPage = 10;
   currentPage = 1;
@@ -23,13 +26,14 @@ export class ProductFamilyAdminComponent implements OnInit {
   filteredData: FamiliaProductoDto[] = [];
   paginatedData: FamiliaProductoDto[] = [];
 
+  checkedProducts: {checked: boolean, id: number}[] = [];
+
   constructor(
     private productFamilyService: FamiliaProductosService,
   ) { }
 
   ngOnInit(): void {
     this.getData();
-    this.searchQuery.valueChanges.subscribe(query => this.filterData(query));
   }
 
   getData(): void {
@@ -45,7 +49,32 @@ export class ProductFamilyAdminComponent implements OnInit {
       });
   }
 
-  filterData(query: string): void {
+  callUpdateOnDatabase(): void {
+    this.loading = true;
+    this.productFamilyService.apiFamiliaProductosActualizarFamiliaProductoEtlGet()
+      .subscribe(response => {
+        if (response.datos) {
+          Swal.fire({
+            title: 'Éxito',
+            text: '' + response.exito,
+            icon: 'success',
+          });
+          this.getData();
+          this.loading = false;
+        }
+      }, error => {
+        if (error.status === 400) {
+          Swal.fire({
+            title: 'Error en ETL',
+            text: error.error,
+            icon: 'error',
+          });
+        }
+      });
+  }
+
+  filterData(): void {
+    const query = this.searchQuery.value;
     if (query.trim() === '') {
       this.filteredData = this.productFamilies;
     } else {
@@ -83,20 +112,56 @@ export class ProductFamilyAdminComponent implements OnInit {
   updatePaginatedData(): void {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
-    this.paginatedData = this.filteredData.slice(startIndex, endIndex); // Usa filteredData en lugar de data
+    this.paginatedData = this.filteredData.slice(startIndex, endIndex);
+    this.checkedProducts = this.paginatedData.map(p => {
+      return {
+        checked: false,
+        id: p.id!,
+      };
+    });
   }
 
   updatePagination(): void {
     this.pages = [];
-    for (let i = 1; i <= this.totalPages; i++) {
+    const initialPage = Math.max(1, this.currentPage - this.offsetPagesToDisplay);
+    const negativeOffset = this.currentPage - this.offsetPagesToDisplay < 0 ? this.currentPage - this.offsetPagesToDisplay : 0;
+    const finalPage = Math.min(this.totalPages, this.currentPage + this.offsetPagesToDisplay - negativeOffset);
+    for (let i = initialPage; i <= finalPage; i++) {
       this.pages.push(i);
     }
   }
 
   exportToExcel(): void {
-    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(this.productFamilies);
+    let target: FamiliaProductoDto[] = [];
+    if (this.checkedProducts.filter(x => x.checked).length > 0) {
+      target = this.productFamilies.filter(x => this.checkedProducts.filter(x => x.checked).some(c => x.id === c.id));
+    } else {
+      target = this.productFamilies;
+    }
+    const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(target);
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
-    XLSX.utils.book_append_sheet(wb, ws, 'Roles');
+    XLSX.utils.book_append_sheet(wb, ws, 'Familia Productos');
     XLSX.writeFile(wb, 'familia_productos.xlsx');
+  }
+
+  toggleAll(event: Event): void {
+    const checked = (event.target as HTMLInputElement).checked;
+    this.checkedProducts.forEach((item) => (item.checked = checked));
+  }
+
+  updateSelectAll(event: Event, id: number): void {
+    const checked = (event.target as HTMLInputElement).checked;
+    const productCheck = this.checkedProducts.find(x => x.id === id);
+    if (productCheck) {
+      productCheck.checked = checked;
+    }
+  }
+
+  isAllChecked(): boolean {
+    return this.checkedProducts.every((item) => item.checked);
+  }
+
+  isChecked(id: number) {
+    return this.checkedProducts.find(x => x.id === id)?.checked;
   }
 }

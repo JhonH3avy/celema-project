@@ -1,4 +1,3 @@
-import { ConsultaDeUsuario } from './../../../core/services/model/consultaDeUsuario';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
 import { UsuariosDto, UsuariosService } from 'src/app/core/services';
@@ -6,6 +5,7 @@ import { jwtDecode } from 'jwt-decode';
 import { ActivatedRoute, Router } from '@angular/router';
 import { matchValidator } from 'src/app/core/validators/match.validator';
 import * as bootstrap from 'bootstrap';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-profile',
@@ -13,6 +13,8 @@ import * as bootstrap from 'bootstrap';
   styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
+
+  imagePreview: string | null = null;
 
   profileControlGroup = this.fb.group({
     username: ['', Validators.required],
@@ -40,6 +42,7 @@ export class ProfileComponent implements OnInit {
       cedula: Number.parseInt(this.profileControlGroup.get('cedula')?.value ?? ''),
       clave: this.profileControlGroup.get('newPassword')?.value === '' ? null : this.profileControlGroup.get('newPassword')?.value,
       id: this.currentUserId,
+      foto: this.imagePreview,
     } as UsuariosDto;
   }
 
@@ -55,56 +58,56 @@ export class ProfileComponent implements OnInit {
     private usuariosService: UsuariosService,
     private fb: FormBuilder,
     private router: Router,
-    private activatedRoute: ActivatedRoute
   ) { }
 
   ngOnInit(): void {
-    this.activatedRoute.queryParams.subscribe(params => {
-      const paramToken = params['token'];
-      let paramEmail;
-      let useParamToken = false;
-      if (paramToken) {
-        useParamToken = true;
-        localStorage.removeItem('authToken');
-        localStorage.setItem('tempToken', paramToken);
-        let decodedParamToken: any;
-        try {
-          decodedParamToken = jwtDecode(paramToken);
-        } catch (error) {
-          console.error('Token invalido:', error);
-          return;
-        }
-        paramEmail = decodedParamToken.email;
-      }
-      const token = useParamToken ? paramToken : localStorage.getItem('authToken');
-      let decodedToken: any;
-      if (!useParamToken) {
-        try {
-          decodedToken = jwtDecode(token);
-        } catch (error) {
-          console.error('Token invalido:', error);
-          return;
-        }
-      }
-      const userEmail = useParamToken ? paramEmail : decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/userdata'];
-      this.usuariosService.apiUsuariosConsultarusuarioGet(userEmail)
-        .subscribe(
-          response => this.handleGetUserResponse(response.datos),
-          error => console.error(error)
-        );
-    });
-
-    this.newPassword.valueChanges
-      .subscribe(newPassword => {
-        if (newPassword && !this.newPassword.hasValidator(Validators.minLength(6)) && !this.newPassword.hasValidator(Validators.pattern("[^a-zA-Z0-9]"))) {
-          this.newPassword.addValidators([Validators.minLength(6), Validators.pattern("[^a-zA-Z0-9]")]);
-          this.newPassword.updateValueAndValidity({emitEvent: false});
-          this.profileControlGroup.addValidators(matchValidator('confirmPassword', 'newPassword'));
-        } else if (!newPassword) {
-          this.newPassword.clearValidators();
-          this.profileControlGroup.removeValidators(matchValidator('confirmPassword', 'newPassword'));
-        }
+    const token = localStorage.getItem('authToken') ?? '';
+    let decodedToken: any;
+    try {
+      decodedToken = jwtDecode(token);
+    } catch (error) {
+      Swal.fire({
+        title: '¡Token inválido!',
+        text: 'El token que ha usado es inválido',
+        icon: 'error',
+      }).then(() => {
+        this.router.navigate(['/login']);
       });
+      return;
+    }
+    const userEmail = decodedToken['http://schemas.microsoft.com/ws/2008/06/identity/claims/userdata'];
+    this.usuariosService.apiUsuariosConsultarusuarioGet(userEmail)
+      .subscribe(
+        response => this.handleGetUserResponse(response.datos!),
+        error => {
+          if (error.status === 400) {
+            Swal.fire({
+              title: '¡Ha ocurrido un error!',
+              text: error.error,
+              icon: 'error',
+            });
+          }
+        }
+      );
+
+      this.profileControlGroup = this.fb.group({
+        username: ['', Validators.required],
+        newPassword: ['', Validators.minLength(4)],
+        confirmPassword: [''],
+        name: ['', Validators.required],
+        lastname: ['', Validators.required],
+        cargo: ['', Validators.required],
+        cedula: ['', Validators.required],
+        profile: [''],
+      });
+
+      this.profileControlGroup.setValidators(matchValidator('newPassword', 'confirmPassword'));
+
+      this.newPassword.valueChanges
+      .subscribe(() => {
+        this.newPassword.updateValueAndValidity();
+      });
+
   }
 
   async goBackToHome(): Promise<void> {
@@ -135,14 +138,31 @@ export class ProfileComponent implements OnInit {
       );
   }
 
-  private handleGetUserResponse(user: any): void {
+  previewImage(event: Event): void {
+    const input = event.target as HTMLInputElement;
+
+    if (input.files && input.files[0]) {
+      const file = input.files[0];
+      const reader = new FileReader();
+
+      reader.onload = () => {
+        const base64Data = reader.result as string;
+        this.imagePreview = base64Data.split(',')[1];
+      };
+
+      reader.readAsDataURL(file);
+    }
+  }
+
+  private handleGetUserResponse(user: UsuariosDto): void {
     this.fullName = `${user.nombre} ${user.apellido}`;
-    this.cargo = user.cargo;
+    this.cargo = user.cargo ?? '';
     this.currentUserId = user.id;
-    this.profileControlGroup.get('username')?.setValue(user.correoElectronico);
-    this.profileControlGroup.get('name')?.setValue(user.nombre);
-    this.profileControlGroup.get('lastname')?.setValue(user.apellido);
-    this.profileControlGroup.get('cargo')?.setValue(user.cargo);
-    this.profileControlGroup.get('cedula')?.setValue(user.cedula);
+    this.profileControlGroup.get('username')?.setValue(user.correoElectronico ?? '');
+    this.profileControlGroup.get('name')?.setValue(user.nombre ?? '');
+    this.profileControlGroup.get('lastname')?.setValue(user.apellido?? '');
+    this.profileControlGroup.get('cargo')?.setValue(user.cargo ?? '');
+    this.profileControlGroup.get('cedula')?.setValue(user.cedula?.toString() ?? '');
+    this.imagePreview = user.foto ?? '';
   }
 }
