@@ -42,5 +42,5 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./dist/celema-project/
+          local-dir: ./dist/celema-proyect/
           server-dir: /app/
