@@ -3,10 +3,13 @@ name: Deploy Angular App via FTP
 on:
   workflow_dispatch:
     inputs:
-      branch:
-        description: "Select the branch to deploy"
+      environment:
+        description: "Select the deployment environment"
         required: true
-        default: "main"
+        default: "prod"
+        type: choice
+        options:
+          - prod
   push:
     branches:
       - main
@@ -14,10 +17,13 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.environment }}
 
     steps:
-      - name: Checkout Repository
+      - name: Checkout Selected Branch
         uses: actions/checkout@v4
+        with:
+          ref: ${{ github.event.inputs.branch }}
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
@@ -25,7 +31,7 @@ jobs:
           node-version: 20
 
       - name: Install Dependencies
-        run: npm install
+        run: npm install --legacy-peer-deps
 
       - name: Build Angular App
         run: npm run build -- --configuration=production
@@ -36,5 +42,5 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
-          local-dir: ./dist/celema-project/
+          local-dir: ./dist/celema-proyect/
           server-dir: /app/
