@@ -24,6 +24,7 @@ export class RoutePlanificationPriorizationComponent {
   totalPages = 1;
   itemsPerPageControl = new FormControl(10);
   itemsPerPage = 10;
+  searchQuery = new FormControl();
 
   checkedProducts: { [key: string]: boolean } = {};
 
@@ -36,6 +37,24 @@ export class RoutePlanificationPriorizationComponent {
 
   ngOnInit(): void {
     this.getData();
+  }
+
+  filterData(): void {
+    const query = this.searchQuery.value ?? '';
+    if (query.trim() === '') {
+      this.filteredData = this.data;
+    } else {
+      this.filteredData = this.data.filter(equipment =>
+        equipment.idProducto?.toLowerCase().includes(query.toLowerCase()) ||
+        equipment.nombreFamilia?.toLowerCase().includes(query.toLowerCase())  ||
+        equipment.nombreMaquina?.toLowerCase().includes(query.toLowerCase())
+      );
+      this.currentPage = 1;
+    }
+    this.itemCount = this.filteredData.length;
+    this.totalPages = Math.ceil(this.itemCount / this.itemsPerPage);
+    this.updatePagination();
+    this.updatePaginatedData();
   }
 
   getData(): void {

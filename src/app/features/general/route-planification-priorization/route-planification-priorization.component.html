@@ -2,6 +2,16 @@
 <div class="container pb-5">
   <h2>Priorización de Producción Celema</h2>
   <div class="d-flex justify-content-end mb-3">
+    <div class="input-group me-2">
+      <button class="btn btn-outline-secondary" type="button">
+        <i class="bi bi-search"></i>
+      </button>
+      <input type="text" class="form-control" placeholder="Buscar: producto, familia, equipo" ngbTooltip="Buscar por código, equipo, tipo" [formControl]="searchQuery">
+    </div>
+    <button type="button" class="btn btn-outline-secondary d-flex align-items-center me-2" (click)="filterData()">
+      <i class="bi bi-filter me-1"></i>
+      Filtrar
+    </button>
     <div class="d-flex align-items-center">
       <button type="button" class="btn btn-primary d-flex align-items-center me-2" (click)="exportToExcel()">
         <i class="bi bi-upload me-1"></i>
