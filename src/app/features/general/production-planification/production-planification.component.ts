@@ -34,19 +34,11 @@ export class ProductionPlanificationComponent {
 
   planificationImportModalInstance: NgbModalRef | null = null;
 
-  checkedProducts: {checked: boolean, id: string}[] = [];
-
   isCreateProductionPlanification = false;
 
-  private get itemsPerPage(): number {
-    const itemsPerPageValue = this.itemsPerPageControl.value;
-    if (typeof itemsPerPageValue === 'string') {
-      return Number.parseInt(itemsPerPageValue);
-    } if (typeof itemsPerPageValue === 'number') {
-      return itemsPerPageValue;
-    }
-    return 0;
-  }
+  checkedProducts: { [key: string]: boolean } = {};
+
+  itemsPerPage = 10;
 
   constructor(
     private modalService: NgbModal,
@@ -132,11 +124,12 @@ export class ProductionPlanificationComponent {
     const startIndex = (this.currentPage - 1) * this.itemsPerPage;
     const endIndex = startIndex + this.itemsPerPage;
     this.paginatedData = this.filteredData.slice(startIndex, endIndex);
-    this.checkedProducts = this.paginatedData.map(p => {
-      return {
-        checked: false,
-        id: `${p.idProducto}-${p.semana}`,
-      };
+
+    this.paginatedData.forEach(p => {
+      const key = `${p.idProducto}-${p.semana}`;
+      if (!(key in this.checkedProducts)) {
+        this.checkedProducts[key] = false;
+      }
     });
   }
 
@@ -240,17 +233,18 @@ export class ProductionPlanificationComponent {
   }
 
   exportToExcel(): void {
-    let target: PlaneacionProduccionDto[] = [];
-    if (this.checkedProducts.filter(x => x.checked).length > 0) {
-      target = this.productionPlanifications.filter(x => this.checkedProducts.filter(x => x.checked).some(c => `${x.idProducto}-${x.semana}` === c.id));
-    } else {
-      target = this.productionPlanifications;
-    }
+    const selectedItems = this.productionPlanifications.filter(p =>
+      this.checkedProducts[`${p.idProducto}-${p.semana}`]
+    );
+
+    const target = selectedItems.length > 0 ? selectedItems : this.productionPlanifications;
+
     const ws: XLSX.WorkSheet = XLSX.utils.json_to_sheet(target);
     const wb: XLSX.WorkBook = XLSX.utils.book_new();
     XLSX.utils.book_append_sheet(wb, ws, 'Planificación Producción');
     XLSX.writeFile(wb, 'planificacion_producción.xlsx');
   }
+
 
   openPlanificationImport(modalContent: any): void {
     this.planificationImportModalInstance = this.modalService.open(modalContent);
@@ -474,22 +468,23 @@ export class ProductionPlanificationComponent {
 
   toggleAll(event: Event): void {
     const checked = (event.target as HTMLInputElement).checked;
-    this.checkedProducts.forEach((item) => (item.checked = checked));
+    this.paginatedData.forEach(p => {
+      const key = `${p.idProducto}-${p.semana}`;
+      this.checkedProducts[key] = checked;
+    });
   }
 
   updateSelectAll(event: Event, id: string): void {
     const checked = (event.target as HTMLInputElement).checked;
-    const productCheck = this.checkedProducts.find(x => x.id === id);
-    if (productCheck) {
-      productCheck.checked = checked;
-    }
+    this.checkedProducts[id] = checked;
   }
+
 
   isAllChecked(): boolean {
-    return this.checkedProducts.every((item) => item.checked);
+    return this.paginatedData.every(p => this.checkedProducts[`${p.idProducto}-${p.semana}`]);
   }
 
-  isChecked(id: string) {
-    return this.checkedProducts.find(x => x.id === id)?.checked;
+  isChecked(id: string): boolean {
+    return !!this.checkedProducts[id];
   }
 }
