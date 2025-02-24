@@ -71,11 +71,13 @@
   </table>
 
   <!-- Paginación -->
-  <div class="d-flex justify-content-between align-items-center">
-    <!-- Paginación -->
+  <div class="d-flex justify-content-between align-items-center" style="margin-bottom: 100px;">
     <ul class="pagination mb-0">
       <li class="page-item" [class.disabled]="currentPage === 1">
-        <a class="page-link"(click)="changePage(currentPage - 1)">Anterior</a>
+        <a class="page-link" (click)="changePage(1)">Primero</a>
+      </li>
+      <li class="page-item" [class.disabled]="currentPage === 1">
+        <a class="page-link" (click)="changePage(currentPage - 1)">Anterior</a>
       </li>
       <li *ngFor="let page of pages" class="page-item" [class.active]="page === currentPage">
         <a class="page-link" (click)="changePage(page)">{{ page }}</a>
@@ -83,18 +85,22 @@
       <li class="page-item" [class.disabled]="currentPage === totalPages">
         <a class="page-link" (click)="changePage(currentPage + 1)">Siguiente</a>
       </li>
+      <li class="page-item" [class.disabled]="currentPage === totalPages">
+        <a class="page-link" (click)="changePage(totalPages)">Último</a>
+      </li>
     </ul>
 
     <!-- Selector de cantidad por página -->
     <div class="d-flex align-items-center ms-3">
       <label for="itemsPerPage" class="form-label mb-0">Mostrar</label>
-      <select id="itemsPerPage" class="form-select w-auto ms-2" [formControl]="itemsPerPageControl" (change)="changeItemsPerPage()">
+      <select id="itemsPerPage" class="form-select w-auto ms-2" [(ngModel)]="itemsPerPage" (change)="changeItemsPerPage()">
         <option value="10">10</option>
         <option value="15">15</option>
       </select>
       <span class="ms-2">por página</span>
     </div>
   </div>
+
 
   <!-- Modal importar plan -->
   <ng-template let-uploadPlan #uploadPlan>
@@ -277,3 +283,4 @@
     </div>
   </ng-template>
 </div>
+<br><br><br><br>
