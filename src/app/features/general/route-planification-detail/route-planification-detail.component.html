@@ -1,6 +1,6 @@
 <app-menu></app-menu>
 <div class="container mb-5">
-  <h2>Planeación de Rutas</h2>
+  <h2>Planeación de Rutas...</h2>
   <p class="text-secondary">Administre las rutas de la empresa</p>
   <div class="d-flex justify-content-start mb-3">
     <div class="d-flex align-items-center">
@@ -55,11 +55,42 @@
     </tbody>
   </table>
 
-  <div class="d-flex justify-content-center align-items-center">
+  <!-- <div class="d-flex justify-content-center align-items-center">
     <button class="btn btn-light me-2 text-secondary" [ngClass]="{'active': currentPage === page}" *ngFor="let page of pages" (click)="changePage(page)">
       {{ page }}
     </button>
-  </div>
+  </div> -->
+
+  <nav class="d-flex justify-content-between align-items-center">
+    <ul class="pagination mb-0">
+      <li class="page-item" [class.disabled]="currentPage === 1">
+        <button class="page-link" (click)="changePage(1)">Primero</button>
+      </li>
+      <li class="page-item" [class.disabled]="currentPage === 1">
+        <button class="page-link" (click)="changePage(currentPage - 1)">Anterior</button>
+      </li>
+
+      <li *ngFor="let page of pages" class="page-item" [class.active]="page === currentPage">
+        <button *ngIf="page !== -1" class="page-link" (click)="changePage(page)">{{ page }}</button>
+        <span *ngIf="page === -1" class="page-link">...</span>
+      </li>
+
+      <li class="page-item" [class.disabled]="currentPage === totalPages">
+        <button class="page-link" (click)="changePage(currentPage + 1)">Siguiente</button>
+      </li>
+      <li class="page-item" [class.disabled]="currentPage === totalPages">
+        <button class="page-link" (click)="changePage(totalPages)">Último</button>
+      </li>
+    </ul>
+
+    <div class="ms-3">
+      <label for="itemsPerPage" class="me-2">Mostrar:</label>
+      <select id="itemsPerPage" [(ngModel)]="itemsPerPage" (change)="updateItemsPerPage()" class="form-select d-inline-block w-auto">
+        <option *ngFor="let size of pageSizes" [value]="size">{{ size }}</option>
+      </select>
+    </div>
+  </nav>
+
 
   <div class="d-flex justify-content-end mb-3" style="margin-top: 20px;">
     <div class="d-flex align-items-center">

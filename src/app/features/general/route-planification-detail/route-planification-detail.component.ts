@@ -40,6 +40,7 @@ export class RoutePlanificationDetailComponent {
   historicoLoading = false;
 
   familySelections: { [idFamilia: number]: number | undefined } = {};
+  pageSizes = [10, 15, 50];
 
   constructor(
     private modalService: NgbModal,
@@ -56,6 +57,11 @@ export class RoutePlanificationDetailComponent {
         this.currentPage = 1;
         this.filterData(value);
       });
+  }
+
+  updateItemsPerPage(): void {
+    this.currentPage = 1;
+    this.getData();
   }
 
   getData(): void {
@@ -190,12 +196,22 @@ export class RoutePlanificationDetailComponent {
     }
   }
 
+  // changePage(pageToLoad: number): void {
+  //   this.currentPage = pageToLoad;
+  //   this.data = [];
+  //   this.filterData(this.familiaFilterControl.value);
+  //   this.updatePagination();
+  // }
+
   changePage(pageToLoad: number): void {
+    if (pageToLoad < 1 || pageToLoad > this.totalPages) return;
+
     this.currentPage = pageToLoad;
     this.data = [];
     this.filterData(this.familiaFilterControl.value);
     this.updatePagination();
   }
+
 
   changeHistoricoPage(pageToLoad: number): void {
     this.historicoCurrentPage = pageToLoad;
@@ -215,15 +231,45 @@ export class RoutePlanificationDetailComponent {
     this.semanaChooseModalRef = this.modalService.open(modalContent);
   }
 
+  // updatePagination(): void {
+  //   this.pages = [];
+  //   const initialPage = Math.max(1, this.currentPage - this.offsetPagesToDisplay);
+  //   const negativeOffset = this.currentPage - this.offsetPagesToDisplay < 0 ? this.currentPage - this.offsetPagesToDisplay : 0;
+  //   const finalPage = Math.min(this.totalPages, this.currentPage + this.offsetPagesToDisplay - negativeOffset);
+  //   for (let i = initialPage; i <= finalPage; i++) {
+  //     this.pages.push(i);
+  //   }
+  // }
+
   updatePagination(): void {
     this.pages = [];
-    const initialPage = Math.max(1, this.currentPage - this.offsetPagesToDisplay);
-    const negativeOffset = this.currentPage - this.offsetPagesToDisplay < 0 ? this.currentPage - this.offsetPagesToDisplay : 0;
-    const finalPage = Math.min(this.totalPages, this.currentPage + this.offsetPagesToDisplay - negativeOffset);
-    for (let i = initialPage; i <= finalPage; i++) {
-      this.pages.push(i);
+    const total = this.totalPages;
+    const maxVisiblePages = 10;
+
+    if (total <= maxVisiblePages) {
+      for (let i = 1; i <= total; i++) {
+        this.pages.push(i);
+      }
+    } else {
+      const start = Math.max(1, this.currentPage - Math.floor(maxVisiblePages / 2));
+      const end = Math.min(total, start + maxVisiblePages - 1);
+
+      if (start > 1) {
+        this.pages.push(1);
+        if (start > 2) this.pages.push(-1);
+      }
+
+      for (let i = start; i <= end; i++) {
+        this.pages.push(i);
+      }
+
+      if (end < total) {
+        if (end < total - 1) this.pages.push(-1);
+        this.pages.push(total);
+      }
     }
   }
+
 
   updateHistoricoPagination(): void {
     this.historicoPages = [];
