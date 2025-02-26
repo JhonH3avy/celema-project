@@ -60,8 +60,8 @@ export class RoutePlanificationDetailComponent {
   }
 
   updateItemsPerPage(): void {
-    this.currentPage = 1; // Reinicia a la primera página al cambiar la cantidad de elementos
-    this.getData(); // Vuelve a cargar los datos con la nueva cantidad
+    this.currentPage = 1;
+    this.getData();
   }
 
   getData(): void {
@@ -247,18 +247,16 @@ export class RoutePlanificationDetailComponent {
     const maxVisiblePages = 10;
 
     if (total <= maxVisiblePages) {
-      // Si hay 10 páginas o menos, se muestran todas
       for (let i = 1; i <= total; i++) {
         this.pages.push(i);
       }
     } else {
-      // Si hay más de 10 páginas
       const start = Math.max(1, this.currentPage - Math.floor(maxVisiblePages / 2));
       const end = Math.min(total, start + maxVisiblePages - 1);
 
       if (start > 1) {
-        this.pages.push(1); // Botón "Primero"
-        if (start > 2) this.pages.push(-1); // "..."
+        this.pages.push(1);
+        if (start > 2) this.pages.push(-1);
       }
 
       for (let i = start; i <= end; i++) {
@@ -266,8 +264,8 @@ export class RoutePlanificationDetailComponent {
       }
 
       if (end < total) {
-        if (end < total - 1) this.pages.push(-1); // "..."
-        this.pages.push(total); // Botón "Último"
+        if (end < total - 1) this.pages.push(-1);
+        this.pages.push(total);
       }
     }
   }
